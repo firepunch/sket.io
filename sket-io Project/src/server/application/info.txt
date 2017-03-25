@@ -1,0 +1,3 @@
+application 패키지
+
+application 패키지는 main 클래스가 있는 패키지.
