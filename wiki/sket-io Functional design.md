@@ -52,3 +52,7 @@ SeungWoo, MiRim : 2. 정답채팅창에서 답과 채팅 칠 수 있음. 정답�
 <br>
 시간남으면...  
 모드 1: 출제자가 직접 정답을 쓰고, 그림을 그림  
+<br><br>
+
++ MVC 모델 적용<br>
+domain, infra 패키지에 각각 model, controller 패키지를 추가로 생성해 작업
