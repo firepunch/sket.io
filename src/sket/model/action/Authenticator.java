@@ -1,4 +1,4 @@
-package mvcdemo.model;
+package sket.model.action;
 
 public class Authenticator {
 

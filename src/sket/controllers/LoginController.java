@@ -1,4 +1,4 @@
-package mvcdemo.controllers;
+package sket.controllers;
 
 import java.io.IOException;
 
@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import mvcdemo.model.Authenticator;
-import mvcdemo.model.User;
+import sket.model.action.Authenticator;
+import sket.model.data.User;
 
 import sun.text.normalizer.ICUBinary.Authenticate;
 
