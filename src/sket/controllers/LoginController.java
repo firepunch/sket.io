@@ -25,16 +25,19 @@ public class LoginController extends HttpServlet {
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        String nick = request.getParameter("nick");
         RequestDispatcher rd = null;
 
         Authenticator authenticator = new Authenticator();
         String result = authenticator.authenticate(username, password);
         if (result.equals("success")) {
-            rd = request.getRequestDispatcher("/success.jsp");
-            User user = new User(username, password);
+//            rd = request.getRequestDispatcher("/success.jsp");
+            System.out.println("success login");
+            User user = new User(username, password, nick);
             request.setAttribute("user", user);
         } else {
-            rd = request.getRequestDispatcher("/error.jsp");
+            System.out.println("success fail");
+//            rd = request.getRequestDispatcher("/error.jsp");
         }
         rd.forward(request, response);
     }
