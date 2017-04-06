@@ -51,7 +51,7 @@
 	- divideExp() : 게임이 끝나고 참가자들에게 점수의 1.5배를 곱해 경험치를 분배한다.
 	- calPlayerLevel(RoomAction room) : 참가자들의 경험치를 계한해 레벨업 처리를 해준다.
 6. RoomAction : 방의 정보에 대한 액션
-	- RoomAction() : 방에 대한 고유 아이디 생성하는 생성자
+	- createRoomId() : 방에 대한 고유 아이디 생성하는 생성자
 	- enterPlayer(String id) : 방에 사용자가 들어왔다.
 	- gameStart() : 게임 스타트 이벤트가 발생할 때 호출하는 메소드 
 	- getRoomPw() : 방에 대한 비밀번호에 대해 반환
