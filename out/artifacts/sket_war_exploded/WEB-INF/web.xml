@@ -4,6 +4,15 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
     <display-name>Apache-Axis</display-name>
+
+    <servlet>
+        <servlet-name>WebSocket</servlet-name>
+        <servlet-class>sket.controllers.WebSocket</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>WebSocket</servlet-name>
+        <url-pattern>/test.do</url-pattern>
+    </servlet-mapping>
     <servlet>
         <display-name>Apache-Axis Servlet</display-name>
         <servlet-name>AxisServlet</servlet-name>
