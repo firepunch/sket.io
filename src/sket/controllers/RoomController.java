@@ -10,14 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class RoomController extends HttpServlet {
+public class RoomController{
 
     public RoomController() {
         super();
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException  {
-        req.setCharacterEncoding("euc-kr");
-    }
+
 }
