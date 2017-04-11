@@ -9,7 +9,7 @@ import java.io.IOException;
 /**
  * Created by hojak on 2017-04-04.
  */
-public class ServerTest extends HttpServlet{
+public class ServerTest extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

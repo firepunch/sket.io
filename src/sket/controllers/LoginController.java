@@ -1,17 +1,14 @@
 package sket.controllers;
 
-import java.io.IOException;
+import sket.model.action.Authenticator;
+import sket.model.data.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import sket.model.action.Authenticator;
-import sket.model.data.User;
-
-import sun.text.normalizer.ICUBinary.Authenticate;
+import java.io.IOException;
 
 public class LoginController extends HttpServlet {
     private static final long serialVersionUID = 1L;
