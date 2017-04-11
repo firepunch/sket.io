@@ -22,8 +22,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="WebSocket-1.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Tomcat 8.0.43" level="application_server_libraries" />
     <orderEntry type="library" name="JAX-WS-Apache Axis" level="project" />
+    <orderEntry type="library" name="javax.websocket-api-1.1" level="project" />
   </component>
 </module>
