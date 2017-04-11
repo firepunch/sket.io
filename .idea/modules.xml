@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/sket.iml" filepath="$PROJECT_DIR$/sket.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sket.io.iml" filepath="$PROJECT_DIR$/sket.io.iml" />
     </modules>
   </component>
 </project>
