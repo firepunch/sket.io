@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/artifacts/sket_io_war_exploded/WEB-INF/lib/wsdl4j-1.5.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/artifacts/sket_io_war_exploded/WEB-INF/lib/javax.websocket-api-1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/artifacts/sket_io_war_exploded/WEB-INF/lib/commons-logging-1.0.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/artifacts/sket_io_war_exploded/WEB-INF/lib/jaxrpc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/artifacts/sket_io_war_exploded/WEB-INF/lib/log4j-1.2.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/artifacts/sket_io_war_exploded/WEB-INF/lib/saaj.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/artifacts/sket_io_war_exploded/WEB-INF/lib/axis.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/artifacts/sket_io_war_exploded/WEB-INF/lib/commons-discovery-0.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
