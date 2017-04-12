@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServlet;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by hojak on 2017-04-06.
@@ -11,9 +12,16 @@ import java.io.IOException;
 
 @ServerEndpoint("/test")
 public class WebSocket extends HttpServlet{
+
+    // session 저장하는 ArrayList
+    private static ArrayList<Session> sessionList = new ArrayList<>();
+
     @OnOpen
     public void onOpen(Session session) throws IOException {
         System.out.println("onOpen()");
+
+        sessionList.add(session);
+
     }
 
     @OnMessage
