@@ -21,7 +21,6 @@ public class WebSocket extends HttpServlet{
         System.out.println("onOpen()");
 
         sessionList.add(session);
-
     }
 
     @OnMessage
