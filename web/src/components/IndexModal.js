@@ -2,16 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import Modal from 'react-modal';
 
 
-ReactModal.setAppElement('#main');
-
-
 const propTypes = {
 };
 
 const defaultProps = {
 };
 
-class Modal extends Component {
+class IndexModal extends Component {
     constructor () {
         super();
             this.state = {
@@ -31,31 +28,31 @@ class Modal extends Component {
     }
 
     render() {
-        const content = [
-            <Login/>,
-            <CreateRoom/>,
-            <GameResult/>,
-            <GameRanking/>
-        ]
+        // const content = [
+        //     <Login/>,
+        //     <CreateRoom/>,
+        //     <GameResult/>,
+        //     <GameRanking/>
+        // ]
         // modal 안에는 총 4가지의 내용이 올 수 있으므로
         // props 에 따라 렌더링함(가능할지는 모르겠음)
 
         return(
             <div>
-                {content[this.props.content]}
-                <button onClick={this.handleOpenModal}>Trigger Modal</button>
-                <ReactModal
-                   isOpen={this.state.showModal}
-                   contentLabel="Minimal Modal Example"
-                >
-                  <button onClick={this.handleCloseModal}>Close Modal</button>
-                </ReactModal>
+                <div>
+                    <button onClick={this.handleOpenModal}>Trigger Modal</button>
+                    <Modal
+                       isOpen={this.state.showModal}
+                       contentLabel="Minimal Modal Example">
+                      <button onClick={this.handleCloseModal}>Close Modal</button>
+                    </Modal>
+                </div>
             </div>
         );
     }
 }
 
-Modal.propTypes = propTypes;
-Modal.defaultProps = defaultProps;
+IndexModal.propTypes = propTypes;
+IndexModal.defaultProps = defaultProps;
 
-export default Modal;
+export default IndexModal;

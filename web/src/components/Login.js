@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
+import IndexModal from './IndexModal';
+
 const propTypes = {
 };
 
@@ -12,7 +14,10 @@ class Login extends Component {
     }
     render() {
         return(
-            <div>Login</div>
+            <div>
+                Loginaa
+                <IndexModal/>
+            </div>
         );
     }
 }
