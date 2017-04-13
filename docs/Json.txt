@@ -81,6 +81,22 @@ send roomList
     ]
 }
 
+send roomInfo
+{
+    "type" : "roomInfo",
+    "roomId" : 1,
+    "name" : "asdads",
+    "lock" : true or false,
+    "password" : null or "123",
+    "playerNumber" : 5,
+    "roomMaster", "유저 아이디",
+    "playerList" : [
+        { "id" : "유저 아이디" },
+        { "id" : "유저 아이디" },
+        .....
+    ]
+}
+
 send enter room
 {
     "type" : "enterRoom",

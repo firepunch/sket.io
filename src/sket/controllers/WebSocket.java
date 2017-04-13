@@ -37,7 +37,7 @@ public class WebSocket extends HttpServlet{
             case "createRoom" : {
                 Room createRoom = RoomController.createRoom(jsonObject.getString("name"), jsonObject.getBoolean("lock"),
                         jsonObject.getString("password"), session);
-                // session.getBasicRemote().sendText(createRoom.getRoomListAsJSON().put("type",""))
+                //session.getBasicRemote().sendText(createRoom.getRoomListAsJSON().put("type",""))
             }
             break;
 

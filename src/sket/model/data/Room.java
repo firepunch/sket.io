@@ -16,7 +16,7 @@ public class Room {
     private static ArrayList<Room> roomList = new ArrayList<>();
 
     // Room 에 존재하는 User 를 ArrayList 에 저장
-    private ArrayList<User> userList;
+    private ArrayList<Player> userList;
     private final int MAX_USER = 4;
     private static int countRoomId = 0;
 
@@ -41,7 +41,7 @@ public class Room {
             this.roomPwd = null;
         }
 
-        this.countRoomId +=1;
+        this.countRoomId += 1;
         System.out.println("방 생성 성공");
         Room.roomList.add(this);
     }
@@ -71,7 +71,7 @@ public class Room {
         message.put("type", "roomList");
         JSONArray jsonArray = new JSONArray();
 
-        for(Room room : roomList) {
+        for (Room room : roomList) {
             JSONObject object = new JSONObject();
             object.put("roomId", room.getRoomId());
             object.put("name", room.getRoomName());
@@ -83,6 +83,25 @@ public class Room {
         }
         message.put("roomList", jsonArray);
         return message.toString();
+    }
+
+    public JSONObject getRoomInfoToJSON() {
+        JSONObject object = new JSONObject();
+        object.put("roomId", roomId);
+        object.put("name", roomName);
+        object.put("lock", isLock);
+        object.put("password", roomPwd);
+        object.put("playerNumber", totalUserNumber);
+        object.put("roomMaster", roomMaster.getId());
+        JSONArray jsonArray = new JSONArray();
+
+        for(Player player : userList) {
+            JSONObject temp = new JSONObject();
+            temp.put("id",player.getId());
+            jsonArray.put(temp);
+        }
+        object.put("playerList", jsonArray);
+        return object;
     }
 
     public static ArrayList getRoomList() {
@@ -117,7 +136,7 @@ public class Room {
         return userList;
     }
 
-    public static int getCountRoomId(){
+    public static int getCountRoomId() {
         return countRoomId;
     }
 
