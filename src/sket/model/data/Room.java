@@ -18,15 +18,16 @@ public class Room {
     // Room 에 존재하는 User 를 ArrayList 에 저장
     private ArrayList<User> userList;
     private final int MAX_USER = 4;
+    private static int countRoomId = 0;
 
     private boolean isLock = false;
     private int totalUserNumber = 0;
     private int roomId;
     private String roomName;
     private String roomPwd;
-    private User roomMaster;
+    private Player roomMaster;
 
-    public Room(String name, User roomMaster, int roomId, boolean isLock, String pwd) {
+    public Room(String name, Player roomMaster, int roomId, boolean isLock, String pwd) {
         this.roomName = name;
         this.roomMaster = roomMaster;
         this.roomId = roomId;
@@ -40,6 +41,7 @@ public class Room {
             this.roomPwd = null;
         }
 
+        this.countRoomId +=1;
         System.out.println("방 생성 성공");
         Room.roomList.add(this);
     }
@@ -107,12 +109,16 @@ public class Room {
         return this.roomPwd;
     }
 
-    public User getRoomMaster() {
+    public Player getRoomMaster() {
         return this.roomMaster;
     }
 
     public ArrayList getRoomIntoUser() {
         return userList;
+    }
+
+    public static int getCountRoomId(){
+        return countRoomId;
     }
 
 }

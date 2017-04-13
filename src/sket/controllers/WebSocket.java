@@ -34,6 +34,12 @@ public class WebSocket extends HttpServlet{
         JSONObject jsonObject = new JSONObject(message);
 
         switch (jsonObject.getString("type")){
+            case "createRoom" : {
+                Room createRoom = RoomController.createRoom(jsonObject.getString("name"), jsonObject.getBoolean("lock"),
+                        jsonObject.getString("password"), session);
+                // session.getBasicRemote().sendText(createRoom.getRoomListAsJSON().put("type",""))
+            }
+            break;
 
         }
     }
