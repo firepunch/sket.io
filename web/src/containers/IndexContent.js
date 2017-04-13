@@ -19,12 +19,14 @@ class IndexContent extends Component {
     }
     render() {
         return(
-            <div>
+            <div className="content">
                 <Login/>
-                <UserProfile/>
-                <FuncButtonArea/>
-                <RoomList/>
-                <ConnectingUserList/>
+                <div className="container">
+                    <UserProfile />
+                    <FuncButtonArea/>
+                    <RoomList/>
+                    <ConnectingUserList/>
+                </div>
             </div>
         );
     }

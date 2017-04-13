@@ -14,7 +14,7 @@ class RoomList extends Component {
     }
     render() {
         return(
-            <div>
+            <div id="room-list">
                 <div>RoomList</div>
                 <Room/>
             </div>

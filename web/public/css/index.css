@@ -1,0 +1,71 @@
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+#root {
+    height: 100%;
+    width: 100%;
+}
+
+.content {
+    height: 100%;
+    width: 100%;
+}
+
+.container {
+    width: 80%;
+    height: 80%;
+    background-color: yellow;
+    margin: 10px 10px;
+}
+
+#sket-profile {
+    width: 20%;
+    height: 20%;
+    background-color: skyblue;
+
+    float: left;
+}
+
+#sket-header {
+    width: 80%;
+    height: 20%;
+    background-color: lightyellow;
+
+    float: right;
+}
+
+#connection-list {
+    width: 20%;
+    height: 80%;
+    background-color: white;
+
+    float: left;
+}
+
+#room-list {
+    width: 80%;
+    height: 80%;
+    background-color: pink;
+
+    float: right;
+}
+
+#sket-profile img {
+    width: auto;
+    height: 100%;
+}
+
+#sket-header .sket-button {
+    display: inline;
+}
+
+.room {
+    border: 1px solid black;
+}

@@ -12,7 +12,21 @@ class UserProfile extends Component {
     }
     render() {
         return(
-            <div>UserProfile</div>
+            <div id="sket-profile">
+                <div className="profile-image">
+                    <img src={"../logo.svg"} alt="error"/>
+                </div>
+
+                <div className="user-info">
+                    GUEST7777
+                </div>
+                <div className="user-info">
+                    Lv.1
+                </div>
+                <div className="user-info">
+                    exp bar
+                </div>
+            </div>
         );
     }
 }

@@ -12,7 +12,11 @@ class FuncButton extends Component {
     }
     render() {
         return(
-            <div>FuncButton</div>
+            <div>
+                <div class="sket-button" id="craete-room">
+                    <button>방 생성</button>
+                </div>
+            </div>
         );
     }
 }
