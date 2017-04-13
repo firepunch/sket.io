@@ -66,6 +66,21 @@ send create room
     "roomId" : "(룸 아이디)"
 }
 
+send roomList
+{
+    "type" : "roomList",
+    "roomList" : [
+        {
+            "roomId" : 1,
+            "name" : "찡긋!",
+            "lock" : true or false,
+            "password" : null pr 1234,
+            "playerNumber" : 1
+        }
+        ......
+    ]
+}
+
 send enter room
 {
     "type" : "enterRoom",

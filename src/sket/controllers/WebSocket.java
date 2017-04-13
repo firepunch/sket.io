@@ -1,5 +1,8 @@
 package sket.controllers;
 
+import org.json.JSONObject;
+import sket.model.data.Room;
+
 import javax.servlet.http.HttpServlet;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
@@ -19,13 +22,26 @@ public class WebSocket extends HttpServlet{
     @OnOpen
     public void onOpen(Session session) throws IOException {
         System.out.println("onOpen()");
-
         sessionList.add(session);
+
+        // session 에 룸 리스트 보냄
+        session.getBasicRemote().sendText(Room.getRoomListAsJSON());
     }
 
     @OnMessage
     public void onMessage(String message, Session session) throws IOException {
         System.out.println("OnMessage("+message+")");
+        JSONObject jsonObject = new JSONObject(message);
+
+        switch (jsonObject.getString("type")){
+            case "createRoom" : {
+                Room createRoom = RoomController.createRoom(jsonObject.getString("name"), jsonObject.getBoolean("lock"),
+                        jsonObject.getString("password"), session);
+                // session.getBasicRemote().sendText(createRoom.getRoomListAsJSON().put("type",""))
+            }
+            break;
+
+        }
     }
 
     @OnClose
