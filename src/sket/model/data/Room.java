@@ -1,5 +1,7 @@
 package sket.model.data;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import sun.rmi.runtime.Log;
 
 import java.util.ArrayList;
@@ -19,22 +21,22 @@ public class Room {
 
     private boolean isLock = false;
     private int totalUserNumber = 0;
-    private int roomNumber;
+    private int roomId;
     private String roomName;
     private String roomPwd;
     private User roomMaster;
 
-    public Room(String name, User roomMaster, int roomNum, boolean isLock, String pwd){
+    public Room(String name, User roomMaster, int roomId, boolean isLock, String pwd) {
         this.roomName = name;
         this.roomMaster = roomMaster;
-        this.roomNumber = roomNum;
+        this.roomId = roomId;
         this.isLock = isLock;
 
-        if(isLock == true) {
-            if(pwd != null){
+        if (isLock == true) {
+            if (pwd != null) {
                 this.roomPwd = pwd;
             }
-        }else{
+        } else {
             this.roomPwd = null;
         }
 
@@ -44,17 +46,17 @@ public class Room {
 
 
     /* roomList 에서 인자로 들어온 room 객체 찾아서 반환하는 메소드 */
-    public Room getEqualRoom(Room room){
+    public Room getEqualRoom(Room room) {
 
         Room tempRoom = null;
 
-        for(Room tmp : Room.roomList){
-            if(tmp.getRoomNumber() == room.getRoomNumber()){
+        for (Room tmp : Room.roomList) {
+            if (tmp.getRoomId() == room.getRoomId()) {
                 tempRoom = tmp;
             }
         }
 
-        if(tempRoom == null){
+        if (tempRoom == null) {
             System.out.println("찾는 Room 없음");
             return null;
         }
@@ -62,35 +64,54 @@ public class Room {
         return tempRoom;
     }
 
-    public static ArrayList getRoomList(){
+    public static String getRoomListAsJSON() {
+        JSONObject message = new JSONObject();
+        message.put("type", "roomList");
+        JSONArray jsonArray = new JSONArray();
+
+        for(Room room : roomList) {
+            JSONObject object = new JSONObject();
+            object.put("roomId", room.getRoomId());
+            object.put("name", room.getRoomName());
+            object.put("lock", room.isLocked());
+            object.put("password", room.getRoomPwd());
+            object.put("playerNumber", room.getTotalUserNumber());
+
+            jsonArray.put(object);
+        }
+        message.put("roomList", jsonArray);
+        return message.toString();
+    }
+
+    public static ArrayList getRoomList() {
         return Room.roomList;
     }
 
-    public boolean isLocked(){
+    public boolean isLocked() {
         return this.isLock;
     }
 
-    public int getTotalUserNumber(){
+    public int getTotalUserNumber() {
         return this.totalUserNumber;
     }
 
-    public int getRoomNumber(){
-        return this.roomNumber;
+    public int getRoomId() {
+        return this.roomId;
     }
 
-    public String getRoomName(){
+    public String getRoomName() {
         return this.roomName;
     }
 
-    public String getRoomPwd(){
+    public String getRoomPwd() {
         return this.roomPwd;
     }
 
-    public User getRoomMaster(){
+    public User getRoomMaster() {
         return this.roomMaster;
     }
 
-    public ArrayList getRoomIntoUser(){
+    public ArrayList getRoomIntoUser() {
         return userList;
     }
 

@@ -39,7 +39,7 @@ public class LoginController extends HttpServlet {
         rd.forward(request, response);
     }
 
-    public void guestLogin(){
+    public void guestLogin() {
 
     }
 
