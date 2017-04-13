@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 
 @ServerEndpoint("/test")
-public class WebSocket extends HttpServlet{
+public class WebSocket extends HttpServlet {
 
     // session 저장하는 ArrayList
     private static ArrayList<Session> sessionList = new ArrayList<>();
@@ -30,16 +30,29 @@ public class WebSocket extends HttpServlet{
 
     @OnMessage
     public void onMessage(String message, Session session) throws IOException {
-        System.out.println("OnMessage("+message+")");
+        System.out.println("OnMessage(" + message + ")");
         JSONObject jsonObject = new JSONObject(message);
 
-        switch (jsonObject.getString("type")){
-            case "createRoom" : {
+
+        switch (jsonObject.getString("type")) {
+
+            case "createRoom": {
                 Room createRoom = RoomController.createRoom(jsonObject.getString("name"), jsonObject.getBoolean("lock"),
                         jsonObject.getString("password"), session);
-                //session.getBasicRemote().sendText(createRoom.getRoomListAsJSON().put("type",""))
+                session.getBasicRemote().sendText(createRoom.getRoomInfoToJSON().put("type", "roomInfo").toString());
             }
             break;
+
+            case "enterRoom": {
+                Room enterRoom = RoomController.enterRoom(jsonObject.getInt("roomId"), session);
+
+                if (enterRoom != null) {
+                    ArrayList<Session> roomMembers = enterRoom.getPlayerSession();
+                    for (Session member : roomMembers) {
+                        member.getBasicRemote().sendText(enterRoom.getRoomInfoToJSON().put("type", "roomInfo").toString());
+                    }
+                }
+            }
 
         }
     }

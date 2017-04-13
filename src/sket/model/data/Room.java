@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import sun.rmi.runtime.Log;
 
+import javax.websocket.Session;
 import java.util.ArrayList;
 
 /**
@@ -16,7 +17,7 @@ public class Room {
     private static ArrayList<Room> roomList = new ArrayList<>();
 
     // Room 에 존재하는 User 를 ArrayList 에 저장
-    private ArrayList<Player> userList;
+    private ArrayList<Player> playeList;
     private final int MAX_USER = 4;
     private static int countRoomId = 0;
 
@@ -95,16 +96,16 @@ public class Room {
         object.put("roomMaster", roomMaster.getId());
         JSONArray jsonArray = new JSONArray();
 
-        for(Player player : userList) {
+        for (Player player : playeList) {
             JSONObject temp = new JSONObject();
-            temp.put("id",player.getId());
+            temp.put("id", player.getId());
             jsonArray.put(temp);
         }
         object.put("playerList", jsonArray);
         return object;
     }
 
-    public static ArrayList getRoomList() {
+    public static ArrayList<Room> getRoomList() {
         return Room.roomList;
     }
 
@@ -132,12 +133,24 @@ public class Room {
         return this.roomMaster;
     }
 
-    public ArrayList getRoomIntoUser() {
-        return userList;
+    public ArrayList<Player> getRoomIntoPlayer() {
+        return this.playeList;
     }
 
     public static int getCountRoomId() {
         return countRoomId;
+    }
+
+    public void addPlayer(Player player) {
+        playeList.add(player);
+    }
+
+    public ArrayList<Session> getPlayerSession() {
+        ArrayList<Session> sessionArrayList = new ArrayList<>();
+        for (Player player : getRoomIntoPlayer()){
+            sessionArrayList.add(player.getSession());
+        }
+        return sessionArrayList;
     }
 
 }
