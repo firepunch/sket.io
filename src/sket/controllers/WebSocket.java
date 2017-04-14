@@ -1,6 +1,7 @@
 package sket.controllers;
 
 import org.json.JSONObject;
+import sket.model.data.Player;
 import sket.model.data.Room;
 
 import javax.servlet.http.HttpServlet;
@@ -52,6 +53,11 @@ public class WebSocket extends HttpServlet {
                         member.getBasicRemote().sendText(enterRoom.getRoomInfoToJSON().put("type", "roomInfo").toString());
                     }
                 }
+            }
+            break;
+
+            case "isReady": {
+                PlayerController.gameReady(jsonObject.getInt("roomId"),jsonObject.getBoolean("isReady"), session);
             }
 
         }

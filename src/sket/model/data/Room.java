@@ -28,6 +28,7 @@ public class Room {
     private String roomPwd;
     private Player roomMaster;
 
+
     public Room(String name, Player roomMaster, int roomId, boolean isLock, String pwd) {
         this.roomName = name;
         this.roomMaster = roomMaster;

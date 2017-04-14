@@ -116,9 +116,9 @@ send enter room
     ]
 }
 
-send game ready
+send player game ready
 {
-    "type" : "gameReady",
+    "type" : "playerGameReady",
     "id" : "유저 아이디"
     "isReady" : "(true or false)"
     // true 면 레디, false 면 ㄴㄴ
