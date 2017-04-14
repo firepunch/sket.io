@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
 import IndexContent from './IndexContent';
+import GameContent from './GameContent';
 
 const propTypes = {
 };
@@ -11,12 +12,36 @@ const defaultProps = {
 class App extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            isIndex: true
+        }
+
+        this.handleTest = this.handleTest.bind(this);
     }
+
+    handleTest() {  // 테스트용 핸들 함수
+        this.setState({
+            isIndex: !this.state.isIndex
+        });
+
+        console.log(this.state.isIndex);
+    }
+
     render() {
-        // const content = this.state.
+        const index = (
+                <IndexContent/>
+        )
+
+        const game = (
+                <GameContent/>
+        )
 
         return(
-            <IndexContent/>
+            <div className="content">
+                <button onClick={this.handleTest}>test</button>
+                {this.state.isIndex ? index : game}
+            </div>
         );
     }
 }
