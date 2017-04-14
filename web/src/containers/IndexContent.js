@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 
-import Login from '../components/Login';
-import UserProfile from '../components/UserProfile';
-import FuncButtonArea from '../components/FuncButtonArea';
-import RoomList from '../components/RoomList';
-import ConnectingUserList from '../components/ConnectingUserList';
+import Login from '../components/Index/Login';
+import UserProfile from '../components/Index/UserProfile';
+import FuncButtonArea from '../components/Index/FuncButtonArea';
+import RoomList from '../components/Index/RoomList';
+import ConnectingUserList from '../components/Index/ConnectingUserList';
 
 
 const propTypes = {
