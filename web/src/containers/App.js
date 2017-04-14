@@ -13,6 +13,8 @@ class App extends Component {
         super(props);
     }
     render() {
+        // const content = this.state.
+
         return(
             <IndexContent/>
         );

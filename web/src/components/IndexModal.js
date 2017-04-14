@@ -3,9 +3,11 @@ import Modal from 'react-modal';
 
 
 const propTypes = {
+    modalName: React.PropTypes.string
 };
 
 const defaultProps = {
+    modalName: 'Modal Name'
 };
 
 class IndexModal extends Component {
@@ -40,7 +42,7 @@ class IndexModal extends Component {
         return(
             <div>
                 <div>
-                    <button onClick={this.handleOpenModal}>Trigger Modal</button>
+                    <button onClick={this.handleOpenModal}>{this.props.modalName}</button>
                     <Modal
                        isOpen={this.state.showModal}
                        contentLabel="Minimal Modal Example">

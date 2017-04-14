@@ -20,13 +20,17 @@ class IndexContent extends Component {
     render() {
         return(
             <div className="content">
-                <Login/>
+                <Login
+                    modalType={0}/>
+
                 <div className="container">
                     <UserProfile />
-                    <FuncButtonArea/>
+                    <FuncButtonArea
+                        modalType={1}/>
                     <RoomList/>
                     <ConnectingUserList/>
                 </div>
+
             </div>
         );
     }
