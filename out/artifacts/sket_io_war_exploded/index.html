@@ -12,32 +12,20 @@
 </head>
 <body>
 <div id="fb-root"></div>
-<script>
-    window.fbAsyncInit = function() {
-        FB.init({
-            appId      : '741189302727195',
-            xfbml      : true,
-            version    : 'v2.8'
-        });
-        FB.AppEvents.logPageView();
-    };
-
-    (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v2.8&appId=741189302727195";
-    fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-</script>
 <div id="signupMda" class="modal" st>
     <div class="modal-content">
         <div class="modal-header">
             <span class="close">&times;</span>
         </div>
         <div class="modal-body">
-            <form action="LoginController" method="post">
-                <div class="fb-login-button" data-max-rows="1" data-size="xlarge" data-show-faces="false" data-auto-logout-link="false"></div>
+            <form name="loginForm" action="/src/sket.controllers/LoginController" method="post">
+                <button class="loginBtn loginBtn-facebook" name="loginBtn" value="fb">
+                    Login with Facebook
+                </button>
+
+                <button class="loginBtn loginBtn-google" name="loginBtn" value="google">
+                    Login with Google
+                </button>
             </form>
         </div>
         <div class="modal-footer">
