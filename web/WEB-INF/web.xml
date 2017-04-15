@@ -49,4 +49,13 @@
         <extension>wsdl</extension>
         <mime-type>text/xml</mime-type>
     </mime-mapping>
+             <servlet>
+        <display-name>LoginController</display-name>
+        <servlet-name>LoginController</servlet-name>
+        <servlet-class>sket.controllers.LoginController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginController</servlet-name>
+        <url-pattern>/LoginController</url-pattern>
+    </servlet-mapping>
 </web-app>
