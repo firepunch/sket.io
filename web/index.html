@@ -4,15 +4,12 @@
     <meta charset="utf-8">
     <title>sket.io</title>
 
-    <!-- css files -->
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/modal.css">
-
-    <script src="main.js"></script>
 </head>
 <body>
 <div id="fb-root"></div>
-<div id="signupMda" class="modal" st>
+<div id="signupMda" class="modal">
     <div class="modal-content">
         <div class="modal-header">
             <span class="close">&times;</span>
@@ -82,5 +79,24 @@
         </div>
     </div>
 </div>
+<script>
+    var modal = document.getElementById('signupMda');
+    var btn = document.getElementById("signupBtn");
+    var span = document.getElementsByClassName("close")[0];
+
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
 </body>
 </html>

@@ -2,21 +2,18 @@ package sket.controllers;
 
 import sket.model.action.FBConnection;
 import sket.model.action.FBGraph;
-import sket.model.action.LoginGoogle;
-
-import java.io.IOException;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Map;
 
 public class LoginController extends HttpServlet {
-
     private static final long serialVersionUID = 1L;
-    private String code="";
+    private String code = "";
 
     public LoginController() {
         super();
@@ -24,11 +21,7 @@ public class LoginController extends HttpServlet {
 
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-
-
         String act = req.getParameter("loginBtn");
-
-        System.out.println("31line");
 
         if (act == null) {
             //no button has been selected
@@ -47,16 +40,23 @@ public class LoginController extends HttpServlet {
             ServletOutputStream out = res.getOutputStream();
             out.println("<h1>Facebook Login using Java</h1>");
             out.println("<h2>Application Main Menu</h2>");
-            out.println("<div>Welcome "+fbProfileData.get("first_name"));
-            out.println("<div>Your Email: "+fbProfileData.get("email"));
-            out.println("<div>Your Token: "+accessToken);
+            out.println("<div>Welcome " + fbProfileData.get("first_name"));
+            out.println("<div>Your Email: " + fbProfileData.get("email"));
+            out.println("<div>Your Token: " + accessToken);
         } else if (act.equals("google")) {
+            System.out.println("google");
 //            LoginGoogle.loginGoogle = new LoginGoogle();
         } else {
             //someone has altered the HTML and sent a different value!
         }
 
-/*        Authenticator authenticator = new Authenticator();
+        /*
+        success -->
+            request.getSession().setAttribute("user", user);
+            response.sendRedirect("home");
+         */
+        /*
+        Authenticator authenticator = new Authenticator();
         String result = authenticator.authenticate(username, password);
         if (result.equals("success")) {
 //            rd = request.getRequestDispatcher("/success.jsp");
@@ -68,9 +68,4 @@ public class LoginController extends HttpServlet {
 //            rd = request.getRequestDispatcher("/error.jsp");
         }*/
     }
-
-    public void guestLogin() {
-
-    }
-
 }
