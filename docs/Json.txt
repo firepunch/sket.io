@@ -55,6 +55,15 @@ show rank
     "userId" : "(유저 아이디)"
 }
 
+send correct answer
+{
+    "type" : "correctAnswer",
+    "roomId" : "(방 아이디)",
+    "correcterId" : "(정답자 아이디)",
+    // 이 사람을 문제 출제자로
+    "examinerId" : "(출제자 아이디)"
+    "plusScore" : "(정답자 점수)",
+}
 
 ================ Server to Client ====================
 send create room

@@ -14,6 +14,7 @@ public class Player {
     private boolean roomMaster;
     private Session session;
     private boolean isReady = false;
+    private int playerScore = 0;
 
     public Player(String id, boolean roomMaster, Session session) {
         this.id = id;
@@ -21,6 +22,23 @@ public class Player {
         this.session = session;
     }
 
+    public void plusPlayerScore(int plusScore) {
+        this.playerScore += plusScore;
+    }
+
+    public void minusPlayerScore(int minusScore) {
+        if (playerScore == 0) {
+            this.playerScore = 0;
+        } else if (playerScore < minusScore) {
+            this.playerScore = 0;
+        } else {
+            this.playerScore -= minusScore;
+        }
+    }
+
+    public long getPlayerScore() {
+        return this.playerScore;
+    }
 
     public boolean isReady() {
         return this.isReady;
@@ -38,12 +56,12 @@ public class Player {
         this.roomMaster = roomMaster;
     }
 
-    public String getId() {
-        return this.id;
-    }
-
     public boolean isRoomMaster() {
         return this.roomMaster;
+    }
+
+    public String getId() {
+        return this.id;
     }
 
     public Session getSession() {
@@ -54,8 +72,17 @@ public class Player {
         return Player.playerArrayList;
     }
 
+    public static Player getEqualPlayerId(String id) {
+        for (Player tmp : Player.playerArrayList) {
+            if (tmp.getId().equals(id)) {
+                return tmp;
+            }
+        }
+        return null;
+    }
+
     public static Player getEqualPlayer(Player player) {
-        for (Player tmp : Player.getPlayerList()) {
+        for (Player tmp : Player.playerArrayList) {
             if (tmp.getSession().equals(player.getSession())) {
                 return tmp;
             }
@@ -64,7 +91,7 @@ public class Player {
     }
 
     public static Player getPlayerEqualSession(Session session) {
-        for (Player tmp : Player.getPlayerList()) {
+        for (Player tmp : Player.playerArrayList) {
             if (tmp.getSession().equals(session)) {
                 return tmp;
             }

@@ -37,14 +37,13 @@ public class WebSocket extends HttpServlet {
 
         switch (jsonObject.getString("type")) {
 
-            case "createRoom": {
+            case "createRoom":
                 Room createRoom = RoomController.createRoom(jsonObject.getString("name"), jsonObject.getBoolean("lock"),
                         jsonObject.getString("password"), session);
                 session.getBasicRemote().sendText(createRoom.getRoomInfoToJSON().put("type", "roomInfo").toString());
-            }
-            break;
+                break;
 
-            case "enterRoom": {
+            case "enterRoom":
                 Room enterRoom = RoomController.enterRoom(jsonObject.getInt("roomId"), session);
 
                 if (enterRoom != null) {
@@ -53,13 +52,16 @@ public class WebSocket extends HttpServlet {
                         member.getBasicRemote().sendText(enterRoom.getRoomInfoToJSON().put("type", "roomInfo").toString());
                     }
                 }
-            }
-            break;
+                break;
 
-            case "isReady": {
-                PlayerController.gameReady(jsonObject.getInt("roomId"),jsonObject.getBoolean("isReady"), session);
-            }
+            case "isReady":
+                // 준비 할 때마다 방 전체 인원이 레디 했는지 검사해서 모두 준비를 한 상태면 게임 시작 JSON 을 보낸다.
+                PlayerController.gameReady(jsonObject.getInt("roomId"), jsonObject.getBoolean("isReady"), session);
+                break;
 
+            case "correctAnswer" :
+
+                break;
         }
     }
 
