@@ -58,11 +58,11 @@ show rank
 send correct answer
 {
     "type" : "correctAnswer",
-    "roomId" : "(방 아이디)",
+    "roomId" : 2,
     "correcterId" : "(정답자 아이디)",
     // 이 사람을 문제 출제자로
     "examinerId" : "(출제자 아이디)"
-    "plusScore" : "(정답자 점수)",
+    "score" : "(정답자 점수)",
 }
 
 ================ Server to Client ====================

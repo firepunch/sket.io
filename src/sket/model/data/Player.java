@@ -11,7 +11,8 @@ import java.util.ArrayList;
 public class Player {
     private static ArrayList<Player> playerArrayList = new ArrayList<>();
     private String id;
-    private boolean roomMaster;
+    private boolean roomMaster = false;
+    private boolean examiner = false;
     private Session session;
     private boolean isReady = false;
     private int playerScore = 0;
@@ -22,8 +23,16 @@ public class Player {
         this.session = session;
     }
 
-    public void plusPlayerScore(int plusScore) {
-        this.playerScore += plusScore;
+    public void setExaminer(boolean isExaminer){
+        this.examiner = isExaminer;
+    }
+
+    public boolean isExaminer(){
+        return this.examiner;
+    }
+
+    public void setPlayerScore(int score) {
+        this.playerScore = score;
     }
 
     public void minusPlayerScore(int minusScore) {

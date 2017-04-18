@@ -59,9 +59,19 @@ public class WebSocket extends HttpServlet {
                 PlayerController.gameReady(jsonObject.getInt("roomId"), jsonObject.getBoolean("isReady"), session);
                 break;
 
-            case "correctAnswer" :
+            case "correctAnswer":
+                Room targetRoom = RoomController.findRoomById(jsonObject.getInt("roomId"));
 
+                if (targetRoom != null) {
+                    ArrayList<Session> roomMembers = targetRoom.getPlayerSession();
+                    for (Session member : roomMembers) {
+                        member.getBasicRemote().sendText(QuizController.correctAnswer(jsonObject.getString("correcterId"),
+                                jsonObject.getString("examinerId"), jsonObject.getInt("score")));
+                    }
+                }
                 break;
+
+
         }
     }
 
