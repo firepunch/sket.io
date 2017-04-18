@@ -1,5 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 
+import Round from './Round';
+import Quiz from './Quiz';
+import Timer from './Timer';
+import Chatting from './Chatting';
+
 const propTypes = {
 };
 
@@ -12,7 +17,12 @@ class GameArea extends Component {
     }
     render() {
         return(
-            <div>GameArea</div>
+            <div class="stage" id="game-area">
+                <Round/>
+                <Quiz/>
+                <Timer/>
+                <Chatting/>
+            </div>
         );
     }
 }

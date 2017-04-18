@@ -12,7 +12,9 @@ class Quiz extends Component {
     }
     render() {
         return(
-            <div>Quiz</div>
+            <div id="sketch-area">
+
+            </div>
         );
     }
 }

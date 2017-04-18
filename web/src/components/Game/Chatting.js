@@ -12,7 +12,9 @@ class Chatting extends Component {
     }
     render() {
         return(
-            <div>Chatting</div>
+            <div id="sket-chatting">
+                chatting
+            </div>
         );
     }
 }

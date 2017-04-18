@@ -1,5 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 
+import UserArea from '../components/Game/UserArea';
+import GameArea from '../components/Game/GameArea';
+import SystemArea from '../components/Game/SystemArea';
+
+
 const propTypes = {
 };
 
@@ -12,7 +17,13 @@ class GameContent extends Component {
     }
     render() {
         return(
-            <div>GameContent</div>
+            <div className="game-content">
+                <UserArea
+                    direction="left-side"/>
+                <GameArea/>
+                <UserArea
+                    direction="right-side"/>
+            </div>
         );
     }
 }

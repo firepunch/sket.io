@@ -8,7 +8,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-    // modalType: React.PropTypes.number
+    // modalType: React.PropTypes.func
     // 왜 이게 있으면 삼항 연산자에서 무조건 true 가 될까?
 };
 

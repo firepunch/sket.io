@@ -1,9 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 
+import UserProfile from '../Index/UserProfile';
+import Ready from './Ready';
+import Score from './Score';
+
 const propTypes = {
+    direction: React.PropTypes.string
 };
 
 const defaultProps = {
+    direction: ''
 };
 
 class UserArea extends Component {
@@ -12,7 +18,24 @@ class UserArea extends Component {
     }
     render() {
         return(
-            <div>UserArea</div>
+            <div className="sket-game-side" id={this.props.direction}>
+                <div className="player-area">
+                    <UserProfile
+                        divStyle="sket-player"/>
+
+                    <div className="sket-score">
+
+                    </div>
+                </div>
+                <div className="player-area">
+                    <div className="sket-score">
+
+                    </div>
+                    <div className="sket-player">
+
+                    </div>
+                </div>
+            </div>
         );
     }
 }

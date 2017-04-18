@@ -12,7 +12,11 @@ class Timer extends Component {
     }
     render() {
         return(
-            <div>Timer</div>
+            <div id="time-progress-bar">
+                <div class="progressbar progressbar-blue">
+                    <div class="progressbar-inner"></div>
+                </div>
+            </div>
         );
     }
 }

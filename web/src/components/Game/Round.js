@@ -12,7 +12,9 @@ class Round extends Component {
     }
     render() {
         return(
-            <div>Round</div>
+            <div id="sket-round-info">
+                <h3>1/10 라운드</h3>
+            </div>
         );
     }
 }

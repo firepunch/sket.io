@@ -1,9 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 
 const propTypes = {
+    divStyle: React.PropTypes.string
 };
 
 const defaultProps = {
+    divStyle: ''
 };
 
 class UserProfile extends Component {
@@ -11,8 +13,28 @@ class UserProfile extends Component {
         super(props);
     }
     render() {
+        const indexStyle = {
+            width: '20%',
+            height: '20%',
+            backgroundColor: 'skyblue',
+
+            float: 'left'
+        }
+
+        const gameStyle = {
+            width: '100%',
+            height: '50%',
+            float: 'none',
+            backgroundColor: 'lightgreen'
+        };
+
+        let divStyle = {};
+
+        if (this.props.divStyle === 'sket-player') divStyle = gameStyle;
+        else divStyle = indexStyle;
+
         return(
-            <div id="sket-profile">
+            <div className="sket-profile" style={divStyle}>
                 <div className="profile-image">
                     <img src={"../logo.svg"} alt="error"/>
                 </div>
