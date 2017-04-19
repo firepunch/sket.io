@@ -2,8 +2,11 @@
   <library name="json-20160810">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/json-20160810.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javax.json.jar!/" />
     </CLASSES>
-    <JAVADOC />
+    <JAVADOC>
+      <root url="http://tomcat.apache.org/download-taglibs.cgi" />
+    </JAVADOC>
     <SOURCES />
   </library>
 </component>

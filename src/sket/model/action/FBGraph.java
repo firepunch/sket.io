@@ -1,14 +1,18 @@
 package sket.model.action;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import javax.net.ssl.HttpsURLConnection;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FBGraph {
     private String accessToken;
@@ -20,19 +24,28 @@ public class FBGraph {
     public String getFBGraph() {
         String graph = null;
         try {
+            System.out.println(accessToken);
+            String g = "https://graph.facebook.com/me?access_token=" + accessToken;
+            URL url = new URL(g);
+            System.out.println("Attempting to open connection");
+            HttpsURLConnection conn = (HttpsURLConnection)url.openConnection();
+            if (conn.getResponseCode() != 200) {
+                System.out.println("Throwing IO Exception Successful on " + url.toString());
+                throw new IOException(conn.getResponseMessage());
+            }
+            //  conn.setRequestProperty("Accept-Charset","UTF-8");
+            System.out.println("Attempt Successful");
 
-            String g = "https://graph.facebook.com/me?" + accessToken;
-            URL u = new URL(g);
-            URLConnection c = u.openConnection();
-            BufferedReader in = new BufferedReader(new InputStreamReader(
-                    c.getInputStream()));
-            String inputLine;
-            StringBuffer b = new StringBuffer();
-            while ((inputLine = in.readLine()) != null)
-                b.append(inputLine + "\n");
-            in.close();
-            graph = b.toString();
-            System.out.println(graph);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(),"UTF-8"));
+            String json = reader.readLine();
+            JsonReader MyJsonReader = Json.createReader(reader);
+            JsonObject jsonObject = MyJsonReader.readObject();
+
+            MyJsonReader.close();
+            reader.close();
+
+            StringBuffer sb = new StringBuffer();
+            sb = sb.append(jsonObject.toString());
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("ERROR in getting FB graph data. " + e);

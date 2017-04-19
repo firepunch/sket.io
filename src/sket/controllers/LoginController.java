@@ -26,18 +26,23 @@ public class LoginController extends HttpServlet {
         if (act == null) {
             //no button has been selected
         } else if (act.equals("fb")) {
-            code = req.getParameter("code");
+            FBConnection fbConnection = new FBConnection();
+            code = fbConnection.getFBAuthUrl();
+            System.out.println(code);
+
             if (code == null || code.equals("")) {
                 throw new RuntimeException(
                         "ERROR: Didn't get code parameter in callback.");
             }
-            FBConnection fbConnection = new FBConnection();
-            String accessToken = fbConnection.getAccessToken(code);
 
-            FBGraph fbGraph = new FBGraph(accessToken);
-            String graph = fbGraph.getFBGraph();
-            Map<String, String> fbProfileData = fbGraph.getGraphData(graph);
+            String accessToken = fbConnection.getAccessToken(code);
+            System.out.println(accessToken);
+
+            FBGraph FBGraph = new FBGraph(accessToken);
+            String graph = FBGraph.getFBGraph();
+            Map<String, String> fbProfileData = FBGraph.getGraphData(graph);
             ServletOutputStream out = res.getOutputStream();
+
             out.println("<h1>Facebook Login using Java</h1>");
             out.println("<h2>Application Main Menu</h2>");
             out.println("<div>Welcome " + fbProfileData.get("first_name"));
