@@ -16,6 +16,7 @@ public class FBConnection {
 
     static String accessToken = "";
 
+    // 페북 로그인 페이지로 redirect해준다.
     public String getFBAuthUrl() {
         String fbLoginUrl = "";
         try {
@@ -28,7 +29,8 @@ public class FBConnection {
         return fbLoginUrl;
     }
 
-    public String getFBGraphUrl(String code) {
+    // 페북 토큰을 얻는다.
+    public String getFBTokenUrl(String code) {
         String fbGraphUrl = "";
         fbGraphUrl = "https://graph.facebook.com/oauth/access_token?client_id="
                 + FBConnection.FB_APP_ID + "&client_secret=" +
@@ -38,12 +40,12 @@ public class FBConnection {
 
     }
 
+    // accessToken을 사용가능하도록 정제한다.
     public String getAccessToken(String code) {
         if ("".equals(accessToken)) {
             URL fbGraphURL;
             try {
-                fbGraphURL = new URL(getFBGraphUrl(code));
-                System.out.println(fbGraphURL);
+                fbGraphURL = new URL(getFBTokenUrl(code));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 throw new RuntimeException("Invalid code received " + e);
@@ -57,21 +59,14 @@ public class FBConnection {
                         fbConnection.getInputStream()));
                 String inputLine;
                 inputLine = in.readLine();
-                System.out.print(inputLine);
                 String[] split1 = inputLine.split("\"");
                 splited = split1[3].toString();
                 in.close();
-                System.out.println(splited);
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new RuntimeException("Unable to connect with Facebook "
-                        + e);
+                throw new RuntimeException("Unable to connect with Facebook " + e);
             }
             accessToken = splited;
-/*            if (accessToken.startsWith("{")) {
-                throw new RuntimeException("ERROR: Access Token Invalid: "
-                        + accessToken);
-            }*/
         }
         return accessToken;
     }
