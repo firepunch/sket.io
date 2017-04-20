@@ -12,7 +12,7 @@ import java.net.URLEncoder;
 public class FBConnection {
     public static final String FB_APP_ID = "741189302727195";
     public static final String FB_APP_SECRET = "66b7c9302459527e06c2501cc69fb78b";
-    public static final String REDIRECT_URI = "http://localhost:8080/LoginController";
+    public static final String REDIRECT_URI = "http://localhost:8080/LoginController/";
 
     static String accessToken = "";
 
@@ -21,8 +21,7 @@ public class FBConnection {
         try {
             fbLoginUrl = "http://www.facebook.com/dialog/oauth?" + "client_id="
                     + FBConnection.FB_APP_ID + "&redirect_uri="
-                    + URLEncoder.encode(FBConnection.REDIRECT_URI, "UTF-8")
-                    + "&scope=email";
+                    + URLEncoder.encode(FBConnection.REDIRECT_URI, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -31,15 +30,12 @@ public class FBConnection {
 
     public String getFBGraphUrl(String code) {
         String fbGraphUrl = "";
-            fbGraphUrl = "https://graph.facebook.com/oauth/access_token?client_id="
-        +FBConnection.FB_APP_ID+"&client_secret="+
-                    FB_APP_SECRET+"&grant_type=client_credentials";
-/*
-        fbGraphUrl = "https://graph.facebook.com/oauth/access_token?"
-                    + "client_id=" + FBConnection.FB_APP_ID + "&redirect_uri="
-                    + URLEncoder.encode(FBConnection.REDIRECT_URI, "UTF-8")
-                    + "&client_secret=" + FB_APP_SECRET + "&code=" + code;*/
+        fbGraphUrl = "https://graph.facebook.com/oauth/access_token?client_id="
+                + FBConnection.FB_APP_ID + "&client_secret=" +
+                FB_APP_SECRET + "&grant_type=client_credentials";
+
         return fbGraphUrl;
+
     }
 
     public String getAccessToken(String code) {
@@ -53,31 +49,29 @@ public class FBConnection {
                 throw new RuntimeException("Invalid code received " + e);
             }
             URLConnection fbConnection;
-//            HttpsURLConnection conn = null;
-            StringBuffer b = null;
+            String splited = null;
             try {
                 fbConnection = fbGraphURL.openConnection();
                 BufferedReader in;
                 in = new BufferedReader(new InputStreamReader(
                         fbConnection.getInputStream()));
                 String inputLine;
-                b = new StringBuffer();
-                // {"access_token":"741189302727195|ePTqS1XCSFLop9Dn51R5ENghdmI","token_type":"bearer"}
-                // | 뒤의 access_token 만 b에 대입
-                while ((inputLine = in.readLine()) != null)
-                    b.append(inputLine + "\n");
+                inputLine = in.readLine();
+                System.out.print(inputLine);
+                String[] split1 = inputLine.split("\"");
+                splited = split1[3].toString();
                 in.close();
-                System.out.println("printout");
+                System.out.println(splited);
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException("Unable to connect with Facebook "
                         + e);
             }
-            accessToken = b.toString();
-            if (accessToken.startsWith("{")) {
+            accessToken = splited;
+/*            if (accessToken.startsWith("{")) {
                 throw new RuntimeException("ERROR: Access Token Invalid: "
                         + accessToken);
-            }
+            }*/
         }
         return accessToken;
     }

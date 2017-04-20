@@ -1,7 +1,6 @@
 package sket.controllers;
 
 import org.json.JSONObject;
-import sket.model.data.Player;
 import sket.model.data.Room;
 
 import javax.servlet.http.HttpServlet;

@@ -45,8 +45,7 @@ public class LoginController extends HttpServlet {
 
             out.println("<h1>Facebook Login using Java</h1>");
             out.println("<h2>Application Main Menu</h2>");
-            out.println("<div>Welcome " + fbProfileData.get("first_name"));
-            out.println("<div>Your Email: " + fbProfileData.get("email"));
+            out.println("<div>Welcome " + fbProfileData.get("id"));
             out.println("<div>Your Token: " + accessToken);
         } else if (act.equals("google")) {
             System.out.println("google");
