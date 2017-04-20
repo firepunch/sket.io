@@ -14,7 +14,7 @@ public class PlayerController extends HttpServlet {
         super();
     }
 
-    public static void gameReady(int roomId, boolean isReady, Session session) throws IOException {
+    public static String gameReady(int roomId, boolean isReady, Session session) throws IOException {
         Room room = RoomController.findRoomById(roomId);
 
         if (room != null) {
@@ -22,13 +22,17 @@ public class PlayerController extends HttpServlet {
             player.setReady(isReady);
             String readyJSON = Player.readyToPlayerJSON(player);
 
+            /*
             session.getBasicRemote().sendText(readyJSON);
 
             String readyAllJSON = checkReadyAllPlayer(room);
             if (readyAllJSON != null){
                 session.getBasicRemote().sendText(readyAllJSON);
             }
+            */
+            return readyJSON;
         }
+        return null;
     }
 
     public static String checkReadyAllPlayer(Room room) {

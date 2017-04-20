@@ -21,6 +21,7 @@ public class Player {
         this.id = id;
         this.roomMaster = roomMaster;
         this.session = session;
+        playerArrayList.add(this);
     }
 
     public void setExaminer(boolean isExaminer){
@@ -35,16 +36,6 @@ public class Player {
         this.playerScore = score;
     }
 
-    public void minusPlayerScore(int minusScore) {
-        if (playerScore == 0) {
-            this.playerScore = 0;
-        } else if (playerScore < minusScore) {
-            this.playerScore = 0;
-        } else {
-            this.playerScore -= minusScore;
-        }
-    }
-
     public long getPlayerScore() {
         return this.playerScore;
     }
@@ -55,10 +46,6 @@ public class Player {
 
     public void setReady(boolean ready) {
         this.isReady = ready;
-    }
-
-    public static void addPlayerToList(Player player) {
-        playerArrayList.add(player);
     }
 
     public void setRoomMaster(boolean roomMaster) {

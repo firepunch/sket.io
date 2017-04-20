@@ -19,6 +19,7 @@ public class WebSocket extends HttpServlet {
 
     // session 저장하는 ArrayList
     private static ArrayList<Session> sessionList = new ArrayList<>();
+    private Room targetRoom;
 
     @OnOpen
     public void onOpen(Session session) throws IOException {
@@ -38,29 +39,40 @@ public class WebSocket extends HttpServlet {
         switch (jsonObject.getString("type")) {
 
             case "createRoom":
-                Room createRoom = RoomController.createRoom(jsonObject.getString("name"), jsonObject.getBoolean("lock"),
+                targetRoom = RoomController.createRoom(jsonObject.getString("name"), jsonObject.getBoolean("lock"),
                         jsonObject.getString("password"), session);
-                session.getBasicRemote().sendText(createRoom.getRoomInfoToJSON().put("type", "roomInfo").toString());
+                session.getBasicRemote().sendText(targetRoom.getRoomInfoToJSON().put("type", "roomInfo").toString());
                 break;
 
             case "enterRoom":
-                Room enterRoom = RoomController.enterRoom(jsonObject.getInt("roomId"), session);
+                targetRoom = RoomController.enterRoom(jsonObject.getInt("roomId"), session);
 
-                if (enterRoom != null) {
-                    ArrayList<Session> roomMembers = enterRoom.getPlayerSession();
+                if (targetRoom != null) {
+                    ArrayList<Session> roomMembers = targetRoom.getPlayerSession();
                     for (Session member : roomMembers) {
-                        member.getBasicRemote().sendText(enterRoom.getRoomInfoToJSON().put("type", "roomInfo").toString());
+                        member.getBasicRemote().sendText(targetRoom.getRoomInfoToJSON().put("type", "roomInfo").toString());
                     }
                 }
                 break;
 
             case "isReady":
                 // 준비 할 때마다 방 전체 인원이 레디 했는지 검사해서 모두 준비를 한 상태면 게임 시작 JSON 을 보낸다.
-                PlayerController.gameReady(jsonObject.getInt("roomId"), jsonObject.getBoolean("isReady"), session);
+                targetRoom = RoomController.findRoomById(jsonObject.getInt("roomId"));
+
+                String readyJSON = PlayerController.gameReady(jsonObject.getInt("roomId"), jsonObject.getBoolean("isReady"), session);
+                for (Session player : targetRoom.getPlayerSession()) {
+                    player.getBasicRemote().sendText(readyJSON);
+                }
+
+                String readyAllJSON = PlayerController.checkReadyAllPlayer(targetRoom);
+
+                if (readyAllJSON != null) {
+                    targetRoom.getRoomMaster().getSession().getBasicRemote().sendText(readyAllJSON);
+                }
                 break;
 
             case "correctAnswer":
-                Room targetRoom = RoomController.findRoomById(jsonObject.getInt("roomId"));
+                targetRoom = RoomController.findRoomById(jsonObject.getInt("roomId"));
 
                 if (targetRoom != null) {
                     ArrayList<Session> roomMembers = targetRoom.getPlayerSession();
@@ -70,8 +82,6 @@ public class WebSocket extends HttpServlet {
                     }
                 }
                 break;
-
-
         }
     }
 

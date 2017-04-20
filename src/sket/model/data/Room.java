@@ -148,7 +148,7 @@ public class Room {
 
     public ArrayList<Session> getPlayerSession() {
         ArrayList<Session> sessionArrayList = new ArrayList<>();
-        for (Player player : getRoomIntoPlayer()){
+        for (Player player : getRoomIntoPlayer()) {
             sessionArrayList.add(player.getSession());
         }
         return sessionArrayList;
