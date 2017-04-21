@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Guest {
 
     public static ArrayList<Guest> guestList = new ArrayList<>();
-    public static int countId = 100;
+    public static int countId = 0;
 
     private int tempId;
     private final int MIN_ARANGE = 100;

@@ -14,7 +14,7 @@ public class PlayerController extends HttpServlet {
         super();
     }
 
-    public static String gameReady(int roomId, boolean isReady, Session session) throws IOException {
+    public static String gameReadyToJSON(int roomId, boolean isReady, Session session) throws IOException {
         Room room = RoomController.findRoomById(roomId);
 
         if (room != null) {

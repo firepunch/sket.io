@@ -220,3 +220,10 @@ send show rank
         }, ... 총 11개
     ]
 }
+
+send random examiner
+{
+    "type" : "randomExaminer",
+    "id" : "(유저 아이디)",
+    "roomId" : 2
+}
