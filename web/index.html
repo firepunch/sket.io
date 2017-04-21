@@ -19,7 +19,6 @@
                 <button class="loginBtn loginBtn-facebook" name="loginBtn" value="fb">
                     Login with Facebook
                 </button>
-
                 <button class="loginBtn loginBtn-google" name="loginBtn" value="google">
                     Login with Google
                 </button>
@@ -51,7 +50,10 @@
     </div>
 
     <div id="connection-list">
-        <h3>접속자 목록</h3>
+        <form action="QuizController" method="post">
+            <button name="makeBtn" value="parseQuiz">문제생성</button>
+            <h3>접속자 목록</h3>
+        </form>
         <ul>
             <li>빨개요</li>
             <li>권장호바보</li>

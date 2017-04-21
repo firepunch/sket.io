@@ -2,7 +2,6 @@ package sket.controllers;
 
 import sket.model.data.Player;
 import sket.model.data.Room;
-import sket.model.data.User;
 
 import javax.websocket.Session;
 
