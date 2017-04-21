@@ -1,6 +1,10 @@
-package sket.controllers;
+package sket;
 
 import org.json.JSONObject;
+import sket.controllers.GameController;
+import sket.controllers.PlayerController;
+import sket.controllers.QuizController;
+import sket.controllers.RoomController;
 import sket.model.data.Room;
 
 import javax.servlet.http.HttpServlet;
@@ -97,7 +101,6 @@ public class WebSocket extends HttpServlet {
                     }
                 }
         }
-
     }
 
     @OnClose
