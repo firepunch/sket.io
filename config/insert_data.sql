@@ -99,4 +99,18 @@ insert into user (id, pw, nick, level, totalexp, curexp) values ('jalexander2p',
 insert into user (id, pw, nick, level, totalexp, curexp) values ('igonzales2q', 'v4sGlPz0', 'Khaki', 6, 3600, 32);
 insert into user (id, pw, nick, level, totalexp, curexp) values ('swillis2r', 'BtF6UbT85e8', 'Puce', 14, 8400, 73);
 
+
+INSERT INTO quiz (category, name) VALUES ('과일', '감');
+INSERT INTO quiz (category, name) VALUES ('과일', '복숭아');
+INSERT INTO quiz (category, name) VALUES ('과일', '바나나');
+INSERT INTO quiz (category, name) VALUES ('과일', '배');
+INSERT INTO quiz (category, name) VALUES ('과일', '사과');
+INSERT INTO quiz (category, name) VALUES ('과일', '수박');
+INSERT INTO quiz (category, name) VALUES ('과일', '오렌지');
+INSERT INTO quiz (category, name) VALUES ('과일', '참외');
+INSERT INTO quiz (category, name) VALUES ('과일', '포도');
+INSERT INTO quiz (category, name) VALUES ('과일', '레몬');
+INSERT INTO quiz (category, name) VALUES ('과일', '밤');
+INSERT INTO quiz (category, name) VALUES ('과일', '호두');
+
 // 300(1.5^level-1)/1.5-1
