@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by KwonJH on 2017-04-13.
  */
 public class Player {
-    private static ArrayList<Player> playerArrayList = new ArrayList<>();
+    public static ArrayList<Player> playerArrayList = new ArrayList<>();
     private String id;
     private boolean roomMaster = false;
     private boolean examiner = false;
@@ -68,38 +68,4 @@ public class Player {
         return Player.playerArrayList;
     }
 
-    public static Player getEqualPlayerId(String id) {
-        for (Player tmp : Player.playerArrayList) {
-            if (tmp.getId().equals(id)) {
-                return tmp;
-            }
-        }
-        return null;
-    }
-
-    public static Player getEqualPlayer(Player player) {
-        for (Player tmp : Player.playerArrayList) {
-            if (tmp.getSession().equals(player.getSession())) {
-                return tmp;
-            }
-        }
-        return null;
-    }
-
-    public static Player getPlayerEqualSession(Session session) {
-        for (Player tmp : Player.playerArrayList) {
-            if (tmp.getSession().equals(session)) {
-                return tmp;
-            }
-        }
-        return null;
-    }
-
-    public static String readyToPlayerJSON(Player player) {
-        JSONObject message = new JSONObject();
-        message.put("type", "playerReady");
-        message.put("id", player.getId());
-        message.put("ready", player.isReady());
-        return message.toString();
-    }
 }

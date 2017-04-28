@@ -5,6 +5,7 @@ import sket.controllers.GameController;
 import sket.controllers.PlayerController;
 import sket.controllers.QuizController;
 import sket.controllers.RoomController;
+import sket.model.action.RoomAction;
 import sket.model.data.Room;
 
 import javax.servlet.http.HttpServlet;
@@ -22,7 +23,8 @@ public class WebSocket extends HttpServlet {
 
     // session 저장하는 ArrayList
     private static ArrayList<Session> sessionList = new ArrayList<>();
-    private Room targetRoom;
+    private Room targetRoom = null;
+    private RoomAction roomAction = null;
 
     @OnOpen
     public void onOpen(Session session) throws IOException {
@@ -30,7 +32,7 @@ public class WebSocket extends HttpServlet {
         sessionList.add(session);
 
         // session 에 룸 리스트 보냄
-        session.getBasicRemote().sendText(Room.getRoomListAsJSON());
+        session.getBasicRemote().sendText(RoomController.getRoomListAsJSON());
     }
 
     @OnMessage
@@ -45,17 +47,18 @@ public class WebSocket extends HttpServlet {
             case "createRoom":
                 targetRoom = RoomController.createRoom(jsonObject.getString("name"), jsonObject.getBoolean("lock"),
                         jsonObject.getString("password"), session);
-                session.getBasicRemote().sendText(targetRoom.getRoomInfoToJSON().put("type", "roomInfo").toString());
+                session.getBasicRemote().sendText(RoomController.getRoomInfoToJSON(targetRoom).put("type", "roomInfo").toString());
                 break;
 
                 /* 방 입장할 때 보내는 JSON */
             case "enterRoom":
-                targetRoom = RoomController.enterRoom(jsonObject.getInt("roomId"), session);
+                targetRoom = RoomAction.enterRoom(jsonObject.getInt("roomId"), session);
+                roomAction = new RoomAction(targetRoom);
 
                 if (targetRoom != null) {
-                    ArrayList<Session> roomMembers = targetRoom.getPlayerSession();
+                    ArrayList<Session> roomMembers = roomAction.getPlayerSession();
                     for (Session member : roomMembers) {
-                        member.getBasicRemote().sendText(targetRoom.getRoomInfoToJSON().put("type", "roomInfo").toString());
+                        member.getBasicRemote().sendText(RoomController.getRoomInfoToJSON(targetRoom).put("type", "roomInfo").toString());
                     }
                 }
                 break;
@@ -63,10 +66,11 @@ public class WebSocket extends HttpServlet {
                 /* 준비 했을 때 보내는 JSON */
             case "isReady":
                 // 준비 할 때마다 방 전체 인원이 레디 했는지 검사해서 모두 준비를 한 상태면 게임 시작 JSON 을 보낸다.
-                targetRoom = RoomController.findRoomById(jsonObject.getInt("roomId"));
+                targetRoom = RoomAction.findRoomById(jsonObject.getInt("roomId"));
+                roomAction = new RoomAction(targetRoom);
 
                 String readyJSON = PlayerController.gameReadyToJSON(jsonObject.getInt("roomId"), jsonObject.getBoolean("isReady"), session);
-                for (Session player : targetRoom.getPlayerSession()) {
+                for (Session player : roomAction.getPlayerSession()) {
                     player.getBasicRemote().sendText(readyJSON);
                 }
 
@@ -79,10 +83,11 @@ public class WebSocket extends HttpServlet {
 
                 /* 정답 맞췄을 시에 보내는 JSON */
             case "correctAnswer":
-                targetRoom = RoomController.findRoomById(jsonObject.getInt("roomId"));
+                targetRoom = RoomAction.findRoomById(jsonObject.getInt("roomId"));
+                roomAction = new RoomAction(targetRoom);
 
                 if (targetRoom != null) {
-                    ArrayList<Session> roomMembers = targetRoom.getPlayerSession();
+                    ArrayList<Session> roomMembers = roomAction.getPlayerSession();
                     for (Session member : roomMembers) {
                         member.getBasicRemote().sendText(QuizController.correctAnswer(jsonObject.getString("correcterId"),
                                 jsonObject.getString("examinerId"), jsonObject.getInt("score")));
@@ -92,10 +97,11 @@ public class WebSocket extends HttpServlet {
 
                 /* 출제자 랜덤 JSON */
             case "randomExaminer":
-                targetRoom = RoomController.findRoomById(jsonObject.getInt("roomId"));
+                targetRoom = RoomAction.findRoomById(jsonObject.getInt("roomId"));
+                roomAction = new RoomAction(targetRoom);
 
                 if (targetRoom != null) {
-                    ArrayList<Session> roomMembers = targetRoom.getPlayerSession();
+                    ArrayList<Session> roomMembers = roomAction.getPlayerSession();
                     for (Session member : roomMembers) {
                         member.getBasicRemote().sendText(GameController.randomExaminerToJSON(jsonObject.getString("id"), targetRoom.getRoomId()));
                     }
