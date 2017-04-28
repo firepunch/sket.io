@@ -13,8 +13,8 @@ class Timer extends Component {
     render() {
         return(
             <div id="time-progress-bar">
-                <div class="progressbar progressbar-blue">
-                    <div class="progressbar-inner"></div>
+                <div className="progressbar progressbar-blue">
+                    <div className="progressbar-inner"></div>
                 </div>
             </div>
         );

@@ -20,7 +20,7 @@ class FuncButton extends Component {
     render() {
         const createRoom = (
             <div>
-                <div class="sket-button" id="craete-room">
+                <div className="sket-button" id="craete-room">
                     <IndexModal
                         modalName="방 생성"/>
                 </div>
@@ -29,10 +29,10 @@ class FuncButton extends Component {
 
         const quickStart = (
             <div>
-                <div class="sket-button" id="quick-start">
+                <div className="sket-button" id="quick-start">
                     <button>빠른 시작</button>
                 </div>
-                <div class="sket-button" id="ranking">
+                <div className="sket-button" id="ranking">
                     <button>랭킹</button>
                 </div>
             </div>

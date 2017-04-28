@@ -4,6 +4,8 @@ import UserArea from '../components/Game/UserArea';
 import GameArea from '../components/Game/GameArea';
 import SystemArea from '../components/Game/SystemArea';
 
+import { connect } from 'react-redux';
+import * as actions from '../actions';
 
 const propTypes = {
 };
@@ -15,14 +17,21 @@ class GameContent extends Component {
     constructor(props) {
         super(props);
     }
+
     render() {
         return(
             <div className="game-content">
                 <UserArea
-                    direction="left-side"/>
+                    direction="left-side"
+                    isReady={this.props.isReady}
+                    getReady={this.props.handleGetReady}
+                />
                 <GameArea/>
                 <UserArea
-                    direction="right-side"/>
+                    direction="right-side"
+                    isReady={this.props.isReady}
+                    getReady={this.props.handleGetReady}
+                />
             </div>
         );
     }
@@ -31,4 +40,25 @@ class GameContent extends Component {
 GameContent.propTypes = propTypes;
 GameContent.defaultProps = defaultProps;
 
-export default GameContent;
+// 여기서의 state 는 컴포넌트에서 사용하는 state와 다름
+// redux의 state임
+const mapStateToProps = (state) => {
+    return {
+        isReady: state.game.isReady
+        // number: state.counter.number,
+        // color: state.ui.color
+    };
+}
+
+// action을 dispatch하는 함수를 props에 연결
+const mapDispatchToProps = (dispatch) => {
+    // return bindActionCreators(actions, dispatch);
+    return {
+        handleGetReady: () => { dispatch(actions.getReady()) }
+        // handleIncrement: () => { dispatch(actions.increment()) },
+        // handleDecrement: () => { dispatch(actions.decrement()) },
+        // handleSetColor: (color) => { dispatch(actions.setColor(color)) }
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(GameContent);

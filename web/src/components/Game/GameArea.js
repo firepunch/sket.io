@@ -17,7 +17,7 @@ class GameArea extends Component {
     }
     render() {
         return(
-            <div class="stage" id="game-area">
+            <div className="stage" id="game-area">
                 <Round/>
                 <Quiz/>
                 <Timer/>

@@ -1,21 +1,44 @@
 import * as types from './ActionTypes';
 
 
-export function google_login() {
+/* INDEX */
+
+// login
+export function googleLogin() {
     return {
         type: types.INCREMENT
     }
 }
 
-export function facebook_login() {
+export function facebookLogin() {
     return {
         type: types.DECREMENT
     }
 }
 
-export function create_room() {
+// function
+export function createRoom() {
     return {
         type: types.CREATE_ROOM
+    }
+}
+
+
+
+/* GAME */
+
+export function getReady() {
+    return {
+        type: types.GET_READY,
+        // isReady     // boolean
+    }
+}
+
+
+/* TEST */
+export function switch_index() {
+    return {
+        type: types.SWITCH_INDEX
     }
 }
 
