@@ -15,6 +15,7 @@ import java.util.List;
  * 원하는 파일의 경로, 카테고리, 75라인의 DB ID,PW
  * Created by firepunch on 2017-05-01.
  */
+
 public class MakeQuiz {
     String dir = "C:\\Temp\\quizData\\test.txt";
     String startWord = "#00 표제어 시작"; // 검색 시작 단어
@@ -42,7 +43,6 @@ public class MakeQuiz {
         try {
             while ((line = bufferedReader.readLine()) != null) {
                 stringBuffer.append(line);
-//                stringBuffer.append("\n");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -58,8 +58,12 @@ public class MakeQuiz {
         for (int start = -1; (start = sb.indexOf(startWord, start + 1) + 10) != 9; ) {
             int end = sb.indexOf(endWord, start + 1);
             String extractWord = sb.substring(start, end);
+            // 3이라면 접미사이므로 제외
+            if(extractWord.matches(".*3.*")) {
+                System.out.print(extractWord);
+                ++start;
+            }
             extractWord = extractWord.replaceAll("[0-9]", "");
-            // 3이라면 접미사이므로 제거해야 함
             wordList.add(extractWord);
         }
 
@@ -91,7 +95,6 @@ public class MakeQuiz {
             while (itr.hasNext()) {
                 Object element = itr.next();
                 String sql = "INSERT INTO quiz (category, name) VALUES ('" + category + "','" + element + "');";
-                System.out.println(sql);
                 st.executeUpdate(sql);
             }
         } catch (SQLException e) {
