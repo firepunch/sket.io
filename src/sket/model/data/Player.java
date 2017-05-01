@@ -1,7 +1,5 @@
 package sket.model.data;
 
-import org.json.JSONObject;
-
 import javax.websocket.Session;
 import java.util.ArrayList;
 
@@ -67,5 +65,6 @@ public class Player {
     public static ArrayList<Player> getPlayerList() {
         return Player.playerArrayList;
     }
+
 
 }
