@@ -2,6 +2,7 @@ package sket.controllers;
 
 import org.json.JSONObject;
 import sket.model.action.ParseQuiz;
+import sket.model.action.PlayerAction;
 import sket.model.data.Player;
 
 import javax.servlet.ServletException;
@@ -29,8 +30,8 @@ public class QuizController extends HttpServlet {
     }
 
     public static String correctAnswer(String correctId, String examinerId, int playerScore) {
-        Player targetPlayer = Player.getEqualPlayerId(correctId);
-        Player examinerPlayer = Player.getEqualPlayerId(examinerId);
+        Player targetPlayer = PlayerAction.getEqualPlayerId(correctId);
+        Player examinerPlayer = PlayerAction.getEqualPlayerId(examinerId);
 
         targetPlayer.setPlayerScore(playerScore);
         String message = correctAnswerByJSON(targetPlayer, examinerPlayer, playerScore);
