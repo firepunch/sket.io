@@ -1,5 +1,5 @@
-create database sketch;
-use sketch;
+create database sketio;
+use sketio;
 
 create table user (
 id varchar(10) not null,
