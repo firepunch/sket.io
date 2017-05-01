@@ -59,12 +59,10 @@ public class MakeQuiz {
             int end = sb.indexOf(endWord, start + 1);
             String extractWord = sb.substring(start, end);
             // 3이라면 접미사이므로 제외
-            if(extractWord.matches(".*3.*")) {
-                System.out.print(extractWord);
-                ++start;
+            if(!extractWord.matches(".*3.*")) {
+                extractWord = extractWord.replaceAll("[0-9]", "");
+                wordList.add(extractWord);
             }
-            extractWord = extractWord.replaceAll("[0-9]", "");
-            wordList.add(extractWord);
         }
 
         return wordList;
