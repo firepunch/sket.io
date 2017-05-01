@@ -1,6 +1,8 @@
 package sket.controllers;
 
 import org.json.JSONObject;
+import sket.model.action.PlayerAction;
+import sket.model.action.RoomAction;
 import sket.model.data.Player;
 import sket.model.data.Room;
 
@@ -15,28 +17,20 @@ public class PlayerController extends HttpServlet {
     }
 
     public static String gameReadyToJSON(int roomId, boolean isReady, Session session) throws IOException {
-        Room room = RoomController.findRoomById(roomId);
+        Room room = RoomAction.findRoomById(roomId);
 
         if (room != null) {
-            Player player = Player.getPlayerEqualSession(session);
+            Player player = PlayerAction.getPlayerEqualSession(session);
             player.setReady(isReady);
-            String readyJSON = Player.readyToPlayerJSON(player);
+            String readyJSON = readyToPlayerJSON(player);
 
-            /*
-            session.getBasicRemote().sendText(readyJSON);
-
-            String readyAllJSON = checkReadyAllPlayer(room);
-            if (readyAllJSON != null){
-                session.getBasicRemote().sendText(readyAllJSON);
-            }
-            */
             return readyJSON;
         }
         return null;
     }
 
     public static String checkReadyAllPlayer(Room room) {
-        ArrayList<Player> playerArrayList = room.getRoomIntoPlayer();
+        ArrayList<Player> playerArrayList = room.getRoomIntoPlayer(room);
         int countTotalUser = room.getTotalUserNumber();
         int tempCount = 0;
 
@@ -57,6 +51,14 @@ public class PlayerController extends HttpServlet {
         message.put("type", "readyAllPlayer");
         message.put("roomId", room.getRoomId());
         message.put("ready", true);
+        return message.toString();
+    }
+
+    public static String readyToPlayerJSON(Player player) {
+        JSONObject message = new JSONObject();
+        message.put("type", "playerReady");
+        message.put("id", player.getId());
+        message.put("ready", player.isReady());
         return message.toString();
     }
 }
