@@ -1,0 +1,94 @@
+package sket.db;
+
+import java.sql.*;
+import java.util.Iterator;
+import java.util.List;
+
+/**
+ * DB ID/PW 설정하기
+ * Created by ymr on 2017-05-02.
+ */
+public class DBConnection {
+    private String url = "jdbc:mysql://localhost:3307/sketio?characterEncoding=euckr";
+    private Connection conn = null;
+    private static Statement statement;
+    private static ResultSet resultSet;
+
+    public DBConnection() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection(url, "root", "password");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+            throw new RuntimeException("Failed connect DriverManager " + e);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            statement = conn.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed insert data " + e);
+        }
+    }
+
+    public void InsertQuiz(String category, List<String> wordList) {
+        // 새로운 문제 삽입
+        Iterator itr = wordList.iterator();
+
+        while (itr.hasNext()) {
+            Object element = itr.next();
+            String sql = "INSERT INTO quiz (category, name) VALUES ('" + category + "','" + element + "');";
+            try {
+                statement.executeUpdate(sql);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Failed insert data " + e);
+            }
+        }
+        DBClose();
+    }
+
+    public String SelectQuiz() {
+        // 문제 조회
+        String sql = "SELECT name FROM quiz ORDER BY RAND() LIMIT 1;";
+        String quiz = null;
+        try {
+            resultSet = statement.executeQuery(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed insert data " + e);
+        }
+        try {
+            if(resultSet.next()){
+                quiz = resultSet.getString("name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        DBClose();
+        return quiz;
+    }
+
+    private void DBClose() {
+        try {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+
+            if (statement != null) {
+                statement.close();
+            }
+
+            if (conn != null) {
+                conn.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed closing DB connection " + e);
+        }
+    }
+}
