@@ -1,8 +1,10 @@
 package sket.controllers;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import sket.model.action.PlayerAction;
 import sket.model.data.Player;
 import sket.model.data.Room;
-import sket.model.data.User;
 
 import javax.websocket.Session;
 
@@ -16,29 +18,47 @@ public class RoomController {
     public static Room createRoom(String name, boolean islock, String pwd, Session session) {
 
         // 방 생성 코드. Room 생성자 안에 roomList 에 방 추가하는 코드 작성되있음.
-        Room room = new Room(name, Player.getPlayerEqualSession(session), Room.getCountRoomId(), islock, pwd);
+        Room room = new Room(name, PlayerAction.getPlayerEqualSession(session), Room.getCountRoomId(), islock, pwd);
         return room;
     }
 
-    /* 유저가 방 입장하는 것을 처리하는 메소드 */
-    public static Room enterRoom(int roomId, Session session) {
-        Room enter = RoomController.findRoomById(roomId);
+    /* 방 정보 json 으로 반환하는 메소드 */
+    public static JSONObject getRoomInfoToJSON(Room targetRoom) {
+        JSONObject object = new JSONObject();
+        object.put("roomId", targetRoom.getRoomId());
+        object.put("name", targetRoom.getRoomName());
+        object.put("lock", targetRoom.isLocked());
+        object.put("password", targetRoom.getRoomPwd());
+        object.put("playerNumber", targetRoom.getTotalUserNumber());
+        object.put("roomMaster", targetRoom.getRoomId());
+        JSONArray jsonArray = new JSONArray();
 
-        if (enter != null) {
-            enter.addPlayer(Player.getPlayerEqualSession(session));
-            return enter;
+        for (Player player : Room.getRoomIntoPlayer(targetRoom)) {
+            JSONObject temp = new JSONObject();
+            temp.put("id", player.getId());
+            jsonArray.put(temp);
         }
-
-        return null;
+        object.put("playerList", jsonArray);
+        return object;
     }
 
-    /* 인자로 들어온 roomId 를 이용해 Room 객체를 찾아 반환해주는 메소드 */
-    public static Room findRoomById(int roomId) {
+    /* 방 목록을 json 으로 보내는 메소드 */
+    public static String getRoomListAsJSON() {
+        JSONObject message = new JSONObject();
+        message.put("type", "roomList");
+        JSONArray jsonArray = new JSONArray();
+
         for (Room room : Room.getRoomList()) {
-            if (room.getRoomId() == roomId) {
-                return room;
-            }
+            JSONObject object = new JSONObject();
+            object.put("roomId", room.getRoomId());
+            object.put("name", room.getRoomName());
+            object.put("lock", room.isLocked());
+            object.put("password", room.getRoomPwd());
+            object.put("playerNumber", room.getTotalUserNumber());
+
+            jsonArray.put(object);
         }
-        return null;
+        message.put("roomList", jsonArray);
+        return message.toString();
     }
 }

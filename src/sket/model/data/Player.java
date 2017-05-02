@@ -1,7 +1,5 @@
 package sket.model.data;
 
-import org.json.JSONObject;
-
 import javax.websocket.Session;
 import java.util.ArrayList;
 
@@ -9,18 +7,36 @@ import java.util.ArrayList;
  * Created by KwonJH on 2017-04-13.
  */
 public class Player {
-    private static ArrayList<Player> playerArrayList = new ArrayList<>();
+    public static ArrayList<Player> playerArrayList = new ArrayList<>();
     private String id;
-    private boolean roomMaster;
+    private boolean roomMaster = false;
+    private boolean examiner = false;
     private Session session;
     private boolean isReady = false;
+    private int playerScore = 0;
 
     public Player(String id, boolean roomMaster, Session session) {
         this.id = id;
         this.roomMaster = roomMaster;
         this.session = session;
+        playerArrayList.add(this);
     }
 
+    public void setExaminer(boolean isExaminer){
+        this.examiner = isExaminer;
+    }
+
+    public boolean isExaminer(){
+        return this.examiner;
+    }
+
+    public void setPlayerScore(int score) {
+        this.playerScore = score;
+    }
+
+    public long getPlayerScore() {
+        return this.playerScore;
+    }
 
     public boolean isReady() {
         return this.isReady;
@@ -30,20 +46,16 @@ public class Player {
         this.isReady = ready;
     }
 
-    public static void addPlayerToList(Player player) {
-        playerArrayList.add(player);
-    }
-
     public void setRoomMaster(boolean roomMaster) {
         this.roomMaster = roomMaster;
     }
 
-    public String getId() {
-        return this.id;
-    }
-
     public boolean isRoomMaster() {
         return this.roomMaster;
+    }
+
+    public String getId() {
+        return this.id;
     }
 
     public Session getSession() {
@@ -54,29 +66,5 @@ public class Player {
         return Player.playerArrayList;
     }
 
-    public static Player getEqualPlayer(Player player) {
-        for (Player tmp : Player.getPlayerList()) {
-            if (tmp.getSession().equals(player.getSession())) {
-                return tmp;
-            }
-        }
-        return null;
-    }
 
-    public static Player getPlayerEqualSession(Session session) {
-        for (Player tmp : Player.getPlayerList()) {
-            if (tmp.getSession().equals(session)) {
-                return tmp;
-            }
-        }
-        return null;
-    }
-
-    public static String readyToPlayerJSON(Player player) {
-        JSONObject message = new JSONObject();
-        message.put("type", "playerReady");
-        message.put("id", player.getId());
-        message.put("ready", player.isReady());
-        return message.toString();
-    }
 }

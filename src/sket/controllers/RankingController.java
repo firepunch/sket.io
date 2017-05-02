@@ -6,4 +6,6 @@ public class RankingController extends HttpServlet {
     public RankingController() {
         super();
     }
+
+
 }
