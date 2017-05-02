@@ -5,7 +5,9 @@ import sket.controllers.GameController;
 import sket.controllers.PlayerController;
 import sket.controllers.QuizController;
 import sket.controllers.RoomController;
+import sket.model.action.PlayerAction;
 import sket.model.action.RoomAction;
+import sket.model.data.Player;
 import sket.model.data.Room;
 
 import javax.servlet.http.HttpServlet;
@@ -106,6 +108,18 @@ public class WebSocket extends HttpServlet {
                         member.getBasicRemote().sendText(GameController.randomExaminerToJSON(jsonObject.getString("id"), targetRoom.getRoomId()));
                     }
                 }
+                break;
+
+                /* 출제자에게 퀴즈 보내기 */
+            case "randomQuiz":
+                targetRoom = RoomAction.findRoomById(jsonObject.getInt("roomId"));
+                roomAction = new RoomAction(targetRoom);
+
+                if (targetRoom != null) {
+                    Player targetPlayer = PlayerAction.getEqualPlayerId(jsonObject.getString("id"));
+                    targetPlayer.getSession().getBasicRemote().sendText(QuizController.sendQuizByJSON());
+                }
+                break;
         }
     }
 

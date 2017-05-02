@@ -65,7 +65,15 @@ send correct answer
     "score" : "(정답자 점수)",
 }
 
+send random quiz
+{
+    "type" : "randomQuiz",
+    "roomId" : 2
+    "id" : "~~"
+}
+
 ================ Server to Client ====================
+
 send create room
 {
     "type" : "createRoom",
@@ -226,4 +234,10 @@ send random examiner
     "type" : "randomExaminer",
     "id" : "(유저 아이디)",
     "roomId" : 2
+}
+
+send random quiz
+{
+    "type" : "randomQuiz",
+    "quiz" : "~~~~"
 }

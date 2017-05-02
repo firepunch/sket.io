@@ -22,6 +22,7 @@ public class RoomController {
         return room;
     }
 
+    /* 방 정보 json 으로 반환하는 메소드 */
     public static JSONObject getRoomInfoToJSON(Room targetRoom) {
         JSONObject object = new JSONObject();
         object.put("roomId", targetRoom.getRoomId());
@@ -41,6 +42,7 @@ public class RoomController {
         return object;
     }
 
+    /* 방 목록을 json 으로 보내는 메소드 */
     public static String getRoomListAsJSON() {
         JSONObject message = new JSONObject();
         message.put("type", "roomList");
