@@ -4,9 +4,8 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
         version="3.1">
-
-
-<display-name>Apache-Axis</display-name>
+    
+    <display-name>Apache-Axis</display-name>
     <servlet>
         <display-name>Apache-Axis Servlet</display-name>
         <servlet-name>AxisServlet</servlet-name>
@@ -52,7 +51,7 @@
         <extension>wsdl</extension>
         <mime-type>text/xml</mime-type>
     </mime-mapping>
-             <servlet>
+    <servlet>
         <display-name>LoginController</display-name>
         <servlet-name>LoginController</servlet-name>
         <servlet-class>sket.controllers.LoginController</servlet-class>

@@ -11,7 +11,6 @@ import sket.model.action.RoomAction;
 import sket.model.data.Player;
 import sket.model.data.Room;
 
-import javax.servlet.http.HttpServlet;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
@@ -22,7 +21,7 @@ import java.util.ArrayList;
  */
 
 @ServerEndpoint("/websocket")
-public class WebSocket extends HttpServlet {
+public class WebSocket {
 
     // session 저장하는 ArrayList
     private static ArrayList<Session> sessionList = new ArrayList<>();
@@ -31,7 +30,7 @@ public class WebSocket extends HttpServlet {
 
     @OnOpen
     public void onOpen(Session session) throws IOException {
-        System.out.println("onOpen()");
+        System.out.println(session);
         sessionList.add(session);
 
         // session 에 룸 리스트 보냄
