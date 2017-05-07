@@ -37,8 +37,8 @@ public class DBConnection {
         }
     }
 
+    /* 새로운 문제 삽입 */
     public void InsertQuiz(String category, List<String> wordList) {
-        // 새로운 문제 삽입
         Iterator itr = wordList.iterator();
 
         while (itr.hasNext()) {
@@ -54,8 +54,8 @@ public class DBConnection {
         DBClose();
     }
 
+    /* 한 문제 랜덤으로 선택 */
     public String SelectQuiz() {
-        // 문제 조회
         String sql = "SELECT name FROM quiz ORDER BY RAND() LIMIT 1;";
         String quiz = null;
         try {
@@ -73,6 +73,18 @@ public class DBConnection {
         }
         DBClose();
         return quiz;
+    }
+
+    /* 소셜로그인 후 정보 삽입 */
+    public void InsertUser(String token, String nick) {
+        String sql = "INSERT INTO user VALUES (DEFAULT,"+token+","+nick+", 0, 0, 0);";
+        try {
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed insert data " + e);
+        }
+        DBClose();
     }
 
     private void DBClose() {

@@ -1,6 +1,8 @@
 package sket.controllers;
 
+import sket.db.DBConnection;
 import sket.model.action.FBConnection;
+import sket.model.action.GoogleConnection;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -23,7 +25,10 @@ public class LoginController extends HttpServlet {
 
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
+        DBConnection db = new DBConnection();
         String act = req.getParameter("loginBtn");
+        String accessToken, nick = null;
+        // TODO: nick값 받기
 
         if (act == null) {
 //            no button has been selected
@@ -36,15 +41,11 @@ public class LoginController extends HttpServlet {
                         "ERROR: Didn't get code parameter in callback.");
             }
 
-            String accessToken = fbConnection.getAccessToken(code);
-            ServletOutputStream out = res.getOutputStream();
-
-            out.println("<h1>Facebook Login using Java</h1>");
-            out.println("<h2>Application Main Menu</h2>");
-            out.println("<div>Your Token: " + accessToken);
+            accessToken = fbConnection.getAccessToken(code);
+            db.InsertUser(accessToken, nick);
         } else if (act.equals("google")) {
-            System.out.println("google");
-//            LoginGoogle.loginGoogle = new LoginGoogle();
+            GoogleConnection googleConnection = new GoogleConnection();
+
         } else {
 //            someone has altered the HTML and sent a different value!
         }

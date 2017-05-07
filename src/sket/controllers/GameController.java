@@ -19,5 +19,4 @@ public class GameController extends HttpServlet {
 
         return message.toString();
     }
-
 }

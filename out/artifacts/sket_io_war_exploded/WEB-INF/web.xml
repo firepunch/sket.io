@@ -16,9 +16,7 @@
            <servlet-name>SignUpController</servlet-name>
         <url-pattern>/signup.do</url-pattern>
     </servlet-mapping>
-
-
-
+    
     <servlet>
         <display-name>Apache-Axis Servlet</display-name>
         <servlet-name>AxisServlet</servlet-name>
