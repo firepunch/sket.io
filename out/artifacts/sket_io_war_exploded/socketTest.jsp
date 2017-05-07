@@ -7,20 +7,18 @@
 </head>
 <body>
 </body>
-<script type="text/javascript" src="/WEB-INF/lib/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
 
-    var webSocket = new WebSocket('ws://localhost:9595/websocket');
+    var webSocket = new WebSocket('ws://localhost:9080/test');
 
-    webSocket.onerror = function (event) {
-        console.log('onError(' + event + ')');
+    webSocket.onerror = function(event) {
+        console.log('onError('+event+')');
     };
-    webSocket.onOpen = function (event) {
-        console.log("온오푼 클라");
-        webSocket.send("onOpen. 클라에서 서버로~");
+    webSocket.onopen = function(event) {
+        console.log('onOpen('+event+')');
     };
-    webSocket.onMessage = function (event) {
-        console.log('onMessage(' + event + ')');
+    webSocket.onmessage = function(event) {
+        console.log('onMessage('+event+')');
     };
 
 </script>
