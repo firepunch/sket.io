@@ -71,7 +71,19 @@
         <script>
             // 웹 소켓
             // 구현 필요  webSocket.close();
-            var webSocket = new WebSocket('ws://localhost:8080/test');
+            var webSocket = new WebSocket('ws://localhost:8080/websocket');
+            var context = document.getElementById('canvas').getContext("2d");
+            var clickX = new Array();
+            var clickY = new Array();
+            var clickDrag = new Array();
+            var paint;
+            var msg = {
+                type: "canvasData",
+                clickX: clickX,
+                clickY:   clickY,
+                clickDrag: clickDrag
+            };
+
             webSocket.onopen = function () {
                 console.log("서버 연결ddd");
             };
@@ -83,19 +95,6 @@
             };
             webSocket.onmessage = function (msg) {
                 console.log("서버로부터 받음:  " + msg.data);
-            };
-
-
-            var context = document.getElementById('canvas').getContext("2d");
-            var clickX = new Array();
-            var clickY = new Array();
-            var clickDrag = new Array();
-            var paint;
-            var msg = {
-                type: "getCanvasData",
-                clickX: clickX,
-                clickY:   clickY,
-                clickDrag: clickDrag
             };
 
             function addClick(x, y, dragging)
@@ -111,14 +110,14 @@
 
                 paint = true;
                 addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
-                webSocket.send(msg);
+                webSocket.send(JSON.stringify(msg));
                 redraw();
             });
 
             $('#canvas').mousemove(function(e){
                 if(paint){
                     addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
-                    webSocket.send(msg);
+                    webSocket.send(JSON.stringify(msg));
                     redraw();
                 }
             });
@@ -150,9 +149,6 @@
                     context.stroke();
                 }
             }
-
-
-
         </script>
     </body>
 </html>

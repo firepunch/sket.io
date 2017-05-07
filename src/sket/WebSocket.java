@@ -6,6 +6,7 @@ import sket.controllers.PlayerController;
 import sket.controllers.QuizController;
 import sket.controllers.RoomController;
 import sket.model.action.PlayerAction;
+import sket.model.action.QuizAction;
 import sket.model.action.RoomAction;
 import sket.model.data.Player;
 import sket.model.data.Room;
@@ -39,10 +40,8 @@ public class WebSocket extends HttpServlet {
 
     @OnMessage
     public void onMessage(String message, Session session) throws IOException {
-//        System.out.println("OnMessage(" + message + ")");
+        System.out.println("OnMessage(" + message + ")");
         JSONObject jsonObject = new JSONObject(message);
-        System.out.println("asdasd(" + jsonObject + ")");
-        System.out.println("FI qCCLCLK");
 
 
         switch (jsonObject.getString("type")) {
@@ -123,15 +122,15 @@ public class WebSocket extends HttpServlet {
                 }
                 break;
 
-                /* 캔버스 데이터 받음 */
-            case "getCanvasData":
-                System.out.println("클라로부터 받음: " + message);
-                System.out.println("zzzzz클라로부터 받음: " + message.toString());
-                break;
-
                 /* 방에서 출제자를 제외한 플레이어에게 캔버스 데이터 보냄 */
-            case "sendCanvasData":
-                System.out.println("보냄");
+            case "canvasData":
+                ArrayList<Session> roomMembers = QuizAction.excludeExaminerSession(jsonObject.getString("id"));
+
+                if (roomMembers != null) {
+                    for (Session member : roomMembers) {
+                        member.getBasicRemote().sendText(QuizController.sendCanvasData());
+                    }
+                }
                 break;
         }
     }
