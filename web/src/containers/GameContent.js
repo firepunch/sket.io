@@ -45,8 +45,6 @@ GameContent.defaultProps = defaultProps;
 const mapStateToProps = (state) => {
     return {
         isReady: state.game.isReady
-        // number: state.counter.number,
-        // color: state.ui.color
     };
 }
 
@@ -55,9 +53,6 @@ const mapDispatchToProps = (dispatch) => {
     // return bindActionCreators(actions, dispatch);
     return {
         handleGetReady: () => { dispatch(actions.getReady()) }
-        // handleIncrement: () => { dispatch(actions.increment()) },
-        // handleDecrement: () => { dispatch(actions.decrement()) },
-        // handleSetColor: (color) => { dispatch(actions.setColor(color)) }
     };
 }
 

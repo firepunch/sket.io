@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 
-import IndexModal from './IndexModal';
 
 
 const propTypes = {

@@ -45,8 +45,24 @@ class IndexModal extends Component {
                     <button onClick={this.handleOpenModal}>{this.props.modalName}</button>
                     <Modal
                        isOpen={this.state.showModal}
-                       contentLabel="Minimal Modal Example">
-                      <button onClick={this.handleCloseModal}>Close Modal</button>
+                       contentLabel="Minimal Modal Example"
+                    >
+
+                       <form action="signup.do" method="post">
+                           <div class="modal-body">
+                               <div>
+                                   <input type="text" placeholder="ID" className="input signup-form__input" id="signup-form-id" name="id" required autofocus />
+                                   <input type="password" placeholder="Password" id="signup-form-password" className="input signup-form__input" name="password" required />
+                                   <input type="password" placeholder="Confirm password" id="signup-form-confirm" className="input signup-form__input" required />
+                               </div>
+                           </div>
+
+                           <div class="modal-footer">
+                               <button type="submit" class="btn btn-lg signup-form-signup">SIGN UP</button>
+                           </div>
+                       </form>
+
+                       <button onClick={this.handleCloseModal}>Close Modal</button>
                     </Modal>
                 </div>
             </div>

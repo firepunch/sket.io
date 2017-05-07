@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 
-import FuncButton from './FuncButton';
+// import FuncButton from './FuncButton';
+import IndexModal from './IndexModal';
+
 
 const propTypes = {
     modalType: React.PropTypes.number
@@ -15,12 +17,28 @@ class FuncButtonArea extends Component {
         super(props);
     }
 
+    // <FuncButton
+    //     modalType={this.props.modalType}/>
+    // <FuncButton/>
+
     render() {
         return(
             <div id="sket-header">
-                <FuncButton
-                    modalType={this.props.modalType}/>
-                <FuncButton/>
+
+                <div>
+                    <div className="sket-button" id="craete-room">
+                        <IndexModal
+                            modalName="방 생성"/>
+                    </div>
+
+                    <div className="sket-button" id="quick-start">
+                        <button>빠른 시작</button>
+                    </div>
+
+                    <div className="sket-button" id="ranking">
+                        <button>랭킹</button>
+                    </div>
+                </div>
             </div>
         );
     }

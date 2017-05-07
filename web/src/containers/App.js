@@ -1,7 +1,11 @@
 import React, { Component, PropTypes } from 'react';
+import { Provider } from 'react-redux';
+import configureStore from '../configureStore';
 
 import IndexContent from './IndexContent';
 import GameContent from './GameContent';
+
+const store = configureStore();
 
 const propTypes = {
 };
@@ -38,10 +42,12 @@ class App extends Component {
         )
 
         return(
-            <div className="content">
-                <button onClick={this.handleTest}>test</button>
-                {this.state.isIndex ? index : game}
-            </div>
+            <Provider store={store}>
+                <div className="content">
+                    <button onClick={this.handleTest}>test</button>
+                    {this.state.isIndex ? index : game}
+                </div>
+            </Provider>
         );
     }
 }
