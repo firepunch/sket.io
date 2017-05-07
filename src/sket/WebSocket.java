@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Created by hojak on 2017-04-06.
  */
 
-@ServerEndpoint("/test")
+@ServerEndpoint("/websocket")
 public class WebSocket extends HttpServlet {
 
     // session 저장하는 ArrayList
