@@ -8,7 +8,10 @@
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="json-20160810" />
+<<<<<<< HEAD
           <element id="library" level="project" name="lib1" />
+=======
+>>>>>>> 99dbac38d6702ed71ac5c1d75fdcc054c7c276b8
           <element id="library" level="project" name="lib" />
         </element>
       </element>
