@@ -5,6 +5,7 @@
         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
         version="3.1">
 
+
 <display-name>Apache-Axis</display-name>
     <servlet>
         <display-name>Apache-Axis Servlet</display-name>
@@ -60,5 +61,4 @@
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/LoginController</url-pattern>
     </servlet-mapping>
-</web-app
->
+</web-app>

@@ -71,10 +71,9 @@
         <script>
             // 웹 소켓
             // 구현 필요  webSocket.close();
-
             var webSocket = new WebSocket('ws://localhost:8080/test');
             webSocket.onopen = function () {
-                console.log("서버 연결");
+                console.log("서버 연결ddd");
             };
             webSocket.onclose = function () {
                 console.log("서버 종료");
@@ -84,7 +83,7 @@
             };
             webSocket.onmessage = function (msg) {
                 console.log("서버로부터 받음:  " + msg.data);
-            }
+            };
 
 
             var context = document.getElementById('canvas').getContext("2d");
@@ -92,6 +91,12 @@
             var clickY = new Array();
             var clickDrag = new Array();
             var paint;
+            var msg = {
+                type: "getCanvasData",
+                clickX: clickX,
+                clickY:   clickY,
+                clickDrag: clickDrag
+            };
 
             function addClick(x, y, dragging)
             {
@@ -106,14 +111,14 @@
 
                 paint = true;
                 addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
-                webSocket.send(clickX + clickY + clickDrag);
+                webSocket.send(msg);
                 redraw();
             });
 
             $('#canvas').mousemove(function(e){
                 if(paint){
                     addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
-                    webSocket.send(clickX + clickY + clickDrag);
+                    webSocket.send(msg);
                     redraw();
                 }
             });
