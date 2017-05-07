@@ -39,8 +39,10 @@ public class WebSocket {
 
     @OnMessage
     public void onMessage(String message, Session session) throws IOException {
-        System.out.println("OnMessage(" + message + ")");
+//        System.out.println("OnMessage(" + message + ")");
         JSONObject jsonObject = new JSONObject(message);
+        System.out.println("asdasd(" + jsonObject + ")");
+        System.out.println("FI qCCLCLK");
 
 
         switch (jsonObject.getString("type")) {
@@ -119,6 +121,17 @@ public class WebSocket {
                     Player targetPlayer = PlayerAction.getEqualPlayerId(jsonObject.getString("id"));
                     targetPlayer.getSession().getBasicRemote().sendText(QuizController.sendQuizByJSON());
                 }
+                break;
+
+                /* 캔버스 데이터 받음 */
+            case "getCanvasData":
+                System.out.println("클라로부터 받음: " + message);
+                System.out.println("zzzzz클라로부터 받음: " + message.toString());
+                break;
+
+                /* 방에서 출제자를 제외한 플레이어에게 캔버스 데이터 보냄 */
+            case "sendCanvasData":
+                System.out.println("보냄");
                 break;
         }
     }
