@@ -74,45 +74,6 @@ public class MakeQuiz {
         return wordList;
     }
 
-    public void InsertDB(StringBuffer sb) {
-        // DB에 삽입
-        // INSERT INTO quiz (category, name) VALUES ('과일', '사과');
-        List<String> wordList = ExtractWord(sb);
-        Iterator itr = wordList.iterator();
-
-        String url = "jdbc:mysql://localhost:3307/sketio?characterEncoding=euckr";
-        Connection conn = null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(url, "root", "password");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-            throw new RuntimeException("Failed connect DriverManager " + e);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            Statement st = conn.createStatement();
-            while (itr.hasNext()) {
-                Object element = itr.next();
-                String sql = "INSERT INTO quiz (category, name) VALUES ('" + category + "','" + element + "');";
-                st.executeUpdate(sql);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Failed insert data " + e);
-        }
-        try {
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Failed closing DB connection " + e);
-        }
-    }
-
     public static void main(String args[]) throws IOException {
         String category = "교통수단"; // DB 삽입 시 카테고리 설정
         List<String> wordList;
