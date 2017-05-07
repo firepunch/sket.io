@@ -1,7 +1,6 @@
 <component name="libraryTable">
   <library name="lib1">
     <CLASSES>
-<<<<<<< HEAD
       <root url="jar://$PROJECT_DIR$/out/artifacts/sket_io_war_exploded/WEB-INF/lib/commons-logging-1.0.4.jar!/" />
       <root url="jar://$PROJECT_DIR$/out/artifacts/sket_io_war_exploded/WEB-INF/lib/json-20160810.jar!/" />
       <root url="jar://$PROJECT_DIR$/out/artifacts/sket_io_war_exploded/WEB-INF/lib/commons-discovery-0.2.jar!/" />
@@ -13,7 +12,6 @@
       <root url="jar://$PROJECT_DIR$/out/artifacts/sket_io_war_exploded/WEB-INF/lib/javax.websocket-api-1.1.jar!/" />
       <root url="jar://$PROJECT_DIR$/out/artifacts/sket_io_war_exploded/WEB-INF/lib/axis.jar!/" />
       <root url="jar://$PROJECT_DIR$/out/artifacts/sket_io_war_exploded/WEB-INF/lib/jaxrpc.jar!/" />
-=======
       <root url="jar://$PROJECT_DIR$/lib/javax.servlet.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/javax.transaction.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/jaxrpc.jar!/" />
@@ -34,7 +32,6 @@
       <root url="jar://$PROJECT_DIR$/lib/wsdl4j-1.5.1.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/commons-logging-1.0.4.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/saaj.jar!/" />
->>>>>>> 99dbac38d6702ed71ac5c1d75fdcc054c7c276b8
     </CLASSES>
     <JAVADOC />
     <SOURCES />
