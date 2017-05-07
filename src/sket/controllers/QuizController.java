@@ -12,6 +12,7 @@ public class QuizController extends HttpServlet {
     }
 
     /* 랜덤 퀴즈를 json 으로 반환하는 메소드 */
+
     public static String sendQuizByJSON() {
         String quiz = null;
 

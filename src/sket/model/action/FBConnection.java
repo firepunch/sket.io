@@ -1,5 +1,7 @@
 package sket.model.action;
 
+import sket.Configure;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,7 +13,7 @@ import java.net.URLEncoder;
 
 public class FBConnection {
     public static final String FB_APP_ID = "741189302727195";
-    public static final String FB_APP_SECRET = "66b7c9302459527e06c2501cc69fb78b";
+    public static final String FB_APP_SECRET = Configure.FB_APP_SECRET;
     public static final String REDIRECT_URI = "http://localhost:8080/LoginController/";
 
     static String accessToken = "";

@@ -7,12 +7,17 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
+import sket.db.DBConnection;
+
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 한국어 기초사전의 txt파일에서 단어 추출 후 DB 삽입
  * 설정해야 하는 것
  * 원하는 파일의 경로, 카테고리, 75라인의 DB ID,PW
+ * 원하는 파일의 경로(dir), 카테고리(category)
  * Created by firepunch on 2017-05-01.
  */
 
@@ -22,9 +27,10 @@ public class MakeQuiz {
     String endWord = "#01 구분"; // 검색 끝 단어
     String category = "교통수단"; // DB 삽입 시 카테고리 설정
 
-    public void InsertData() {
+    public List<String> MakeQuiz() {
         StringBuffer sb = ReadInput();
-        InsertDB(sb);
+        List<String> wordList = ExtractWord(sb);
+        return wordList;
     }
 
     public StringBuffer ReadInput() {
@@ -52,7 +58,8 @@ public class MakeQuiz {
     }
 
     public List<String> ExtractWord(StringBuffer sb) {
-        // 표제어 = 문제로 보여줄 단어를 추출
+        // 표제어 = 문제로 보여줄 단어를 추출하고 반환
+
         List<String> wordList = new ArrayList<String>();
 
         for (int start = -1; (start = sb.indexOf(startWord, start + 1) + 10) != 9; ) {
@@ -107,7 +114,13 @@ public class MakeQuiz {
     }
 
     public static void main(String args[]) throws IOException {
+        String category = "교통수단"; // DB 삽입 시 카테고리 설정
+        List<String> wordList;
+
         MakeQuiz mq = new MakeQuiz();
-        mq.InsertData();
+        DBConnection db = new DBConnection();
+
+        wordList = mq.MakeQuiz();
+        db.InsertQuiz(category, wordList);
     }
 }

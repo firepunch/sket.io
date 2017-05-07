@@ -9,7 +9,6 @@ public class Util {
     public static String failCteateRoom() {
         JSONObject message = new JSONObject();
         // message.put("type");
-
         return null;
     }
 }
