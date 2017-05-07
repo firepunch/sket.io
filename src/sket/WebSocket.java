@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Created by hojak on 2017-04-06.
  */
 
-@ServerEndpoint("/test")
+@ServerEndpoint("/websocket")
 public class WebSocket extends HttpServlet {
 
     // session 저장하는 ArrayList
@@ -119,6 +119,11 @@ public class WebSocket extends HttpServlet {
                     Player targetPlayer = PlayerAction.getEqualPlayerId(jsonObject.getString("id"));
                     targetPlayer.getSession().getBasicRemote().sendText(QuizController.sendQuizByJSON());
                 }
+                break;
+
+                /* 캔버스 데이터 받음 */
+            case "getCanvasData":
+                System.out.println("클라로부터 받음: " + message);
                 break;
         }
     }

@@ -1,105 +1,97 @@
 <!DOCTYPE html>
-<html xmlns:fb="https://www.facebook.com/">
-<head>
-    <meta charset="utf-8">
-    <title>sket.io</title>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>sket.io</title>
 
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/modal.css">
-</head>
-<body>
-<div id="fb-root"></div>
-<div id="signupMda" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <span class="close">&times;</span>
+        <!-- css files -->
+        <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="css/modal.css">
+    </head>
+    <body>
+    <div id="signupMda" class="modal" st>
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Modal Header</h2>
+            </div>
+            <div class="modal-body">
+                <form action="LoginController" method="post">
+                    Enter username : <input type="text" name="username"> <BR>
+                    Enter password : <input type="password" name="password"> <BR>
+                    Enter nick : <input type="text" name="nick"> <BR>
+                    <input type="submit" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <h3>Modal Footer</h3>
+            </div>
         </div>
-        <div class="modal-body">
-            <form name="loginForm" action="LoginController" method="post">
-                <button class="loginBtn loginBtn-facebook" name="loginBtn" value="fb">
-                    Login with Facebook
+    </div>
+    <div id="signinMda" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Modal Header</h2>
+            </div>
+            <div class="modal-body">
+                <p>Some text in the Modal Body</p>
+                <p>Some other text...</p>
+            </div>
+            <div class="modal-footer">
+                <h3>Modal Footer</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+            <div id="sket-profile">
+                <img src="http://www.freeiconspng.com/uploads/profile-icon-9.png" alt="error">
+            </div>
+
+            <div id="sket-header">
+                <button id="signupBtn">
+                    회원가입
                 </button>
-
-                <button class="loginBtn loginBtn-google" name="loginBtn" value="google">
-                    Login with Google
-                </button>
-            </form>
-        </div>
-        <div class="modal-footer">
-        </div>
-    </div>
-</div>
-
-<div class="container">
-    <div id="sket-profile">
-        <img src="http://www.freeiconspng.com/uploads/profile-icon-9.png" alt="error">
-    </div>
-
-    <div id="sket-header">
-        <button id="signupBtn">
-            회원가입
-        </button>
-        <div class="sket-button" id="craete-room">
-            방 생성
-        </div>
-        <div class="sket-button" id="rapid-start">
-            빠른 시작
-        </div>
-        <div class="sket-button" id="show-ranking">
-            랭킹
-        </div>
-    </div>
-
-    <div id="connection-list">
-        <form action="QuizController" method="get">
-            <button name="makeBtn" value="parseQuiz">asdf</button>
-            <h3>접속자 목록</h3>
-        </form>
-        <ul>
-            <li>빨개요</li>
-            <li>권장호바보</li>
-            <li>ㅁㅁㅁㅁ</li>
-        </ul>
-    </div>
-
-    <div id="room-list">
-        <div class="room">
-            <div class="room-name">
-                <a href="game.html">빨개요</a>
+                <div class="sket-button" id="craete-room">
+                    방 생성
+                </div>
+                <div class="sket-button" id="rapid-start">
+                    빠른 시작
+                </div>
+                <div class="sket-button" id="show-ranking">
+                    랭킹
+                </div>
             </div>
-            <div class="round-info">
-                라운드 10
+
+            <div id="connection-list">
+                <h3>접속자 목록</h3>
+                <ul>
+                    <li>빨개요</li>
+                    <li>권장호바보</li>
+                    <li>ㅁㅁㅁㅁ</li>
+                </ul>
             </div>
-            <div class="time-limit-info">
-                30초
-            </div>
-            <div class="room-player">
-                2/4
-            </div>
-            <div class="room-lock">
-                locked
+
+            <div id="room-list">
+                <div class="room">
+                    <div class="room-name">
+                        <a href="game.html">빨개요</a>
+                    </div>
+                    <div class="round-info">
+                        라운드 10
+                    </div>
+                    <div class="time-limit-info">
+                        30초
+                    </div>
+                    <div class="room-player">
+                        2/4
+                    </div>
+                    <div class="room-lock">
+                        locked
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-<script>
-    var modal = document.getElementById('signupMda');
-    var btn = document.getElementById("signupBtn");
-    var span = document.getElementsByClassName("close")[0];
-
-    btn.onclick = function() {
-        modal.style.display = "block";
-    }
-
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
-
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
-</script>
-</body>
+    </body>
 </html>
