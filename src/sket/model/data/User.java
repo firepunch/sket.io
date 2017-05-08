@@ -5,7 +5,6 @@ public class User {
     private String username;
     private String password;
     private String nick;
-    private boolean isReady = false;
 
     public User(String username, String password, String nick){
         this.username = username;
@@ -35,9 +34,5 @@ public class User {
 
     public void setNick(String nick) {
         this.nick = nick;
-    }
-
-    public boolean isReady(){
-        return this.isReady;
     }
 }

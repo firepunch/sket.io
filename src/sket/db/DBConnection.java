@@ -1,41 +1,108 @@
 package sket.db;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.Properties;
+import sket.Configure;
 
+import java.sql.*;
+import java.util.Iterator;
+import java.util.List;
+
+/**
+ * DB ID/PW 설정하기
+ * Created by ymr on 2017-05-02.
+ */
 public class DBConnection {
-    private static Connection connection = null;
+    private Connection conn = null;
+    private static Statement statement;
+    private static ResultSet resultSet;
 
-    public static Connection getConnection() {
-        if (connection != null)
-            return connection;
-        else {
+    public DBConnection() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+//            conn = DriverManager.getConnection(Configure.url, Configure.dbUser, Configure.dbPW);
+            conn = DriverManager.getConnection("", "", "");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+            throw new RuntimeException("Failed connect DriverManager " + e);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            statement = conn.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed insert data " + e);
+        }
+    }
+
+    /* 새로운 문제 삽입 */
+    public void InsertQuiz(String category, List<String> wordList) {
+        Iterator itr = wordList.iterator();
+
+        while (itr.hasNext()) {
+            Object element = itr.next();
+            String sql = "INSERT INTO quiz (category, name) VALUES ('" + category + "','" + element + "');";
             try {
-                Properties prop = new Properties();
-                InputStream inputStream = DBConnection.class.getClassLoader().getResourceAsStream("/db.properties");
-                prop.load(inputStream);
-                String driver = prop.getProperty("driver");
-                String url = prop.getProperty("url");
-                String user = prop.getProperty("user");
-                String password = prop.getProperty("password");
-                Class.forName(driver);
-                connection = DriverManager.getConnection(url, user, password);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                statement.executeUpdate(sql);
             } catch (SQLException e) {
                 e.printStackTrace();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException("Failed insert data " + e);
             }
-            return connection;
         }
+        DBClose();
+    }
 
+    /* 한 문제 랜덤으로 선택 */
+    public String SelectQuiz() {
+        String sql = "SELECT name FROM quiz ORDER BY RAND() LIMIT 1;";
+        String quiz = null;
+        try {
+            resultSet = statement.executeQuery(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed insert data " + e);
+        }
+        try {
+            if(resultSet.next()){
+                quiz = resultSet.getString("name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        DBClose();
+        return quiz;
+    }
+
+    /* 소셜로그인 후 정보 삽입 */
+    public void InsertUser(String token, String nick) {
+        String sql = "INSERT INTO user VALUES (DEFAULT,"+token+","+nick+", 0, 0, 0);";
+        try {
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed insert data " + e);
+        }
+        DBClose();
+    }
+
+    private void DBClose() {
+        try {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+
+            if (statement != null) {
+                statement.close();
+            }
+
+            if (conn != null) {
+                conn.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed closing DB connection " + e);
+        }
     }
 }
