@@ -1,0 +1,57 @@
+redux에서 store에 저장할 상태 트리
+
+state: {
+    isGuest: true,                  // 로그인 여부 판별. 로그인이 되어 있다면 값은 false가 됨
+    isGame: false,                  // 게임을 플레이하고 있는지 판별
+    modalUsage: 'LOGIN',            // 현재 modal을 어떤 목적으로 띄었는지 구분('CREATE_ROOM', 'GAME_RESULT' 등)
+
+    /* INDEX */
+    userProfile: {                  // 사용하고 있는 계정의 정보
+        profileImg: '',             // 프로필 사진. 어떻게 저장해야될지는 고민해봐야 함
+        userName: 'GUEST1234',      // 이름 또는 닉네임
+        level: 1,                   // 레벨
+        exp: 1                      // 경험치
+    },
+    connectingUser: [{              // 현재 게임 서버에 접속 중인 유저 리스트. 인원에 제한은 없음
+        name: '에베베',
+        level: 20
+    }, {
+        name: '자고싶다',
+        level: 777
+    }],
+    roomList: [{                    // 현재 존재하는 방들의 리스트
+        title: '안녕',               // 방 제목
+        countUser: 4,               // 방에 있는 인원
+        round: 10,                  // 라운드 제한
+        timeLimit: 30,              // 한 라운드 당 제한 시간
+        isLocked: false             // 공개-비공개 여부. 비공개일 시 비밀번호가 필요함
+    }, {
+        title: '연습용 게임',
+        countUser: 1,
+        round: 10,
+        timeLimit: 30,
+        isLocked: true
+    }],
+    ranking: [{                     // 랭킹. 한 번에 50개씩 가져와 저장
+        rank: 1,                    // 순위
+        name: '자고싶다',
+        level: 777
+    }, {
+        rank: 2,
+        name: '으워어',
+        level: 666
+    }],
+
+    /* GAME */
+    playingUser: [{                 // 게임에서 최대 인원은 자신을 포함한 4명. 따라서 최대 3명의 정보만 가질 수 있음
+        id: '123',                  // 서버에서 가지고 있는 유저 ID
+        profileImg: '',
+        name: '자고싶다',
+        level: 777,
+        exp: 12345678,
+        isHost: false,              // 방장 true/false
+        isReady: false,             // 준비 여부
+        isExaminer: false,          // 출제자 true/false
+        score: 100                  // 현재까지의 점수
+    }]
+}
