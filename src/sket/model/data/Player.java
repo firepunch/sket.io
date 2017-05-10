@@ -14,26 +14,21 @@ public class Player {
     private Session session;
     private boolean isReady = false;
     private int playerScore = 0;
-    private Guest guest;
+    private boolean isGuest = false;
 
-    public Player(String id, boolean roomMaster, Session session) {
+    public Player(String id, boolean roomMaster, Session session, boolean isGuest) {
         this.id = id;
         this.roomMaster = roomMaster;
         this.session = session;
+        this.isGuest = isGuest;
         playerArrayList.add(this);
     }
 
-    public Player(boolean roomMaster, Session session){
-        guest = new Guest(this);
-        this.roomMaster = roomMaster;
-        this.session = 
-    }
-
-    public void setExaminer(boolean isExaminer){
+    public void setExaminer(boolean isExaminer) {
         this.examiner = isExaminer;
     }
 
-    public boolean isExaminer(){
+    public boolean isExaminer() {
         return this.examiner;
     }
 
@@ -72,6 +67,4 @@ public class Player {
     public static ArrayList<Player> getPlayerList() {
         return Player.playerArrayList;
     }
-
-
 }
