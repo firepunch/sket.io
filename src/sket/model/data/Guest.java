@@ -12,21 +12,18 @@ public class Guest {
     public static ArrayList<Guest> guestList = new ArrayList<>();
     public static int countId = 0;
 
-    private int tempId;
     private final int MIN_ARANGE = 100;
-    private final int MAX_ARANGE = 999;
 
-    public Guest() {
+    public Guest(Player player) {
         allocateId();
         guestList.add(this);
     }
 
-    public int getTempId(){
-        return this.tempId;
+    public void guestInit(){
+        countId = MIN_ARANGE;
     }
 
     private synchronized void allocateId(){
-        this.tempId = Guest.countId;
         countId++;
     }
 }

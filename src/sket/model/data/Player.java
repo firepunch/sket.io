@@ -14,12 +14,19 @@ public class Player {
     private Session session;
     private boolean isReady = false;
     private int playerScore = 0;
+    private Guest guest;
 
     public Player(String id, boolean roomMaster, Session session) {
         this.id = id;
         this.roomMaster = roomMaster;
         this.session = session;
         playerArrayList.add(this);
+    }
+
+    public Player(boolean roomMaster, Session session){
+        guest = new Guest(this);
+        this.roomMaster = roomMaster;
+        this.session = 
     }
 
     public void setExaminer(boolean isExaminer){

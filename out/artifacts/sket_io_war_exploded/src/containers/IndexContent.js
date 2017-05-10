@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
+import { connect } from 'react-redux';
+
 import Login from '../components/Index/Login';
 import UserProfile from '../components/Index/UserProfile';
 import FuncButtonArea from '../components/Index/FuncButtonArea';
