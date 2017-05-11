@@ -2,7 +2,6 @@ package sket.controllers;
 
 import sket.db.DBConnection;
 import sket.model.action.FBConnection;
-import sket.model.action.GoogleConnection;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -44,7 +43,6 @@ public class LoginController extends HttpServlet {
             accessToken = fbConnection.getAccessToken(code);
             db.InsertUser(accessToken, nick);
         } else if (act.equals("google")) {
-            GoogleConnection googleConnection = new GoogleConnection();
 
 
         } else {
