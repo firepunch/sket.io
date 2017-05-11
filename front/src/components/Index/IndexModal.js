@@ -54,6 +54,16 @@ class IndexModal extends Component {
                                    <input type="text" placeholder="ID" className="input signup-form__input" id="signup-form-id" name="id" required autofocus />
                                    <input type="password" placeholder="Password" id="signup-form-password" className="input signup-form__input" name="password" required />
                                    <input type="password" placeholder="Confirm password" id="signup-form-confirm" className="input signup-form__input" required />
+
+                                   <form name="loginForm" action="LoginController" method="post">
+                                       <button class="loginBtn loginBtn-facebook" name="loginBtn" value="fb">
+                                           Login with Facebook
+                                       </button>
+
+                                       <button class="loginBtn loginBtn-google" name="loginBtn" value="google">
+                                           Login with Google
+                                       </button>
+                                   </form>
                                </div>
                            </div>
 
