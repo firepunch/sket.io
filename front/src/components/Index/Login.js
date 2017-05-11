@@ -3,11 +3,11 @@ import React, { Component, PropTypes } from 'react';
 import IndexModal from './IndexModal';
 
 const propTypes = {
-    modalType: 0
+
 };
 
 const defaultProps = {
-    modalType: React.PropTypes.number
+
 };
 
 class Login extends Component {
@@ -17,16 +17,19 @@ class Login extends Component {
 
     render() {
         // modalType 이 0이면 login 버튼을 보여줌
-        const login = (
-            <div>
-                <IndexModal
-                    modalName="로그인"/>
-            </div>
-        )
+        // const login = (
+        //     <div>
+        //         <IndexModal
+        //             modalName="로그인"/>
+        //     </div>
+        // )
 
         return(
             <div>
-                {this.props.modalType ? 'error' : login}
+                <IndexModal
+                    modalUsage={this.props.modalUsage}
+                    modalName="로그인"
+                />
             </div>
         );
     }

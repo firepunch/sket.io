@@ -52,6 +52,7 @@ class App extends Component {
     }
 }
 
+
 App.propTypes = propTypes;
 App.defaultProps = defaultProps;
 

@@ -6,13 +6,15 @@ import * as types from './ActionTypes';
 // login
 export function googleLogin() {
     return {
-        type: types.INCREMENT
+        type: types.GOOGLE_LOGIN,
+        promise: { method: 'post', url: '/signup/google'}
     }
 }
 
 export function facebookLogin() {
     return {
-        type: types.DECREMENT
+        type: types.FACEBOOK_LOGIN,
+        promise: { method: 'post', url: '/signup/facebook'}
     }
 }
 
@@ -20,6 +22,13 @@ export function facebookLogin() {
 export function createRoom() {
     return {
         type: types.CREATE_ROOM
+    }
+}
+
+export function changeModalUsage(usage) {
+    return {
+        type: types.CHANGE_MODAL_USAGE,
+        usage
     }
 }
 

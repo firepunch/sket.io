@@ -6,7 +6,11 @@ export const FACEBOOK_LOGIN = "FACEBOOK_LOGIN";
 
 // header function
 export const CREATE_ROOM    = "CREATE_ROOM";
-// export const QUICK_START = "QUICK_START";
+export const QUICK_START = "QUICK_START";
+export const SHOW_RANKING = "SHOW_RANKING";
+
+export const ENTER_ROOM = "ENTER_ROOM";
+export const CHANGE_MODAL_USAGE = "CHANGE_MODAL_USAGE";
 
 
 /* GAME */

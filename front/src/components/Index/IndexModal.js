@@ -14,8 +14,8 @@ class IndexModal extends Component {
     constructor () {
         super();
             this.state = {
-            showModal: false
-        };
+                showModal: false
+            };
 
         this.handleOpenModal = this.handleOpenModal.bind(this);
         this.handleCloseModal = this.handleCloseModal.bind(this);
@@ -39,6 +39,34 @@ class IndexModal extends Component {
         // modal 안에는 총 4가지의 내용이 올 수 있으므로
         // props 에 따라 렌더링함(가능할지는 모르겠음)
 
+        // onSubmit={}
+
+        const loginModal = (
+            <form method="post">
+                <div class="modal-body">
+                    <div>
+                        <button class="loginBtn loginBtn-facebook" name="loginBtn" value="fb">
+                            Login with Facebook
+                        </button>
+
+                        <button class="loginBtn loginBtn-google" name="loginBtn" value="google">
+                            Login with Google
+                        </button>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-lg signup-form-signup">SIGN UP</button>
+                </div>
+            </form>
+        )
+
+        const createRoomModal = (
+            <div>
+
+            </div>
+        )
+
         return(
             <div>
                 <div>
@@ -48,29 +76,7 @@ class IndexModal extends Component {
                        contentLabel="Minimal Modal Example"
                     >
 
-                       <form action="signup.do" method="post">
-                           <div class="modal-body">
-                               <div>
-                                   <input type="text" placeholder="ID" className="input signup-form__input" id="signup-form-id" name="id" required autofocus />
-                                   <input type="password" placeholder="Password" id="signup-form-password" className="input signup-form__input" name="password" required />
-                                   <input type="password" placeholder="Confirm password" id="signup-form-confirm" className="input signup-form__input" required />
-
-                                   <form name="loginForm" action="LoginController" method="post">
-                                       <button class="loginBtn loginBtn-facebook" name="loginBtn" value="fb">
-                                           Login with Facebook
-                                       </button>
-
-                                       <button class="loginBtn loginBtn-google" name="loginBtn" value="google">
-                                           Login with Google
-                                       </button>
-                                   </form>
-                               </div>
-                           </div>
-
-                           <div class="modal-footer">
-                               <button type="submit" class="btn btn-lg signup-form-signup">SIGN UP</button>
-                           </div>
-                       </form>
+                        {this.props.modalUsage === "LOGIN" ? loginModal : createRoomModal}
 
                        <button onClick={this.handleCloseModal}>Close Modal</button>
                     </Modal>
