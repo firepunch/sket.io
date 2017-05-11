@@ -16,7 +16,6 @@ public class RoomController {
 
     /* 방 생성하는 메소드 */
     public static Room createRoom(String name, boolean islock, String pwd, Session session) {
-
         // 방 생성 코드. Room 생성자 안에 roomList 에 방 추가하는 코드 작성되있음.
         Room room = new Room(name, PlayerAction.getPlayerEqualSession(session), Room.getCountRoomId(), islock, pwd);
         return room;
@@ -40,7 +39,7 @@ public class RoomController {
         }
         object.put("playerList", jsonArray);
         return object;
-    }
+}
 
     /* 방 목록을 json 으로 보내는 메소드 */
     public static String getRoomListAsJSON() {

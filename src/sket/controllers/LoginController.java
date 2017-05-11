@@ -46,6 +46,7 @@ public class LoginController extends HttpServlet {
         } else if (act.equals("google")) {
             GoogleConnection googleConnection = new GoogleConnection();
 
+
         } else {
 //            someone has altered the HTML and sent a different value!
         }
