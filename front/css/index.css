@@ -5,27 +5,20 @@
 
 html, body {
     height: 100%;
-    width: 100%;
-}
-
-#root {
-    height: 100%;
-    width: 100%;
 }
 
 .content {
-    height: 100%;
-    width: 100%;
+    height: 80%;
+    width: 90%;
 }
 
 .container {
-    width: 80%;
-    height: 80%;
-    background-color: yellow;-c
-    margin: auto;
+    width: 100%;
+    height: 100%;
+    margin: 0px 0px;
 }
 
-.sket-profile {
+#sket-profile {
     width: 20%;
     height: 20%;
     background-color: skyblue;
