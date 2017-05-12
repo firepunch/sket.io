@@ -4,6 +4,10 @@ import Modal from 'react-modal';
 import GoogleLogin from 'react-google-login';
 
 const propTypes = {
+
+};
+
+const defaultProps = {
     modalName: React.PropTypes.string
 };
 
@@ -31,6 +35,21 @@ class IndexModal extends Component {
     }
 
     render() {
+<<<<<<< HEAD
+        // modalType 이 0이면 login 버튼을 보여줌
+        // const login = (
+        //     <div>
+        //         <IndexModal
+        //             modalName="로그인"/>
+        //     </div>
+        // )
+
+        return(
+            <div>
+                <IndexModal
+                    modalUsage={this.props.modalUsage}
+                    modalName="로그인"
+                />
         // const content = [
         //     <Login/>,
         //     <CreateRoom/>,
