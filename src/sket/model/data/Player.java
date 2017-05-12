@@ -8,30 +8,28 @@ import java.util.ArrayList;
  */
 public class Player {
     public static ArrayList<Player> playerArrayList = new ArrayList<>();
+
     private String id;
     private boolean roomMaster = false;
     private boolean examiner = false;
     private Session session;
     private boolean isReady = false;
     private int playerScore = 0;
-    private Guest guest;
+    private boolean isGuest = false;
 
-    public Player(String id, boolean roomMaster, Session session) {
+    public Player(String id, boolean roomMaster, Session session, boolean isGuest) {
         this.id = id;
         this.roomMaster = roomMaster;
         this.session = session;
+        this.isGuest = isGuest;
         playerArrayList.add(this);
-    }
-
-    public Player(String s, boolean roomMaster, Session session, boolean isGuest){
-        this.roomMaster = roomMaster;
     }
 
     public void setExaminer(boolean isExaminer){
         this.examiner = isExaminer;
     }
 
-    public boolean isExaminer(){
+    public boolean isExaminer() {
         return this.examiner;
     }
 
@@ -70,6 +68,4 @@ public class Player {
     public static ArrayList<Player> getPlayerList() {
         return Player.playerArrayList;
     }
-
-
 }

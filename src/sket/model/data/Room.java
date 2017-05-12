@@ -40,10 +40,11 @@ public class Room {
                 this.roomPwd = pwd;
             }
         } else {
-            this.roomPwd = null;
+            this.roomPwd = "null";
         }
 
         this.countRoomId += 1;
+
         System.out.println("방 생성 성공");
         Room.roomList.add(this);
     }

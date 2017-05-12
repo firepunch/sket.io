@@ -8,9 +8,12 @@ import sket.controllers.RoomController;
 import sket.model.action.PlayerAction;
 import sket.model.action.QuizAction;
 import sket.model.action.RoomAction;
+import sket.model.action.SessionManager;
 import sket.model.data.Player;
 import sket.model.data.Room;
+import sket.model.data.User;
 
+import javax.servlet.http.HttpSession;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
@@ -20,18 +23,24 @@ import java.util.ArrayList;
  * Created by hojak on 2017-04-06.
  */
 
-@ServerEndpoint("/websocket")
+@ServerEndpoint(value = "/websocket", configurator = GetHttpSessionConfigurator.class)
 public class WebSocket {
 
     // session 저장하는 ArrayList
     private static ArrayList<Session> sessionList = new ArrayList<>();
     private Room targetRoom = null;
     private RoomAction roomAction = null;
+    private Player player;
 
     @OnOpen
-    public void onOpen(Session session) throws IOException {
-        System.out.println(session);
+    public void onOpen(Session session, EndpointConfig config) throws IOException {
+        System.out.println("log : onOpen()");
         sessionList.add(session);
+
+        HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
+        System.out.println("httpSession : " + ((User) httpSession.getAttribute("user")).getId());
+
+        player = new Player(SessionManager.getUserIdEqualSession(httpSession), false, session, false);
 
         // session 에 룸 리스트 보냄
         session.getBasicRemote().sendText(RoomController.getRoomListAsJSON());
@@ -42,13 +51,13 @@ public class WebSocket {
         System.out.println("OnMessage(" + message + ")");
         JSONObject jsonObject = new JSONObject(message);
 
-
         switch (jsonObject.getString("type")) {
 
                 /* 방 생성 했을 때 보내는 JSON */
             case "createRoom":
-                targetRoom = RoomController.createRoom(jsonObject.getString("name"), jsonObject.getBoolean("lock"),
-                        jsonObject.getString("password"), session);
+                targetRoom = RoomController.createRoom(jsonObject.getString("roomId"), jsonObject.getBoolean("lock"),
+                        jsonObject.getString("password"), jsonObject.getString("master"));
+
                 session.getBasicRemote().sendText(RoomController.getRoomInfoToJSON(targetRoom).put("type", "roomInfo").toString());
                 break;
 

@@ -33,7 +33,7 @@ public class LoginController extends HttpServlet {
         // TODO: nick값 받기
 
         if (act == null) {
-//            no button has been selected
+            // no button has been selected
         } else if (act.equals("fb")) {
             FBConnection fbConnection = new FBConnection();
             code = fbConnection.getFBAuthUrl();
@@ -61,7 +61,7 @@ public class LoginController extends HttpServlet {
             // Get the OAuth2 credential.
             googleConnection.getAccessToken("userid");
         } else {
-//            someone has altered the HTML and sent a different value!
+
         }
     }
 }

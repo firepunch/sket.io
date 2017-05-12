@@ -3,7 +3,7 @@
 create room
 {
     "type" : "createRoom",
-    "name" : "(방 이름)",
+    "roomId" : "(방 이름)",
     "lock" : "(true or false)",
     "password" : "(null or 1234)",
     "master" : "(유저 아이디)"
@@ -106,7 +106,7 @@ send roomInfo
     "lock" : true or false,
     "password" : null or "123",
     "playerNumber" : 5,
-    "roomMaster", "유저 아이디",
+    "master", "유저 아이디",
     "playerList" : [
         { "id" : "유저 아이디" },
         { "id" : "유저 아이디" },

@@ -2,22 +2,22 @@ package sket.model.data;
 
 public class User {
 
-    private String username;
+    private String id;
     private String password;
     private String nick;
 
-    public User(String username, String password, String nick){
-        this.username = username;
+    public User(String id, String password, String nick){
+        this.id = id;
         this.password = password;
         this.nick = nick;
     }
 
-    public String getUsername() {
-        return username;
+    public String getId() {
+        return id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setId(String username) {
+        this.id = username;
     }
 
     public String getPassword() {
