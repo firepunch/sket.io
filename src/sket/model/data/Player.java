@@ -8,6 +8,7 @@ import java.util.ArrayList;
  */
 public class Player {
     public static ArrayList<Player> playerArrayList = new ArrayList<>();
+
     private String id;
     private boolean roomMaster = false;
     private boolean examiner = false;
@@ -24,7 +25,7 @@ public class Player {
         playerArrayList.add(this);
     }
 
-    public void setExaminer(boolean isExaminer) {
+    public void setExaminer(boolean isExaminer){
         this.examiner = isExaminer;
     }
 

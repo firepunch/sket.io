@@ -1,8 +1,9 @@
 redux에서 store에 저장할 상태 트리
 
 state: {
-    isGuest: true,                  // 로그인 여부 판별. 로그인이 되어 있다면 값은 false가 됨
-    isGame: false,                  // 게임을 플레이하고 있는지 판별
+    isLoggedIn: false,              // 로그인 여부 판별. 로그인이 되어 있다면 값은 true가 됨
+    fetchingUpdate: false           // 로그인 요청 중이 아님
+    isGame: false,                  // 게임을 플레이하고 있는지 판별
     modalUsage: 'LOGIN',            // 현재 modal을 어떤 목적으로 띄었는지 구분('CREATE_ROOM', 'GAME_RESULT' 등)
 
     /* INDEX */
