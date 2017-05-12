@@ -19,7 +19,7 @@
 
     
     <welcome-file-list>
-        <welcome-file>build/index.html</welcome-file>
+        <welcome-file>test/createRoom.html</welcome-file>
     </welcome-file-list>
     <servlet>
         <display-name>Apache-Axis Servlet</display-name>
