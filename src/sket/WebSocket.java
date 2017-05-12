@@ -10,6 +10,7 @@ import sket.model.action.QuizAction;
 import sket.model.action.RoomAction;
 import sket.model.data.Player;
 import sket.model.data.Room;
+import sket.model.data.User;
 
 import javax.servlet.http.HttpSession;
 import javax.websocket.*;
@@ -31,14 +32,16 @@ public class WebSocket {
 
     @OnOpen
     public void onOpen(Session session, EndpointConfig config) throws IOException {
-        System.out.println(session);
-        sessionList.add(session);
+        System.out.println("세션 ID : " + session.getId());
+        System.out.println("config : " + config);
 
         HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
-        // System.out.println("Http 세션 아이디 : "+httpSession.getAttribute("id"));
+        System.out.println("httpSession : " + ((User)httpSession.getAttribute("user")).getId());
+
+        sessionList.add(session);
 
         // session 에 룸 리스트 보냄
-        session.getBasicRemote().sendText(RoomController.getRoomListAsJSON());
+        //session.getBasicRemote().sendText(RoomController.getRoomListAsJSON());
     }
 
     @OnMessage
