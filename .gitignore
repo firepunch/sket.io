@@ -1,5 +1,6 @@
 .idea/workspace.xml
 src/sket/Configure.java
+src/sket/googleOauthInfo.json
 docs/Personal Information Processing.txt
 node_modules
 .idea/
