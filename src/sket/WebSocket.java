@@ -8,6 +8,7 @@ import sket.controllers.RoomController;
 import sket.model.action.PlayerAction;
 import sket.model.action.QuizAction;
 import sket.model.action.RoomAction;
+import sket.model.action.SessionManager;
 import sket.model.data.Player;
 import sket.model.data.Room;
 import sket.model.data.User;
@@ -29,19 +30,20 @@ public class WebSocket {
     private static ArrayList<Session> sessionList = new ArrayList<>();
     private Room targetRoom = null;
     private RoomAction roomAction = null;
+    private Player player;
 
     @OnOpen
     public void onOpen(Session session, EndpointConfig config) throws IOException {
-        System.out.println("세션 ID : " + session.getId());
-        System.out.println("config : " + config);
-
-        HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
-        System.out.println("httpSession : " + ((User)httpSession.getAttribute("user")).getId());
-
+        System.out.println("log : onOpen()");
         sessionList.add(session);
 
+        HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
+        System.out.println("httpSession : " + ((User) httpSession.getAttribute("user")).getId());
+
+        player = new Player(SessionManager.getUserIdEqualSession(httpSession), false, session, false);
+
         // session 에 룸 리스트 보냄
-        //session.getBasicRemote().sendText(RoomController.getRoomListAsJSON());
+        session.getBasicRemote().sendText(RoomController.getRoomListAsJSON());
     }
 
     @OnMessage
@@ -54,7 +56,7 @@ public class WebSocket {
                 /* 방 생성 했을 때 보내는 JSON */
             case "createRoom":
                 targetRoom = RoomController.createRoom(jsonObject.getString("roomId"), jsonObject.getBoolean("lock"),
-                        jsonObject.getString("password"), jsonObject.getString("master"), session);
+                        jsonObject.getString("password"), jsonObject.getString("master"));
 
                 session.getBasicRemote().sendText(RoomController.getRoomInfoToJSON(targetRoom).put("type", "roomInfo").toString());
                 break;

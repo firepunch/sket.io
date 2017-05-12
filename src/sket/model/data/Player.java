@@ -8,6 +8,7 @@ import java.util.ArrayList;
  */
 public class Player {
     public static ArrayList<Player> playerArrayList = new ArrayList<>();
+
     private String id;
     private boolean roomMaster = false;
     private boolean examiner = false;
