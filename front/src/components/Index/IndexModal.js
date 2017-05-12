@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import Modal from 'react-modal';
 
+import Modal from 'react-modal';
+import GoogleLogin from 'react-google-login';
 
 const propTypes = {
     modalName: React.PropTypes.string
@@ -42,24 +43,32 @@ class IndexModal extends Component {
         // onSubmit={}
 
         const loginModal = (
-            <form method="post">
-                <div class="modal-body">
-                    <div>
-                        <button class="loginBtn loginBtn-facebook" name="loginBtn" value="fb">
-                            Login with Facebook
-                        </button>
+                <div>
+                    <a href="https://accounts.google.com/o/oauth2/auth?client_id=755801497962-25e8cmnp81pcld5r8mfsvmetus9qnnv4.apps.googleusercontent.com&redirect_uri=http://localhost:8080/signup/google/&scope=https://www.googleapis.com/auth/plus.login&response_type=code"
+                        value="google"
+                        name="loginBtn">
+                        구글로 로그인
+                    </a>
 
-                        <button class="loginBtn loginBtn-google" name="loginBtn" value="google">
-                            Login with Google
-                        </button>
-                    </div>
+                    <a name="loginBtn"
+                        value="fb">
+                        페이스북으로 로그인
+                    </a>
                 </div>
-
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-lg signup-form-signup">SIGN UP</button>
-                </div>
-            </form>
         )
+
+        // <button class="loginBtn loginBtn-facebook" name="loginBtn" value="fb">
+        //     Login with Facebook
+        // </button>
+        //
+        // <GoogleLogin
+        //     clientId="755801497962-25e8cmnp81pcld5r8mfsvmetus9qnnv4.apps.googleusercontent.com"
+        //     buttonText="Login"
+        // />
+        //
+        // <button class="loginBtn loginBtn-google" name="loginBtn" value="google">
+        //     Login with Google
+        // </button>
 
         const createRoomModal = (
             <div>
@@ -75,8 +84,9 @@ class IndexModal extends Component {
                        isOpen={this.state.showModal}
                        contentLabel="Minimal Modal Example"
                     >
-
-                        {this.props.modalUsage === "LOGIN" ? loginModal : createRoomModal}
+                        <div class="modal-body">
+                            {this.props.modalUsage === "LOGIN" ? loginModal : createRoomModal}
+                        </div>
 
                        <button onClick={this.handleCloseModal}>Close Modal</button>
                     </Modal>
