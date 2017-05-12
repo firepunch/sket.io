@@ -89,4 +89,16 @@ public class Room {
         playerList.add(player);
     }
 
+    public void deletePlayer(Player player){
+        playerList.remove(player);
+    }
+
+    public void deletePlayer(String id) {
+        for(Player player : playerList){
+            if(player.getId().equals(id)){
+                playerList.remove(player);
+            }
+        }
+    }
+
 }
