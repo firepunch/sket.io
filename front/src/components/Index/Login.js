@@ -35,7 +35,6 @@ class IndexModal extends Component {
     }
 
     render() {
-<<<<<<< HEAD
         // modalType 이 0이면 login 버튼을 보여줌
         // const login = (
         //     <div>
