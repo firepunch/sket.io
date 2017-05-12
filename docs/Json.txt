@@ -3,7 +3,7 @@
 create room
 {
     "type" : "createRoom",
-    "roomId" : "(방 이름)",
+    "roomName" : "(방 이름)",
     "lock" : "(true or false)",
     "password" : "(null or 1234)",
     "master" : "(유저 아이디)"
@@ -77,7 +77,7 @@ send random quiz
 send create room
 {
     "type" : "createRoom",
-    "name" : "(방 이름)",
+    "roomName" : "(방 이름)",
     "lock" : "(true or false)",
     "master" : "(유저 아이디)",
     "roomId" : "(룸 아이디)"

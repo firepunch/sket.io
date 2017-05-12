@@ -55,7 +55,7 @@ public class WebSocket {
 
                 /* 방 생성 했을 때 보내는 JSON */
             case "createRoom":
-                targetRoom = RoomController.createRoom(jsonObject.getString("roomId"), jsonObject.getBoolean("lock"),
+                targetRoom = RoomController.createRoom(jsonObject.getString("roomName"), jsonObject.getBoolean("lock"),
                         jsonObject.getString("password"), jsonObject.getString("master"));
 
                 session.getBasicRemote().sendText(RoomController.getRoomInfoToJSON(targetRoom).put("type", "roomInfo").toString());
