@@ -13,7 +13,7 @@ public class GetHttpSessionConfigurator extends ServerEndpointConfig.Configurato
         try {
             HttpSession session = (HttpSession) request.getHttpSession();
             config.getUserProperties().put(HttpSession.class.getName(), session);
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
