@@ -12,10 +12,9 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 
 public class FBConnection {
-    public static final String FB_APP_ID = "741189302727195";
-//    public static final String FB_APP_SECRET = Configure.FB_APP_SECRET;
-    public static final String FB_APP_SECRET = "";
-    public static final String REDIRECT_URI = "http://localhost:8080/LoginController/";
+    private static final String FB_APP_ID = "741189302727195";
+    public static final String FB_APP_SECRET = Configure.FB_APP_SECRET;
+    private static final String REDIRECT_URI = "http://localhost:8080/LoginController/";
 
     static String accessToken = "";
 
@@ -33,7 +32,7 @@ public class FBConnection {
     }
 
     // 페북 토큰을 얻는다.
-    public String getFBTokenUrl(String code) {
+    private String getFBTokenUrl(String code) {
         String fbGraphUrl = "";
         fbGraphUrl = "https://graph.facebook.com/oauth/access_token?client_id="
                 + FBConnection.FB_APP_ID + "&client_secret=" +

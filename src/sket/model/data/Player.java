@@ -23,10 +23,8 @@ public class Player {
         playerArrayList.add(this);
     }
 
-    public Player(boolean roomMaster, Session session){
-        guest = new Guest(this);
+    public Player(String s, boolean roomMaster, Session session, boolean isGuest){
         this.roomMaster = roomMaster;
-        this.session = 
     }
 
     public void setExaminer(boolean isExaminer){

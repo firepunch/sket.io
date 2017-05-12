@@ -3,9 +3,9 @@ package sket.controllers;
 import sket.db.DBConnection;
 import sket.model.action.FBConnection;
 import sket.model.action.GoogleConnection;
+import sket.model.action.ServletCallbackSample;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,7 +45,7 @@ public class LoginController extends HttpServlet {
             db.InsertUser(accessToken, nick);
         } else if (act.equals("google")) {
             GoogleConnection googleConnection = new GoogleConnection();
-
+            ServletCallbackSample servletCallbackSample = new ServletCallbackSample();
         } else {
 //            someone has altered the HTML and sent a different value!
         }
