@@ -19,16 +19,16 @@ class Login extends Component {
         // modalType 이 0이면 login 버튼을 보여줌
         const login = (
             <div>
-                <IndexModal
-                    modalName="로그인"/>
+            <IndexModal
+        modalName="로그인"/>
             </div>
-        )
+    )
 
         return(
-            <div>
-                {this.props.modalType ? 'error' : login}
-            </div>
-        );
+        <div>
+        {this.props.modalType ? 'error' : login}
+    </div>
+    );
     }
 }
 

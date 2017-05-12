@@ -1,5 +1,7 @@
 package sket.model.action;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import sket.Configure;
 
 import java.io.BufferedReader;
@@ -10,6 +12,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FBConnection {
     private static final String FB_APP_ID = "741189302727195";
@@ -71,5 +75,44 @@ public class FBConnection {
             accessToken = splited;
         }
         return accessToken;
+    }
+
+    public String getFbGraph(String token) {
+        String graph = null;
+        try {
+            String g = "https://graph.facebook.com/me?" + token;
+            URL u = new URL(g);
+            URLConnection c = u.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(c.getInputStream()));
+            String inputLine;
+            StringBuffer b = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                b.append(inputLine + "\n");
+            }
+            in.close();
+            graph = b.toString();
+            System.out.println(graph);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("ERROR in getting FB graph data. " + e);
+        }
+        return graph;
+    }
+
+    public Map getGrapthData(String graph) {
+        Map fbProfile = new HashMap();
+        try {
+            JSONObject json = new JSONObject(graph);
+            fbProfile.put("id", json.getString("id"));
+            fbProfile.put("first_name", json.getString("first_name"));
+/*
+            if (json.has("email"))
+                fbProfile.put("email", json.getString("email"));
+*/
+        } catch (JSONException e) {
+            e.printStackTrace();
+            throw new RuntimeException("ERROR in parsing FB graph data. " + e);
+        }
+        return fbProfile;
     }
 }
