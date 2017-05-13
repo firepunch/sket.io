@@ -45,8 +45,11 @@ public class Room {
 
         this.countRoomId += 1;
 
-        System.out.println("방 생성 성공");
+        System.out.println("log : "+"방 생성 성공");
+
         Room.roomList.add(this);
+        totalUserNumber += 1;
+
         playerList.add(roomMaster);
     }
 
