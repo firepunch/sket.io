@@ -40,7 +40,7 @@ public class WebSocket {
         HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
         System.out.println("httpSession : " + ((User) httpSession.getAttribute("user")).getId());
 
-        System.out.println("log : "+"getUserIdEqualSession() : " + SessionManager.getUserIdEqualSession(httpSession));
+        System.out.println("log : " + "getUserIdEqualSession() : " + SessionManager.getUserIdEqualSession(httpSession));
         player = new Player(SessionManager.getUserIdEqualSession(httpSession), false, session, false);
 
         // session 에 룸 리스트 보냄
@@ -60,7 +60,11 @@ public class WebSocket {
                         jsonObject.getString("password"), jsonObject.getString("master"));
 
                 session.getBasicRemote().sendText(RoomController.getRoomInfoToJSON(targetRoom).put("type", "roomInfo").toString());
+                break;
 
+                /* 방 리스트 보내는 JSON */
+            case "roomList":
+                session.getBasicRemote().sendText(RoomController.getRoomListAsJSON());
                 break;
 
                 /* 방 입장할 때 보내는 JSON */
