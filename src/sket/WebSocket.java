@@ -9,6 +9,7 @@ import sket.model.action.PlayerAction;
 import sket.model.action.QuizAction;
 import sket.model.action.RoomAction;
 import sket.model.action.SessionManager;
+import sket.model.data.Guest;
 import sket.model.data.Player;
 import sket.model.data.Room;
 import sket.model.data.User;
@@ -62,17 +63,29 @@ public class WebSocket {
                 session.getBasicRemote().sendText(RoomController.getRoomInfoToJSON(targetRoom).put("type", "roomInfo").toString());
                 break;
 
-                /* 방 리스트 보내는 JSON */
+                /* 방 리스트 보내는 JSON... 우선 테스트 코드 */
             case "roomList":
                 session.getBasicRemote().sendText(RoomController.getRoomListAsJSON());
                 break;
 
+            case "guestTest":
+                Guest guest = new Guest(false, session);
+                Player guestPlayer = PlayerAction.getEqualPlayerId(guest.getId());
+
+                System.out.println("log : 게스트 아이디 : " + guest.getId());
+                System.out.println("log : 게스트&플레이어 아이디 : " + guestPlayer.getId());
+                System.out.println("log : 게스트 세션 : " + guest.getSession());
+                System.out.println("log : 게스트&플레이어 세션 : " + guestPlayer.getSession());
+
+                break;
+
                 /* 방 입장할 때 보내는 JSON */
             case "enterRoom":
-                targetRoom = RoomAction.enterRoom(jsonObject.getInt("roomId"), session);
+                targetRoom = RoomAction.enterRoom(jsonObject.getInt("roomId"), jsonObject.getString("userId"));
+
                 roomAction = new RoomAction(targetRoom);
 
-                if (targetRoom != null) {
+                if (targetRoom != null && roomAction != null) {
                     ArrayList<Session> roomMembers = roomAction.getPlayerSession();
                     for (Session member : roomMembers) {
                         member.getBasicRemote().sendText(RoomController.getRoomInfoToJSON(targetRoom).put("type", "roomInfo").toString());
