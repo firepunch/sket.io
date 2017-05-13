@@ -80,7 +80,7 @@ public class FBConnection {
     public String getFbGraph(String token) {
         String graph = null;
         try {
-            String g = "https://graph.facebook.com/me?" + token;
+            String g = "https://graph.facebook.com/me?fields=id&access_token=" + token;
             URL u = new URL(g);
             URLConnection c = u.openConnection();
             BufferedReader in = new BufferedReader(new InputStreamReader(c.getInputStream()));
@@ -91,7 +91,7 @@ public class FBConnection {
             }
             in.close();
             graph = b.toString();
-            System.out.println(graph);
+            System.out.println("log: FB graph : "+graph);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("ERROR in getting FB graph data. " + e);

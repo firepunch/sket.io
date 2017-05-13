@@ -11,7 +11,6 @@ import java.util.ArrayList;
  */
 
 public class QuizAction {
-    // TODO: 뭔가요
     private static Room targetRoom = null;
 
     public QuizAction(Room targetRoom) {
