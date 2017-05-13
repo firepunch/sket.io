@@ -34,7 +34,7 @@ public class SignUpController extends HttpServlet {
         session.setAttribute("user", new User(id, password, nickname));
         SessionManager.addSession(session);
 
-        resp.sendRedirect("/test/createRoom.html");
+        resp.sendRedirect("/test/test.html");
     }
 }
 
