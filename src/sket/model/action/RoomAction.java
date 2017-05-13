@@ -47,11 +47,11 @@ public class RoomAction {
     }
 
     /* 유저가 방 입장하는 것을 처리하는 메소드 */
-    public static Room enterRoom(int roomId, Session session) {
+    public static Room enterRoom(int roomId, String userId) {
         Room enter = RoomAction.findRoomById(roomId);
 
         if (enter != null) {
-            enter.addPlayer(PlayerAction.getPlayerEqualSession(session));
+            enter.addPlayer(PlayerAction.getEqualPlayerId(userId));
             return enter;
         }
 

@@ -43,7 +43,6 @@ public class FBConnection {
                 FB_APP_SECRET + "&grant_type=client_credentials";
 
         return fbGraphUrl;
-
     }
 
     // accessToken을 사용가능하도록 정제한다.
