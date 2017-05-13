@@ -17,7 +17,7 @@ public class Room {
     private static ArrayList<Room> roomList = new ArrayList<>();
 
     // Room 에 존재하는 User 를 ArrayList 에 저장
-    private ArrayList<Player> playerList;
+    private ArrayList<Player> playerList = new ArrayList<>();
     private final int MAX_USER = 4;
     private static int countRoomId = 0;
 
@@ -47,6 +47,7 @@ public class Room {
 
         System.out.println("방 생성 성공");
         Room.roomList.add(this);
+        playerList.add(roomMaster);
     }
 
     public static ArrayList<Room> getRoomList() {
@@ -89,13 +90,13 @@ public class Room {
         playerList.add(player);
     }
 
-    public void deletePlayer(Player player){
+    public void deletePlayer(Player player) {
         playerList.remove(player);
     }
 
     public void deletePlayer(String id) {
-        for(Player player : playerList){
-            if(player.getId().equals(id)){
+        for (Player player : playerList) {
+            if (player.getId().equals(id)) {
                 playerList.remove(player);
             }
         }

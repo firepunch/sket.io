@@ -29,7 +29,7 @@
 
     var msg = {
         type: "createRoom",
-        roomId: "createRoom",
+        roomName: "방제목",
         lock: true,
         password: "1234",
         master: "Kwon"
@@ -38,6 +38,7 @@
     function createButton() {
         webSocket.send(JSON.stringify(msg));
     };
+
 </script>
 </body>
 </html>

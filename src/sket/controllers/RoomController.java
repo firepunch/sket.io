@@ -23,8 +23,6 @@ public class RoomController {
         Player player = PlayerAction.getEqualPlayerId(masterId);
         player.setRoomMaster(true);
 
-        room.addPlayer(player);
-
         return room;
     }
 
