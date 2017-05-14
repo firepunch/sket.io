@@ -5,11 +5,13 @@ public class User {
     private String id;
     private String password;
     private String nick;
+    private boolean isGuest = false;
 
-    public User(String id, String password, String nick){
+    public User(String id, String password, String nick, boolean isGuest){
         this.id = id;
         this.password = password;
         this.nick = nick;
+        this.isGuest = isGuest;
     }
 
     public String getId() {
@@ -34,5 +36,13 @@ public class User {
 
     public void setNick(String nick) {
         this.nick = nick;
+    }
+
+    public boolean isGuest() {
+        return isGuest;
+    }
+
+    public void setGuest(boolean guest) {
+        isGuest = guest;
     }
 }

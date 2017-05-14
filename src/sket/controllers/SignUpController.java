@@ -31,7 +31,7 @@ public class SignUpController extends HttpServlet {
         nickname = req.getParameter("nick");
 
         HttpSession session = req.getSession();
-        session.setAttribute("user", new User(id, password, nickname));
+        session.setAttribute("user", new User(id, password, nickname, false));
         SessionManager.addSession(session);
 
         resp.sendRedirect("/test/test.html");
