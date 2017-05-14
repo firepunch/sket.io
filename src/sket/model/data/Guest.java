@@ -1,6 +1,7 @@
 package sket.model.data;
 
 import org.json.JSONObject;
+
 import javax.websocket.Session;
 import java.util.ArrayList;
 
@@ -16,14 +17,14 @@ public class Guest {
     private final int MIN_ARANGE = 100;
 
     /* Guest 접속 했을 시, 방장 여부, session, guest 인지 인자로 받아 Player 인스턴스 생성 */
-    public Guest(boolean roomMaster, Session session, boolean isGuest) {
+    public Guest(boolean roomMaster, Session session) {
 
         // guestList 의 사이즈가 0 일 경우 guestInit() 메소드 호출
         if (guestList.size() == 0) {
             guestInit();
         }
 
-        player = new Player(Integer.toString(countId), roomMaster, session, isGuest);
+        player = new Player(Integer.toString(countId), roomMaster, session, true);
         allocateId();
         guestList.add(this);
     }

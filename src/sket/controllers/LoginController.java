@@ -3,7 +3,6 @@ package sket.controllers;
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import sket.db.DBConnection;
 import sket.model.action.FBConnection;
-import sket.model.action.GoogleConnection;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -39,8 +38,7 @@ public class LoginController extends HttpServlet {
             code = fbConnection.getFBAuthUrl();
 
             if (code == null || code.equals("")) {
-                throw new RuntimeException(
-                        "ERROR: Didn't get code parameter in callback.");
+                throw new RuntimeException("ERROR: Didn't get code parameter in callback.");
             }
 
             accessToken = fbConnection.getAccessToken(code);
@@ -49,17 +47,9 @@ public class LoginController extends HttpServlet {
             String graph = fbConnection.getFbGraph(accessToken);
             Map<String, String> fbProfileData = fbConnection.getGrapthData(graph);
 
-            System.out.println("FB--------\n\nNmae: " + fbProfileData.get("first_name"));
+            System.out.println("log: FB값 확인(이름, 사진) : " + fbProfileData.get("first_name"));
         } else if (act.equals("google")) {
-            GoogleConnection googleConnection = new GoogleConnection();
-
-            // 엑세스 권한을 부여할 수 있는 권한 부여 페이지로 이동
-            String url = flow.newAuthorizationUrl().setState("xyz")
-                    .setRedirectUri("https://client.example.com/rd").build();
-            res.sendRedirect(url);
-
-            // Get the OAuth2 credential.
-            googleConnection.getAccessToken("userid");
+            System.out.println("log: clicking goolge btn");
         } else {
 
         }

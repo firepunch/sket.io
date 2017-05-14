@@ -1,5 +1,5 @@
 src/sket/Configure.java
-src/sket/googleOauthInfo.json
+src/sket/googleSecret.json
 docs/Personal Information Processing.txt
 node_modules
 .idea/

@@ -45,7 +45,7 @@ public class Room {
 
         this.countRoomId += 1;
 
-        System.out.println("log : "+"방 생성 성공");
+        System.out.println("log : " + "방 생성 성공");
 
         Room.roomList.add(this);
         totalUserNumber += 1;
@@ -91,16 +91,19 @@ public class Room {
 
     public void addPlayer(Player player) {
         playerList.add(player);
+        totalUserNumber += 1;
     }
 
     public void deletePlayer(Player player) {
         playerList.remove(player);
+        totalUserNumber -= 1;
     }
 
     public void deletePlayer(String id) {
         for (Player player : playerList) {
             if (player.getId().equals(id)) {
                 playerList.remove(player);
+                totalUserNumber -= 1;
             }
         }
     }
