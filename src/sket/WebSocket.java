@@ -32,6 +32,7 @@ public class WebSocket {
     private Room targetRoom = null;
     private RoomAction roomAction = null;
     private Player player;
+    private Guest guest;
 
     @OnOpen
     public void onOpen(Session session, EndpointConfig config) throws IOException {
@@ -39,10 +40,15 @@ public class WebSocket {
         sessionList.add(session);
 
         HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
-        System.out.println("httpSession : " + ((User) httpSession.getAttribute("user")).getId());
 
         System.out.println("log : " + "getUserIdEqualSession() : " + SessionManager.getUserIdEqualSession(httpSession));
-        player = new Player(SessionManager.getUserIdEqualSession(httpSession), false, session, false);
+
+        if(((User) httpSession.getAttribute("user")).isGuest()){
+            guest = new Guest(false, session);
+            player = PlayerAction.getEqualPlayerId(guest.getId());
+        }else{
+            player = new Player(SessionManager.getUserIdEqualSession(httpSession), false, session, false);
+        }
 
         // session 에 룸 리스트 보냄
         session.getBasicRemote().sendText(RoomController.getRoomListAsJSON());
@@ -68,6 +74,7 @@ public class WebSocket {
                 session.getBasicRemote().sendText(RoomController.getRoomListAsJSON());
                 break;
 
+                /* Guest 만드는 JSON... 우선 테스트 코드임 */
             case "guestTest":
                 Guest guest = new Guest(false, session);
                 Player guestPlayer = PlayerAction.getEqualPlayerId(guest.getId());
