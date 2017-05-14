@@ -21,7 +21,7 @@ public class SessionManager {
 
     public static String getUserIdEqualSession(HttpSession session) {
         for(HttpSession httpSession : sessionList){
-            if(httpSession.equals(httpSession)){
+            if(httpSession.equals(session)){
                 return ((User) httpSession.getAttribute("user")).getId();
             }
         }
