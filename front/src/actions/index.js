@@ -6,15 +6,19 @@ import * as types from './ActionTypes';
 // login
 export function googleLogin() {
     return {
-        type: types.GOOGLE_LOGIN,
-        promise: { method: 'post', url: '/signup/google'}
+        type: types.GOOGLE_LOGIN
     }
 }
 
 export function facebookLogin() {
     return {
-        type: types.FACEBOOK_LOGIN,
-        promise: { method: 'post', url: '/signup/facebook'}
+        type: types.FACEBOOK_LOGIN
+    }
+}
+
+export function guestLogin() {
+    return {
+        type: types.GUEST_LOGIN
     }
 }
 

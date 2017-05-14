@@ -1,8 +1,7 @@
 import * as types from '../actions/ActionTypes';
 
 const initialState = {
-    id: 'test',
-    password: 'test'
+    isLoggedIn: false
 }
 
 export default function login(state=initialState, action) {

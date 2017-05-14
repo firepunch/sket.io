@@ -3,6 +3,7 @@
 // login
 export const GOOGLE_LOGIN   = "GOOGLE_LOGIN";
 export const FACEBOOK_LOGIN = "FACEBOOK_LOGIN";
+export const GUEST_LOGIN = "GUEST_LOGIN";
 
 // header function
 export const CREATE_ROOM    = "CREATE_ROOM";

@@ -73,4 +73,4 @@ const socketMiddleware = (function(){
 
 })();
 
-export default socketMiddleware
+export default socketMiddleware;
