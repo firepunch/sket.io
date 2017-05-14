@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css?family=Indie+Flower');
+
+.login-header {
+    text-align: center;
+}
+
+.login-container {
+    /*display: table-cell;*/
+    padding: 50px 0 10px 0;
+}
+
+.login-content {
+	color: #FFF;
+	background: rgba(0, 0, 0, 0.6);
+	padding: 20px 0 20px;
+    width: 60%;
+
+    /*display: inline-block;*/
+    text-align: center;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login-button {
+    margin: 50px auto 50px auto;
+}
+
+
+h1 {
+    font-family: 'Indie Flower', cursive;
+    font-size: 200px;
+    color: white;
+
+    margin-top: 5%;
+}
