@@ -24,18 +24,36 @@ class Sket extends Component {
 
     render() {
         const loginPage = (
-            <div>
-                <button onClick={this.props.handleFacebookLogin}>
-                    페이스북으로 로그인하기
-                </button>
+            <div className="login-container">
+                <div className="login-header">
+                    <h1>sket.io</h1>
+                </div>
 
-                <button onClick={this.props.handleGoogleLogin}>
-                    구글로 로그인하기
-                </button>
+                <div className="login-content">
+                    <div className="login-button">
+                        <button onClick={this.props.handleFacebookLogin}
+                            className="action-button shadow animate blue"
+                        >
+                            페이스북으로 로그인하기
+                        </button>
+                    </div>
 
-                <button onClick={this.props.handleGuestLogin}>
-                    GUEST로 로그인하기
-                </button>
+                    <div className="login-button">
+                        <button onClick={this.props.handleGoogleLogin}
+                            className="action-button shadow animate red"
+                        >
+                            구글로 로그인하기
+                        </button>
+                    </div>
+
+                    <div className="login-button">
+                        <button onClick={this.props.handleGuestLogin}
+                            className="action-button shadow animate green"
+                        >
+                            GUEST로 로그인하기
+                        </button>
+                    </div>
+                </div>
             </div>
         )
 
