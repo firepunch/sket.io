@@ -31,7 +31,7 @@ class Sket extends Component {
 
                 <div className="login-content">
                     <div className="login-button">
-                        <button onClick={this.props.handleFacebookLogin}
+                        <button onClick={() => this.props.handleLogin('FACEBOOK')}
                             className="action-button shadow animate blue"
                         >
                             페이스북으로 로그인하기
@@ -39,7 +39,7 @@ class Sket extends Component {
                     </div>
 
                     <div className="login-button">
-                        <button onClick={this.props.handleGoogleLogin}
+                        <button onClick={() => this.props.handleLogin('GOOGLE')}
                             className="action-button shadow animate red"
                         >
                             구글로 로그인하기
@@ -47,7 +47,7 @@ class Sket extends Component {
                     </div>
 
                     <div className="login-button">
-                        <button onClick={this.props.handleGuestLogin}
+                        <button onClick={() => this.props.handleLogin('GUEST')}
                             className="action-button shadow animate green"
                         >
                             GUEST로 로그인하기
@@ -56,6 +56,7 @@ class Sket extends Component {
                 </div>
             </div>
         )
+
 
         const index = (
                 <IndexContent/>
@@ -82,12 +83,13 @@ Sket.defaultProps = defaultProps;
 
 
 const mapStateToProps = (state) => {
-    const { isLoggedIn } = state.login;
+    const { isLoggedIn, fetchingUpdate, user } = state.login;
 
     return {
-        user: state.main,
+        isLoggedIn,
+        fetchingUpdate,
+        user,
         usage: state.modal,
-        isLoggedIn
         // isLoggedIn:
         // number: state.counter.number,
         // color: state.ui.color
@@ -98,11 +100,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         handleModalUsage: (usage) => { dispatch(actions.changeModalUsage(usage)) },
-        handleFacebookLogin: () => { dispatch(actions.loginFacebook()) },
-        handleGoogleLogin: () => { dispatch(actions.loginGoogle()) },
-        handleGuestLogin: () => { dispatch(actions.loginGeust()) }
-        // handleDecrement: () => { dispatch(actions.decrement()) },
-        // handleSetColor: (color) => { dispatch(actions.setColor(color)) }
+        handleLogin: (social) => { dispatch(actions.handleLogin(social)) }
+        // handleFacebookLogin: () => { dispatch(actions.loginFacebook()) },
+        // handleGoogleLogin: () => { dispatch(actions.loginGoogle()) },
+        // handleGuestLogin: () => { dispatch(actions.loginGeust()) }
     };
 }
 
