@@ -1,0 +1,15 @@
+{
+  "web": {
+    "client_id": "755801497962-25e8cmnp81pcld5r8mfsvmetus9qnnv4.apps.googleusercontent.com",
+    "project_id": "sketio-164513",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://accounts.google.com/o/oauth2/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret": "8K6VHl1opuRDZ3GxkwST3xD0",
+    "redirect_uris": [
+      "http://localhost:8080",
+      "http://localhost:8080/LoginController/",
+      "http://localhost:8080/signup/google/"
+    ]
+  }
+}

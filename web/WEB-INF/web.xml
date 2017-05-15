@@ -16,7 +16,6 @@
            <servlet-name>SignUpController</servlet-name>
         <url-pattern>/signup.do</url-pattern>
     </servlet-mapping>
-
     
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
@@ -73,6 +72,6 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
-        <url-pattern>/LoginController</url-pattern>
+        <url-pattern>/signup/google/</url-pattern>
     </servlet-mapping>
 </web-app>
