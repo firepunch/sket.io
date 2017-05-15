@@ -16,8 +16,6 @@
            <servlet-name>SignUpController</servlet-name>
         <url-pattern>/signup.do</url-pattern>
     </servlet-mapping>
-<<<<<<< HEAD
-=======
     <servlet>
         <servlet-name>GuestController</servlet-name>
         <servlet-class>sket.controllers.GuestController</servlet-class>
@@ -27,8 +25,17 @@
         <url-pattern>/guest.do</url-pattern>
     </servlet-mapping>
 
->>>>>>> origin/master
-    
+    <servlet>
+        <display-name>LoginController</display-name>
+        <servlet-name>LoginController</servlet-name>
+        <servlet-class>sket.controllers.LoginController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginController</servlet-name>
+        <url-pattern>/signin/*</url-pattern>
+    </servlet-mapping>
+
+
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
@@ -77,13 +84,5 @@
         <extension>wsdl</extension>
         <mime-type>text/xml</mime-type>
     </mime-mapping>
-    <servlet>
-        <display-name>LoginController</display-name>
-        <servlet-name>LoginController</servlet-name>
-        <servlet-class>sket.controllers.LoginController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>LoginController</servlet-name>
-        <url-pattern>/signup/google/</url-pattern>
-    </servlet-mapping>
+
 </web-app>

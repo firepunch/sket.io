@@ -31,7 +31,7 @@ import java.net.URLEncoder;
 public class GoogleConnection {
     private static String clientID = "755801497962-25e8cmnp81pcld5r8mfsvmetus9qnnv4.apps.googleusercontent.com";
     private static String clientSecret = Configure.GOOGLE_APP_SECRET;
-    private static final String REDIRECT_URI = "http://localhost:8080/signup/google/";
+    private static final String REDIRECT_URI = "http://localhost:8080/";
 
     static String accessToken = "";
     private static HttpTransport httpTransport = null;
