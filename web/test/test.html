@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>방 생성 테스트</title>
+</head>
+<body>
+
+방 이름 : <input type="text" id="name">
+잠금 : <input type="text" id="isLock" value="true or false">
+잠금일 시 비번 : <input type="text" id="password">
+방장 ID : <input type="text" id="masterID">
+<input type="button" value="방생성" onclick="createButton()"><br>
+<input type="button" value="방 리스트" onclick="roomList()"><br>
+<input type="button" value="게스트 만들기" onclick="createGuest()"><br>
+방 아이디 : <input type="text" id="joinRoomId">
+유저 아이디 : <input type="text" id="joinRoomUserId">
+<input type="button" value="방 참가" onclick="joinRoom()"><br>
+
+<script type="text/javascript">
+    var webSocket = new WebSocket("ws://localhost:9081/websocket");
+    webSocket.onopen = function () {
+        console.log("서버 연결")
+    };
+    webSocket.onclose = function () {
+        console.log("서버 종료")
+    };
+    webSocket.onmessage = function (msg) {
+        console.log("서버로부터 받음 : " + msg.data);
+    };
+    webSocket.onerror = function (msg) {
+        console.log('onerror()');
+        console.log(msg);
+    };
+    function createButton() {
+        var name = document.getElementById("name").value;
+        var lock;
+        var password = document.getElementById("password").value;
+        var masterId = document.getElementById("masterID").value;
+        if (document.getElementById("isLock").value == "false") {
+            lock = false;
+            password = "null";
+        } else if (document.getElementById("isLock").value == "true") {
+            lock = true;
+        }
+        var msg = {
+            type: "createRoom",
+            roomName: name,
+            lock: lock,
+            password: password,
+            master: masterId
+        };
+        console.log("msg : \n" + msg.toString());
+        webSocket.send(JSON.stringify(msg));
+    };
+    function roomList() {
+        var msg = {
+            type: "roomList"
+        };
+        webSocket.send(JSON.stringify(msg));
+    }
+    function createGuest() {
+        var msg = {
+            type: "guestTest"
+        };
+        webSocket.send(JSON.stringify(msg));
+    }
+    function joinRoom() {
+        var roomId = document.getElementById("joinRoomId").value;
+        var userId = document.getElementById("joinRoomUserId").value;
+        var msg = {
+            type: "enterRoom",
+            roomId: roomId,
+            userId: userId
+        };
+        console.log("joinRoomId : " + roomId + "\t joinRoomUserId : " + userId);
+        webSocket.send(JSON.stringify(msg));
+    }
+</script>
+</body>
+</html>
