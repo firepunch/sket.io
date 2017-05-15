@@ -5,9 +5,10 @@ import fetch from 'isomorphic-fetch';
 
 // login
 export function handleLogin(social) {
+    let proxyUrl = 'https://cors-anywhere.herokuapp.com/'
     return dispatch => {
         dispatch(requestLogin())
-        fetch(`/signin/${social}`)
+        fetch(proxyUrl + `/signin/${social}`)
         .then(res => res.json())
         .then(json => dispatch(receiveUserData(json)))  // 전달 받은 user data를 dispatch
         .catch(error => dispatch(failReceiveUserData()))    // 오류 catch
