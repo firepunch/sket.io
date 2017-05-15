@@ -31,7 +31,7 @@ class Sket extends Component {
 
                 <div className="login-content">
                     <div className="login-button">
-                        <button onClick={() => this.props.handleLogin('FACEBOOK')}
+                        <button onClick={() => this.props.handleLogin('facebook')}
                             className="action-button shadow animate blue"
                         >
                             페이스북으로 로그인하기
@@ -39,7 +39,7 @@ class Sket extends Component {
                     </div>
 
                     <div className="login-button">
-                        <button onClick={() => this.props.handleLogin('GOOGLE')}
+                        <button onClick={() => this.props.handleLogin('google')}
                             className="action-button shadow animate red"
                         >
                             구글로 로그인하기
@@ -47,7 +47,7 @@ class Sket extends Component {
                     </div>
 
                     <div className="login-button">
-                        <button onClick={() => this.props.handleLogin('GUEST')}
+                        <button onClick={() => this.props.handleLogin('guest')}
                             className="action-button shadow animate green"
                         >
                             GUEST로 로그인하기

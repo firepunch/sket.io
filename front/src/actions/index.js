@@ -1,45 +1,37 @@
 import * as types from './ActionTypes';
-
+import fetch from 'isomorphic-fetch';
 
 /* INDEX */
 
 // login
 export function handleLogin(social) {
     return dispatch => {
-        switch (social) {
-            case 'FACEBOOK':
-                return dispatch(facebookLogin());
-
-            case 'GOOGLE':
-                return dispatch(googleLogin());
-
-            case 'GUEST':
-                return dispatch(guestLogin());
-        }
+        dispatch(requestLogin())
+        fetch(`/signin/${social}`)
+        .then(res => res.json())
+        .then(json => dispatch(receiveUserData(json)))  // 전달 받은 user data를 dispatch
+        .catch(error => dispatch(failReceiveUserData()))    // 오류 catch
     }
 }
 
-function facebookLogin() {
+function requestLogin() {
     return {
-        type: types.FACEBOOK_LOGIN,
-        promise: { method: 'post', url: '/singin/facebook', data: ''}
+        type: types.LOGIN_REQUEST
     }
 }
 
-function googleLogin() {
+function receiveUserData(user) {
     return {
-        type: types.GOOGLE_LOGIN,
-        promise: { method: 'post', url: '/singin/google', data: ''}
+        type: types.LOGIN_SUCCESS,
+        user
     }
 }
 
-function guestLogin() {
+function failReceiveUserData() {
     return {
-        type: types.GUEST_LOGIN,
-        promise: { method: 'post', url: '/guest.do', data: ''}
+        type: types.LOGIN_FAILURE
     }
 }
-
 
 // function
 export function createRoom() {

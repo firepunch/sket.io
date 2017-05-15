@@ -1,11 +1,6 @@
 /* INDEX */
 
 // login
-export const GOOGLE_LOGIN   = "GOOGLE_LOGIN";
-export const FACEBOOK_LOGIN = "FACEBOOK_LOGIN";
-export const GUEST_LOGIN = "GUEST_LOGIN";
-
-// export const LOGIN = "LOGIN";
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";

@@ -19,7 +19,7 @@ export default function login(state=initialState, action) {
                 ...state,
                 isLoggedIn: true,
                 fetchingUpdate: false,
-                user: action.result
+                user: action.user
             };
 
         case types.LOGIN_FAILURE:
