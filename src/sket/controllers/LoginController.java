@@ -5,18 +5,19 @@ import sket.db.DBConnection;
 import sket.model.action.FBConnection;
 import sket.model.action.GoogleConnection;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Map;
+
+import static sket.Configure.url;
 
 /**
  * Created by firepunch on 2017-04-06.
@@ -41,8 +42,10 @@ public class LoginController extends HttpServlet {
         if (act.equals("/signin/facebook")) {
             FBConnection fbConnection = new FBConnection();
 
+//            res.sendRedirect(fbConnection.getFBAuthUrl());
+
             code = req.getParameter("code");
-            System.out.println(code);
+            System.out.println("fb code : "+code);
 
             if (code == null || code.equals("")) {
                 throw new RuntimeException("ERROR: Didn't get code parameter in callback.");
@@ -53,23 +56,38 @@ public class LoginController extends HttpServlet {
             String graph = fbConnection.getFbGraph(accessToken);
             Map<String, String> fbProfileData = fbConnection.getGrapthData(graph);
 
-            System.out.println("log: FB값 확인(id, 이름, 사진) : " + fbProfileData.get("first_name"));
+            System.out.println("log: FB값 확인(id) : " + fbProfileData.get("id"));
+            System.out.println("log: FB값 확인(이름) : " + fbProfileData.get("name"));
         } else if (act.equals("/signin/google")) {
             System.out.println("log: google click");
             GoogleConnection googleConnection = new GoogleConnection();
+
 //            res.sendRedirect(googleConnection.getGoogleAuthUrl());
-            code = googleConnection.getGoogleAuthUrl();
-            System.out.println("log : 구글 인증 url :"+code);
+//            req.getRequestDispatcher(googleConnection.getGoogleAuthUrl()).include(req, res);
+
+//            String fetchedUrl = googleConnection.getFinalRedirectedUrl(googleConnection.getGoogleAuthUrl());
+//            System.out.println("FetchedURL is:" + fetchedUrl);
+
+            code = req.getParameter("code");
+
+            System.out.println("log : 구글 주소 쿼리 : "+req.getQueryString());
+            System.out.println("log : 구글 주소 : "+req.getRequestURL());
+            System.out.println("log : 구글 인증 code : "+ req.getParameter("code"));
+            System.out.println("log : 구글 인증 codeURL :"+googleConnection.getGoogleAuthUrl());
 
             if (code == null || code.equals("")) {
                 throw new RuntimeException("ERROR: Didn't get code parameter in callback.");
             }
 
             accessToken = googleConnection.getAccessToken(code);
+            String graph = googleConnection.getGoogleGraph(accessToken);
+            Map<String, String> gProfileData = googleConnection.getGrapthData(graph);
+
+            System.out.println("log: 구글값 확인(id) : " + gProfileData.get("id"));
+            System.out.println("log: 구글값 확인(이름) : " + gProfileData.get("name"));
+            System.out.println("log: 구글값 확인(이름) : " + gProfileData.get("picture"));
+
             System.out.println("log : 구글 토큰 : " + accessToken);
-            res.addHeader("Access-Control-Allow-Origin", "*");
-            res.sendRedirect("http://www.google.com");
-            return;
         }
     }
 }
