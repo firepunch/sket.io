@@ -16,6 +16,8 @@
            <servlet-name>SignUpController</servlet-name>
         <url-pattern>/signup.do</url-pattern>
     </servlet-mapping>
+<<<<<<< HEAD
+=======
     <servlet>
         <servlet-name>GuestController</servlet-name>
         <servlet-class>sket.controllers.GuestController</servlet-class>
@@ -25,6 +27,7 @@
         <url-pattern>/guest.do</url-pattern>
     </servlet-mapping>
 
+>>>>>>> origin/master
     
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
@@ -81,6 +84,6 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
-        <url-pattern>/LoginController</url-pattern>
+        <url-pattern>/signup/google/</url-pattern>
     </servlet-mapping>
 </web-app>

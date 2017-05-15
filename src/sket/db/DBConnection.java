@@ -18,8 +18,7 @@ public class DBConnection {
     public DBConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-//            conn = DriverManager.getConnection(Configure.url, Configure.dbUser, Configure.dbPW);
-            conn = DriverManager.getConnection("", "", "");
+            conn = DriverManager.getConnection(Configure.url, Configure.dbUser, Configure.dbPW);
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("SQLException: " + e.getMessage());

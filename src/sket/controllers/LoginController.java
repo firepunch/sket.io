@@ -3,6 +3,7 @@ package sket.controllers;
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import sket.db.DBConnection;
 import sket.model.action.FBConnection;
+import sket.model.action.GoogleConnection;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -24,7 +25,7 @@ public class LoginController extends HttpServlet {
         super();
     }
 
-    protected void doPost(HttpServletRequest req, HttpServletResponse res)
+    protected void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         DBConnection db = new DBConnection();
         String act = req.getParameter("loginBtn");
@@ -42,14 +43,23 @@ public class LoginController extends HttpServlet {
             }
 
             accessToken = fbConnection.getAccessToken(code);
-            db.InsertUser(accessToken, nick);
+//            db.InsertUser(accessToken, nick);
 
             String graph = fbConnection.getFbGraph(accessToken);
             Map<String, String> fbProfileData = fbConnection.getGrapthData(graph);
 
-            System.out.println("log: FB값 확인(이름, 사진) : " + fbProfileData.get("first_name"));
+            System.out.println("log: FB값 확인(id, 이름, 사진) : " + fbProfileData.get("first_name"));
         } else if (act.equals("google")) {
-            System.out.println("log: clicking goolge btn");
+            GoogleConnection googleConnection = new GoogleConnection();
+            code = googleConnection.getGoogleAuthUrl();
+
+            if (code == null || code.equals("")) {
+                throw new RuntimeException("ERROR: Didn't get code parameter in callback.");
+            }
+            res.sendRedirect(code);
+
+            accessToken = googleConnection.getAccessToken(code);
+            System.out.println("log : 구글 토큰 : " + accessToken);
         } else {
 
         }
