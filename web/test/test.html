@@ -16,22 +16,33 @@
 방 아이디 : <input type="text" id="joinRoomId">
 유저 아이디 : <input type="text" id="joinRoomUserId">
 <input type="button" value="방 참가" onclick="joinRoom()"><br>
+<br><br><br>
+<ul id="roomList">
+</ul>
 
 <script type="text/javascript">
+
+    var count = 0;
+    var serverMsg;
     var webSocket = new WebSocket("ws://localhost:9081/websocket");
+
     webSocket.onopen = function () {
         console.log("서버 연결")
     };
+
     webSocket.onclose = function () {
         console.log("서버 종료")
     };
+
     webSocket.onmessage = function (msg) {
         console.log("서버로부터 받음 : " + msg.data);
-    };
+        serverMsg = JSON.parse(msg.data);
+    }
     webSocket.onerror = function (msg) {
         console.log('onerror()');
         console.log(msg);
-    };
+    }
+
     function createButton() {
         var name = document.getElementById("name").value;
         var lock;
@@ -50,21 +61,35 @@
             password: password,
             master: masterId
         };
+
         console.log("msg : \n" + msg.toString());
         webSocket.send(JSON.stringify(msg));
-    };
+
+        var node = document.createElement("li");
+        var textNode = document.createTextNode(
+            "--방이름 : " + name + "\n" +
+            "    --비번방? : " + lock + "\n" +
+            "    --방장 : "+masterId);
+
+        node.appendChild(textNode);
+        document.getElementById("roomList").appendChild(node).setAttribute("id", "p" + count);
+        count += 1;
+    }
+
     function roomList() {
         var msg = {
             type: "roomList"
         };
         webSocket.send(JSON.stringify(msg));
     }
+
     function createGuest() {
         var msg = {
             type: "guestTest"
         };
         webSocket.send(JSON.stringify(msg));
     }
+
     function joinRoom() {
         var roomId = document.getElementById("joinRoomId").value;
         var userId = document.getElementById("joinRoomUserId").value;
@@ -73,9 +98,11 @@
             roomId: roomId,
             userId: userId
         };
+
         console.log("joinRoomId : " + roomId + "\t joinRoomUserId : " + userId);
         webSocket.send(JSON.stringify(msg));
     }
+
 </script>
 </body>
 </html>
