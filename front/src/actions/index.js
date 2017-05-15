@@ -10,16 +10,29 @@ export function handleLogin(social) {
         'Content-Type': 'multipart/form-data'
     });
     let sendData={
-        method: 'POST',
+        method: 'GET',
         mode: 'cors',
         header: header,
         body:''
     };
     // let proxyUrl = 'https://cors-anywhere.herokuapp.com/'
+    let url;
+
+    switch (social) {
+        case 'facebook':
+            url = "http://www.facebook.com/dialog/oauth?client_id=741189302727195&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2F"
+            break;
+        default:
+
+        case 'google':
+            url = "https://accounts.google.com/o/oauth2/auth?client_id=755801497962-25e8cmnp81pcld5r8mfsvmetus9qnnv4.apps.googleusercontent.com&redirect_uri=http://localhost:8080/&scope=https://www.googleapis.com/auth/plus.login&response_type=code"
+            break;
+    }
 
     return dispatch => {
         dispatch(requestLogin())
-        fetch(`/signin/${social}`, sendData)
+        // fetch(`/signin/${social}/`, sendData)
+        fetch(url, sendData)
         .then(res => res.json())
         .then(json => dispatch(receiveUserData(json)))  // 전달 받은 user data를 dispatch
         .catch(error => dispatch(failReceiveUserData()))    // 오류 catch
