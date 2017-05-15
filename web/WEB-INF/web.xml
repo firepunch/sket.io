@@ -26,13 +26,22 @@
     </servlet-mapping>
 
     <servlet>
-        <display-name>LoginController</display-name>
-        <servlet-name>LoginController</servlet-name>
-        <servlet-class>sket.controllers.LoginController</servlet-class>
+        <display-name>GoogleLoginController</display-name>
+        <servlet-name>GoogleLoginController</servlet-name>
+        <servlet-class>sket.controllers.GoogleLoginController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>LoginController</servlet-name>
-        <url-pattern>/signin/*</url-pattern>
+        <servlet-name>GoogleLoginController</servlet-name>
+        <url-pattern>/signin/google</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <display-name>GoogleLoginController</display-name>
+        <servlet-name>FBLoginController</servlet-name>
+        <servlet-class>sket.controllers.FBLoginController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FBLoginController</servlet-name>
+        <url-pattern>/signin/facebook</url-pattern>
     </servlet-mapping>
 
 
