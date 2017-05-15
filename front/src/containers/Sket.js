@@ -23,6 +23,7 @@ class Sket extends Component {
     }
 
     render() {
+        const { dispatch, isLoggedIn, fetchingUpdate, user } = this.props;
         const loginPage = (
             <div className="login-container">
                 <div className="login-header">
@@ -32,22 +33,22 @@ class Sket extends Component {
                 <div className="login-content">
                     <div className="login-button">
 
-                        <a href="http://www.facebook.com/dialog/oauth?client_id=741189302727195&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2F">
-                            <button onClick={() => this.props.handleLogin('facebook')}
-                                className="action-button shadow animate blue"
+                        <button onClick={() => this.props.handleLogin('facebook')}
+                            className="action-button shadow animate blue"
                             >
-                                페이스북으로 로그인하기
-                            </button>
+                            페이스북으로 로그인하기
+                        </button>
+                        <a href="http://www.facebook.com/dialog/oauth?client_id=741189302727195&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2F">
                         </a>
                     </div>
 
                     <div className="login-button">
-                        <a href="https://accounts.google.com/o/oauth2/auth?client_id=755801497962-25e8cmnp81pcld5r8mfsvmetus9qnnv4.apps.googleusercontent.com&redirect_uri=http://localhost:8080/&scope=https://www.googleapis.com/auth/plus.login&response_type=code">
-                            <button onClick={() => this.props.handleLogin('google')}
-                                className="action-button shadow animate red"
+                        <button onClick={() => this.props.handleLogin('google')}
+                            className="action-button shadow animate red"
                             >
-                                구글로 로그인하기
-                            </button>
+                            구글로 로그인하기
+                        </button>
+                        <a href="https://accounts.google.com/o/oauth2/auth?client_id=755801497962-25e8cmnp81pcld5r8mfsvmetus9qnnv4.apps.googleusercontent.com&redirect_uri=http://localhost:8080/&scope=https://www.googleapis.com/auth/plus.login&response_type=code">
                         </a>
                     </div>
 
@@ -58,7 +59,10 @@ class Sket extends Component {
                             GUEST로 로그인하기
                         </button>
                     </div>
+
+                    <button onClick={() => fetchingUpdate}>테스트</button>
                 </div>
+
             </div>
         )
 
@@ -94,10 +98,7 @@ const mapStateToProps = (state) => {
         isLoggedIn,
         fetchingUpdate,
         user,
-        usage: state.modal,
-        // isLoggedIn:
-        // number: state.counter.number,
-        // color: state.ui.color
+        usage: state.modal
     };
 }
 

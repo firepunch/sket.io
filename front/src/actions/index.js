@@ -30,7 +30,7 @@ export function handleLogin(social) {
     // }
 
     return dispatch => {
-        dispatch(requestLogin())
+        dispatch(requestLogin());
         // fetch(url, sendData)
         fetch(`/signin/${social}/`, sendData)
         .then(res => res.json())
