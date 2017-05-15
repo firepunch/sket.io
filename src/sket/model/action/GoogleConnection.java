@@ -26,7 +26,7 @@ import java.util.Map;
 public class GoogleConnection {
     private static String clientID = "755801497962-25e8cmnp81pcld5r8mfsvmetus9qnnv4.apps.googleusercontent.com";
     private static String clientSecret = Configure.GOOGLE_APP_SECRET;
-    private static final String REDIRECT_URI = "http://localhost:8080/";
+    private static final String REDIRECT_URI = "http://localhost:8080/signin/google";
 
     static String accessToken = "";
     private static HttpTransport httpTransport = null;
@@ -42,6 +42,8 @@ public class GoogleConnection {
                 "&redirect_uri="+REDIRECT_URI+
                 "&scope=https://www.googleapis.com/auth/plus.login" +
                 "&response_type=code";
+
+        System.out.println("google\n\n"+googleLoginUrl);
 
         return googleLoginUrl;
     }
