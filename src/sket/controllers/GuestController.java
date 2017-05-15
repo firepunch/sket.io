@@ -23,10 +23,17 @@ public class GuestController extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html");
 
-        HttpSession session = req.getSession();
-        session.setAttribute("user", new User(null, null, null, true));
-        SessionManager.addSession(session);
+        try {
+            HttpSession session = req.getSession();
+            session.setAttribute("user", new User(null, null, null, true));
+            SessionManager.addSession(session);
 
-        resp.sendRedirect("/test/test.html");
+            resp.sendRedirect("/test/test.html");
+
+            System.out.println("log : "+"게스트 로그인 성공!");
+        }catch (Exception e){
+            System.out.println("log : "+ "GuestController 오류");
+            e.printStackTrace();
+        }
     }
 }
