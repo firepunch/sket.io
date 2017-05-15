@@ -32,16 +32,16 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>GoogleLoginController</servlet-name>
-        <url-pattern>/signin/google</url-pattern>
+        <url-pattern>/signin/google/</url-pattern>
     </servlet-mapping>
     <servlet>
-        <display-name>GoogleLoginController</display-name>
+        <display-name>FBLoginController</display-name>
         <servlet-name>FBLoginController</servlet-name>
         <servlet-class>sket.controllers.FBLoginController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>FBLoginController</servlet-name>
-        <url-pattern>/signin/facebook</url-pattern>
+        <url-pattern>/signin/facebook/</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>

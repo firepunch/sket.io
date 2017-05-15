@@ -18,7 +18,7 @@ import java.util.Map;
 public class FBConnection {
     private static final String FB_APP_ID = "741189302727195";
     public static final String FB_APP_SECRET = Configure.FB_APP_SECRET;
-    private static final String REDIRECT_URI = "http://localhost:8080/signin/facebook";
+    private static final String REDIRECT_URI = "http://localhost:8080/signin/facebook/";
 
     static String accessToken = "";
 
@@ -63,27 +63,22 @@ public class FBConnection {
                 throw new RuntimeException("Invalid code received " + e);
             }
             URLConnection fbConnection;
-            StringBuffer b = null;
+            String splited = null;
             try {
                 fbConnection = fbGraphURL.openConnection();
                 BufferedReader in;
                 in = new BufferedReader(new InputStreamReader(
                         fbConnection.getInputStream()));
                 String inputLine;
-                b = new StringBuffer();
-                while ((inputLine = in.readLine()) != null)
-                    b.append(inputLine + "\n");
-                in.close();
-/*
                 inputLine = in.readLine();
                 String[] split1 = inputLine.split("\"");
                 splited = split1[3].toString();
-*/
+                in.close();
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException("Unable to connect with Facebook " + e);
             }
-            accessToken = b.toString();
+            accessToken = splited;
         }
         return accessToken;
     }
