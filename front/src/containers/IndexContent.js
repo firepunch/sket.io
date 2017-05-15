@@ -21,15 +21,15 @@ class IndexContent extends Component {
 
         // this.handleModalUsage = this.props.handleModalUsage.bind(this);
     }
+    // <Login
+    //     onClick={ () => this.handleModalUsage("LOGIN")}
+    //     modalUsage={this.props.usage}
+    //     className="login"
+    //     />
 
     render() {
         return(
             <div className="content">
-                <Login
-                    onClick={ () => this.handleModalUsage("LOGIN")}
-                    modalUsage={this.props.usage}
-                    className="login"
-                />
 
                 <div className="container">
                     <UserProfile />

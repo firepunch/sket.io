@@ -18,7 +18,7 @@ import java.util.Map;
 public class FBConnection {
     private static final String FB_APP_ID = "741189302727195";
     public static final String FB_APP_SECRET = Configure.FB_APP_SECRET;
-    private static final String REDIRECT_URI = "http://localhost:8080/signin/facebook/";
+    private static final String REDIRECT_URI = "http://localhost:8080/signin/facebook";
 
     static String accessToken = "";
 
@@ -30,7 +30,6 @@ public class FBConnection {
                     + FB_APP_ID + "&redirect_uri="
                     + URLEncoder.encode(REDIRECT_URI, "UTF-8");
 
-            System.out.println("log : fb redirect : " + fbLoginUrl);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
