@@ -5,8 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="./favicon.ico">
 
-        <link rel="stylesheet" href="./css/index.css">
-        <link rel="stylesheet" href="./css/game.css">
+        <link rel="stylesheet" href="%PUBLIC_URL%/css/index.css">
+        <link rel="stylesheet" href="%PUBLIC_URL%/css/button.css">
+        <link rel="stylesheet" href="%PUBLIC_URL%/css/login.css">
+        <link rel="stylesheet" href="%PUBLIC_URL%/css/game.css">
         <!--
           Notice the use of %PUBLIC_URL% in the tag above.
           It will be replaced with the URL of the `public` folder during the build.
@@ -17,8 +19,13 @@
           Learn how to configure a non-root public URL by running `npm run build`.
         -->
         <title>React App</title>
+        <style media="screen">
+            body {
+                background-image: url("%PUBLIC_URL%/img/16.jpg");
+            }
+        </style>
     </head>
-    <body>
+    <body >
         <div id="root"></div>
         <!--
           This HTML file is a template.

@@ -1,12 +1,12 @@
 import * as types from '../actions/ActionTypes';
 
 const initialState = {
-    user: {
-        profileImg: '',
-        userName: 'GUEST1234',
-        level: 1,
-        exp: 1
-    }
+    // user: {
+    //     profileImg: '',
+    //     userName: 'GUEST1234',
+    //     level: 1,
+    //     exp: 1
+    // }
 }
 
 export default function main(state=initialState, action) {

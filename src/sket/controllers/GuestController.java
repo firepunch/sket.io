@@ -1,7 +1,6 @@
 package sket.controllers;
 
 import sket.model.action.SessionManager;
-import sket.model.data.Player;
 import sket.model.data.User;
 
 import javax.servlet.ServletException;
@@ -12,13 +11,11 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
- * Created by hojak on 2017-04-04.
+ * Created by KwonJH on 2017-05-14.
  */
-public class SignUpController extends HttpServlet {
+public class GuestController extends HttpServlet {
 
     private String id;
-    private String password;
-    private String nickname;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -26,15 +23,10 @@ public class SignUpController extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html");
 
-        id = req.getParameter("id");
-        password = req.getParameter("password");
-        nickname = req.getParameter("nick");
-
         HttpSession session = req.getSession();
-        session.setAttribute("user", new User(id, password, nickname, false));
+        session.setAttribute("user", new User(null, null, null, true));
         SessionManager.addSession(session);
 
         resp.sendRedirect("/test/test.html");
     }
 }
-

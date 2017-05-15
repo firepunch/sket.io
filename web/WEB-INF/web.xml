@@ -16,6 +16,18 @@
            <servlet-name>SignUpController</servlet-name>
         <url-pattern>/signup.do</url-pattern>
     </servlet-mapping>
+<<<<<<< HEAD
+=======
+    <servlet>
+        <servlet-name>GuestController</servlet-name>
+        <servlet-class>sket.controllers.GuestController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GuestController</servlet-name>
+        <url-pattern>/guest.do</url-pattern>
+    </servlet-mapping>
+
+>>>>>>> origin/master
     
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>

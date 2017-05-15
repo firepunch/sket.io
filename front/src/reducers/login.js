@@ -1,18 +1,32 @@
 import * as types from '../actions/ActionTypes';
 
 const initialState = {
-    isLoggedIn: false
+    isLoggedIn: false,
+    fetchingUpdate: false,
+    user: {}
 }
 
 export default function login(state=initialState, action) {
     switch (action.type) {
-        case types.GOOGLE_LOGIN:
+        case types.LOGIN_REQUEST:
+            return {
+                ...state,
+                fetchingUpdate: true
+            }
 
-            break;
+        case types.LOGIN_SUCCESS:
+            return {
+                ...state,
+                isLoggedIn: true,
+                fetchingUpdate: false,
+                user: action.result
+            };
 
-        case types.FACEBOOK_LOGIN:
-
-            break;
+        case types.LOGIN_FAILURE:
+            return {
+                ...state,
+                fetchingUpdate: false
+            }
 
         default:
             return state;

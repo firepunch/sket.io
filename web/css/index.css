@@ -8,6 +8,11 @@ html, body {
     width: 100%;
 }
 
+body {
+    background-image: url("%PUBLIC_URL%/img/16.jpg");
+    background-color: #cccccc;
+}
+
 #root {
     height: 100%;
     width: 100%;
@@ -21,7 +26,7 @@ html, body {
 .container {
     width: 80%;
     height: 80%;
-    background-color: yellow;
+    background-color: yellow;-c
     margin: auto;
 }
 

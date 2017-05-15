@@ -5,20 +5,32 @@
 
 html, body {
     height: 100%;
+    width: 100%;
+}
+
+body {
+    background-image: url("%PUBLIC_URL%/img/16.jpg");
+    background-color: #cccccc;
+}
+
+#root {
+    height: 100%;
+    width: 100%;
 }
 
 .content {
-    height: 80%;
-    width: 90%;
+    height: 100%;
+    width: 100%;
 }
 
 .container {
-    width: 100%;
-    height: 100%;
-    margin: 0px 0px;
+    width: 80%;
+    height: 80%;
+    background-color: yellow;-c
+    margin: auto;
 }
 
-#sket-profile {
+.sket-profile {
     width: 20%;
     height: 20%;
     background-color: skyblue;

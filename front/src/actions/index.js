@@ -4,23 +4,42 @@ import * as types from './ActionTypes';
 /* INDEX */
 
 // login
-export function googleLogin() {
-    return {
-        type: types.GOOGLE_LOGIN
+export function handleLogin(social) {
+    return dispatch => {
+        switch (social) {
+            case 'FACEBOOK':
+                return dispatch(facebookLogin());
+
+            case 'GOOGLE':
+                return dispatch(googleLogin());
+
+            case 'GUEST':
+                return dispatch(guestLogin());
+        }
     }
 }
 
-export function facebookLogin() {
+function facebookLogin() {
     return {
-        type: types.FACEBOOK_LOGIN
+        type: types.FACEBOOK_LOGIN,
+        promise: { method: 'post', url: '/singin/facebook', data: ''}
     }
 }
 
-export function guestLogin() {
+function googleLogin() {
     return {
-        type: types.GUEST_LOGIN
+        type: types.GOOGLE_LOGIN,
+        promise: { method: 'post', url: '/singin/google', data: ''}
     }
 }
+
+function guestLogin() {
+    return {
+        type: types.GUEST_LOGIN,
+        promise: { method: 'post', url: '/guest.do', data: ''}
+    }
+}
+
 
 // function
 export function createRoom() {
