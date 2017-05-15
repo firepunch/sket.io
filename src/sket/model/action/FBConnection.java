@@ -102,7 +102,7 @@ public class FBConnection {
             }
             in.close();
             graph = b.toString();
-            System.out.println("log: FB graph : "+graph);
+            System.out.println("log : FB graph : "+graph);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("ERROR in getting FB graph data. " + e);

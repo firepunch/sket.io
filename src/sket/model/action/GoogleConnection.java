@@ -1,29 +1,24 @@
 package sket.model.action;
 
 import com.fasterxml.jackson.core.JsonFactory;
-import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.auth.oauth2.AuthorizationCodeTokenRequest;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.TokenResponse;
-import com.google.api.client.extensions.servlet.auth.oauth2.AbstractAuthorizationCodeServlet;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import org.json.JSONException;
+import org.json.JSONObject;
 import sket.Configure;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by firepunch on 2017-05-11.
@@ -81,9 +76,52 @@ public class GoogleConnection {
     private String getGoogleTokenUrl(String code) {
         String googleTokenUrl = "";
         googleTokenUrl = "https://www.googleapis.com/oauth2/v4/token?code="
-                +code + "&client_id=" + clientID + "&client_secret=" + clientSecret +
+                + code + "&client_id=" + clientID + "&client_secret=" + clientSecret +
                 "&redirect_uri=" + REDIRECT_URI + "&grant_type=authorization_code";
+
         return googleTokenUrl;
+    }
+
+    public static String getFinalURL(String url) throws IOException {
+        HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
+        con.setInstanceFollowRedirects(false);
+        con.connect();
+        con.getInputStream();
+
+        if (con.getResponseCode() == HttpURLConnection.HTTP_MOVED_PERM || con.getResponseCode() == HttpURLConnection.HTTP_MOVED_TEMP) {
+            String redirectUrl = con.getHeaderField("Location");
+            return getFinalURL(getFinalURL(redirectUrl));
+        }
+        return url;
+    }
+
+    public static String getFinalRedirectedUrl(String url) {
+
+        HttpURLConnection connection;
+        String finalUrl = url;
+        try {
+            do {
+                connection = (HttpURLConnection) new URL(finalUrl)
+                        .openConnection();
+                connection.setInstanceFollowRedirects(false);
+                connection.setUseCaches(false);
+                connection.setRequestMethod("GET");
+                connection.connect();
+                int responseCode = connection.getResponseCode();
+                if (responseCode >= 300 && responseCode < 400) {
+                    String redirectedUrl = connection.getHeaderField("Location");
+                    if (null == redirectedUrl)
+                        break;
+                    finalUrl = redirectedUrl;
+                    System.out.println("redirected url: " + finalUrl);
+                } else
+                    break;
+            } while (connection.getResponseCode() != HttpURLConnection.HTTP_OK);
+            connection.disconnect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return finalUrl;
     }
 
     public String getAccessToken(String authorizationCode) {
@@ -120,10 +158,49 @@ public class GoogleConnection {
 
     public Credential getGrapthData(TokenResponse res, String userId) throws IOException {
         // 4. 구글 프로필 정보 저장
+        https://www.googleapis.com/auth/userinfo.profile
         credential = flow.createAndStoreCredential(res, userId);
 
         return credential;
     }
+
+    public String getGoogleGraph(String token) {
+        String graph = null;
+        try {
+            String g = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token="+token;
+            URL u = new URL(g);
+            URLConnection c = u.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(c.getInputStream()));
+            String inputLine;
+            StringBuffer b = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                b.append(inputLine + "\n");
+            }
+            in.close();
+            graph = b.toString();
+            System.out.println("log : Google graph : "+graph);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("ERROR in getting Google graph data. " + e);
+        }
+        return graph;
+    }
+
+    public Map getGrapthData(String graph) {
+        Map gProfile = new HashMap();
+        try {
+            JSONObject json = new JSONObject(graph);
+            gProfile.put("id", json.getString("id"));
+            gProfile.put("name", json.getString("name"));
+            gProfile.put("picture", json.getString("picture"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            throw new RuntimeException("ERROR in parsing FB graph data. " + e);
+        }
+        return gProfile;
+    }
+
+
 }
 
 /*
