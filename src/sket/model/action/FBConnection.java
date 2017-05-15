@@ -18,7 +18,7 @@ import java.util.Map;
 public class FBConnection {
     private static final String FB_APP_ID = "741189302727195";
     public static final String FB_APP_SECRET = Configure.FB_APP_SECRET;
-    private static final String REDIRECT_URI = "http://localhost:8080/LoginController/";
+    private static final String REDIRECT_URI = "http://localhost:8080/";
 
     static String accessToken = "";
 
@@ -27,8 +27,8 @@ public class FBConnection {
         String fbLoginUrl = "";
         try {
             fbLoginUrl = "http://www.facebook.com/dialog/oauth?" + "client_id="
-                    + FBConnection.FB_APP_ID + "&redirect_uri="
-                    + URLEncoder.encode(FBConnection.REDIRECT_URI, "UTF-8");
+                    + FB_APP_ID + "&redirect_uri="
+                    + URLEncoder.encode(REDIRECT_URI, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -38,9 +38,15 @@ public class FBConnection {
     // 페북 토큰을 얻는다.
     private String getFBTokenUrl(String code) {
         String fbGraphUrl = "";
-        fbGraphUrl = "https://graph.facebook.com/oauth/access_token?client_id="
-                + FBConnection.FB_APP_ID + "&client_secret=" +
-                FB_APP_SECRET + "&grant_type=client_credentials";
+
+        try {
+            fbGraphUrl = "https://graph.facebook.com/oauth/access_token?client_id="
+                    + FB_APP_ID + "&client_secret=" + FB_APP_SECRET +
+                    "&redirect_uri=" + URLEncoder.encode(REDIRECT_URI, "UTF-8") + "&code=" + code;
+            System.out.println(fbGraphUrl);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
         return fbGraphUrl;
     }
@@ -56,22 +62,27 @@ public class FBConnection {
                 throw new RuntimeException("Invalid code received " + e);
             }
             URLConnection fbConnection;
-            String splited = null;
+            StringBuffer b = null;
             try {
                 fbConnection = fbGraphURL.openConnection();
                 BufferedReader in;
                 in = new BufferedReader(new InputStreamReader(
                         fbConnection.getInputStream()));
                 String inputLine;
+                b = new StringBuffer();
+                while ((inputLine = in.readLine()) != null)
+                    b.append(inputLine + "\n");
+                in.close();
+/*
                 inputLine = in.readLine();
                 String[] split1 = inputLine.split("\"");
                 splited = split1[3].toString();
-                in.close();
+*/
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException("Unable to connect with Facebook " + e);
             }
-            accessToken = splited;
+            accessToken = b.toString();
         }
         return accessToken;
     }
@@ -79,8 +90,8 @@ public class FBConnection {
     public String getFbGraph(String token) {
         String graph = null;
         try {
-//            String g = "https://graph.facebook.com/me?fields=id&access_token=" + token;
-            String g = "https://graph.facebook.com/me?fields=id,name&access_token=" + Configure.FB_ACCESS_TOKEN;
+            String g = "https://graph.facebook.com/me?fields=id,name&access_token=" + token;
+//            String g = "https://graph.facebook.com/me?fields=id,name&access_token=" + Configure.FB_ACCESS_TOKEN;
             URL u = new URL(g);
             URLConnection c = u.openConnection();
             BufferedReader in = new BufferedReader(new InputStreamReader(c.getInputStream()));

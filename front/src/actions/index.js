@@ -7,7 +7,7 @@ import fetch from 'isomorphic-fetch';
 export function handleLogin(social) {
     return dispatch => {
         dispatch(requestLogin())
-        fetch(`/signin/${social}`)
+        fetch(`/signin/${social}/`)
         .then(res => res.json())
         .then(json => dispatch(receiveUserData(json)))  // 전달 받은 user data를 dispatch
         .catch(error => dispatch(failReceiveUserData()))    // 오류 catch
