@@ -79,6 +79,7 @@ public class GoogleConnection {
                 + code + "&client_id=" + clientID + "&client_secret=" + clientSecret +
                 "&redirect_uri=" + REDIRECT_URI + "&grant_type=authorization_code";
 
+        System.out.println(googleTokenUrl);
         return googleTokenUrl;
     }
 
@@ -129,7 +130,7 @@ public class GoogleConnection {
         if ("".equals(accessToken)) {
             URL googleURL;
             try {
-                googleURL = new URL(authorizationCode);
+                googleURL = new URL(getGoogleTokenUrl(authorizationCode));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 throw new RuntimeException("Invalid code received " + e);
