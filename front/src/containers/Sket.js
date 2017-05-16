@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
+// import { oauthActions, reducer, signin, signout } from 'react-redux-oauth2'
+
 import IndexContent from './IndexContent';
 import GameContent from './GameContent';
 
@@ -17,6 +19,18 @@ class Sket extends Component {
     constructor(props) {
         super(props);
     }
+
+    // componentWillMount () {
+    //     const { dispatch } = this.props
+    //     dispatch(actions.config({
+    //         client_id: 'YOUR client id',
+    //         client_secret: 'YOUR client secret',
+    //         url: 'http://localhost:3000/signin/facebook', // your oauth server root
+    //         providers: {
+    //             github: '/auth/facebook' // provider path
+    //         }
+    //     }))
+    // }
 
     componentDidMount() {
         const { dispatch } = this.props;
@@ -59,8 +73,6 @@ class Sket extends Component {
                             GUEST로 로그인하기
                         </button>
                     </div>
-
-                    <button onClick={() => fetchingUpdate}>테스트</button>
                 </div>
 
             </div>

@@ -10,6 +10,7 @@
     "react-google-login": "^2.8.9",
     "react-modal": "^1.7.5",
     "react-redux": "^5.0.4",
+    "react-redux-oauth2": "^0.5.5",
     "redux": "^3.6.0",
     "redux-logger": "^3.0.1",
     "redux-thunk": "^2.2.0"

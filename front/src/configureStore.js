@@ -3,6 +3,8 @@ import { createLogger } from 'redux-logger';    // redux actions logger
 
 import rootReducer from './reducers';
 
+import { oauthReducer } from 'react-redux-oauth2'
+
 import thunkMiddleware from 'redux-thunk';  // 비동기 통신 미들웨어
 import socketMiddleware from './middleWare/socketMiddleware'
 const loggerMiddleware = createLogger();
