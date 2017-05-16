@@ -10,7 +10,7 @@ export function handleLogin(social) {
         'Content-Type': 'multipart/form-data'
     });
     let sendData={
-        method: 'GET',
+        method: 'POST',
         mode: 'cors',
         header: header,
         body:''
