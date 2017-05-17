@@ -5,13 +5,18 @@
   "dependencies": {
     "axios": "^0.16.1",
     "babel-polyfill": "^6.23.0",
+    "material-ui": "^0.18.1",
     "react": "^15.5.4",
+    "react-bootstrap": "^0.31.0",
     "react-dom": "^15.5.4",
     "react-google-login": "^2.8.9",
     "react-modal": "^1.7.5",
     "react-redux": "^5.0.4",
     "react-redux-oauth2": "^0.5.5",
+    "react-router": "^4.1.1",
+    "react-router-redux": "^4.0.8",
     "redux": "^3.6.0",
+    "redux-auth": "0.0.5-beta5",
     "redux-logger": "^3.0.1",
     "redux-thunk": "^2.2.0"
   },

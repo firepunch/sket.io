@@ -1,7 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 
 // import { oauthActions, reducer, signin, signout } from 'react-redux-oauth2'
+import { OAuthSignInButton } from "redux-auth/material-ui-theme";
+
 
 import IndexContent from './IndexContent';
 import GameContent from './GameContent';
@@ -73,6 +76,25 @@ class Sket extends Component {
                             GUEST로 로그인하기
                         </button>
                     </div>
+
+                    <OAuthSignInButton
+                      provider="facebook"
+                      endpoint={this.props.pageEndpoint}
+                      next={() => browserHistory.push('/account')}
+                      secondary
+                      bsStyle="primary"
+                    >
+                        Facebook
+                    </OAuthSignInButton>
+                    <OAuthSignInButton
+                      provider="google"
+                      endpoint={this.props.pageEndpoint}
+                      next={() => browserHistory.push('/account')}
+                      primary
+                      bsStyle="warning"
+                    >
+                        Google
+                    </OAuthSignInButton>
                 </div>
 
             </div>

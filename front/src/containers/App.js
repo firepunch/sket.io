@@ -1,10 +1,22 @@
 import React, { Component, PropTypes } from 'react';
 import { Provider } from 'react-redux';
+
+import { Router, Route, browserHistory } from 'react-router';
+import { createBrowserHistory } from 'history';
+import { syncHistoryWithStore } from 'react-router-redux';
+
 import configureStore from '../configureStore';
+
 
 import Sket from './Sket';
 
 const store = configureStore();
+const history = syncHistoryWithStore(createBrowserHistory(), store);
+
+// history.listen((location) => {
+//   const path = (/#(\/.*)$/.exec(location.hash) || [])[1];
+//   if (path) history.replace(path);
+// });
 
 const propTypes = {
 };
@@ -15,12 +27,6 @@ const defaultProps = {
 class App extends Component {
     constructor(props) {
         super(props);
-
-        // this.state = {
-        //     isIndex: true
-        // }
-        //
-        // this.handleTest = this.handleTest.bind(this);
     }
 
     // handleTest() {  // 테스트용 핸들 함수
@@ -31,10 +37,14 @@ class App extends Component {
     //     console.log(this.state.isIndex);
     // }
 
+
     render() {
         return(
             <Provider store={store}>
-                <Sket />
+                <Router history={history}>
+                    <Route path="/" component={Sket} />
+
+                </Router>
             </Provider>
         );
     }
