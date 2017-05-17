@@ -1,17 +1,19 @@
-create database sketio;
-use sketio;
+# DROP DATABASE sketio;
+CREATE DATABASE sketio;
+USE sketio;
 
-create table user (
-id varchar(10) not null,
-token varchar(50) not null primary key,
-nick varchar(20) not null unique,
-level int(3) not null default 1,
-totalexp int(5) not null default 0,
-curexp int(5) not null default 0
-) engine=innodb default charset=utf8;
+CREATE TABLE user (
+  id       VARCHAR(30) NOT NULL PRIMARY KEY,
+#   nick     VARCHAR(20) NOT NULL UNIQUE,
+  nick     VARCHAR(20) NOT NULL,
+  name     VARCHAR(10) NOT NULL,
+  level    INT(3)      NOT NULL DEFAULT 1,
+  totalexp INT(5)      NOT NULL DEFAULT 0,
+  curexp   INT(5)      NOT NULL DEFAULT 0
+) ENGINE = innodb  DEFAULT CHARSET = utf8;
 
-create table quiz (
-category varchar(10) not null,
-name varchar(10) not null primary key
-) engine=innodb default charset=utf8;
+CREATE TABLE quiz (
+  category VARCHAR(10) NOT NULL,
+  name     VARCHAR(10) NOT NULL PRIMARY KEY
+)  ENGINE = innodb  DEFAULT CHARSET = utf8;
 -- https://krdict.korean.go.kr/download/downloadList

@@ -1,6 +1,5 @@
 package sket.controllers;
 
-import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import sket.db.DBConnection;
 import sket.model.action.FBConnection;
 
@@ -17,8 +16,7 @@ import java.util.Map;
 
 public class FBLoginController extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private String code, accessToken = "";
-    private AuthorizationCodeFlow flow;
+    private String code, accessToken, nick = "";
 
     public FBLoginController() {
         super();
@@ -39,11 +37,16 @@ public class FBLoginController extends HttpServlet {
         accessToken = fbConnection.getAccessToken(code);
         String graph = fbConnection.getFbGraph(accessToken);
         Map<String, String> fbProfileData = fbConnection.getGrapthData(graph);
-//        db.InsertUser(fbProfileData.get("id"), nick, fbProfileData.get("name"));
-        //TODO: 클라에 값 전달
+        String id = fbProfileData.get("id");
+        String name = fbProfileData.get("name");
+//        String picture = fbProfileData.get("picture");
 
-        System.out.println("log: FB값 확인(id) : " + fbProfileData.get("id"));
-        System.out.println("log: FB값 확인(이름) : " + fbProfileData.get("name"));
+        //TODO: 클라에 값 전달
+        System.out.println("log: FB값 확인(id) : " + id);
+        System.out.println("log: FB값 확인(이름) : " + name);
+//        System.out.println("log: FB값 확인(사진) : " + picture);
+
+        db.InsertUser(id, nick, name);
     }
 
     @Override
