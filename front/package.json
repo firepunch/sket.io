@@ -14,6 +14,7 @@
     "react-redux": "^5.0.4",
     "react-redux-oauth2": "^0.5.5",
     "react-router": "^4.1.1",
+    "react-router-dom": "^4.1.1",
     "react-router-redux": "^4.0.8",
     "redux": "^3.6.0",
     "redux-auth": "0.0.5-beta5",

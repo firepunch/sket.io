@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Provider } from 'react-redux';
 
-import { Router, Route, browserHistory } from 'react-router';
+import { Router, Route, browserHistory } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { syncHistoryWithStore } from 'react-router-redux';
 
@@ -9,6 +9,7 @@ import configureStore from '../configureStore';
 
 
 import Sket from './Sket';
+import IndexContent from './IndexContent'
 
 const store = configureStore();
 const history = syncHistoryWithStore(createBrowserHistory(), store);
@@ -41,10 +42,7 @@ class App extends Component {
     render() {
         return(
             <Provider store={store}>
-                <Router history={history}>
-                    <Route path="/" component={Sket} />
-
-                </Router>
+                <Sket />
             </Provider>
         );
     }

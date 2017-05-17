@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 
 // import { oauthActions, reducer, signin, signout } from 'react-redux-oauth2'
-import { OAuthSignInButton } from "redux-auth/material-ui-theme";
+// import { OAuthSignInButton } from "redux-auth/material-ui-theme";
+import GoogleLogin from 'react-google-login';
 
 
 import IndexContent from './IndexContent';
@@ -41,7 +42,7 @@ class Sket extends Component {
 
     render() {
         const { dispatch, isLoggedIn, fetchingUpdate, user } = this.props;
-        const loginPage = (
+        const startPage = (
             <div className="login-container">
                 <div className="login-header">
                     <h1>sket.io</h1>
@@ -69,6 +70,13 @@ class Sket extends Component {
                         </a>
                     </div>
 
+                    <GoogleLogin
+                        clientId="755801497962-25e8cmnp81pcld5r8mfsvmetus9qnnv4.apps.googleusercontent.com"
+                        buttonText="Login"
+                        onSuccess={(res) => { console.log(res) }}
+                        onFailure={(res) => { console.log(res) }}
+                    />
+
                     <div className="login-button">
                         <button onClick={() => this.props.handleLogin('guest')}
                             className="action-button shadow animate green"
@@ -76,30 +84,10 @@ class Sket extends Component {
                             GUEST로 로그인하기
                         </button>
                     </div>
-
-                    <OAuthSignInButton
-                      provider="facebook"
-                      endpoint={this.props.pageEndpoint}
-                      next={() => browserHistory.push('/account')}
-                      secondary
-                      bsStyle="primary"
-                    >
-                        Facebook
-                    </OAuthSignInButton>
-                    <OAuthSignInButton
-                      provider="google"
-                      endpoint={this.props.pageEndpoint}
-                      next={() => browserHistory.push('/account')}
-                      primary
-                      bsStyle="warning"
-                    >
-                        Google
-                    </OAuthSignInButton>
                 </div>
 
             </div>
         )
-
 
         const index = (
                 <IndexContent/>
@@ -115,7 +103,7 @@ class Sket extends Component {
 
         return(
             <div className="content">
-                {this.props.isLoggedIn ? index : loginPage }
+                {this.props.isLoggedIn ? index : startPage }
             </div>
         );
     }
