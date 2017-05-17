@@ -5,6 +5,7 @@ import { browserHistory } from 'react-router';
 // import { oauthActions, reducer, signin, signout } from 'react-redux-oauth2'
 // import { OAuthSignInButton } from "redux-auth/material-ui-theme";
 import GoogleLogin from 'react-google-login';
+import FacebookLogin from 'react-facebook-login';
 
 
 import IndexContent from './IndexContent';
@@ -75,6 +76,12 @@ class Sket extends Component {
                         buttonText="Login"
                         onSuccess={(res) => { console.log(res) }}
                         onFailure={(res) => { console.log(res) }}
+                    />
+                    <FacebookLogin
+                        appId="741189302727195"
+                        autoLoad={true}
+                        fields="name,email,picture"
+                        callback={(res) => { console.log(res) }}
                     />
 
                     <div className="login-button">
