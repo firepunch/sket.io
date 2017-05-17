@@ -32,12 +32,13 @@
 
     webSocket.onclose = function () {
         console.log("서버 종료")
-    };
+    }
 
     webSocket.onmessage = function (msg) {
         console.log("서버로부터 받음 : " + msg.data);
         serverMsg = JSON.parse(msg.data);
     }
+
     webSocket.onerror = function (msg) {
         console.log('onerror()');
         console.log(msg);
@@ -69,7 +70,7 @@
         var textNode = document.createTextNode(
             "--방이름 : " + name + "\n" +
             "    --비번방? : " + lock + "\n" +
-            "    --방장 : "+masterId);
+            "    --방장 : " + masterId);
 
         node.appendChild(textNode);
         document.getElementById("roomList").appendChild(node).setAttribute("id", "p" + count);
