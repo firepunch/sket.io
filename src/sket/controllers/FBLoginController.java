@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class FBLoginController extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private String code = "";
+    private String code, accessToken = "";
     private AuthorizationCodeFlow flow;
 
     public FBLoginController() {
@@ -29,18 +29,13 @@ public class FBLoginController extends HttpServlet {
         super.service(req, resp);
 
         DBConnection db = new DBConnection();
-
-        String code, accessToken, nick = null;
-        // TODO: nick값 받기
-
         FBConnection fbConnection = new FBConnection();
 
+        // TODO: nick값 받기
         code = req.getParameter("code");
-
         if (code == null || code.equals("")) {
             throw new RuntimeException("ERROR: Didn't get code parameter in callback.");
         }
-
         accessToken = fbConnection.getAccessToken(code);
         String graph = fbConnection.getFbGraph(accessToken);
         Map<String, String> fbProfileData = fbConnection.getGrapthData(graph);
