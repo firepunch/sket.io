@@ -77,7 +77,7 @@ public class DBConnection {
 
     /* 소셜로그인 후 정보 삽입 */
     public void InsertUser(String id, String nick, String name) {
-        String sql = "INSERT INTO user VALUES (DEFAULT,"+id+","+nick+","+name+", 1, 0, 0);";
+        String sql = "INSERT INTO user VALUES ('" + id + "','" + nick + "','" + name + "', 1, 0, 0);";
         try {
             statement.executeUpdate(sql);
         } catch (SQLException e) {

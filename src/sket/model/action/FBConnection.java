@@ -12,6 +12,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,7 +45,6 @@ public class FBConnection {
             fbGraphUrl = "https://graph.facebook.com/oauth/access_token?client_id="
                     + FB_APP_ID + "&client_secret=" + FB_APP_SECRET +
                     "&redirect_uri=" + URLEncoder.encode(REDIRECT_URI, "UTF-8") + "&code=" + code;
-            System.out.println(fbGraphUrl);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -87,10 +87,9 @@ public class FBConnection {
         String graph = null;
         try {
             String g = "https://graph.facebook.com/me?fields=id,name&access_token=" + token;
-//            String g = "https://graph.facebook.com/me?fields=id,name&access_token=" + Configure.FB_ACCESS_TOKEN;
             URL u = new URL(g);
             URLConnection c = u.openConnection();
-            BufferedReader in = new BufferedReader(new InputStreamReader(c.getInputStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(c.getInputStream(), StandardCharsets.UTF_8));
             String inputLine;
             StringBuffer b = new StringBuffer();
             while ((inputLine = in.readLine()) != null) {
@@ -98,7 +97,6 @@ public class FBConnection {
             }
             in.close();
             graph = b.toString();
-            System.out.println("log : FB graph : "+graph);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("ERROR in getting FB graph data. " + e);
@@ -108,16 +106,11 @@ public class FBConnection {
 
     public Map getGrapthData(String graph) {
         Map fbProfile = new HashMap();
-        System.out.println("id");
-        System.out.println("name");
         try {
             JSONObject json = new JSONObject(graph);
             fbProfile.put("id", json.getString("id"));
             fbProfile.put("name", json.getString("name"));
-
-            if (json.has("email"))
-                fbProfile.put("email", json.getString("email"));
-
+//            fbProfile.put("picture", json.getString("picture"));
         } catch (JSONException e) {
             e.printStackTrace();
             throw new RuntimeException("ERROR in parsing FB graph data. " + e);
