@@ -23,6 +23,8 @@ const defaultProps = {
 class Sket extends Component {
     constructor(props) {
         super(props);
+
+        this.handleLoginRequest = this.props.handleLoginRequest.bind(this);
     }
 
     // componentWillMount () {
@@ -50,7 +52,6 @@ class Sket extends Component {
                 </div>
 
                 <div className="login-content">
-                    <div className="login-button">
 
                         <a href="http://www.facebook.com/dialog/oauth?client_id=741189302727195&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fsignin%2Ffacebook%2F">
                             <button onClick={() => this.props.handleLogin('facebook')}
@@ -87,6 +88,33 @@ class Sket extends Component {
                     <div className="login-button">
                         <button onClick={() => this.props.handleLogin('guest')}
                                 className="action-button shadow animate green"
+
+                        <div className="login-button">
+                            <GoogleLogin
+                                clientId="755801497962-25e8cmnp81pcld5r8mfsvmetus9qnnv4.apps.googleusercontent.com"
+                                className="action-button shadow animate red"
+                                buttonText="구글로 로그인"
+                                onSuccess={(res) => { () => this.props.handleLogin('google', res) }}
+                                onFailure={(res) => { () => this.props.handleFailReceiveUserData() }}
+                                onRequest={ this.props.handleLoginRequest }
+                            />
+                        </div>
+
+                        <div className="login-button">
+                            <FacebookLogin
+                                appId="741189302727195"
+                                autoLoad={true}
+                                fields="name,email,picture"
+                                cssClass="action-button shadow animate blue"
+                                textButton="페이스북으로 로그인"
+                                onClick={ this.props.handleLoginRequest }
+                                callback={(res) => { () => this.props.handleLogin('facebook', res) }}
+                            />
+                        </div>
+
+                    <div className="login-button">
+                        <button onClick={() => this.props.handleLogin('guest', '')}
+                            className="action-button shadow animate green"
                         >
                             GUEST로 로그인하기
                         </button>
@@ -135,10 +163,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         handleModalUsage: (usage) => { dispatch(actions.changeModalUsage(usage)) },
+        handleLoginRequest: () => { dispatch(actions.requestLogin()) },
+        handleFailReceiveUserData: () => { dispatch(actions.failReceiveUserData()) },
         handleLogin: (social) => { dispatch(actions.handleLogin(social)) }
-        // handleFacebookLogin: () => { dispatch(actions.loginFacebook()) },
-        // handleGoogleLogin: () => { dispatch(actions.loginGoogle()) },
-        // handleGuestLogin: () => { dispatch(actions.loginGeust()) }
     };
 }
 

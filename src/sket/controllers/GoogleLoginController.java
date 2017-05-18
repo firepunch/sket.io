@@ -1,8 +1,6 @@
 package sket.controllers;
 
-import org.json.JSONObject;
 import sket.db.DBConnection;
-import sket.model.action.GoogleConnection;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,6 +20,21 @@ public class GoogleLoginController extends HttpServlet {
         super();
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        DBConnection db = new DBConnection();
+
+        req.setCharacterEncoding("euc-kr");
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/html");
+        String id = req.getParameter("id");
+        String name = req.getParameter("name");
+//        String nick = req.getParameter("nick");
+        String nick = "imptNick";
+        db.InsertUser(id, nick, name);
+    }
+
+/*
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DBConnection db = new DBConnection();
@@ -47,4 +60,5 @@ public class GoogleLoginController extends HttpServlet {
         resp.sendRedirect("http://localhost:8080");
         return;
     }
+*/
 }
