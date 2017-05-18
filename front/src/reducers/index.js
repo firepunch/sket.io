@@ -1,7 +1,5 @@
 import { combineReducers } from 'redux';
 
-import { routerReducer } from 'react-router-redux'
-import { authStateReducer } from "redux-auth";
 
 import login from './login';
 import game from './game';
@@ -13,9 +11,7 @@ const reducers = combineReducers({
     login,
     game,
     modal,
-    main,
-    routing: routerReducer,
-    auth: authStateReducer
+    main
 })
 
 export default reducers;

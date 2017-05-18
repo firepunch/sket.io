@@ -1,12 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
 
-// import { oauthActions, reducer, signin, signout } from 'react-redux-oauth2'
-// import { OAuthSignInButton } from "redux-auth/material-ui-theme";
 import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
-
 
 import IndexContent from './IndexContent';
 import GameContent from './GameContent';
@@ -59,7 +55,10 @@ class Sket extends Component {
                                 clientId="755801497962-25e8cmnp81pcld5r8mfsvmetus9qnnv4.apps.googleusercontent.com"
                                 className="action-button shadow animate red"
                                 buttonText="구글로 로그인"
-                                onSuccess={(res) => { () => this.props.handleLogin('google', res) }}
+                                onSuccess={(res) => { () => {
+                                    this.props.handleLogin('google', res)
+                                    console.log('fuck', res);
+                                } }}
                                 onFailure={(res) => { () => this.props.handleFailReceiveUserData() }}
                                 onRequest={ this.props.handleLoginRequest }
                             />
