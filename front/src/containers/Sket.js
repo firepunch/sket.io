@@ -23,6 +23,8 @@ const defaultProps = {
 class Sket extends Component {
     constructor(props) {
         super(props);
+
+        this.handleLoginRequest = this.props.handleLoginRequest.bind(this);
     }
 
     // componentWillMount () {
@@ -50,42 +52,33 @@ class Sket extends Component {
                 </div>
 
                 <div className="login-content">
-                    <div className="login-button">
 
-                        <a href="http://www.facebook.com/dialog/oauth?client_id=741189302727195&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fsignin%2Ffacebook%2F">
-                            <button onClick={() => this.props.handleLogin('facebook')}
-                                className="action-button shadow animate blue"
-                                >
-                                페이스북으로 로그인하기
-                            </button>
-                        </a>
-                    </div>
 
-                    <div className="login-button">
-                        <a href="https://accounts.google.com/o/oauth2/auth?client_id=755801497962-25e8cmnp81pcld5r8mfsvmetus9qnnv4.apps.googleusercontent.com&redirect_uri=http://localhost:8080/signin/google/&scope=https://www.googleapis.com/auth/plus.login&response_type=code">
-                            <button onClick={() => this.props.handleLogin('google')}
+                        <div className="login-button">
+                            <GoogleLogin
+                                clientId="755801497962-25e8cmnp81pcld5r8mfsvmetus9qnnv4.apps.googleusercontent.com"
                                 className="action-button shadow animate red"
-                                >
-                                구글로 로그인하기
-                            </button>
-                        </a>
-                    </div>
+                                buttonText="구글로 로그인"
+                                onSuccess={(res) => { () => this.props.handleLogin('google', res) }}
+                                onFailure={(res) => { () => this.props.handleFailReceiveUserData() }}
+                                onRequest={ this.props.handleLoginRequest }
+                            />
+                        </div>
 
-                    <GoogleLogin
-                        clientId="755801497962-25e8cmnp81pcld5r8mfsvmetus9qnnv4.apps.googleusercontent.com"
-                        buttonText="Login"
-                        onSuccess={(res) => { console.log(res) }}
-                        onFailure={(res) => { console.log(res) }}
-                    />
-                    <FacebookLogin
-                        appId="741189302727195"
-                        autoLoad={true}
-                        fields="name,email,picture"
-                        callback={(res) => { console.log(res) }}
-                    />
+                        <div className="login-button">
+                            <FacebookLogin
+                                appId="741189302727195"
+                                autoLoad={true}
+                                fields="name,email,picture"
+                                cssClass="action-button shadow animate blue"
+                                textButton="페이스북으로 로그인"
+                                onClick={ this.props.handleLoginRequest }
+                                callback={(res) => { () => this.props.handleLogin('facebook', res) }}
+                            />
+                        </div>
 
                     <div className="login-button">
-                        <button onClick={() => this.props.handleLogin('guest')}
+                        <button onClick={() => this.props.handleLogin('guest', '')}
                             className="action-button shadow animate green"
                         >
                             GUEST로 로그인하기
@@ -135,10 +128,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         handleModalUsage: (usage) => { dispatch(actions.changeModalUsage(usage)) },
+        handleLoginRequest: () => { dispatch(actions.requestLogin()) },
+        handleFailReceiveUserData: () => { dispatch(actions.failReceiveUserData()) },
         handleLogin: (social) => { dispatch(actions.handleLogin(social)) }
-        // handleFacebookLogin: () => { dispatch(actions.loginFacebook()) },
-        // handleGoogleLogin: () => { dispatch(actions.loginGoogle()) },
-        // handleGuestLogin: () => { dispatch(actions.loginGeust()) }
     };
 }
 

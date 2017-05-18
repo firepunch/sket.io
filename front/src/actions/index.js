@@ -4,19 +4,7 @@ import fetch from 'isomorphic-fetch';
 /* INDEX */
 
 // login
-export function handleLogin(social) {
-    let header = new Headers({
-        'Access-Control-Allow-Origin':'*',
-        'Content-Type': 'multipart/form-data'
-    });
-    let sendData={
-        method: 'POST',
-        mode: 'cors',
-        header: header,
-        body:''
-    };
-    // let proxyUrl = 'https://cors-anywhere.herokuapp.com/'
-    let url;
+export function handleLogin(social, user) {
 
     // switch (social) {
     //     case 'facebook':
@@ -30,18 +18,23 @@ export function handleLogin(social) {
     // }
 
     return dispatch => {
-        dispatch(requestLogin());
-        // fetch(url, sendData)
-        fetch(`/signin/${social}/`, sendData)
+        fetch(`/signin/${social}/`, user)
         .then(res => res.json())
         .then(json => dispatch(receiveUserData(json)))  // 전달 받은 user data를 dispatch
         .catch(error => dispatch(failReceiveUserData()))    // 오류 catch
     }
 }
 
-function requestLogin() {
+export function requestLogin() {
     return {
         type: types.LOGIN_REQUEST
+    }
+}
+
+
+export function failReceiveUserData() {
+    return {
+        type: types.LOGIN_FAILURE
     }
 }
 
@@ -52,11 +45,6 @@ function receiveUserData(user) {
     }
 }
 
-function failReceiveUserData() {
-    return {
-        type: types.LOGIN_FAILURE
-    }
-}
 
 // function
 export function createRoom() {
