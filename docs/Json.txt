@@ -72,6 +72,14 @@ send random quiz
     "id" : "~~"
 }
 
+send chat start
+{
+    "type" : "chatStart"
+    "id" : "유저 아이디",
+    "roomId" : "룸 아이디",
+    "msg" : "채팅 말"
+
+}
 ================ Server to Client ====================
 
 send create room
@@ -240,4 +248,12 @@ send random quiz
 {
     "type" : "randomQuiz",
     "quiz" : "~~~~"
+}
+
+send chat start
+{
+    "type" : "chatStart"
+    "id" : "유저 아이디"
+    "roomId" : "룸 아이디"
+    "msg" : "채팅 내용"
 }
