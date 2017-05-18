@@ -18,7 +18,17 @@ export function handleLogin(social, user) {
     // }
 
     return dispatch => {
-        fetch(`/signin/${social}/`, user)
+        console.log(`http://www.localhost:8080/signin/${social}/`)
+        fetch(`/signin/${social}/`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                user
+            })
+        })
         .then(res => res.json())
         .then(json => dispatch(receiveUserData(json)))  // 전달 받은 user data를 dispatch
         .catch(error => dispatch(failReceiveUserData()))    // 오류 catch
