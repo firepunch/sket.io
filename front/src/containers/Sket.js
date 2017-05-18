@@ -165,7 +165,7 @@ const mapDispatchToProps = (dispatch) => {
         handleModalUsage: (usage) => { dispatch(actions.changeModalUsage(usage)) },
         handleLoginRequest: () => { dispatch(actions.requestLogin()) },
         handleFailReceiveUserData: () => { dispatch(actions.failReceiveUserData()) },
-        handleLogin: (social) => { dispatch(actions.handleLogin(social)) }
+        handleLogin: (social, user) => { dispatch(actions.handleLogin(social, user)) }
     };
 }
 
