@@ -256,4 +256,5 @@ send chat start
     "id" : "유저 아이디"
     "roomId" : "룸 아이디"
     "msg" : "채팅 내용"
+    "correct" : "true/false"
 }
