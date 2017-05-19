@@ -7,12 +7,11 @@ import fetch from 'isomorphic-fetch';
 export function handleLogin(social, user) {
 
     return dispatch => {
-        console.log(`http://www.localhost:8080/signin/${social}/`)
         fetch(`/signin/${social}/`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json; charset=utf-8',
             },
             body: JSON.stringify({
                 user

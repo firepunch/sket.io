@@ -21,6 +21,7 @@ class Sket extends Component {
         super(props);
 
         this.handleLoginRequest = this.props.handleLoginRequest.bind(this);
+        this.handleLogin = this.props.handleLogin.bind(this);
     }
 
     // componentWillMount () {
@@ -55,12 +56,13 @@ class Sket extends Component {
                                 clientId="755801497962-25e8cmnp81pcld5r8mfsvmetus9qnnv4.apps.googleusercontent.com"
                                 className="action-button shadow animate red"
                                 buttonText="구글로 로그인"
-                                onSuccess={(res) => { () => {
-                                    this.props.handleLogin('google', res)
-                                    console.log('fuck', res);
-                                } }}
-                                onFailure={(res) => { () => this.props.handleFailReceiveUserData() }}
+                                onSuccess={(res) => { this.props.handleLogin('google', res) }}
+                                onFailure={(error) => {
+                                    this.props.handleFailReceiveUserData()
+                                    console.log(error);
+                                }}
                                 onRequest={ this.props.handleLoginRequest }
+                                offline={false}
                             />
                         </div>
 
@@ -72,7 +74,7 @@ class Sket extends Component {
                                 cssClass="action-button shadow animate blue"
                                 textButton="페이스북으로 로그인"
                                 onClick={ this.props.handleLoginRequest }
-                                callback={(res) => { () => this.props.handleLogin('facebook', res) }}
+                                callback={(res) => { this.props.handleLogin('facebook', res) }}
                             />
                         </div>
 
