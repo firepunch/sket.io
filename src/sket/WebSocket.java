@@ -33,6 +33,7 @@ public class WebSocket {
     private RoomAction roomAction = null;
     private Player player;
     private Guest guest;
+    ArrayList<Session> roomMembers;
 
     @OnOpen
     public void onOpen(Session session, EndpointConfig config) throws IOException {
@@ -43,10 +44,10 @@ public class WebSocket {
 
         System.out.println("log : " + "getUserIdEqualSession() : " + SessionManager.getUserIdEqualSession(httpSession));
 
-        if(((User) httpSession.getAttribute("user")).isGuest()){
+        if (((User) httpSession.getAttribute("user")).isGuest()) {
             guest = new Guest(false, session);
             player = PlayerAction.getEqualPlayerId(guest.getId());
-        }else{
+        } else {
             player = new Player(SessionManager.getUserIdEqualSession(httpSession), false, session, false);
         }
 
@@ -93,7 +94,7 @@ public class WebSocket {
                 roomAction = new RoomAction(targetRoom);
 
                 if (targetRoom != null && roomAction != null) {
-                    ArrayList<Session> roomMembers = roomAction.getPlayerSession();
+                    roomMembers = roomAction.getPlayerSession();
                     for (Session member : roomMembers) {
                         member.getBasicRemote().sendText(RoomController.getRoomInfoToJSON(targetRoom).put("type", "roomInfo").toString());
                     }
@@ -124,7 +125,7 @@ public class WebSocket {
                 roomAction = new RoomAction(targetRoom);
 
                 if (targetRoom != null) {
-                    ArrayList<Session> roomMembers = roomAction.getPlayerSession();
+                    roomMembers = roomAction.getPlayerSession();
                     for (Session member : roomMembers) {
                         member.getBasicRemote().sendText(QuizController.correctAnswer(jsonObject.getString("correcterId"),
                                 jsonObject.getString("examinerId"), jsonObject.getInt("score")));
@@ -138,7 +139,7 @@ public class WebSocket {
                 roomAction = new RoomAction(targetRoom);
 
                 if (targetRoom != null) {
-                    ArrayList<Session> roomMembers = roomAction.getPlayerSession();
+                    roomMembers = roomAction.getPlayerSession();
                     for (Session member : roomMembers) {
                         member.getBasicRemote().sendText(GameController.randomExaminerToJSON(jsonObject.getString("id"), targetRoom.getRoomId()));
                     }
@@ -158,13 +159,24 @@ public class WebSocket {
 
                 /* 방에서 출제자를 제외한 플레이어에게 캔버스 데이터 보냄 */
             case "canvasData":
-                ArrayList<Session> roomMembers = QuizAction.excludeExaminerSession(jsonObject.getString("id"));
+                roomMembers = QuizAction.excludeExaminerSession(jsonObject.getString("id"));
 
                 if (roomMembers != null) {
                     for (Session member : roomMembers) {
                         member.getBasicRemote().sendText(QuizController.sendCanvasData());
                     }
                 }
+                break;
+
+            case "chatStart":
+                targetRoom = RoomAction.findRoomById(jsonObject.getInt("roomId"));
+                roomAction = new RoomAction(targetRoom);
+
+                ArrayList<Session> roomMember = roomAction.getPlayerSession();
+                for (Session session1 : roomMember) {
+                    session1.getBasicRemote().sendText(jsonObject.getString("msg"));
+                }
+
                 break;
         }
     }

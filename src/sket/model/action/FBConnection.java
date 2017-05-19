@@ -1,3 +1,4 @@
+/*
 package sket.model.action;
 
 import org.json.JSONException;
@@ -118,3 +119,4 @@ public class FBConnection {
         return fbProfile;
     }
 }
+*/

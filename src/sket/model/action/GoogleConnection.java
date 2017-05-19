@@ -98,8 +98,11 @@ public class GoogleConnection {
             graph = new JSONObject(result.toString());
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("ERROR in getting FB graph data. " + e);
+            throw new RuntimeException("ERROR in getting Google graph data. " + e);
         }
         return graph;
     }
+
+
 }
+
