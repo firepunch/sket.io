@@ -30,7 +30,7 @@ export function requestLogin() {
 }
 
 
-export function failReceiveUserData() {
+function failReceiveUserData() {
     return {
         type: types.LOGIN_FAILURE
     }

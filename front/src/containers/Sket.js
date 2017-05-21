@@ -57,10 +57,7 @@ class Sket extends Component {
                                 className="action-button shadow animate red"
                                 buttonText="구글로 로그인"
                                 onSuccess={(res) => { this.props.handleLogin('google', res) }}
-                                onFailure={(error) => {
-                                    this.props.handleFailReceiveUserData()
-                                    console.log(error);
-                                }}
+                                onFailure={(error) => { console.log(error) }}
                                 onRequest={ this.props.handleLoginRequest }
                                 offline={false}
                             />
@@ -130,7 +127,6 @@ const mapDispatchToProps = (dispatch) => {
     return {
         handleModalUsage: (usage) => { dispatch(actions.changeModalUsage(usage)) },
         handleLoginRequest: () => { dispatch(actions.requestLogin()) },
-        handleFailReceiveUserData: () => { dispatch(actions.failReceiveUserData()) },
         handleLogin: (social, user) => { dispatch(actions.handleLogin(social, user)) }
     };
 }
