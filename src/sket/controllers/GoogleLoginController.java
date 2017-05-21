@@ -1,6 +1,8 @@
 package sket.controllers;
 
+import org.json.JSONObject;
 import sket.db.DBConnection;
+import sket.model.action.GoogleConnection;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,21 +25,6 @@ public class GoogleLoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DBConnection db = new DBConnection();
-
-        req.setCharacterEncoding("euc-kr");
-        resp.setCharacterEncoding("UTF-8");
-        resp.setContentType("text/html");
-        String id = req.getParameter("id");
-        String name = req.getParameter("name");
-//        String nick = req.getParameter("nick");
-        String nick = "imptNick";
-        db.InsertUser(id, nick, name);
-    }
-
-/*
-    @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        DBConnection db = new DBConnection();
         GoogleConnection googleConnection = new GoogleConnection();
 
         code = req.getParameter("code");
@@ -53,12 +40,22 @@ public class GoogleLoginController extends HttpServlet {
         System.out.println("log : 구글값 확인(id) : " + id);
         System.out.println("log : 구글값 확인(이름) : " + name);
         System.out.println("log : 구글값 확인(사진) : " + picture);
-        //TODO: 클라에 값 전달
+        System.out.println("log : 구글값 확인 : " + req.getQueryString());
+        System.out.println("log : 구글값 확인 : " + req.getRequestURI());
 
-        db.InsertUser(id, nick, name);
+/*
+        req.setCharacterEncoding("euc-kr");
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/html");
+        System.out.println(req.getQueryString());
+        String id = req.getParameter("id");
+        String name = req.getParameter("name");
+//        String nick = req.getParameter("nick");
+        String nick = "imptNick";
+        System.out.println(id+name+nick+"GOOGLE");*/
 
-        resp.sendRedirect("http://localhost:8080");
-        return;
+
+//        db.InsertUser(id, nick, name);
     }
-*/
+
 }

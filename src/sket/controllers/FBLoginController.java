@@ -24,46 +24,34 @@ public class FBLoginController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DBConnection db = new DBConnection();
 
-        req.setCharacterEncoding("euc-kr");
         resp.setCharacterEncoding("UTF-8");
-        resp.setContentType("text/html");
         String id = req.getParameter("id");
         String name = req.getParameter("name");
 //        String nick = req.getParameter("nick");
         String nick = "imptNick";
-        db.InsertUser(id, nick, name);
+        System.out.println("쿼리: " + req.getQueryString());
+        System.out.println("쿼리: " + req.getRequestURI());
+
+        System.out.println(id+name+nick+"FB");
+
+//        db.InsertUser(id, nick, name);
     }
 
-    /*    @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.service(req, resp);
 
-        DBConnection db = new DBConnection();
-        FBConnection fbConnection = new FBConnection();
 
-        // TODO: nick값 받기
-        code = req.getParameter("code");
+/*
+    DBConnection db = new DBConnection();
+    FBConnection fbConnection = new FBConnection();
+
+    // TODO: nick값 받기
+    code = req.getParameter("code");
         if (code == null || code.equals("")) {
-            throw new RuntimeException("ERROR: Didn't get code parameter in callback.");
-        }
-        accessToken = fbConnection.getAccessToken(code);
-        String graph = fbConnection.getFbGraph(accessToken);
-        Map<String, String> fbProfileData = fbConnection.getGrapthData(graph);
-        String id = fbProfileData.get("id");
-        String name = fbProfileData.get("name");
-//        String picture = fbProfileData.get("picture");
-
-        //TODO: 클라에 값 전달
-        System.out.println("log: FB값 확인(id) : " + id);
-        System.out.println("log: FB값 확인(이름) : " + name);
-//        System.out.println("log: FB값 확인(사진) : " + picture);
-
-        db.InsertUser(id, nick, name);
+        throw new RuntimeException("ERROR: Didn't get code parameter in callback.");
     }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect("http://localhost:8080");
-        return;
-    }*/
+    accessToken = fbConnection.getAccessToken(code);
+    String graph = fbConnection.getFbGraph(accessToken);
+    Map<String, String> fbProfileData = fbConnection.getGrapthData(graph);
+    String id = fbProfileData.get("id");
+    String name = fbProfileData.get("name");
+*/
 }
