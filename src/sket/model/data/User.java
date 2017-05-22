@@ -4,8 +4,17 @@ public class User {
 
     private String id;
     private String password;
+    private String name;
     private String nick;
     private boolean isGuest = false;
+
+    public User(String id, String password, String nick, String name, boolean isGuest) {
+        this.id = id;
+        this.password = password;
+        this.nick = nick;
+        this.nick = name;
+        this.isGuest = isGuest;
+    }
 
     public User(String id, String password, String nick, boolean isGuest){
         this.id = id;
