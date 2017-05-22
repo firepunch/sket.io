@@ -7,15 +7,6 @@ const url = 'ws://localhost:8080/websocket'
 
 // login
 export function handleLogin(social, user) {
-
-    return (dispatch, getState) => {
-        if (!getState().login.isLoggedIn) {
-            return dispatch(sendUserData(social, user))
-        }
-    }
-}
-
-function sendUserData(social, user) {
     return async dispatch => {
         await fetch(`/signin/${social}/`, {
             method: 'POST',
@@ -41,7 +32,6 @@ export function requestLogin() {
     }
 }
 
-
 function failReceiveUserData() {
     return {
         type: types.LOGIN_FAILURE
@@ -54,6 +44,7 @@ function receiveUserData(user) {
         user
     }
 }
+
 
 // WebSocket
 export function requestSocket() {

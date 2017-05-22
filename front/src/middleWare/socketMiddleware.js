@@ -52,7 +52,7 @@ const socketMiddleware = (() => {
                 }
 
                 //Send an action that shows a "connecting..." status for now
-                // store.dispatch(actions.requestSocket());
+                store.dispatch(actions.requestSocket());
 
                 //Attempt to connect (we could send a 'failed' action on error)
                 socket = new WebSocket(action.url);

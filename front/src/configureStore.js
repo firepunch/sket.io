@@ -8,9 +8,10 @@ import socketMiddleware from './middleWare/socketMiddleware'
 const loggerMiddleware = createLogger();
 
 // 미들웨어는 여기서 작성한 파라미터 순으로 지정됨
+// thunk - logger 순으로 미들웨어를 설정해야 비동기 action이 표시됨
 const createStoreWithMiddleware = applyMiddleware(
-    loggerMiddleware,
     thunkMiddleware,
+    loggerMiddleware,
     socketMiddleware
 )(createStore);
 
