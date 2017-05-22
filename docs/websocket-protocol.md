@@ -15,7 +15,10 @@
             id: (유저 아이디),<br>
             name : (유저 이름),<br>
             nick : (nickXX or 유저 닉넴),<br>
-            picture : (유저 사진 링크)
+            picture : (유저 사진 링크),<br>
+            level : (유저 레벨),<br>
+            totalexp : (유저 총경험치),<br>
+            curexp : (유저 현재경험치)<br>
         </td>
     </tr>
     <tr>
@@ -26,7 +29,10 @@
             id: (유저 아이디),<br>
             name : (유저 이름),<br>
             nick : (nickXX or 유저 닉넴),<br>
-            picture : (유저 사진 링크)
+            picture : (유저 사진 링크),<br>
+            level : (유저 레벨),<br>
+            totalexp : (유저 총경험치),<br>
+            curexp : (유저 현재경험치)<br>
         </td>
     </tr>
     <tr>

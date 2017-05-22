@@ -176,7 +176,6 @@ public class WebSocket {
                 for (Session session1 : roomMember) {
                     session1.getBasicRemote().sendText(jsonObject.getString("msg"));
                 }
-
                 break;
         }
     }
