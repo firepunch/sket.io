@@ -76,8 +76,20 @@ public class DBConnection {
     }
 
     /* 소셜로그인 후 정보 삽입 */
-    public void InsertUser(String id, String nick, String name) {
-        String sql = "INSERT INTO user VALUES ('" + id + "','" + nick + "','" + name + "', 1, 0, 0);";
+    public void InsertUser(String id, String nick, String name) throws SQLException {
+        String sql;
+        if (nick != null && !nick.isEmpty()) {
+            int rowCnt = 0;
+
+            ResultSet rs = statement.executeQuery("SELECT COUNT(*) FROM user");
+            while (rs.next()) {
+                rowCnt = rs.getInt("COUNT(*)");
+                System.out.println(rowCnt);
+            }
+            sql = "INSERT INTO user VALUES ('" + id + "','nick" + rowCnt + "','" + name + "', 1, 0, 0);";
+        } else {
+            sql = "INSERT INTO user VALUES ('" + id + "','" + nick + "','" + name + "', 1, 0, 0);";
+        }
         try {
             statement.executeUpdate(sql);
         } catch (SQLException e) {
