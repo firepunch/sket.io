@@ -1,61 +1,92 @@
 package sket.controllers;
 
 import org.json.JSONObject;
-import sket.db.DBConnection;
-import sket.model.action.GoogleConnection;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * Created by firepunch on 2017-04-06.
  */
 
 public class GoogleLoginController extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-    private String code, nick = "";
-
     public GoogleLoginController() {
         super();
     }
 
+    public static JSONObject getBody(HttpServletRequest req) throws IOException {
+        String body = null;
+        StringBuilder stringBuilder = new StringBuilder();
+        BufferedReader bufferedReader = null;
+
+        try {
+            InputStream inputStream = req.getInputStream();
+            if (inputStream != null) {
+                bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                char[] charBuffer = new char[128];
+                int bytesRead = -1;
+                while ((bytesRead = bufferedReader.read(charBuffer)) > 0) {
+                    stringBuilder.append(charBuffer, 0, bytesRead);
+                }
+            }
+        } catch (IOException e) {
+            throw e;
+        } finally {
+            if (bufferedReader != null) {
+                bufferedReader.close();
+            }
+        }
+        JSONObject jsonObj = new JSONObject(stringBuilder.toString());
+        return jsonObj;
+    }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        DBConnection db = new DBConnection();
-        GoogleConnection googleConnection = new GoogleConnection();
-
-        code = req.getParameter("code");
-        if (code == null || code.equals("")) {
-            throw new RuntimeException("ERROR: Didn't get code parameter in callback.");
-        }
-        String token = googleConnection.getAccessToken(code);
-        JSONObject gProfileData = GoogleConnection.getGoogleGraph(token);
-        String id = gProfileData.getString("id");
-        String name = gProfileData.getString("name");
-        String picture = gProfileData.getString("picture");
-
-        System.out.println("log : 구글값 확인(id) : " + id);
-        System.out.println("log : 구글값 확인(이름) : " + name);
-        System.out.println("log : 구글값 확인(사진) : " + picture);
-        System.out.println("log : 구글값 확인 : " + req.getQueryString());
-        System.out.println("log : 구글값 확인 : " + req.getRequestURI());
-
+//        System.out.println(getBody(req));
 /*
-        req.setCharacterEncoding("euc-kr");
+
+        StringBuffer jb = new StringBuffer();
+        String line = null;
+        JSONObject jsonObject;
+        try {
+            BufferedReader reader = req.getReader();
+            while ((line = reader.readLine()) != null)
+                jb.append(line);
+        } catch (Exception e) { throw  e; }
+
+        try {
+            jsonObject =  HTTP.toJSONObject(jb.toString());
+        } catch (JSONException e) {
+            throw new IOException("Error parsing JSON request string");
+        }
+
+        System.out.println(jsonObject);
+        System.out.println(jsonObject.getString("user"));
+*/
+
+        JSONObject json = new JSONObject();
+
+        resp.setCharacterEncoding("euc-kr");
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html");
-        System.out.println(req.getQueryString());
+
         String id = req.getParameter("id");
         String name = req.getParameter("name");
 //        String nick = req.getParameter("nick");
         String nick = "imptNick";
-        System.out.println(id+name+nick+"GOOGLE");*/
+        System.out.println(id + name + nick + "  GOOGLE");
 
+        json.put("type", "google");
+        json.put("id", "1111");
+
+        resp.setContentType("application/json");
+        PrintWriter out = resp.getWriter();
+        out.print(json);
+        out.flush();
 
 //        db.InsertUser(id, nick, name);
     }
-
 }
