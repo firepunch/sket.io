@@ -1,6 +1,5 @@
 package sket.model.data;
 
-import javax.websocket.Session;
 import java.util.ArrayList;
 
 /**
@@ -9,75 +8,97 @@ import java.util.ArrayList;
 public class Player {
     public static ArrayList<Player> playerArrayList = new ArrayList<>();
 
-    private String id;
-    private boolean roomMaster = false;
-    private boolean examiner = false;
-    private Session session;
+    private static int guestID = 100;
+    private String id; // oauthID or guest는 100부터
+    private String sessionId;
+    private int score = 0;
+    private boolean isMaster = false;
+    private boolean isExaminer = false;
     private boolean isReady = false;
-    private int playerScore = 0;
     private boolean isGuest = false;
 
-    private static int guestID = 100;
-
-    public Player(String id, boolean roomMaster, Session session, boolean isGuest) {
+    public Player(String id, String sessionId, int score, boolean isMaster, boolean isExaminer, boolean isReady, boolean isGuest) {
         this.id = id;
-        this.roomMaster = roomMaster;
-        this.session = session;
+        this.sessionId = sessionId;
+        this.score = score;
+        this.isMaster = isMaster;
+        this.isExaminer = isExaminer;
+        this.isReady = isReady;
         this.isGuest = isGuest;
+
         playerArrayList.add(this);
+//        guestID += 1;
     }
 
-    public Player(boolean roomMaster, Session session, boolean isGuest) {
-        this.id = guestID + "";
-        this.roomMaster = roomMaster;
-        this.session = session;
-        this.isGuest = isGuest;
-        playerArrayList.add(this);
-
-        guestID += 1;
+    public static ArrayList<Player> getPlayerArrayList() {
+        return playerArrayList;
     }
 
-    public void setExaminer(boolean isExaminer) {
-        this.examiner = isExaminer;
+    public static void setPlayerArrayList(ArrayList<Player> playerArrayList) {
+        Player.playerArrayList = playerArrayList;
     }
 
-    public boolean isExaminer() {
-        return this.examiner;
+    public static int getGuestID() {
+        return guestID;
     }
 
-    public void setPlayerScore(int score) {
-        this.playerScore = score;
-    }
-
-    public long getPlayerScore() {
-        return this.playerScore;
-    }
-
-    public boolean isReady() {
-        return this.isReady;
-    }
-
-    public void setReady(boolean ready) {
-        this.isReady = ready;
-    }
-
-    public void setRoomMaster(boolean roomMaster) {
-        this.roomMaster = roomMaster;
-    }
-
-    public boolean isRoomMaster() {
-        return this.roomMaster;
+    public static void setGuestID(int guestID) {
+        Player.guestID = guestID;
     }
 
     public String getId() {
-        return this.id;
+        return id;
     }
 
-    public Session getSession() {
-        return this.session;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public static ArrayList<Player> getPlayerList() {
-        return Player.playerArrayList;
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public boolean isMaster() {
+        return isMaster;
+    }
+
+    public void setMaster(boolean master) {
+        isMaster = master;
+    }
+
+    public boolean isExaminer() {
+        return isExaminer;
+    }
+
+    public void setExaminer(boolean examiner) {
+        isExaminer = examiner;
+    }
+
+    public boolean isReady() {
+        return isReady;
+    }
+
+    public void setReady(boolean ready) {
+        isReady = ready;
+    }
+
+    public boolean isGuest() {
+        return isGuest;
+    }
+
+    public void setGuest(boolean guest) {
+        isGuest = guest;
     }
 }

@@ -1,7 +1,5 @@
 package sket.model.data;
 
-import org.json.JSONObject;
-
 import javax.websocket.Session;
 import java.util.ArrayList;
 
