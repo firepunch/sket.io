@@ -17,6 +17,8 @@ public class Player {
     private int playerScore = 0;
     private boolean isGuest = false;
 
+    private static int guestID = 100;
+
     public Player(String id, boolean roomMaster, Session session, boolean isGuest) {
         this.id = id;
         this.roomMaster = roomMaster;
@@ -25,7 +27,17 @@ public class Player {
         playerArrayList.add(this);
     }
 
-    public void setExaminer(boolean isExaminer){
+    public Player(boolean roomMaster, Session session, boolean isGuest) {
+        this.id = guestID + "";
+        this.roomMaster = roomMaster;
+        this.session = session;
+        this.isGuest = isGuest;
+        playerArrayList.add(this);
+
+        guestID += 1;
+    }
+
+    public void setExaminer(boolean isExaminer) {
         this.examiner = isExaminer;
     }
 

@@ -45,8 +45,7 @@ public class WebSocket {
         System.out.println("log : " + "getUserIdEqualSession() : " + SessionManager.getUserIdEqualSession(httpSession));
 
         if (((User) httpSession.getAttribute("user")).isGuest()) {
-            guest = new Guest(false, session);
-            player = PlayerAction.getEqualPlayerId(guest.getId());
+            player = new Player(false, session, true);
         } else {
             player = new Player(SessionManager.getUserIdEqualSession(httpSession), false, session, false);
         }
@@ -182,6 +181,7 @@ public class WebSocket {
 
     @OnClose
     public void onClose(Session session) {
+
         System.out.println("onClose()");
     }
 
