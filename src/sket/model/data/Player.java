@@ -9,7 +9,7 @@ public class Player {
     public static ArrayList<Player> playerArrayList = new ArrayList<>();
 
     private static int guestID = 100;
-    private String id; // oauthID or guest는 100부터
+    private String id; // guest는 100부터 or oauthID
     private String sessionId;
     private int score = 0;
     private boolean isMaster = false;

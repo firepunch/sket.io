@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.Date;
 
 /**
@@ -38,27 +39,34 @@ public class FBLoginController extends HttpServlet {
         String name = rcvJson.getString("name");
         String picture = rcvJson.getJSONObject("picture").getJSONObject("data").getString("url");
         String token = rcvJson.getString("accessToken");
-        String totalExp, curExp, limitExp, level, nick = "null";
-
-        sendJson.put("type", "facebook");
-        sendJson.put("id", id);
-        sendJson.put("name", name);
-        sendJson.put("nick", nick);
-        sendJson.put("picture", picture);
+        String nick = "null";
 
         req.setCharacterEncoding("euc-kr");
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
-        resp.setHeader("Cache-Control", "no-cache");
-        resp.setHeader("Pragma", "no-cache");
-        resp.setDateHeader("Expires", 0);
 
         HttpSession session = req.getSession(false);
         System.out.println(session);
         if (session == null) {
+            try {
+                sendJson.put("type", "facebook");
+                sendJson.put("id", id);
+                sendJson.put("name", name);
+                sendJson.put("nick", nick);
+                sendJson.put("picture", picture);
+                sendJson.put("level", 1);
+                sendJson.put("limitExp", 300);
+                sendJson.put("totalExp", 0);
+                sendJson.put("curExp", 0);
+
+                db.InsertUser(id, nick);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new IOException("oauth login insert error " + e);
+            }
+
             session = req.getSession();
-            sendJson.put("limitExp", 0); // 임시데이터
-            session.setAttribute("user", new User(id, nick, level, totalExp, curExp));
+            session.setAttribute("user", new User(id, nick, 1, 0, 0));
 
             System.out.println(session);
 
@@ -69,7 +77,6 @@ public class FBLoginController extends HttpServlet {
             System.out.println("log : " + "FB 새로운 세션 생성");
         } else {
             System.out.println("log : " + "FB 세션 이미 있음");
-
             session.invalidate();
             long sTime = session.getCreationTime();
             long eTime = session.getLastAccessedTime();
@@ -81,8 +88,11 @@ public class FBLoginController extends HttpServlet {
             System.out.println("마지막 접근시간 : " + ed.toLocaleString() + "<br/>");
         }
 
+//        이미 회원이라면
+//        sendJson = db.SelectUser(id, "facebook");
+
 //        try {
-//            db.InsertUser(id, nick, name);
+//
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
