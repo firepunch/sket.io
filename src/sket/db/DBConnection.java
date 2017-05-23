@@ -85,9 +85,8 @@ public class DBConnection {
             ResultSet rs = statement.executeQuery("SELECT COUNT(*) FROM user");
             while (rs.next()) {
                 rowCnt = rs.getInt("COUNT(*)");
-                System.out.println(rowCnt);
             }
-            query = "INSERT INTO user VALUES ('" + id + "','nick" + rowCnt + "' 1, 300, 0, 0);";
+            query = "INSERT INTO user VALUES ('" + id + "','nick" + rowCnt + "', 1, 300, 0, 0);";
             System.out.println("sq  "+query);
         } else {
             query = "INSERT INTO user VALUES ('" + id + "','" + nick + "', 1, 300, 0, 0);";

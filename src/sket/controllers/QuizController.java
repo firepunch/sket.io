@@ -28,7 +28,8 @@ public class QuizController extends HttpServlet {
         Player targetPlayer = PlayerAction.getEqualPlayerId(correctId);
         Player examinerPlayer = PlayerAction.getEqualPlayerId(examinerId);
 
-        targetPlayer.setPlayerScore(playerScore);
+        targetPlayer.setScore(playerScore);
+
         String message = correctAnswerByJSON(targetPlayer, examinerPlayer, playerScore);
 
         if (message != null) {

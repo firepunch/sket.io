@@ -1,7 +1,6 @@
 package sket.controllers;
 
 import sket.model.action.SessionManager;
-import sket.model.data.Player;
 import sket.model.data.User;
 
 import javax.servlet.ServletException;
@@ -31,7 +30,7 @@ public class SignUpController extends HttpServlet {
         nickname = req.getParameter("nick");
 
         HttpSession session = req.getSession();
-        session.setAttribute("user", new User(id, password, nickname, false));
+        session.setAttribute("user", new User(id, nickname));
         SessionManager.addSession(session);
 
         System.out.println("Session 아이디 : "+ session);

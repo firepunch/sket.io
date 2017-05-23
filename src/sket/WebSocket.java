@@ -1,3 +1,4 @@
+/*
 package sket;
 
 import org.json.JSONObject;
@@ -12,7 +13,6 @@ import sket.model.action.SessionManager;
 import sket.model.data.Guest;
 import sket.model.data.Player;
 import sket.model.data.Room;
-import sket.model.data.User;
 
 import javax.servlet.http.HttpSession;
 import javax.websocket.*;
@@ -20,9 +20,11 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.ArrayList;
 
+*/
 /**
  * Created by hojak on 2017-04-06.
- */
+ *//*
+
 
 @ServerEndpoint(value = "/websocket", configurator = GetHttpSessionConfigurator.class)
 public class WebSocket {
@@ -61,7 +63,9 @@ public class WebSocket {
 
         switch (jsonObject.getString("type")) {
 
-                /* 방 생성 했을 때 보내는 JSON */
+                */
+/* 방 생성 했을 때 보내는 JSON *//*
+
             case "createRoom":
                 targetRoom = RoomController.createRoom(jsonObject.getString("roomName"), jsonObject.getBoolean("lock"),
                         jsonObject.getString("password"), jsonObject.getString("master"));
@@ -69,12 +73,16 @@ public class WebSocket {
                 session.getBasicRemote().sendText(RoomController.getRoomInfoToJSON(targetRoom).put("type", "roomInfo").toString());
                 break;
 
-                /* 방 리스트 보내는 JSON... 우선 테스트 코드 */
+                */
+/* 방 리스트 보내는 JSON... 우선 테스트 코드 *//*
+
             case "roomList":
                 session.getBasicRemote().sendText(RoomController.getRoomListAsJSON());
                 break;
 
-                /* Guest 만드는 JSON... 우선 테스트 코드임 */
+                */
+/* Guest 만드는 JSON... 우선 테스트 코드임 *//*
+
             case "guestTest":
                 Guest guest = new Guest(false, session);
                 Player guestPlayer = PlayerAction.getEqualPlayerId(guest.getId());
@@ -86,7 +94,9 @@ public class WebSocket {
 
                 break;
 
-                /* 방 입장할 때 보내는 JSON */
+                */
+/* 방 입장할 때 보내는 JSON *//*
+
             case "enterRoom":
                 targetRoom = RoomAction.enterRoom(jsonObject.getInt("roomId"), jsonObject.getString("userId"));
 
@@ -100,7 +110,9 @@ public class WebSocket {
                 }
                 break;
 
-                /* 준비 했을 때 보내는 JSON */
+                */
+/* 준비 했을 때 보내는 JSON *//*
+
             case "isReady":
                 // 준비 할 때마다 방 전체 인원이 레디 했는지 검사해서 모두 준비를 한 상태면 게임 시작 JSON 을 보낸다.
                 targetRoom = RoomAction.findRoomById(jsonObject.getInt("roomId"));
@@ -118,7 +130,9 @@ public class WebSocket {
                 }
                 break;
 
-                /* 정답 맞췄을 시에 보내는 JSON */
+                */
+/* 정답 맞췄을 시에 보내는 JSON *//*
+
             case "correctAnswer":
                 targetRoom = RoomAction.findRoomById(jsonObject.getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
@@ -132,7 +146,9 @@ public class WebSocket {
                 }
                 break;
 
-                /* 출제자 랜덤 JSON */
+                */
+/* 출제자 랜덤 JSON *//*
+
             case "randomExaminer":
                 targetRoom = RoomAction.findRoomById(jsonObject.getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
@@ -145,7 +161,9 @@ public class WebSocket {
                 }
                 break;
 
-                /* 출제자에게 퀴즈 보내기 */
+                */
+/* 출제자에게 퀴즈 보내기 *//*
+
             case "randomQuiz":
                 targetRoom = RoomAction.findRoomById(jsonObject.getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
@@ -156,7 +174,9 @@ public class WebSocket {
                 }
                 break;
 
-                /* 방에서 출제자를 제외한 플레이어에게 캔버스 데이터 보냄 */
+                */
+/* 방에서 출제자를 제외한 플레이어에게 캔버스 데이터 보냄 *//*
+
             case "canvasData":
                 roomMembers = QuizAction.excludeExaminerSession(jsonObject.getString("id"));
 
@@ -190,4 +210,4 @@ public class WebSocket {
         System.out.println("onError()");
         throwable.printStackTrace();
     }
-}
+}*/

@@ -20,11 +20,11 @@ public class User {
     }
 
     /* 게스트 또는 신규 로그인 생성자 */
-    public User(String id, String nick, int level, int totalExp, int curExp) {
+    public User(String id, String nick) {
         this.id = id;
         this.nick = nick;
         this.level = level;
-        this.limitExp = 300;
+        this.limitExp = limitExp;
         this.totalExp = totalExp;
         this.curExp = curExp;
     }

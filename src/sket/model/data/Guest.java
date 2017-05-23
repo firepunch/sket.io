@@ -22,7 +22,8 @@ public class Guest {
             guestInit();
         }
 
-        player = new Player(Integer.toString(countId), roomMaster, session, true);
+//        TODO: 미림쓰가 주석처리함
+//        player = new Player(Integer.toString(countId), roomMaster, session, true);
         allocateId();
         guestList.add(this);
     }
@@ -48,13 +49,15 @@ public class Guest {
         guestList.clear();
     }
 
-    public Session getSession() {
-        return player.getSession();
-    }
+//    TODO: 미림쓰가 주석처리함
+//    public Session getSession() {
+//        return player.getSession();
+//    }
 
-    public void setRoomMaster(boolean roomMaster) {
-        player.setRoomMaster(roomMaster);
-    }
+//    TODO: 미림쓰가 주석처리함
+//    public void setRoomMaster(boolean roomMaster) {
+//        player.setRoomMaster(roomMaster);
+//    }
 
     public String getId() {
         return player.getId();
@@ -72,11 +75,12 @@ public class Guest {
         boolean isSuccess = false;
 
         for (Guest tempGuest : guestList) {
-            if (tempGuest.getSession() == session) {
-                guestList.remove(tempGuest);
-                player = null;
-                isSuccess = true;
-            }
+//            TODO: 미림쓰가 주석처리함
+//            if (tempGuest.getSession() == session) {
+//                guestList.remove(tempGuest);
+//                player = null;
+//                isSuccess = true;
+//            }
         }
         return isSuccess;
     }

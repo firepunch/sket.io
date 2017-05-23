@@ -29,6 +29,7 @@ public class Player {
         playerArrayList.add(this);
     }
 
+    /* 게스트일 경우 id 필요없음 */
     public Player(String sessionId, int score, boolean isMaster, boolean isExaminer, boolean isReady, boolean isGuest) {
         this.id = guestID + "";
         this.sessionId = sessionId;
@@ -113,4 +114,5 @@ public class Player {
     public void setGuest(boolean guest) {
         isGuest = guest;
     }
+
 }
