@@ -23,7 +23,7 @@ class FuncButtonArea extends Component {
 
     render() {
         return(
-            <div id="sket-header">
+            <div id="sket-header" className="component-container">
 
                 <div>
                     <div className="sket-button" id="craete-room">

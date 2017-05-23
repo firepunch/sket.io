@@ -18,8 +18,6 @@ const defaultProps = {
 class IndexContent extends Component {
     constructor(props) {
         super(props);
-
-        // this.handleModalUsage = this.props.handleModalUsage.bind(this);
     }
     // <Login
     //     onClick={ () => this.handleModalUsage("LOGIN")}
@@ -32,7 +30,9 @@ class IndexContent extends Component {
             <div className="content">
 
                 <div className="container">
-                    <UserProfile />
+                    <UserProfile
+                        user={this.props.user}
+                    />
                     <FuncButtonArea
                         handleModal={this.handleModalUsage}
                     />

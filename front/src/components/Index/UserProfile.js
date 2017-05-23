@@ -14,18 +14,18 @@ class UserProfile extends Component {
     }
     render() {
         const indexStyle = {
-            width: '20%',
-            height: '20%',
-            backgroundColor: 'skyblue',
-
-            float: 'left'
+            // width: '20%',
+            // height: '20%',
+            //
+            // float: 'left'
+            // backgroundColor: 'skyblue',
         }
 
         const gameStyle = {
-            width: '100%',
-            height: '50%',
-            float: 'none',
-            backgroundColor: 'lightgreen'
+            // width: '100%',
+            // height: '50%',
+            // float: 'none'
+            // backgroundColor: 'lightgreen'
         };
 
         let divStyle = {};
@@ -33,20 +33,17 @@ class UserProfile extends Component {
         if (this.props.divStyle === 'sket-player') divStyle = gameStyle;
         else divStyle = indexStyle;
 
+        // <p>{this.props.user.name}</p>
         return(
-            <div className="sket-profile" style={divStyle}>
+            <div id="sket-profile" className="component-container" style={divStyle}>
                 <div className="profile-image">
-                    <img src={"../logo.svg"} alt="error"/>
+                    <img src={this.props.user.picture} alt="error"/>
                 </div>
 
                 <div className="user-info">
-                    GUEST7777
-                </div>
-                <div className="user-info">
-                    Lv.1
-                </div>
-                <div className="user-info">
-                    exp bar
+                    <p>GUEST10547</p>
+                    <p>Lv.1</p>
+                    <p>exp bar</p>
                 </div>
             </div>
         );

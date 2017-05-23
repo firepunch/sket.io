@@ -14,7 +14,7 @@ class ConnectingUserList extends Component {
     }
     render() {
         return(
-            <div id="connection-list">
+            <div id="connection-list" className="component-container">
                 <div>
                     ConnectingUserList
                 </div>
