@@ -27,7 +27,19 @@ public class Player {
         this.isGuest = isGuest;
 
         playerArrayList.add(this);
-//        guestID += 1;
+    }
+
+    public Player(String sessionId, int score, boolean isMaster, boolean isExaminer, boolean isReady, boolean isGuest) {
+        this.id = guestID + "";
+        this.sessionId = sessionId;
+        this.score = score;
+        this.isMaster = isMaster;
+        this.isExaminer = isExaminer;
+        this.isReady = isReady;
+        this.isGuest = isGuest;
+        playerArrayList.add(this);
+
+        guestID += 1;
     }
 
     public static ArrayList<Player> getPlayerArrayList() {
