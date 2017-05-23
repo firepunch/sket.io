@@ -78,6 +78,9 @@ public class DBConnection {
     /* 소셜로그인 후 정보 삽입 */
     public void InsertUser(String id, String nick, String name) throws SQLException {
         String sql;
+        System.out.println(nick);
+        System.out.println(nick != null && !nick.isEmpty());
+
         if (nick != null && !nick.isEmpty()) {
             int rowCnt = 0;
 
@@ -87,6 +90,7 @@ public class DBConnection {
                 System.out.println(rowCnt);
             }
             sql = "INSERT INTO user VALUES ('" + id + "','nick" + rowCnt + "','" + name + "', 1, 0, 0);";
+            System.out.println("sq  "+sql);
         } else {
             sql = "INSERT INTO user VALUES ('" + id + "','" + nick + "','" + name + "', 1, 0, 0);";
         }
