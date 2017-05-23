@@ -3,9 +3,13 @@ package sket.controllers;
 import org.json.JSONObject;
 import sket.db.DBConnection;
 import sket.model.action.OauthLogin;
+import sket.model.data.User;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
@@ -24,19 +28,17 @@ public class FBLoginController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         JSONObject sendJson = new JSONObject();
-        JSONObject rcvJson;
         DBConnection db = new DBConnection();
         OauthLogin oauthLogin = new OauthLogin();
 
-        rcvJson = oauthLogin.getRcvJson(req, "user");
+        JSONObject rcvJson = oauthLogin.getRcvJson(req, "user");
 
         String id = rcvJson.getString("id");
         String name = rcvJson.getString("name");
         String picture = rcvJson.getJSONObject("picture").getJSONObject("data").getString("url");
         String token = rcvJson.getString("accessToken");
-        String nick = "null";
+        String totalExp, curExp, limitExp, level, nick = "null";
 
         sendJson.put("type", "facebook");
         sendJson.put("id", id);
@@ -52,10 +54,12 @@ public class FBLoginController extends HttpServlet {
         resp.setDateHeader("Expires", 0);
 
         HttpSession session = req.getSession(false);
-//        HttpSession session = req.getSession();
         System.out.println(session);
         if (session == null) {
             session = req.getSession();
+            sendJson.put("limitExp", 0); // 임시데이터
+            session.setAttribute("user", new User(id, nick, level, totalExp, curExp));
+
             System.out.println(session);
 
             PrintWriter out = resp.getWriter();
