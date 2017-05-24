@@ -22,8 +22,10 @@ public class Guest {
             guestInit();
         }
 
+        // player = new Player(Integer.toString(countId), roomMaster, session, true);
 //        TODO: 미림쓰가 주석처리함
 //        player = new Player(Integer.toString(countId), roomMaster, session, true);
+
         allocateId();
         guestList.add(this);
     }

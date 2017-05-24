@@ -11,7 +11,9 @@ public class Player {
     private static int guestID = 100;
     private String id; // guest는 100부터 or oauthID
     private String sessionId;
+
     private int score = 0;
+    
     private boolean isMaster = false;
     private boolean isExaminer = false;
     private boolean isReady = false;
@@ -20,10 +22,6 @@ public class Player {
     public Player(String id, String sessionId, boolean isGuest) {
         this.id = id;
         this.sessionId = sessionId;
-        this.score = score;
-        this.isMaster = isMaster;
-        this.isExaminer = isExaminer;
-        this.isReady = isReady;
         this.isGuest = isGuest;
 
         playerArrayList.add(this);

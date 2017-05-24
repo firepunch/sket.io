@@ -43,14 +43,18 @@ public class FBLoginController extends HttpServlet {
         req.setCharacterEncoding("euc-kr");
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
+        resp.setHeader("Cache-Control", "no-cache");
+        resp.setHeader("Pragma", "no-cache");
+        resp.setDateHeader("Expires", 0);
 
         try {
             sendJson = db.selectUser(id, "facebook");
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
 //        if (sendJson.getString("id").equals("null")) {
-        if (req.getParameter("JSESSIONID")!=null) {
+        if (req.getParameter("JSESSIONID") != null) {
             Cookie cookie = new Cookie("JSESSIONID", req.getParameter("JSESSIONID"));
             resp.addCookie(cookie);
 
@@ -79,14 +83,11 @@ public class FBLoginController extends HttpServlet {
                 throw new IOException("oauth login insert error " + e);
             }
 
-            out.print(sendJson);
-            out.flush();
         } else {
             System.out.println("log : " + "FB 세션? 정보! 이미 있음");
             String sessionId = session.getId();
             Cookie cookie = new Cookie("JSESSIONID", sessionId);
             resp.addCookie(cookie);
-
 
             int level = sendJson.getInt("level");
             int limitExp = sendJson.getInt("limitExp");
