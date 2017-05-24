@@ -1,10 +1,8 @@
 package sket.model.action;
 
-import sket.controllers.RoomController;
 import sket.model.data.Player;
 import sket.model.data.Room;
 
-import javax.websocket.Session;
 import java.util.ArrayList;
 
 /**
@@ -19,10 +17,20 @@ public class RoomAction {
     }
 
     /* 방 안에 있는 player 세션을 반환한다. */
+/*
+    TODO: ㅇㅁㄹ, sessionid 받는 것으로 수정
     public ArrayList<Session> getPlayerSession() {
         ArrayList<Session> sessionArrayList = new ArrayList<>();
         for (Player player : Room.getRoomIntoPlayer(targetRoom)) {
             sessionArrayList.add(player.getSession());
+        }
+        return sessionArrayList;
+    }
+*/
+    public ArrayList<String> getPlayerSession() {
+        ArrayList<String> sessionArrayList = new ArrayList<>();
+        for (Player player : Room.getRoomIntoPlayer(targetRoom)) {
+            sessionArrayList.add(player.getSessionId());
         }
         return sessionArrayList;
     }

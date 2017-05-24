@@ -9,7 +9,7 @@ public class Player {
     public static ArrayList<Player> playerArrayList = new ArrayList<>();
 
     private static int guestID = 100;
-    private String id; // oauthID or guest는 100부터
+    private String id; // guest는 100부터 or oauthID
     private String sessionId;
 
     private int score = 0;
@@ -27,9 +27,14 @@ public class Player {
         playerArrayList.add(this);
     }
 
-    public Player(String sessionId, boolean isGuest) {
+    /* 게스트일 경우 id 필요없음 */
+    public Player(String sessionId, int score, boolean isMaster, boolean isExaminer, boolean isReady, boolean isGuest) {
         this.id = guestID + "";
         this.sessionId = sessionId;
+        this.score = score;
+        this.isMaster = isMaster;
+        this.isExaminer = isExaminer;
+        this.isReady = isReady;
         this.isGuest = isGuest;
         playerArrayList.add(this);
 
@@ -107,4 +112,5 @@ public class Player {
     public void setGuest(boolean guest) {
         isGuest = guest;
     }
+
 }

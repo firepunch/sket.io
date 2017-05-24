@@ -65,12 +65,9 @@ public class FBLoginController extends HttpServlet {
             PrintWriter out = resp.getWriter();
             out.print(sendJson);
             out.flush();
-
-            System.out.println("log : " + "FB 새로운 세션 생성");
         } else {
             System.out.println("log : " + "FB 세션 이미 있음");
 
-            session.invalidate();
             long sTime = session.getCreationTime();
             long eTime = session.getLastAccessedTime();
             Date sd = new Date(sTime);
@@ -82,7 +79,6 @@ public class FBLoginController extends HttpServlet {
         }
 
 //        try {
-//            db.InsertUser(id, nick, name);
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
