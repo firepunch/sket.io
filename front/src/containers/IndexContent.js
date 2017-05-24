@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import Login from '../components/Index/Login';
 import UserProfile from '../components/Index/UserProfile';
 import FuncButtonArea from '../components/Index/FuncButtonArea';
 import RoomList from '../components/Index/RoomList';
@@ -27,7 +26,7 @@ class IndexContent extends Component {
 
     render() {
         return(
-            <div className="content">
+            <div className="sket-index">
 
                 <div className="container">
                     <UserProfile

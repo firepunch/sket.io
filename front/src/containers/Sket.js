@@ -87,10 +87,10 @@ class Sket extends Component {
                 <GameContent/>
         )
 
-
         // {this.props.isLoggedIn ? index : loginPage }
+
         return(
-            <div>
+            <div className="sket-root">
                 {index}
             </div>
         );

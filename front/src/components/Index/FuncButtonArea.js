@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
 // import FuncButton from './FuncButton';
-import IndexModal from './IndexModal';
+import IndexModal from './createRoomModal';
 
 
 const propTypes = {
@@ -27,16 +27,20 @@ class FuncButtonArea extends Component {
 
                 <div>
                     <div className="sket-button" id="craete-room">
-                        <IndexModal
+                        <createRoomModal
                             modalName="방 생성"/>
                     </div>
 
                     <div className="sket-button" id="quick-start">
-                        <button>빠른 시작</button>
+                        <button className="action-button shadow animate red">
+                            빠른 시작
+                        </button>
                     </div>
 
                     <div className="sket-button" id="ranking">
-                        <button>랭킹</button>
+                        <button className="action-button shadow animate red">
+                            랭킹
+                        </button>
                     </div>
                 </div>
             </div>

@@ -1,7 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 
-import ConnectingUser from './ConnectingUser';
-
 const propTypes = {
 };
 
@@ -18,7 +16,6 @@ class ConnectingUserList extends Component {
                 <div>
                     ConnectingUserList
                 </div>
-                <ConnectingUser/>
             </div>
         );
     }

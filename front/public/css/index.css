@@ -32,7 +32,12 @@ body {
     width: 100%;
 }
 
-.content {
+.sket-root {
+    height: 100%;
+    width: 100%;
+}
+
+.sket-index {
     height: 100%;
     width: 100%;
 
