@@ -22,7 +22,7 @@ public class Guest {
             guestInit();
         }
 
-        player = new Player(Integer.toString(countId), roomMaster, session, true);
+        // player = new Player(Integer.toString(countId), roomMaster, session, true);
         allocateId();
         guestList.add(this);
     }

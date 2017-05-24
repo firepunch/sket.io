@@ -44,11 +44,11 @@ public class WebSocket {
 
         System.out.println("log : " + "getUserIdEqualSession() : " + SessionManager.getUserIdEqualSession(httpSession));
 
-        if (((User) httpSession.getAttribute("user")).isGuest()) {
+      /*  if (((User) httpSession.getAttribute("user")).is()) {
             player = new Player(false, session, true);
         } else {
             player = new Player(SessionManager.getUserIdEqualSession(httpSession), false, session, false);
-        }
+        }*/
 
         // session 에 룸 리스트 보냄
         session.getBasicRemote().sendText(RoomController.getRoomListAsJSON());
@@ -75,7 +75,7 @@ public class WebSocket {
                 break;
 
                 /* Guest 만드는 JSON... 우선 테스트 코드임 */
-            case "guestTest":
+           /* case "guestTest":
                 Guest guest = new Guest(false, session);
                 Player guestPlayer = PlayerAction.getEqualPlayerId(guest.getId());
 
@@ -84,7 +84,7 @@ public class WebSocket {
                 System.out.println("log : 게스트 세션 : " + guest.getSession());
                 System.out.println("log : 게스트&플레이어 세션 : " + guestPlayer.getSession());
 
-                break;
+                break;*/
 
                 /* 방 입장할 때 보내는 JSON */
             case "enterRoom":
