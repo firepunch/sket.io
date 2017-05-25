@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
+import Loading from 'react-loading';
 
 import IndexContent from './IndexContent';
 import GameContent from './GameContent';
@@ -19,17 +20,9 @@ const defaultProps = {
 class Sket extends Component {
     constructor(props) {
         super(props);
-
-        this.handleLoginRequest = this.props.handleLoginRequest.bind(this);
-        this.handleLogin = this.props.handleLogin.bind(this);
-    }
-
-    componentDidMount() {
-        const { dispatch } = this.props;
     }
 
     render() {
-        const { dispatch, isLoggedIn, fetchingUpdate, user } = this.props;
 
         const loginPage = (
             <div className="sket-login">
@@ -65,7 +58,7 @@ class Sket extends Component {
                         </div>
 
                         <div className="login-button">
-                            <button onClick={() => this.props.handleLogin('guest', '')}
+                            <button onClick={ this.props.handleGuestLogin }
                                 className="action-button shadow animate green"
                                 >
                                 GUEST로 로그인하기
@@ -80,6 +73,7 @@ class Sket extends Component {
         const index = (
                 <IndexContent
                     user={this.props.user}
+                    handleCreateRoom={this.props.handleCreateRoom}
                 />
         )
 
@@ -87,10 +81,16 @@ class Sket extends Component {
                 <GameContent/>
         )
 
+        const rendering = ( this.props.isLoggedIn ? index : loginPage );
+
+        const loading = (<Loading type="cylon" color="white"
+                            height='667' width='375' className="loading-svg"/>)
 
         return(
             <div className="sket-root">
-                {this.props.isLoggedIn ? index : loginPage }
+                {
+                    this.props.fetchingUpdate ? loading : rendering
+                }
             </div>
         );
     }
@@ -114,9 +114,13 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        handleModalUsage: (usage) => { dispatch(actions.changeModalUsage(usage)) },
+        /* 로그인 핸들링 */
         handleLoginRequest: () => { dispatch(actions.requestLogin()) },
-        handleLogin: (social, user) => { dispatch(actions.handleLogin(social, user)) }
+        handleLogin: (social, user) => { dispatch(actions.handleLogin(social, user)) },
+        handleGuestLogin: () => { dispatch(actions.handleGuestLogin()) },
+
+        /* 대기 화면 핸들링 */
+        handleCreateRoom: (roomInfo) => { dispatch(actions.createRoom(roomInfo)) }
     };
 }
 

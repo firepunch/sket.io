@@ -3,7 +3,7 @@ import * as actions from '../actions'
 const socketMiddleware = (() => {
     var socket = null;
 
-    const onOpen = (ws, store, token) => evt => {
+    const onOpen = (ws, store) => evt => {
         // Send a handshake, or authenticate with remote end
         // Tell the store we're connected
         store.dispatch(actions.socketConnected());
@@ -57,7 +57,7 @@ const socketMiddleware = (() => {
                 //Attempt to connect (we could send a 'failed' action on error)
                 socket = new WebSocket(action.url);
 
-                socket.onopen = onOpen(socket, store, action.token);
+                socket.onopen = onOpen(socket, store);
                 socket.onclose = onClose(socket, store);
                 socket.onmessage = onMessage(socket, store);
                 socket.onerror = onError(socket, store);
@@ -73,11 +73,16 @@ const socketMiddleware = (() => {
 
                 //Set our state to disconnected
                 store.dispatch(actions.disconnected());
+
                 break;
 
             //Send the 'SEND_MESSAGE' action down the websocket to the server
             case 'SEND_MESSAGE':
-                socket.send(JSON.stringify(action.message));
+                socket.send(JSON.stringify({
+                    type: action.msg_type,
+                    data: action.data
+                }), () => store.dispatch(actions.sendMessageFinish));   // 메시지 전송
+
                 break;
 
             //This action is irrelevant to us, pass it on to the next middleware

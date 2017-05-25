@@ -14,8 +14,11 @@ export const DISCONNECT_SOCKET = "DISCONNECT_SOCKET";   // 소켓 종료
 export const SOCKET_CONNECTED = "SOCKET_CONNECTED";     // 소켓 연결 알림
 export const SOCKET_DISCONNETED = "SOCKET_DISCONNETED"; // 소켓 종료 알림
 
+export const SEND_MESSAGE = "SEND_MESSAGE";             // 소켓 메시지 전송
+export const SEND_MESSAGE_FINISH = "SEND_MESSAGE_FINISH";   // 소켓 메시지 전송 완료
+
 // header function
-export const CREATE_ROOM    = "CREATE_ROOM";
+// export const CREATE_ROOM    = "CREATE_ROOM";
 export const QUICK_START = "QUICK_START";
 export const SHOW_RANKING = "SHOW_RANKING";
 

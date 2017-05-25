@@ -19,12 +19,23 @@ export function handleLogin(social, user) {
             })
         })
         .then(res => res.json())
-        .then(json => dispatch( receiveUserData(json) ))  // 전달 받은 user data를 dispatch
+        // .then(json => {dispatch( receiveUserData(json) ))  // 전달 받은 user data를 dispatch
+        .then(json => {
+            dispatch( receiveUserData(json) );
+            dispatch( connectSocket() );    // 소켓 연결 요청
+        })
         .catch(error => dispatch( failReceiveUserData() ))    // 오류 catch
 
-        dispatch( connectSocket() )    // 소켓 연결 요청
     }
 }
+
+export function handleGuestLogin() {
+    return dispatch => {
+        dispatch( requestLogin() );
+        dispatch( handleLogin('guest', '') );
+    }
+}
+
 
 export function requestLogin() {
     return {
@@ -78,21 +89,20 @@ export function socketDisconneted() {
     }
 }
 
+export function sendMessageFinish() {
+    return {
+        type: types.SEND_MESSAGE_FINISH
+    }
+}
 
 // function
-export function createRoom() {
+export function createRoom(roomInfo) {
     return {
-        type: types.CREATE_ROOM
+        type: types.SEND_MESSAGE,
+        msg_type: "CREATE_ROOM",
+        data: roomInfo
     }
 }
-
-export function changeModalUsage(usage) {
-    return {
-        type: types.CHANGE_MODAL_USAGE,
-        usage
-    }
-}
-
 
 
 /* GAME */
@@ -111,9 +121,3 @@ export function switch_index() {
         type: types.SWITCH_INDEX
     }
 }
-
-// export function quick_start() {
-//     return {
-//         type: types.QUICK_START
-//     }
-// }

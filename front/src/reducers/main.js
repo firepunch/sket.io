@@ -2,7 +2,8 @@ import * as types from '../actions/ActionTypes';
 
 const initialState = {
     fetchingConnect: false,  // 소켓 연결 중
-    isConnecting: false     // 소켓 연결 여부
+    isConnecting: false,     // 소켓 연결 여부
+    isSocketFetching: false  // 소켓 request / response 중
 }
 
 export default function main(state=initialState, action) {
@@ -23,13 +24,19 @@ export default function main(state=initialState, action) {
         case types.SOCKET_DISCONNETED:
             return {
                 ...state,
-                isConnecting: true
+                isConnecting: false
             }
 
-        case types.CHANGE_MODAL_USAGE:
+        case types.SEND_MESSAGE:
             return {
                 ...state,
-                usage: action.usage
+                isSocketFetching: true
+            }
+
+        case types.SEND_MESSAGE_FINISH:
+            return {
+                ...state,
+                isSocketFetching: false
             }
 
         default:
