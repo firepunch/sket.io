@@ -33,6 +33,7 @@ public class WebSocket {
     private Player player;
     private Guest guest;
     ArrayList<Session> roomMembers;
+
     @OnOpen
     public void onOpen(Session session, EndpointConfig config) throws IOException {
         System.out.println("log : onOpen()");
@@ -65,6 +66,7 @@ public class WebSocket {
                 session.getBasicRemote().sendText(RoomController.getRoomListAsJSON());
                 break;
                 */
+
 /* Guest 만드는 JSON... 우선 테스트 코드임 *//*
             case "guestTest":
                 Guest guest = new Guest(false, session);
