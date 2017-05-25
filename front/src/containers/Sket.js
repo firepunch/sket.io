@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { PropTypes as ReactPropTypes } from 'prop-types';
 
 import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
@@ -11,11 +12,48 @@ import GameContent from './GameContent';
 import * as actions from '../actions';
 
 
+function createWarning(funcName) {
+    return () => console.warn(funcName + ' is not defined');
+}
+
 const propTypes = {
+    /* 로그인 */
+    isLoggedIn: ReactPropTypes.bool,
+    fetchingUpdate: ReactPropTypes.bool,
+    user: ReactPropTypes.object,
+
+    /* 메인 */
+    fetchingConnect: ReactPropTypes.bool,
+    isConnecting: ReactPropTypes.bool,
+    isSocketFetching: ReactPropTypes.bool,
+
+    /* dispatcher function */
+    handleLoginRequest: ReactPropTypes.func,
+    handleLogin: ReactPropTypes.func,
+    handleGuestLogin: ReactPropTypes.func,
+
+    handleCreateRoom: ReactPropTypes.func
 };
 
 const defaultProps = {
+    /* 로그인 */
+    isLoggedIn: false,
+    fetchingUpdate: false,
+    user: {},
+
+    /* 메인 */
+    fetchingConnect: false,
+    isConnecting: false,
+    isSocketFetching: false,
+
+    /* dispatcher function */
+    handleLoginRequest: createWarning('handleLoginRequest'),
+    handleLogin: createWarning('handleLogin'),
+    handleGuestLogin: createWarning('handleGuestLogin'),
+
+    handleCreateRoom: createWarning('handleCreateRoom')
 };
+
 
 class Sket extends Component {
     constructor(props) {
@@ -102,12 +140,18 @@ Sket.defaultProps = defaultProps;
 
 const mapStateToProps = (state) => {
     const { isLoggedIn, fetchingUpdate, user } = state.login;
+    const { fetchingConnect, isConnecting, isSocketFetching } = state.main;
 
     return {
+        /* 로그인 */
         isLoggedIn,
         fetchingUpdate,
         user,
-        usage: state.modal
+
+        /* 메인 */
+        fetchingConnect,
+        isConnecting,
+        isSocketFetching
     };
 }
 
