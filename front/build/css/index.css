@@ -32,7 +32,17 @@ body {
     width: 100%;
 }
 
-.content {
+.wrapper {
+    height: 100%;
+    width: 100%;
+}
+
+.sket-root {
+    height: 100%;
+    width: 100%;
+}
+
+.sket-index {
     height: 100%;
     width: 100%;
 
@@ -105,6 +115,55 @@ height 768px	614.4(600)	   153.6(150)
     height: 150px;
 
     float: right;
+
+    display: flex;
+
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.sket-button {
+    display: inline;
+    margin: 0 50px 0 50px;
+}
+
+.sket-button button {
+    height: 100px;
+    width: 200px;
+}
+
+.room-configure {
+    margin: auto;
+}
+
+.input-area {
+    display: flex;
+
+    justify-content: space-around;
+    align-items: center;
+
+    border-radius: 5px;
+    /*background-color: #f2f2f2;*/
+    padding: 20px;
+}
+
+.input-area label {
+    font-size: 1.5em;
+    color: white;
+}
+
+.craete-room-modal-button {
+    display: flex;
+
+    justify-content: space-around;
+    align-items: center;
+
+    margin-top: 20px;
+}
+
+.craete-room-modal-button button {
+    /*margin: 0 50px 0 50px;*/
 }
 
 /* 연결 유저 목록 */
@@ -123,14 +182,16 @@ height 768px	614.4(600)	   153.6(150)
     float: right;
 }
 
-#sket-header .sket-button {
-    display: inline;
-}
-
 .room {
     border: 1px solid black;
 }
 
-p {
+p, label {
     font-family: 'LotteMartHappy', sans-serif;
 }
+
+::-webkit-input-placeholder {
+    font-family: 'LotteMartHappy', sans-serif;
+    /*font-style:italic;*/
+    letter-spacing:3px;
+    color:#999; }
