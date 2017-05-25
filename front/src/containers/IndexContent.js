@@ -18,11 +18,11 @@ class IndexContent extends Component {
     constructor(props) {
         super(props);
     }
-    // <Login
-    //     onClick={ () => this.handleModalUsage("LOGIN")}
-    //     modalUsage={this.props.usage}
-    //     className="login"
-    //     />
+
+    componentDidMount() {
+        console.log(typeof this.props.handleCreateRoom)
+    }
+
 
     render() {
         return(
@@ -33,7 +33,7 @@ class IndexContent extends Component {
                         user={this.props.user}
                     />
                     <FuncButtonArea
-                        handleModal={this.handleModalUsage}
+                            handleCreateRoom={this.props.handleCreateRoom}
                     />
                     <RoomList/>
                     <ConnectingUserList/>

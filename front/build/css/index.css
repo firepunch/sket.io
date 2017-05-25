@@ -68,6 +68,13 @@ body {
     /*overflow: auto;*/
 }
 
+.loading-svg {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+}
+
 /*
                 80%	           20%
 width 1366px	1092.8(1050)   273.2(270)

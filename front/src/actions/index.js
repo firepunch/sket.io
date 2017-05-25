@@ -89,21 +89,20 @@ export function socketDisconneted() {
     }
 }
 
+export function sendMessageFinish() {
+    return {
+        type: types.SEND_MESSAGE_FINISH
+    }
+}
 
 // function
-export function createRoom() {
+export function createRoom(roomInfo) {
     return {
-        type: types.CREATE_ROOM
+        type: types.SEND_MESSAGE,
+        msg_type: "CREATE_ROOM",
+        data: roomInfo
     }
 }
-
-export function changeModalUsage(usage) {
-    return {
-        type: types.CHANGE_MODAL_USAGE,
-        usage
-    }
-}
-
 
 
 /* GAME */
@@ -122,9 +121,3 @@ export function switch_index() {
         type: types.SWITCH_INDEX
     }
 }
-
-// export function quick_start() {
-//     return {
-//         type: types.QUICK_START
-//     }
-// }

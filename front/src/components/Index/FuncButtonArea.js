@@ -17,10 +17,76 @@ class modalComponent extends Component {
     constructor(props) {
         super(props);
         console.log('## MODAL DATA AND PROPS:', this.props);
+
+        this.state = {
+            roomName: '',
+            playerNumber: '',
+            roundNumber: '',
+            timeLimit: '',
+            password: ''
+        };
+
+        /* change 이벤트 바인딩 */
+        this.handleChangeRoomName = this.handleChangeRoomName.bind(this);
+        this.handleChangePlayerNumber = this.handleChangePlayerNumber.bind(this);
+        this.handleChangeRoundNumber = this.handleChangeRoundNumber.bind(this);
+        this.handleChangeTimeLimit = this.handleChangeTimeLimit.bind(this);
+        this.handleChangeRoomPassword = this.handleChangeRoomPassword.bind(this);
+
+        this.createRoom = this.createRoom.bind(this);
+    }
+
+    componentDidMount() {
+        console.log(typeof this.props.handleCreateRoom)
     }
 
     removeThisModal() {
         this.props.removeModal();
+    }
+
+    /* input의 값이 변경될 때마다 반영 */
+    handleChangeRoomName(evt) {
+        this.setState({
+            ...this.state,
+            roomName: evt.target.value
+        });
+    }
+
+    handleChangePlayerNumber(evt) {
+        this.setState({
+            ...this.state,
+            playerNumber: evt.target.value
+        })
+    }
+
+    handleChangeRoundNumber(evt) {
+        this.setState({
+            ...this.state,
+            roundNumber: evt.target.value
+        })
+    }
+
+    handleChangeTimeLimit(evt) {
+        this.setState({
+            ...this.state,
+            timeLimit: evt.target.value
+        })
+    }
+
+    handleChangeRoomPassword(evt) {
+        this.setState({
+            ...this.state,
+            password: evt.target.value
+        })
+    }
+
+    createRoom() {
+        this.props.handleCreateRoom({
+            ...this.state,
+            isLocked: !(this.state.password == null)
+        });
+
+        this.removeThisModal();
     }
 
     render() {
@@ -31,35 +97,40 @@ class modalComponent extends Component {
                     <div className="room-configure">
                         <div className="row">
                             <span>
-                                <input className="gate" id="room-name" type="text" placeholder="방 이름" />
+                                <input className="gate" id="room-name" type="text" required
+                                    placeholder="방 이름" onChange={this.handleChangeRoomName}/>
                                 <label htmlFor="room-name">방 이름</label>
                             </span>
                         </div>
 
                         <div className="row">
                             <span>
-                                <input className="gate" id="player-number" type="text" placeholder="최대 4명까지 가능"  />
+                                <input className="gate" id="player-number" type="number" required
+                                    placeholder="최대 4명까지 가능" onChange={this.handleChangePlayerNumber}/>
                                 <label htmlFor="player-number">플레이어 수</label>
                             </span>
                         </div>
 
                         <div className="row">
                             <span>
-                                <input className="gate" id="round-number" type="text" placeholder="최대 10 라운드까지 가능" />
+                                <input className="gate" id="round-number" type="number" required
+                                    placeholder="최대 10 라운드까지 가능" onChange={this.handleChangeRoundNumber}/>
                                 <label htmlFor="round-number">라운드 수</label>
                             </span>
                         </div>
 
                         <div className="row">
                             <span>
-                                <input className="gate" id="time-limit" type="text" placeholder="최대 30초까지 설정할 수 있습니다(임시)" />
+                                <input className="gate" id="time-limit" type="number" required
+                                    placeholder="최대 30초까지 설정할 수 있습니다(임시)" onChange={this.handleChangeTimeLimit}/>
                                 <label htmlFor="time-limit">제한 시간</label>
                             </span>
                         </div>
 
                         <div className="row">
                             <span>
-                                <input className="gate" id="room-password" type="text" placeholder="최대 10자까지 설정할 수 있습니다(임시)" />
+                                <input className="gate" id="room-password" type="text" required
+                                    placeholder="최대 10자까지 설정할 수 있습니다(임시)" onChange={this.handleChangeRoomPassword}/>
                                 <label htmlFor="room-password">비밀번호</label>
                             </span>
                         </div>
@@ -69,7 +140,8 @@ class modalComponent extends Component {
                 <div className="craete-room-modal-button">
                     <button
                         type="button"
-                        className="action-button shadow animate blue">
+                        className="action-button shadow animate blue"
+                        onClick={ this.createRoom }>
                         <p>확인</p>
                     </button>
                     <button
@@ -95,8 +167,9 @@ class FuncButtonArea extends Component {
             size: 'medium', // large, medium or small,
             closeOnOutsideClick: true, // (optional) Switch to true if you want to close the modal by clicking outside of it,
             hideTitleBar: false, // (optional) Switch to true if do not want the default title bar and close button,
-            hideCloseButton: false // (optional) if you don't wanna show the top right close button
+            hideCloseButton: false, // (optional) if you don't wanna show the top right close button
             //.. all what you put in here you will get access in the modal props ;)
+            handleCreateRoom: this.props.handleCreateRoom   // 방 생성을 위한 함수
         });
     }
 
