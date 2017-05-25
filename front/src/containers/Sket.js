@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
+import Loading from 'react-loading';
 
 import IndexContent from './IndexContent';
 import GameContent from './GameContent';
@@ -22,6 +23,7 @@ class Sket extends Component {
 
         this.handleLoginRequest = this.props.handleLoginRequest.bind(this);
         this.handleLogin = this.props.handleLogin.bind(this);
+        this.handleGuestLogin = this.props.handleGuestLogin.bind(this);
     }
 
     componentDidMount() {
@@ -65,7 +67,7 @@ class Sket extends Component {
                         </div>
 
                         <div className="login-button">
-                            <button onClick={() => this.props.handleLogin('guest', '')}
+                            <button onClick={ this.props.handleGuestLogin }
                                 className="action-button shadow animate green"
                                 >
                                 GUEST로 로그인하기
@@ -87,10 +89,15 @@ class Sket extends Component {
                 <GameContent/>
         )
 
+        const rendering = ( this.props.isLoggedIn ? index : loginPage );
 
         return(
             <div className="sket-root">
-                {this.props.isLoggedIn ? index : loginPage }
+                {
+                    this.props.fetchingUpdate ?
+                    (<Loading type="cylon" color="red" height='667' width='375' />)
+                    : rendering
+                }
             </div>
         );
     }
@@ -116,7 +123,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         handleModalUsage: (usage) => { dispatch(actions.changeModalUsage(usage)) },
         handleLoginRequest: () => { dispatch(actions.requestLogin()) },
-        handleLogin: (social, user) => { dispatch(actions.handleLogin(social, user)) }
+        handleLogin: (social, user) => { dispatch(actions.handleLogin(social, user)) },
+        handleGuestLogin: () => { dispatch(actions.handleGuestLogin()) }
     };
 }
 

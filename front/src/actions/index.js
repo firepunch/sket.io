@@ -19,12 +19,23 @@ export function handleLogin(social, user) {
             })
         })
         .then(res => res.json())
-        .then(json => dispatch( receiveUserData(json) ))  // 전달 받은 user data를 dispatch
+        // .then(json => {dispatch( receiveUserData(json) ))  // 전달 받은 user data를 dispatch
+        .then(json => {
+            dispatch( receiveUserData(json) );
+            dispatch( connectSocket() );    // 소켓 연결 요청
+        })
         .catch(error => dispatch( failReceiveUserData() ))    // 오류 catch
 
-        dispatch( connectSocket() )    // 소켓 연결 요청
     }
 }
+
+export function handleGuestLogin() {
+    return dispatch => {
+        dispatch( requestLogin() );
+        dispatch( handleLogin('guest', '') );
+    }
+}
+
 
 export function requestLogin() {
     return {
