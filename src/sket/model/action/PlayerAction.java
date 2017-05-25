@@ -10,48 +10,24 @@ import javax.jms.Session;
 public class PlayerAction {
 
     /* 플레이어 목록 중 session 과 같은 session 을 가지고 있는 플레이어 객체 반환 */
-/*
-    TODO: ㅇㅁㄹ, sessionID get
-    public static Player getPlayerEqualSession(Session session) {
-        for (Player tmp : Player.playerArrayList) {
-            if (tmp.getSession().equals(session)) {
-                return tmp;
-            }
-        }
-        return null;
-    }
-*/
-    public static Player getPlayerEqualSession(Session session) {
-        for (Player tmp : Player.playerArrayList) {
-//          TODO: ㅇㅁㄹ, session.getid() 해야될 것 같은데?
-            if (tmp.getSessionId().equals(session)) {
-                return tmp;
+    public static Player getPlayerEqualSessionID(String sessionID) {
+        for (Player tmpPlayer : Player.playerArrayList) {
+            if (tmpPlayer.getSessionID().equals(sessionID)) {
+                return tmpPlayer;
             }
         }
         return null;
     }
 
     /* 플레이어 목록 중 인자와 같은 객체를 반환 */
-/*
-    TODO: ㅇㅁㄹ, sessionID get
     public static Player getEqualPlayer(Player player) {
         for (Player tmp : Player.playerArrayList) {
-            if (tmp.getSession().equals(player.getSession())) {
+            if (tmp.getSessionID().equals(player.getSessionID())) {
                 return tmp;
             }
         }
         return null;
     }
-*/
-    public static Player getEqualPlayer(Player player) {
-        for (Player tmp : Player.playerArrayList) {
-            if (tmp.getSessionId().equals(player.getSessionId())) {
-                return tmp;
-            }
-        }
-        return null;
-    }
-
 
     /* 플레이어 목록 중 인자와 같은 id 를 가진 플레이어 객체 반화 */
     public static Player getEqualPlayerId(String id) {

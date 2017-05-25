@@ -2,12 +2,15 @@ package sket.model.data;
 
 public class User {
 
-    private String id;
-    private String nick;
+    private static int allocateGuestID = 100;
+
+    private String id = null;
+    private String nick = null;
     private int level = 1;
     private int limitExp = 300;
     private int totalExp = 0;
     private int curExp = 0;
+    private boolean isGuest = false;
 
     /* oauth 로그인 시 생성자 */
     public User(String id, String nick, int level, int limitExp, int totalExp, int curExp) {
@@ -17,6 +20,18 @@ public class User {
         this.limitExp = limitExp;
         this.totalExp = totalExp;
         this.curExp = curExp;
+
+
+    }
+
+    public User(boolean isGuest) {
+        if (isGuest == true) {
+            this.isGuest = isGuest;
+            this.id = allocateGuestID + "";
+            this.nick = "Guest_" + allocateGuestID + "";
+
+            allocateGuestID += 1;
+        }
     }
 
     /* 게스트 또는 신규 로그인 생성자 */
@@ -27,6 +42,10 @@ public class User {
         this.limitExp = limitExp;
         this.totalExp = totalExp;
         this.curExp = curExp;
+    }
+
+    public boolean isGuest(){
+        return this.isGuest;
     }
 
     public int getLimitExp() {
@@ -75,5 +94,13 @@ public class User {
 
     public void setCurExp(int curExp) {
         this.curExp = curExp;
+    }
+
+    public static int getAllocateGuestID() {
+        return allocateGuestID;
+    }
+
+    public static void setAllocateGuestID(int guestID) {
+        allocateGuestID = guestID;
     }
 }

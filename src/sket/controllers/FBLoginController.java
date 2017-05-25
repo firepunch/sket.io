@@ -26,6 +26,7 @@ public class FBLoginController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         HttpSession session = req.getSession();
         JSONObject sendJson = null;
         DBConnection db = new DBConnection();

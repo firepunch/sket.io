@@ -3,7 +3,7 @@ package sket.model.action;
 import sket.model.data.Player;
 import sket.model.data.Room;
 
-import javax.jms.Session;
+import javax.websocket.Session;
 import java.util.ArrayList;
 
 /**

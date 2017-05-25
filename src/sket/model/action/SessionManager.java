@@ -17,7 +17,6 @@ public class SessionManager {
 
     public static void addSession(HttpSession session) {
         sessionList.add(session);
-        System.out.println("session list in sessionmanager\n   " + sessionList);
     }
 
     public static String getUserIdEqualSession(HttpSession session) {
@@ -30,11 +29,7 @@ public class SessionManager {
     }
 
     public static User getUserEqualSession(HttpSession session) {
-        System.out.println("!!!!!!!11 SESSion  " + session);
-        System.out.println("!!!!!!!11 LISTSES  " + sessionList);
         for (HttpSession httpSession : sessionList) {
-            System.out.println("!!!!!!!11 HTTPPP  " + httpSession);
-
 
             if (httpSession.equals(session)) {
                 return ((User) (httpSession.getAttribute("user")));
