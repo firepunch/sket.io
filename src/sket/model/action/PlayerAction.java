@@ -4,6 +4,8 @@ import sket.model.data.Player;
 
 import javax.jms.Session;
 
+import static sket.model.data.Player.playerArrayList;
+
 /**
  * Created by KwonJH on 2017-04-28.
  */
@@ -22,7 +24,7 @@ public class PlayerAction {
     }
 */
     public static Player getPlayerEqualSession(Session session) {
-        for (Player tmp : Player.playerArrayList) {
+        for (Player tmp : playerArrayList) {
 //          TODO: ㅇㅁㄹ, session.getid() 해야될 것 같은데?
             if (tmp.getSessionId().equals(session)) {
                 return tmp;
@@ -44,7 +46,7 @@ public class PlayerAction {
     }
 */
     public static Player getEqualPlayer(Player player) {
-        for (Player tmp : Player.playerArrayList) {
+        for (Player tmp : playerArrayList) {
             if (tmp.getSessionId().equals(player.getSessionId())) {
                 return tmp;
             }
@@ -55,7 +57,7 @@ public class PlayerAction {
 
     /* 플레이어 목록 중 인자와 같은 id 를 가진 플레이어 객체 반화 */
     public static Player getEqualPlayerId(String id) {
-        for (Player tmp : Player.playerArrayList) {
+        for (Player tmp : playerArrayList) {
             if (tmp.getId().equals(id)) {
                 return tmp;
             }

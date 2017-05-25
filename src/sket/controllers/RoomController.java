@@ -50,11 +50,11 @@ public class RoomController {
         message.put("type", "roomList");
         JSONArray jsonArray = new JSONArray();
 
-        System.out.println("log : 방 목록 리스트 사이즈 : " + Room.getRoomList().size());
-
         /* 방생성 테스트 코드 */
-        // RoomController.createRoom("방제목", false, null, "아디");
-        // RoomController.createRoom("방제목1", true, "123123", "아디");
+//        RoomController.createRoom("방제목", false, null, "아디");
+//        RoomController.createRoom("방제목2", true, "123123", "아디");
+
+        System.out.println("log : 방 목록 리스트 사이즈 : " + Room.getRoomList().size());
 
         if (Room.getRoomList().size() == 0) {
             message.put("size", 0);

@@ -15,28 +15,22 @@ public class SessionManager {
         return sessionList;
     }
 
-    public static void addSession(HttpSession session) {
-        sessionList.add(session);
-        System.out.println("session list in sessionmanager\n   " + sessionList);
+    public static void addSession(HttpSession rcvsession) {
+        sessionList.add(rcvsession);
     }
 
-    public static String getUserIdEqualSession(HttpSession session) {
+    public static String getUserIdEqualSession(HttpSession rcvsession) {
         for (HttpSession httpSession : sessionList) {
-            if (httpSession.equals(session)) {
+            if (httpSession.equals(rcvsession)) {
                 return ((User) httpSession.getAttribute("user")).getId();
             }
         }
         return null;
     }
 
-    public static User getUserEqualSession(HttpSession session) {
-        System.out.println("!!!!!!!11 SESSion  " + session);
-        System.out.println("!!!!!!!11 LISTSES  " + sessionList);
+    public static User getUserEqualSession(HttpSession rcvsession) {
         for (HttpSession httpSession : sessionList) {
-            System.out.println("!!!!!!!11 HTTPPP  " + httpSession);
-
-
-            if (httpSession.equals(session)) {
+            if (httpSession.equals(rcvsession)) {
                 return ((User) (httpSession.getAttribute("user")));
             }
         }

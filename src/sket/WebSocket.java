@@ -8,7 +8,6 @@ import sket.model.action.SessionManager;
 import sket.model.data.Guest;
 import sket.model.data.Player;
 import sket.model.data.Room;
-import sket.model.data.User;
 
 import javax.servlet.http.HttpSession;
 import javax.websocket.*;
@@ -32,48 +31,29 @@ public class WebSocket {
     private Guest guest;
     ArrayList<Session> roomMembers;
 
-    //  세션리스트에 접속한 세션 추가, Player객체 생성, 생성된 룸 정보 보냄
+    // 세션리스트에 접속한 세션 추가, Player객체 생성
+    // 접속 유저, 생성된 방의 정보 전송
     @OnOpen
     public void onOpen(Session rcvsession, EndpointConfig config) throws IOException, SQLException {
         DBConnection db = new DBConnection();
-        sessionList.add(rcvsession);
-        System.out.println("log : onOpen()");
-        System.out.println("session list in websocket\n   " + sessionList);
-//        System.out.println("get sessino name \n   " + HttpSession.class.getName());
-//        System.out.println("config.getUserProperties() \n   " + config.getUserProperties());
-
-        HttpSession session = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
-        System.out.println("session in websocket onopen\n     " + session);
-        System.out.println("log : " + "getUserIdEqualSession() : " + SessionManager.getUserIdEqualSession(session));
-
-/*
-        TODO: ㅇㅁㄹ
-        sessionList.add(session);
         HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
-        System.out.println("log : " + "getUserIdEqualSession() : " + SessionManager.getUserIdEqualSession(httpSession));
-        if (((User) httpSession.getAttribute("user")).isGuest()) {
-            player = new Player(false, session, true);
-        } else {
-            player = new Player(SessionManager.getUserIdEqualSession(httpSession), false, session, false);
-        }
-*/
+//        HttpSession httpSession = (HttpSession) config.getUserProperties().get("httpSession");
+        sessionList.add(rcvsession);
 
-/*
-        String id = ((User) session.getAttribute("user")).getId();
+        String id = SessionManager.getUserIdEqualSession(httpSession);
         // DB에 유저의 정보가 저장되었는지 확인하여 게스트 구분
-        if (db.isGuest(id)) {
-            player = new Player(session.getId(), true);
-        } else {
-            player = new Player(id, session.getId(), false);
-        }
-*/
+//        if (db.isGuest(id)) {
+//            player = new Player(rcvsession.getId(), true);
+//        } else {
+//            player = new Player(id, rcvsession.getId(), false);
+//        }
 
 //         session 에 룸 리스트 보냄
         rcvsession.getBasicRemote().sendText(RoomController.getRoomListAsJSON());
     }
 
     @OnMessage
-    public void onMessage(String message, Session session) throws IOException {
+    public void onMessage(String message, Session rcvsession) throws IOException {
         System.out.println("OnMessage( " + message + " )");
         JSONObject jsonObject = new JSONObject(message);
         switch (jsonObject.getString("type")) {
