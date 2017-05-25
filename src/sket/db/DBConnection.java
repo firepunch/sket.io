@@ -1,11 +1,11 @@
 package sket.db;
 
+import org.json.JSONObject;
 import sket.Configure;
 
 import java.io.UnsupportedEncodingException;
 import java.sql.*;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * DB ID/PW 설정하기
@@ -38,14 +38,14 @@ public class DBConnection {
     }
 
     /* 새로운 문제 삽입 */
-    public void InsertQuiz(String category, List<String> wordList) throws UnsupportedEncodingException {
+    public void insertQuiz(String category, List<String> wordList) throws UnsupportedEncodingException {
         Iterator itr = wordList.iterator();
 
         while (itr.hasNext()) {
             Object element = itr.next();
-            String sql = "INSERT INTO quiz (category, name) VALUES ('" + category + "','" + element + "');";
+            String query = "INSERT INTO quiz (category, name) VALUES ('" + category + "','" + element + "');";
             try {
-                statement.executeUpdate(sql);
+                statement.executeUpdate(query);
             } catch (SQLException e) {
                 e.printStackTrace();
                 throw new RuntimeException("Failed insert data " + e);
@@ -55,17 +55,17 @@ public class DBConnection {
     }
 
     /* 한 문제 랜덤으로 선택 */
-    public String SelectQuiz() {
-        String sql = "SELECT name FROM quiz ORDER BY RAND() LIMIT 1;";
+    public String selectQuiz() {
+        String query = "SELECT name FROM quiz ORDER BY RAND() LIMIT 1;";
         String quiz = null;
         try {
-            resultSet = statement.executeQuery(sql);
+            resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException("Failed insert data " + e);
+            throw new RuntimeException("Failed select quiz data " + e);
         }
         try {
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 quiz = resultSet.getString("name");
             }
         } catch (SQLException e) {
@@ -76,27 +76,70 @@ public class DBConnection {
     }
 
     /* 소셜로그인 후 정보 삽입 */
-    public void InsertUser(String id, String nick, String name) throws SQLException {
-        String sql;
+    public void insertUser(String id, String nick) throws SQLException {
+        String query;
+
         if (nick != null && !nick.isEmpty()) {
             int rowCnt = 0;
 
             ResultSet rs = statement.executeQuery("SELECT COUNT(*) FROM user");
             while (rs.next()) {
                 rowCnt = rs.getInt("COUNT(*)");
-                System.out.println(rowCnt);
             }
-            sql = "INSERT INTO user VALUES ('" + id + "','nick" + rowCnt + "','" + name + "', 1, 0, 0);";
+            query = "INSERT INTO user VALUES ('" + id + "','nick" + rowCnt + "', 1, 300, 0, 0);";
+            System.out.println("sq  " + query);
         } else {
-            sql = "INSERT INTO user VALUES ('" + id + "','" + nick + "','" + name + "', 1, 0, 0);";
+            query = "INSERT INTO user VALUES ('" + id + "','" + nick + "', 1, 300, 0, 0);";
         }
         try {
-            statement.executeUpdate(sql);
+            statement.executeUpdate(query);
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException("Failed insert data " + e);
+            throw new RuntimeException("Failed insert user data " + e);
         }
         DBClose();
+    }
+
+    /* 회원정보 조회 */
+    public JSONObject selectUser(String id, String type) throws SQLException {
+        JSONObject jsonObject = new JSONObject();
+        String query = "SELECT * FROM user WHERE id=" + id;
+        try {
+            resultSet = statement.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed select user data " + e);
+        }
+        if (resultSet.next()) {
+            jsonObject.put("type", type);
+            jsonObject.put("id", resultSet.getString("id"));
+            jsonObject.put("nick", resultSet.getString("nick"));
+            jsonObject.put("level", resultSet.getString("level"));
+            jsonObject.put("limitExp", resultSet.getString("limitexp"));
+            jsonObject.put("totalExp", resultSet.getString("totalexp"));
+            jsonObject.put("curExp", resultSet.getString("curexp"));
+        } else {
+            jsonObject.put("id", "null");
+        }
+        return jsonObject;
+    }
+
+    /* 게스트인지 확인 */
+    public boolean isGuest(String id) throws SQLException {
+        String query = "SELECT * FROM user WHERE id=" + id;
+        try {
+            resultSet = statement.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed isGuest in DB " + e);
+        }
+
+        DBClose();
+        if (resultSet.next()) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     private void DBClose() {

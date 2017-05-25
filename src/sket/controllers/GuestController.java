@@ -1,7 +1,6 @@
 package sket.controllers;
 
 import sket.model.action.SessionManager;
-import sket.model.data.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,9 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-/**
- * Created by KwonJH on 2017-05-14.
- */
+/*
+*
+* Created by KwonJH on 2017-05-14.
+*/
+
+
 public class GuestController extends HttpServlet {
 
     private String id;
@@ -25,7 +27,8 @@ public class GuestController extends HttpServlet {
 
         try {
             HttpSession session = req.getSession();
-            session.setAttribute("user", new User(null, null, null, true));
+//            TODO: ㅇㅁㄹ, 아이디랑 닉넴
+//            session.setAttribute("user", new User(null, null, null, true));
             SessionManager.addSession(session);
 
             resp.sendRedirect("/test/test.html");

@@ -17,8 +17,9 @@
             nick : (nickXX or 유저 닉넴),<br>
             picture : (유저 사진 링크),<br>
             level : (유저 레벨),<br>
-            totalexp : (유저 총경험치),<br>
-            curexp : (유저 현재경험치)<br>
+            limitExp: (레벨에 필요한 경험치),<br>
+            totalExp : (유저 총경험치),<br>
+            curExp : (유저 현재경험치),<br>
         </td>
     </tr>
     <tr>
@@ -31,6 +32,7 @@
             nick : (nickXX or 유저 닉넴),<br>
             picture : (유저 사진 링크),<br>
             level : (유저 레벨),<br>
+            limitExp: (레벨에 필요한 경험치),<br>
             totalexp : (유저 총경험치),<br>
             curexp : (유저 현재경험치)<br>
         </td>
@@ -38,7 +40,15 @@
     <tr>
         <td>게스트 로그인</td>
         <td></td>
-        <td></td>
+        <td>
+            type : guest,<br>
+            id: (유저 아이디),<br>
+            nick : (nickXX or 유저 닉넴),<br>
+            level : 1,<br>
+            limitExp: (레벨에 필요한 경험치),<br>
+            totalExp : 0,<br>
+            curExp : 0<br>
+        </td>
     </tr>
     <tr>
         <td>방 생성</td>

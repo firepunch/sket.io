@@ -3,11 +3,8 @@ package sket.controllers;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import sket.model.action.PlayerAction;
-import sket.model.action.SessionManager;
 import sket.model.data.Player;
 import sket.model.data.Room;
-
-import javax.websocket.Session;
 
 public class RoomController {
 
@@ -21,7 +18,7 @@ public class RoomController {
 
         Room room = new Room(name, PlayerAction.getEqualPlayerId(masterId), Room.getCountRoomId(), isLock, pwd);
         Player player = PlayerAction.getEqualPlayerId(masterId);
-        player.setRoomMaster(true);
+        player.setMaster(true);
 
         return room;
     }

@@ -1,10 +1,9 @@
 package sket.model.action;
 
-import sket.controllers.RoomController;
 import sket.model.data.Player;
 import sket.model.data.Room;
 
-import javax.websocket.Session;
+import javax.jms.Session;
 import java.util.ArrayList;
 
 /**
@@ -22,10 +21,12 @@ public class RoomAction {
     public ArrayList<Session> getPlayerSession() {
         ArrayList<Session> sessionArrayList = new ArrayList<>();
         for (Player player : Room.getRoomIntoPlayer(targetRoom)) {
-            sessionArrayList.add(player.getSession());
+//            TODO: 주석처리함
+//            sessionArrayList.add(player.getSession());
         }
         return sessionArrayList;
     }
+
 
     /* 방 리스트 중에 인자로 들어온 방을 리턴해준다. 만약 없으면 null 반환 */
     public static Room getEqualRoom(Room targetRoom) {

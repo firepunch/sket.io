@@ -11,27 +11,33 @@ import java.util.ArrayList;
 public class SessionManager {
     private static ArrayList<HttpSession> sessionList = new ArrayList<>();
 
-    public static ArrayList<HttpSession> getSessionList(){
+    public static ArrayList<HttpSession> getSessionList() {
         return sessionList;
     }
 
-    public static void addSession(HttpSession session){
+    public static void addSession(HttpSession session) {
         sessionList.add(session);
+        System.out.println("session list in sessionmanager\n   " + sessionList);
     }
 
     public static String getUserIdEqualSession(HttpSession session) {
-        for(HttpSession httpSession : sessionList){
-            if(httpSession.equals(session)){
+        for (HttpSession httpSession : sessionList) {
+            if (httpSession.equals(session)) {
                 return ((User) httpSession.getAttribute("user")).getId();
             }
         }
         return null;
     }
 
-    public static User getUserEqualSession(HttpSession session){
-        for(HttpSession httpSession : sessionList){
-            if(httpSession.equals(session)){
-                return ((User)(httpSession.getAttribute("user")));
+    public static User getUserEqualSession(HttpSession session) {
+        System.out.println("!!!!!!!11 SESSion  " + session);
+        System.out.println("!!!!!!!11 LISTSES  " + sessionList);
+        for (HttpSession httpSession : sessionList) {
+            System.out.println("!!!!!!!11 HTTPPP  " + httpSession);
+
+
+            if (httpSession.equals(session)) {
+                return ((User) (httpSession.getAttribute("user")));
             }
         }
         return null;
