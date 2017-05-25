@@ -17,11 +17,11 @@ public class PlayerController extends HttpServlet {
     }
 
     /* 게임 준비 처리해서 json 으로 반환 */
-    public static String gameReadyToJSON(int roomId, boolean isReady, Session session) throws IOException {
+    public static String gameReadyToJSON(int roomId, boolean isReady, String sessionID) throws IOException {
         Room room = RoomAction.findRoomById(roomId);
 
         if (room != null) {
-            Player player = PlayerAction.getPlayerEqualSession((javax.jms.Session) session);
+            Player player = PlayerAction.getEqualPlayerId(sessionID);
             player.setReady(isReady);
             String readyJSON = readyToPlayerJSON(player);
 
@@ -45,6 +45,7 @@ public class PlayerController extends HttpServlet {
         if (tempCount == countTotalUser) {
             return readyToAllPlayerJSON(room);
         }
+
         return null;
     }
 

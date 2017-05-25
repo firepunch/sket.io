@@ -26,10 +26,12 @@ public class FBLoginController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        DBConnection db = new DBConnection();
-        OauthLogin oauthLogin = new OauthLogin();
         HttpSession session = req.getSession();
         JSONObject sendJson = null;
+
+        DBConnection db = new DBConnection();
+        OauthLogin oauthLogin = new OauthLogin();
+
         PrintWriter out = resp.getWriter();
 
         JSONObject rcvJson = oauthLogin.getRcvJson(req, "user");

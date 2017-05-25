@@ -11,6 +11,7 @@ import javax.websocket.server.ServerEndpointConfig;
  * onopen시 가능한 인자로 값을 바꿈
 */
 public class GetHttpSessionConfigurator extends ServerEndpointConfig.Configurator {
+
     @Override
     public void modifyHandshake(ServerEndpointConfig config, HandshakeRequest request, HandshakeResponse response) {
         try {

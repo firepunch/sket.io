@@ -33,7 +33,7 @@ public class QuizAction {
         ArrayList<String> sessionArrayList = new ArrayList<>();
         for (Player player : Room.getRoomIntoPlayer(targetRoom)) {
             if (player.getId() != id) {
-                sessionArrayList.add(player.getSessionId());
+                sessionArrayList.add(player.getSessionID());
             }
         }
         return sessionArrayList;

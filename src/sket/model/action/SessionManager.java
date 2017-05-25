@@ -15,22 +15,23 @@ public class SessionManager {
         return sessionList;
     }
 
-    public static void addSession(HttpSession rcvsession) {
-        sessionList.add(rcvsession);
+    public static void addSession(HttpSession session) {
+        sessionList.add(session);
     }
 
-    public static String getUserIdEqualSession(HttpSession rcvsession) {
+    public static String getUserIdEqualSession(HttpSession session) {
         for (HttpSession httpSession : sessionList) {
-            if (httpSession.equals(rcvsession)) {
+            if (httpSession.equals(session)) {
                 return ((User) httpSession.getAttribute("user")).getId();
             }
         }
         return null;
     }
 
-    public static User getUserEqualSession(HttpSession rcvsession) {
+    public static User getUserEqualSession(HttpSession session) {
         for (HttpSession httpSession : sessionList) {
-            if (httpSession.equals(rcvsession)) {
+
+            if (httpSession.equals(session)) {
                 return ((User) (httpSession.getAttribute("user")));
             }
         }
