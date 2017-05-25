@@ -86,5 +86,4 @@ public class Player {
     public void setGuest(boolean guest) {
         isGuest = guest;
     }
-
 }

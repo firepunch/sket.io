@@ -5,7 +5,7 @@ import configureStore from '../configureStore';
 
 
 import Sket from './Sket';
-import IndexContent from './IndexContent'
+import ReduxModal from 'react-redux-modal'
 
 const store = configureStore();
 
@@ -28,7 +28,10 @@ class App extends Component {
     render() {
         return(
             <Provider store={store}>
-                <Sket />
+                <div className="wrapper">
+                    <Sket />
+                    <ReduxModal />
+                </div>
             </Provider>
         );
     }

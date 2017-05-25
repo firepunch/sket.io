@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { reducer as modalReducer } from 'react-redux-modal'
 
 
 import login from './login';
@@ -11,7 +12,8 @@ const reducers = combineReducers({
     login,
     game,
     modal,
-    main
+    main,
+    modals: modalReducer
 })
 
 export default reducers;

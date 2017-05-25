@@ -26,11 +26,12 @@ public class FBLoginController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         HttpSession session = req.getSession();
         JSONObject sendJson = null;
+
         DBConnection db = new DBConnection();
         OauthLogin oauthLogin = new OauthLogin();
+
         PrintWriter out = resp.getWriter();
 
         JSONObject rcvJson = oauthLogin.getRcvJson(req, "user");
@@ -54,19 +55,14 @@ public class FBLoginController extends HttpServlet {
             e.printStackTrace();
         }
 
-//        if (sendJson.getString("id").equals("null")) {
-        if (req.getParameter("JSESSIONID") != null) {
-            Cookie cookie = new Cookie("JSESSIONID", req.getParameter("JSESSIONID"));
-            resp.addCookie(cookie);
-
+        if (sendJson.getString("id").equals("null")) {
             session.setAttribute("user", new User(id, nick));
             SessionManager.addSession(session);
 
-            System.out.println("DDDD" + SessionManager.getSessionList());
-            System.out.println("log : " + "FB 새로운 세션 생성");
+            System.out.println("sessionlist in fb\n   " + SessionManager.getSessionList());
+            System.out.println("log : " + "FB 새로운 세션, 신규회원 생성");
             System.out.println("생성한 것     " + session);
 
-//              보내줄 Json
             sendJson.put("type", "facebook");
             sendJson.put("id", id);
             sendJson.put("name", name);
@@ -83,28 +79,28 @@ public class FBLoginController extends HttpServlet {
                 e.printStackTrace();
                 throw new IOException("oauth login insert error " + e);
             }
-
         } else {
-            System.out.println("log : " + "FB 세션? 정보! 이미 있음");
-            String sessionId = session.getId();
-            Cookie cookie = new Cookie("JSESSIONID", sessionId);
-            resp.addCookie(cookie);
+            if (SessionManager.getUserIdEqualSession(session) == null) {
+                System.out.println("log : fb 기존회원 새로운 세션 생성");
 
-            int level = sendJson.getInt("level");
-            int limitExp = sendJson.getInt("limitExp");
-            int totalExp = sendJson.getInt("totalExp");
-            int curExp = sendJson.getInt("curExp");
+                session.setAttribute("user", new User(id, sendJson.getString("nick"),
+                        sendJson.getInt("level"), sendJson.getInt("limitExp"),
+                        sendJson.getInt("totalExp"), sendJson.getInt("curExp")));
+                SessionManager.addSession(session);
 
-            session.setAttribute("user", new User(id, sendJson.getString("nick"),
-                    level, limitExp, totalExp, curExp));
-            SessionManager.addSession(session);
+            } else {
+                System.out.println("log : " + "FB 세션 이미 있음");
 
-            // 세션id가 계속바뀜
-            System.out.println("IDIDD   " + req.getSession().getId());
+                session.getAttribute("user");
+                SessionManager.addSession(session);
 
-            out.print(sendJson);
-            out.flush();
+                // 세션id가 계속바뀜
+                System.out.println("fb session id:   " + req.getSession().getId());
+            }
         }
+
+        out.print(sendJson);
+        out.flush();
 
 //            로그아웃
 //            session.invalidate();

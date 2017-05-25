@@ -1,7 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 
-import ConnectingUser from './ConnectingUser';
-
 const propTypes = {
 };
 
@@ -14,11 +12,10 @@ class ConnectingUserList extends Component {
     }
     render() {
         return(
-            <div id="connection-list">
+            <div id="connection-list" className="component-container">
                 <div>
                     ConnectingUserList
                 </div>
-                <ConnectingUser/>
             </div>
         );
     }

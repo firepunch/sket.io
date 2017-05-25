@@ -38,7 +38,6 @@ public class WebSocket {
     private RoomAction roomAction = null;
     private Player player;
 
-
     // 세션리스트에 접속한 세션 추가, Player 객체 생성, 생성된 룸 정보 보냄
     @OnOpen
     public void onOpen(Session rcvSession, EndpointConfig config) throws IOException, SQLException {
@@ -73,6 +72,9 @@ public class WebSocket {
 
     @OnMessage
     public void onMessage(String message, Session rcvSession) throws IOException {
+        // 세션리스트에 접속한 세션 추가, Player객체 생성
+        // 접속 유저, 생성된 방의 정보 전송
+
         System.out.println("OnMessage( " + message + " )");
         JSONObject jsonObject = new JSONObject(message);
 
