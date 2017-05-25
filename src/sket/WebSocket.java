@@ -3,7 +3,6 @@ package sket;
 import org.json.JSONObject;
 import sket.controllers.PlayerController;
 import sket.controllers.RoomController;
-import sket.db.DBConnection;
 import sket.model.action.RoomAction;
 import sket.model.action.SessionManager;
 import sket.model.data.Player;
@@ -20,13 +19,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 게임 메인화면에 연결되는 웹 소켓
  * Created by hojak on 2017-04-06.
  */
 
-
-/*
- * 게임 메인화면에 연결되는 웹 소켓이다.
- * */
 @ServerEndpoint(value = "/websocket", configurator = GetHttpSessionConfigurator.class)
 public class WebSocket {
 
@@ -41,9 +37,6 @@ public class WebSocket {
     // 세션리스트에 접속한 세션 추가, Player 객체 생성, 생성된 룸 정보 보냄
     @OnOpen
     public void onOpen(Session rcvSession, EndpointConfig config) throws IOException, SQLException {
-
-        // DBConnection db = new DBConnection();
-
         HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
 
         webSocketSessionMap.put(rcvSession.getId(), rcvSession);
@@ -51,21 +44,12 @@ public class WebSocket {
         System.out.println("log : HttpSession : " + httpSession + "\n" +
                 "ID : " + SessionManager.getUserIdEqualSession(httpSession));
 
-        String id = ((User) httpSession.getAttribute("user")).getId();
-
         if (((User) httpSession.getAttribute("user")).isGuest()) {
             player = new Player(((User) httpSession.getAttribute("user")).getId(), httpSession.getId(), true);
         } else {
             player = new Player(((User) httpSession.getAttribute("user")).getId(), httpSession.getId(), false);
         }
-/*
-        // DB에 유저의 정보가 저장되었는지 확인하여 게스트 구분
-        if (db.isGuest(id)) {
-            player = new Player(id, httpSession.getId(), true);
-        } else {
-            player = new Player(id, rcvSession.getId(), false);
-        }
-*/
+
         // session 에 룸 리스트 보냄
         rcvSession.getBasicRemote().sendText(RoomController.getRoomListAsJSON());
     }
