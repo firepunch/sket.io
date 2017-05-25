@@ -1,5 +1,7 @@
 <b>모든 key-value는 쌍따옴표(")로 쌓여있다.</b><br>
-예 ) "type" : "google"
+
+예 ) "type" : "GOOGLE"
+
 <table>
     <tbody>
     <tr>
@@ -11,7 +13,7 @@
         <td>구글 로그인</td>
         <td align="center">-</td>
         <td>
-            type : google,<br>
+            type : GOOGLE,<br>
             id: (유저 아이디),<br>
             name : (유저 이름),<br>
             nick : (nickXX or 유저 닉넴),<br>
@@ -26,7 +28,7 @@
         <td>페북 로그인</td>
         <td align="center">-</td>
         <td>
-            type : facebook,<br>
+            type : FACEBOOK,<br>
             id: (유저 아이디),<br>
             name : (유저 이름),<br>
             nick : (nickXX or 유저 닉넴),<br>
@@ -41,7 +43,7 @@
         <td>게스트 로그인</td>
         <td></td>
         <td>
-            type : guest,<br>
+            type : GUEST,<br>
             id: (유저 아이디),<br>
             nick : (nickXX or 유저 닉넴),<br>
             level : 1,<br>
@@ -53,24 +55,26 @@
     <tr>
         <td>방 생성</td>
         <td>
-            type : createRoom,<br>
+            type : CREATE_ROOM,<br>
             roomName : (방 이름),<br>
-            playerNumber : 플레이어 수,<br>
-            roundNumber : 최대 라운 수,<br>
-            timeLimit : 라운드 당 제한시간,<br>
-            isLock : (true or false),<br>
+            lock : (true or false),<br>
             password : (null or 1234),<br>
             master : (유저 아이디)
         </td>
-        <td align="center">-</td>
+        <td>type : CREATE_ROOM,<br>
+            roomName : (방 이름),<br>
+            lock : (true or false),<br>
+            master : (유저 아이디),<br>
+            roomId : (룸 아이디)
+        </td>
     </tr>
     <tr>
         <td>방 입장</td>
-        <td> type : enterRoom,<br>
+        <td> type : ENTER_ROOM,<br>
             roomId : (방 아이디),<br>
             userId : (user id)
         </td>
-        <td>type : enterRoom,<br>
+        <td>type : ENTER_ROOM,<br>
             roomId : (방 아이디),<br>
             userId : (user id),<br>
             userNum : (총 인원 수),<br>
@@ -80,34 +84,34 @@
             <br>&nbsp;}{<br>
             &nbsp;&nbsp;id : (유저 아이디),<br>
             &nbsp;&nbsp;isReady : (boolean)
-            <br>
+            <br>}]
         </td>
     </tr>
     <tr>
         <td> 게임 준비</td>
-        <td> type : gameReady,<br>
+        <td> type : GAME_READY,<br>
             id : 유저 아이디,<br>
             isReady : (true or false)
         </td>
-        <td> type : playerGameReady,<br>
+        <td> type : PLAYER_GAME_READY,<br>
             id : 유저 아이디,<br>
             isReady : (true or false)
         </td>
     </tr>
     <tr>
         <td>방 퇴장</td>
-        <td> type : exitRoom,<br>
+        <td> type : EXIT_ROOM,<br>
             userId : (유저 아이디),<br>
             roomId : (방 아이디)
         </td>
-        <td> type : exitRoom,<br>
+        <td> type : EXIT_ROOM,<br>
             userId : (유저 아이디),<br>
             roomId : (방 아이디)
         </td>
     </tr>
     <tr>
         <td>게임 종료</td>
-        <td> type : gameEnd,<br>
+        <td> type : GAME_END,<br>
             roomId : (방 아이디),<br>
             scoreInfo : [{<br>
             &nbsp;&nbsp;id : (유저 아이디),<br>
@@ -119,7 +123,7 @@
             &nbsp;&nbsp;score : (해당 유저의 점수)
             <br>},...]
         </td>
-        <td> type : gameEnd,<br>
+        <td> type : GAME_END,<br>
             expinfo : [{<br>
             &nbsp;&nbsp;id : (유저 아이디),<br>
             &nbsp;&nbsp;level : (유저의 레벨),<br>
@@ -133,14 +137,14 @@
     </tr>
     <tr>
         <td>정답 맞춤</td>
-        <td> type : correctAnswer,<br>
+        <td> type : CORRECT_ANSWER,<br>
             roomId : 2,<br>
             correcterId : (정답자 아이디),<br>
             // 이 사람을 문제 출제자로<br>
             examinerId : (출제자 아이디),<br>
             score : (정답자 점수)
         </td>
-        <td> type : correctAnswer,<br>
+        <td> type : CORRECT_ANSWER,<br>
             roomId : (방 아이디),<br>
             quizCnt : (문제 카운트),<br>
             correcterId : (정답자 아이디),<br>
@@ -151,7 +155,7 @@
     <tr>
         <td>모두 감점</td>
         <td></td>
-        <td>type : incorrectAnswer,<br>
+        <td>type : INCORRECT_ANSWER,<br>
             roomId : (방 아이디),<br>
             quizCnt : (문제 카운터),<br>
             minusScore : (전체 점수 10점 감점)
@@ -159,30 +163,30 @@
     </tr>
     <tr>
         <td>랜덤 퀴즈 전송</td>
-        <td> type : randomQuiz,<br>
+        <td> type : RANDOM_QUIZ,<br>
             roomId : 2,<br>
             id : ~~
         </td>
-        <td> type : randomQuiz,<br>
+        <td> type : RANDOM_QUIZ,<br>
             quiz : ~~~~
         </td>
     </tr>
     <tr>
         <td>랜덤 출제자 전송</td>
         <td></td>
-        <td>type : randomExaminer,<br>
+        <td>type : RANDOM_EXAMINER,<br>
             id : (유저 아이디),<br>
             roomId : 2
         </td>
     </tr>
     <tr>
         <td>채팅 시작</td>
-        <td> type : chatStart,<br>
+        <td> type : CHAT_START,<br>
             id : 유저 아이디,<br>
             roomId : 룸 아이디,<br>
             msg : 채팅 말
         </td>
-        <td>type : chatStart,<br>
+        <td>type : CHAT_START,<br>
             id : 유저 아이디,<br>
             roomId : 룸 아이디,<br>
             msg : 채팅 내용,<br>
@@ -191,10 +195,10 @@
     </tr>
     <tr>
         <td>랭킹 보여주기</td>
-        <td> type : showRank,<br>
+        <td> type : SHOW_RANK,<br>
             userId : (유저 아이디)
         </td>
-        <td> type : showRank,<br>
+        <td> type : SHOW_RANK,<br>
             rankinfo : [{<br>
             &nbsp;&nbsp;id : (자신의 아이디),<br>
             &nbsp;&nbsp;nick : (자신의 닉네임),<br>
