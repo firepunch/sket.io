@@ -28,7 +28,7 @@ public class Player {
     }
 
     /* 게스트일 경우 id 필요없음 */
-    public Player(String sessionId, int score, boolean isMaster, boolean isExaminer, boolean isReady, boolean isGuest) {
+    public Player(String sessionId, boolean isGuest) {
         this.id = guestID + "";
         this.sessionId = sessionId;
         this.score = score;

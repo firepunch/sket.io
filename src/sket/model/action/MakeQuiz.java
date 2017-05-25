@@ -1,12 +1,5 @@
 package sket.model.action;
 
-import java.io.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Iterator;
 import sket.db.DBConnection;
 
 import java.io.*;
@@ -82,6 +75,6 @@ public class MakeQuiz {
         DBConnection db = new DBConnection();
 
         wordList = mq.MakeQuiz();
-        db.InsertQuiz(category, wordList);
+        db.insertQuiz(category, wordList);
     }
 }
