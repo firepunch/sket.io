@@ -55,15 +55,15 @@
         <td>
             type : createRoom,<br>
             roomName : (방 이름),<br>
-            lock : (true or false),<br>
+            playerNumber : 플레이어 수,<br>
+            roundNumber : 최대 라운 수,<br>
+            timeLimit : 라운드 당 제한시간,<br>
+            isLock : (true or false),<br>
             password : (null or 1234),<br>
             master : (유저 아이디)
         </td>
-        <td>type : createRoom,<br>
-            roomName : (방 이름),<br>
-            lock : (true or false),<br>
-            master : (유저 아이디),<br>
-            roomId : (룸 아이디)
+        <td>
+        
         </td>
     </tr>
     <tr>
@@ -82,7 +82,7 @@
             <br>&nbsp;}{<br>
             &nbsp;&nbsp;id : (유저 아이디),<br>
             &nbsp;&nbsp;isReady : (boolean)
-            <br>}]
+            <br>
         </td>
     </tr>
     <tr>
