@@ -18,12 +18,7 @@ class IndexContent extends Component {
     constructor(props) {
         super(props);
     }
-
-    componentDidMount() {
-        console.log(typeof this.props.handleCreateRoom)
-    }
-
-
+    
     render() {
         return(
             <div className="sket-index">

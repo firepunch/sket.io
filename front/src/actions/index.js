@@ -95,6 +95,10 @@ export function sendMessageFinish() {
     }
 }
 
+export function messageReceived() {
+    
+}
+
 // function
 export function createRoom(roomInfo) {
     return {

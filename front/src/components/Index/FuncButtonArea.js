@@ -16,7 +16,6 @@ const defaultProps = {
 class modalComponent extends Component {
     constructor(props) {
         super(props);
-        console.log('## MODAL DATA AND PROPS:', this.props);
 
         this.state = {
             roomName: '',
@@ -34,10 +33,6 @@ class modalComponent extends Component {
         this.handleChangeRoomPassword = this.handleChangeRoomPassword.bind(this);
 
         this.createRoom = this.createRoom.bind(this);
-    }
-
-    componentDidMount() {
-        console.log(typeof this.props.handleCreateRoom)
     }
 
     removeThisModal() {
@@ -129,7 +124,7 @@ class modalComponent extends Component {
 
                         <div className="row">
                             <span>
-                                <input className="gate" id="room-password" type="text" required
+                                <input className="gate" id="room-password" type="text"
                                     placeholder="최대 10자까지 설정할 수 있습니다(임시)" onChange={this.handleChangeRoomPassword}/>
                                 <label htmlFor="room-password">비밀번호</label>
                             </span>
