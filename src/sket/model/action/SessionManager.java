@@ -19,20 +19,20 @@ public class SessionManager {
         sessionList.add(session);
     }
 
-    public static String getUserIdEqualSession(HttpSession session) {
+    public static String getUserIdEqualSession(HttpSession rcvsession) {
         for (HttpSession httpSession : sessionList) {
-            if (httpSession.equals(session)) {
+            if (httpSession.equals(rcvsession)) {
                 return ((User) httpSession.getAttribute("user")).getId();
             }
         }
         return null;
     }
 
-    public static User getUserEqualSession(HttpSession session) {
+    public static String getUserEqualSession(HttpSession session) {
         for (HttpSession httpSession : sessionList) {
 
             if (httpSession.equals(session)) {
-                return ((User) (httpSession.getAttribute("user")));
+                return ((User) (httpSession.getAttribute("user"))).getId();
             }
         }
         return null;
