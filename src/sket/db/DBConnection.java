@@ -124,6 +124,31 @@ public class DBConnection {
         return jsonObject;
     }
 
+    /* 랭킹 오름차순 조회 */
+    public JSONObject showRank(String id) throws SQLException {
+        JSONObject jsonObject = new JSONObject();
+        String query = "SELECT * FROM user WHERE id=0000003;";
+        query = "SELECT * FROM user ORDER BY level DESC;";
+        try {
+            resultSet = statement.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed select rank data " + e);
+        }
+        if (resultSet.next()) {
+            jsonObject.put("type", "SHOW_RANK");
+            jsonObject.put("id", resultSet.getString("id"));
+            jsonObject.put("nick", resultSet.getString("nick"));
+            jsonObject.put("level", resultSet.getString("level"));
+            jsonObject.put("limitExp", resultSet.getString("limitexp"));
+            jsonObject.put("totalExp", resultSet.getString("totalexp"));
+            jsonObject.put("curExp", resultSet.getString("curexp"));
+        } else {
+            jsonObject.put("id", "null");
+        }
+        return jsonObject;
+    }
+
     private void DBClose() {
         try {
             if (resultSet != null) {

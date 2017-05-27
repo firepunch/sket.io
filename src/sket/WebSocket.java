@@ -1,5 +1,6 @@
 package sket;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import sket.controllers.GameController;
 import sket.controllers.PlayerController;
@@ -58,6 +59,8 @@ public class WebSocket {
 
         // session 에 룸 리스트 보냄
         rcvSession.getBasicRemote().sendText(RoomController.getRoomListAsJSON());
+        rcvSession.getBasicRemote().sendText(getConnectUserListToJSON());
+
     }
 
     @OnMessage
@@ -227,5 +230,28 @@ public class WebSocket {
         throwable.printStackTrace();
     }
 
+
+    private String getConnectUserListToJSON() {
+        JSONObject message = new JSONObject();
+        JSONArray dataArray = new JSONArray();
+
+        message.put("type", "USER_LIST");
+
+
+        for (HttpSession playerHttpSession : SessionManager.getSessionList()) {
+            int level = ((User) playerHttpSession.getAttribute("user")).getLevel();
+            String playerId = ((User) playerHttpSession.getAttribute("user")).getNick();
+
+            JSONObject tempObject = new JSONObject();
+            tempObject.put("level", level);
+            tempObject.put("playerId", playerId);
+
+            dataArray.put(tempObject);
+        }
+
+        message.put("data", dataArray);
+
+        return message.toString();
+    }
 
 }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
  * Created by KwonJH on 2017-05-12.
  */
 public class SessionManager {
+
     private static ArrayList<HttpSession> sessionList = new ArrayList<>();
 
     public static ArrayList<HttpSession> getSessionList() {
