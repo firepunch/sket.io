@@ -34,31 +34,33 @@ public class FBLoginController extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
 
+        String id = sendJson.getString("id");
         try {
             sendJson = db.selectUser(sendJson.getString("id"), "facebook");
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        String id = sendJson.getString("id");
+        System.out.println("SSS     " + id);
 //        String nick = sendJson.getString("nick");
         String nick = "null";
         if (sendJson.getString("id").equals("null")) {
-            session.setAttribute("user", new User(id, nick));
-            SessionManager.addSession(session);
-            System.out.println("log : " + "FB 새로운 세션, 신규회원 생성");
-
+            try {
+                nick = db.insertUser(id, nick);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new IOException("oauth login insert error " + e);
+            }
+            sendJson.put("id", id);
+            sendJson.put("nick", nick);
             sendJson.put("level", 1);
             sendJson.put("limitExp", 300);
             sendJson.put("totalExp", 0);
             sendJson.put("curExp", 0);
 
-            try {
-                db.insertUser(id, nick);
-            } catch (SQLException e) {
-                e.printStackTrace();
-                throw new IOException("oauth login insert error " + e);
-            }
+            session.setAttribute("user", new User(id, nick));
+            SessionManager.addSession(session);
+            System.out.println("log : " + "FB 새로운 세션, 신규회원 생성");
         } else if (SessionManager.getUserIdEqualSession(session) == null) {
             System.out.println("log : fb 기존회원 새로운 세션 생성");
 

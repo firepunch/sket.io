@@ -76,20 +76,19 @@ public class DBConnection {
     }
 
     /* 소셜로그인 후 정보 삽입 */
-    public void insertUser(String id, String nick) throws SQLException {
+    public String insertUser(String id, String nick) throws SQLException {
         String query;
-
         if (nick != null && !nick.isEmpty()) {
             int rowCnt = 0;
             ResultSet rs = statement.executeQuery("SELECT COUNT(*) FROM user");
             while (rs.next()) {
                 rowCnt = rs.getInt("COUNT(*)");
             }
-            query = "INSERT INTO user VALUES ('" + id + "','nick" + rowCnt + "', 1, 300, 0, 0);";
-            System.out.println("sq  " + query);
-        } else {
-            query = "INSERT INTO user VALUES ('" + id + "','" + nick + "', 1, 300, 0, 0);";
+            nick = nick + rowCnt;
         }
+        query = "INSERT INTO user VALUES ('" + id + "','" + nick + "', 1, 300, 0, 0);";
+        System.out.println("sq  " + query);
+
         try {
             statement.executeUpdate(query);
         } catch (SQLException e) {
@@ -97,12 +96,14 @@ public class DBConnection {
             throw new RuntimeException("Failed insert user data " + e);
         }
         DBClose();
+        return nick;
     }
 
     /* 회원정보 조회 */
     public JSONObject selectUser(String id, String type) throws SQLException {
         JSONObject jsonObject = new JSONObject();
-        String query = "SELECT * FROM user WHERE id=" + id;
+        String query = "SELECT * FROM user WHERE id='" + id + "'";
+        System.out.println(id + "            " + type);
         try {
             resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
