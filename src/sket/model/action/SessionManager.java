@@ -10,7 +10,7 @@ import java.util.HashSet;
  * Created by KwonJH on 2017-05-12.
  */
 public class SessionManager {
-    private static HashSet<HttpSession> sessionList = new HashSet<>();
+    private static HashSet<HttpSession> sessionList = new HashSet<HttpSession>();
 
     public static HashSet<HttpSession> getSessionList() {
         return sessionList;
