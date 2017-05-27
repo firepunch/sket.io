@@ -27,6 +27,10 @@ const propTypes = {
     isConnecting: ReactPropTypes.bool,
     isSocketFetching: ReactPropTypes.bool,
 
+    userList: ReactPropTypes.array,
+    roomList: ReactPropTypes.array,
+    ranking: ReactPropTypes.array,
+
     /* dispatcher function */
     handleLoginRequest: ReactPropTypes.func,
     handleLogin: ReactPropTypes.func,
@@ -47,6 +51,10 @@ const defaultProps = {
     fetchingConnect: false,
     isConnecting: false,
     isSocketFetching: false,
+
+    userList: [],
+    roomList: [],
+    ranking: [],
 
     /* dispatcher function */
     handleLoginRequest: createWarning('handleLoginRequest'),
@@ -115,6 +123,10 @@ class Sket extends Component {
         const index = (
                 <IndexContent
                     user={ this.props.user }
+                    userList={ this.props.userList }
+                    roomList={ this.props.roomList }
+                    ranking={ this.props.ranking }
+
                     handleLogout={ this.props.handleLogout }
                     handleCreateRoom={ this.props.handleCreateRoom }
                 />
@@ -143,7 +155,9 @@ Sket.defaultProps = defaultProps;
 
 const mapStateToProps = (state) => {
     const { isLoggedIn, fetchingUpdate, user } = state.login;
+
     const { fetchingConnect, isConnecting, isSocketFetching } = state.main;
+    const { userList, roomList, ranking } = state.main;
 
     return {
         /* 로그인 */
@@ -154,7 +168,11 @@ const mapStateToProps = (state) => {
         /* 메인 */
         fetchingConnect,
         isConnecting,
-        isSocketFetching
+        isSocketFetching,
+
+        userList,
+        roomList,
+        ranking
     };
 }
 
