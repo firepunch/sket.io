@@ -47,7 +47,7 @@ public class RoomController {
     /* 방 목록을 json 으로 보내는 메소드 */
     public static String getRoomListAsJSON() {
         JSONObject message = new JSONObject();
-        message.put("type", "roomList");
+        message.put("type", "ROOM_LIST");
         JSONArray jsonArray = new JSONArray();
 
         /* 방생성 테스트 코드 */
@@ -79,7 +79,7 @@ public class RoomController {
             다음과 같이 json 보낸다.
 
             {
-	        "type": "roomList",
+	        "type": "ROOM_LIST",
 	        "roomList": [{
 		        "playerNumber": 0,
 		        "password": "null",
