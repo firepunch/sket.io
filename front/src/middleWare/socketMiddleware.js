@@ -20,11 +20,19 @@ const socketMiddleware = (() => {
 
         // Server to Client
         switch(msg.type) {
-            case "roomList":
-                //Dispatch an action that adds the received message to our state
-                console.log(msg);
-                // store.dispatch(actions.messageReceived(msg));
+            case "USER_LIST":
+                store.dispatch(actions.getUserList(msg.data));
                 break;
+
+            case "ROOM_LIST":
+                console.log(msg);
+
+                store.dispatch(actions.getRoomList(msg.data));
+                break;
+
+            case "RANKING":
+                store.dispatch(actions.getRanking(msg.data));
+
             default:
                 console.log("Received unknown message type: '" + msg.type + "'");
                 break;

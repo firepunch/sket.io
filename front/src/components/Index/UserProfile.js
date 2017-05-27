@@ -35,7 +35,7 @@ class UserProfile extends Component {
 
         // <p>{this.props.user.name}</p>
         return(
-            <div id="sket-profile" className="component-container" style={divStyle}>
+            <div id="sket-profile" className="component-container index-left index-top" style={divStyle}>
                 <div className="profile-image">
                     <img src={this.props.user.picture} alt="error"/>
                 </div>

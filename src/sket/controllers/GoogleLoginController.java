@@ -26,10 +26,6 @@ public class GoogleLoginController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("euc-kr");
-        resp.setCharacterEncoding("UTF-8");
-        resp.setContentType("application/json");
-
         DBConnection db = new DBConnection();
         OauthLogin oauthLogin = new OauthLogin();
         PrintWriter out = resp.getWriter();
@@ -37,38 +33,42 @@ public class GoogleLoginController extends HttpServlet {
         HttpSession session = req.getSession();
         JSONObject sendJson = oauthLogin.getRcvJson(req, "google", "user");
 
+        req.setCharacterEncoding("euc-kr");
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
+
+        String id = sendJson.getString("id");
         try {
             sendJson = db.selectUser(sendJson.getString("id"), "google");
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        String id = sendJson.getString("id");
-        String nick = sendJson.getString("nick");
-
+//        String nick = sendJson.getString("nick");
+        String nick = "null";
         if (sendJson.getString("id").equals("null")) {
-            session.setAttribute("user", new User(id, nick));
-            SessionManager.addSession(session);
-            System.out.println("log : " + "Google 새로운 세션, 신규회원 생성");
-
+            try {
+                nick = db.insertUser(id, nick);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new IOException("oauth login insert error " + e);
+            }
+            sendJson.put("id", id);
+            sendJson.put("nick", nick);
             sendJson.put("level", 1);
             sendJson.put("limitExp", 300);
             sendJson.put("totalExp", 0);
             sendJson.put("curExp", 0);
 
-            try {
-                db.insertUser(id, nick);
-            } catch (SQLException e) {
-                e.printStackTrace();
-                throw new IOException("oauth login insert error " + e);
-            }
+            session.setAttribute("user", new User(id, nick));
+            SessionManager.addSession(session);
+            System.out.println("log : " + "Google 새로운 세션, 신규회원 생성");
         } else if (SessionManager.getUserIdEqualSession(session) == null) {
             System.out.println("log : Google 기존회원 새로운 세션 생성");
 
             session.setAttribute("user", new User(id, nick,
                     sendJson.getInt("level"), sendJson.getInt("limitExp"),
                     sendJson.getInt("totalExp"), sendJson.getInt("curExp")));
-
             SessionManager.addSession(session);
         }
 
