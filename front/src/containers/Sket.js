@@ -82,11 +82,11 @@ class Sket extends Component {
                                 offline={false}
                                 />
                         </div>
-
+                        
                         <div className="login-button">
                             <FacebookLogin
                                 appId="741189302727195"
-                                autoLoad={true}
+                                autoLoad={ false }
                                 fields="name,email,picture"
                                 cssClass="action-button shadow animate blue"
                                 textButton="페이스북으로 로그인"
@@ -124,10 +124,9 @@ class Sket extends Component {
         const loading = (<Loading type="cylon" color="white"
                             height='667' width='375' className="loading-svg"/>)
 
-                            // { this.props.fetchingUpdate ? loading : rendering }
         return(
             <div className="sket-root">
-                {loginPage}
+                { this.props.fetchingUpdate ? loading : rendering }
             </div>
         );
     }
