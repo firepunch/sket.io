@@ -53,7 +53,7 @@
         <url-pattern>/signin/facebook/</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
+        <welcome-file>test/sessionTest.jsp</welcome-file>
     </welcome-file-list>
     <servlet>
         <display-name>Apache-Axis Servlet</display-name>
