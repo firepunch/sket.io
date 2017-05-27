@@ -4,6 +4,7 @@ import sket.model.data.Player;
 import sket.model.data.Room;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Created by KwonJH on 2017-05-02.
@@ -29,8 +30,8 @@ public class QuizAction {
         return sessionArrayList;
     }
 */
-    public static ArrayList<String> excludeExaminerSession(String id) {
-        ArrayList<String> sessionArrayList = new ArrayList<>();
+    public static LinkedList<String> excludeExaminerSession(String id) {
+        LinkedList<String> sessionArrayList = new LinkedList<>();
         for (Player player : Room.getRoomIntoPlayer(targetRoom)) {
             if (player.getId() != id) {
                 sessionArrayList.add(player.getSessionID());
