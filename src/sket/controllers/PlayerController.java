@@ -52,7 +52,7 @@ public class PlayerController extends HttpServlet {
     /* checkReadyAllPlayer() 메소드를 위한 json 반환 메소드 */
     private static String readyToAllPlayerJSON(Room room) {
         JSONObject message = new JSONObject();
-        message.put("type", "readyAllPlayer");
+        message.put("type", "READY_ALL_PLAYER");
         message.put("roomId", room.getRoomId());
         message.put("ready", true);
         return message.toString();
@@ -61,7 +61,7 @@ public class PlayerController extends HttpServlet {
     /* gameReadyToJSON() 메소드를 위한 json 으로 반환 메소드 */
     public static String readyToPlayerJSON(Player player) {
         JSONObject message = new JSONObject();
-        message.put("type", "playerReady");
+        message.put("type", "PLAYER_READY");
         message.put("id", player.getId());
         message.put("ready", player.isReady());
         return message.toString();

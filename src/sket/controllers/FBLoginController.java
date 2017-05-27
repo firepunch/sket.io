@@ -41,7 +41,8 @@ public class FBLoginController extends HttpServlet {
         }
 
         String id = sendJson.getString("id");
-        String nick = sendJson.getString("nick");
+//        String nick = sendJson.getString("nick");
+        String nick = "null";
         if (sendJson.getString("id").equals("null")) {
             session.setAttribute("user", new User(id, nick));
             SessionManager.addSession(session);

@@ -44,7 +44,7 @@ public class QuizController extends HttpServlet {
         examinerP.setExaminer(false);
 
         JSONObject message = new JSONObject();
-        message.put("type", "correctAnswer");
+        message.put("type", "CORRECT_ANSWER");
         message.put("correcterId", correctP.getId());
         message.put("examinerId", examinerP.getId());
         message.put("score", score);
@@ -54,9 +54,8 @@ public class QuizController extends HttpServlet {
 
     public static String sendCanvasData() {
         String data = null;
-
         JSONObject message = new JSONObject();
-        message.put("type", "canvasData");
+        message.put("type", "CANVAS_DATA");
         message.put("data", data);
         // TODO: data 받고 JS의 redraw()실행
 

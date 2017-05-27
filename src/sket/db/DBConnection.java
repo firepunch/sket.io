@@ -81,7 +81,6 @@ public class DBConnection {
 
         if (nick != null && !nick.isEmpty()) {
             int rowCnt = 0;
-
             ResultSet rs = statement.executeQuery("SELECT COUNT(*) FROM user");
             while (rs.next()) {
                 rowCnt = rs.getInt("COUNT(*)");
