@@ -1,5 +1,6 @@
 package sket.db;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import sket.Configure;
 
@@ -125,28 +126,37 @@ public class DBConnection {
     }
 
     /* 랭킹 오름차순 조회 */
-    public JSONObject showRank(String id) throws SQLException {
+    //http://newkie.tistory.com/22
+    public JSONArray showRank(String id) throws SQLException {
+        JSONArray jsonArray = new JSONArray();
         JSONObject jsonObject = new JSONObject();
-        String query = "SELECT * FROM user WHERE id=0000003;";
-        query = "SELECT * FROM user ORDER BY level DESC;";
-        try {
-            resultSet = statement.executeQuery(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Failed select rank data " + e);
-        }
+        // 자신의 랭킹
+        String query = "SELECT nick, level, FIND_IN_SET( totalexp," +
+                "(SELECT GROUP_CONCAT(totalexp ORDER BY totalexp DESC)FROM user))AS rank " +
+                "FROM user WHERE id=" + id;
+        System.out.println("old   " + query);
+        resultSet = statement.executeQuery(query);
         if (resultSet.next()) {
             jsonObject.put("type", "SHOW_RANK");
-            jsonObject.put("id", resultSet.getString("id"));
             jsonObject.put("nick", resultSet.getString("nick"));
             jsonObject.put("level", resultSet.getString("level"));
-            jsonObject.put("limitExp", resultSet.getString("limitexp"));
-            jsonObject.put("totalExp", resultSet.getString("totalexp"));
-            jsonObject.put("curExp", resultSet.getString("curexp"));
-        } else {
-            jsonObject.put("id", "null");
+            jsonObject.put("rank", resultSet.getString("rank"));
+            jsonArray.put(jsonObject);
         }
-        return jsonObject;
+
+        // 다른 사람들의 랭킹
+        query = "SELECT nick, level, @curRank := @curRank + 1 AS rank " +
+                "FROM user p, (SELECT @curRank := 0) r ORDER BY totalexp desc";
+        System.out.println("new   " + query);
+        resultSet = statement.executeQuery(query);
+        while (resultSet.next()) {
+            jsonObject.put("nick", resultSet.getString("nick"));
+            jsonObject.put("level", resultSet.getString("level"));
+            jsonObject.put("rank", resultSet.getString("rank"));
+            jsonArray.put(jsonArray);
+        }
+        DBClose();
+        return jsonArray;
     }
 
     private void DBClose() {
