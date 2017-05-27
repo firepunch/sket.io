@@ -1,8 +1,12 @@
 package sket;
 
 import org.json.JSONObject;
+import sket.controllers.GameController;
 import sket.controllers.PlayerController;
+import sket.controllers.QuizController;
 import sket.controllers.RoomController;
+import sket.model.action.PlayerAction;
+import sket.model.action.QuizAction;
 import sket.model.action.RoomAction;
 import sket.model.action.SessionManager;
 import sket.model.data.Player;
@@ -16,6 +20,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 /**
@@ -28,11 +33,12 @@ public class WebSocket {
 
     // 현재 웹소켓에 연결되어 있는 session 을 저장하는 ArrayList (HttpSession 과 다름)
     private static Map<String, Session> webSocketSessionMap = new HashMap<>();
-    private ArrayList<Session> roomMembers;
+    private LinkedList<String> roomMembers;
 
     private Room targetRoom = null;
     private RoomAction roomAction = null;
     private Player player;
+    private Session playerSession;
 
     // 세션리스트에 접속한 세션 추가, Player 객체 생성, 생성된 룸 정보 보냄
     @OnOpen
@@ -83,6 +89,7 @@ public class WebSocket {
                 rcvSession.getBasicRemote().sendText(RoomController.getRoomListAsJSON());
                 break;
 
+            // 방 들어갔을 때 보내는 JSON
             case "ENTER_ROOM":
                 targetRoom = RoomAction.enterRoom(
                         jsonObject.getInt("roomId"),
@@ -92,18 +99,23 @@ public class WebSocket {
                 roomAction = new RoomAction(targetRoom);
 
                 if (targetRoom != null && roomAction != null) {
-                    roomMembers = roomAction.getPlayerSession();
-                    for (Session member : roomMembers) {
-                        member.getBasicRemote().sendText(
+                    roomMembers = roomAction.getPlayerSessionId();
+
+                    for (String playerSessionId : roomMembers) {
+                        playerSession = webSocketSessionMap.get(playerSessionId);
+
+                        playerSession.getBasicRemote().sendText(
                                 RoomController.getRoomInfoToJSON(targetRoom).put("type", "ROOM_INFO").toString()
                         );
                     }
                 }
                 break;
 
+            // 플레이어가 방에서 준비했을 때 보내는 JSON. 만약 방장 제외 모두 준비했을 시 방장에거 모두 준비했다고 알림!
             case "GET_READY":
                 targetRoom = RoomAction.findRoomById(jsonObject.getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
+
 
                 String readyJSON = PlayerController.gameReadyToJSON(
                         jsonObject.getInt("roomId"),
@@ -111,18 +123,93 @@ public class WebSocket {
                         rcvSession.getId()
                 );
 
-                for (Session player : roomAction.getPlayerSession()) {
-                    player.getBasicRemote().sendText(readyJSON);
+                for (String playerSessionId : roomAction.getPlayerSessionId()) {
+                    playerSession = webSocketSessionMap.get(playerSessionId);
+                    playerSession.getBasicRemote().sendText(readyJSON);
                 }
 
                 String readyAllPlayerJSON = PlayerController.checkReadyAllPlayer(targetRoom);
 
                 if (readyAllPlayerJSON != null) {
-                    Session tempSession = (Session) webSocketSessionMap.get(targetRoom.getRoomMaster().getSessionID());
+                    Session tempSession = webSocketSessionMap.get(targetRoom.getRoomMaster().getSessionID());
                     System.out.println("log : HashMap.get() : " + tempSession);
 
                     tempSession.getBasicRemote().sendText(readyAllPlayerJSON);
                 }
+                break;
+
+            // 플레이어가 문제 맞혔을 때 보내는 JSON
+            case "CORRECT_ANSWER":
+                targetRoom = RoomAction.findRoomById(jsonObject.getInt("roomId"));
+                roomAction = new RoomAction(targetRoom);
+
+                if (targetRoom != null) {
+                    roomMembers = roomAction.getPlayerSessionId();
+                    for (String playerSessionId : roomMembers) {
+                        playerSession = webSocketSessionMap.get(playerSessionId);
+                        playerSession.getBasicRemote().sendText(
+                                QuizController.correctAnswer(
+                                        jsonObject.getString("correcterId"),
+                                        jsonObject.getString("examinerId"),
+                                        jsonObject.getInt("score"))
+                        );
+                    }
+                }
+                break;
+
+            // 랜덤 출제자 선택해서 JSON 보냄
+            case "RANDOM_EXAMINER":
+                targetRoom = RoomAction.findRoomById(jsonObject.getInt("roomId"));
+                roomAction = new RoomAction(targetRoom);
+
+                if (targetRoom != null) {
+                    roomMembers = roomAction.getPlayerSessionId();
+                    for (String playerSessionId : roomMembers) {
+                        playerSession = webSocketSessionMap.get(playerSessionId);
+                        playerSession.getBasicRemote().sendText(GameController.randomExaminerToJSON(
+                                jsonObject.getString("id"),
+                                targetRoom.getRoomId()
+                        ));
+                    }
+                }
+                break;
+
+            // 랜덤 문제 JSON 보냄
+            case "RANDOM_QUIZ":
+                targetRoom = RoomAction.findRoomById(jsonObject.getInt("roomId"));
+                roomAction = new RoomAction(targetRoom);
+
+                if (targetRoom != null) {
+                    Player targetPlayer = PlayerAction.getEqualPlayerId(jsonObject.getString("id"));
+                    playerSession = webSocketSessionMap.get(targetPlayer.getSessionID());
+                    playerSession.getBasicRemote().sendText(QuizController.sendQuizByJSON());
+                }
+                break;
+
+            // 캔바스 데이터 JSON 보냄
+            case "CANVAS_DATA":
+                roomMembers = QuizAction.excludeExaminerSession(jsonObject.getString("id"));
+
+                if (roomMembers != null) {
+                    for (String playerSessionId : roomMembers) {
+                        playerSession = webSocketSessionMap.get(playerSessionId);
+                        playerSession.getBasicRemote().sendText(QuizController.sendCanvasData());
+                    }
+                }
+                break;
+
+            // 채팅 JSON
+            case "CHAT_START":
+                targetRoom = RoomAction.findRoomById(jsonObject.getInt("roomId"));
+                roomAction = new RoomAction(targetRoom);
+
+                roomMembers = roomAction.getPlayerSessionId();
+                for (String playerSessionId : roomMembers) {
+                    playerSession = webSocketSessionMap.get(playerSessionId);
+                    playerSession.getBasicRemote().sendText(jsonObject.getString("msg"));
+                }
+
+                break;
         }
     }
 
