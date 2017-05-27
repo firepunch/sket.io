@@ -6,6 +6,7 @@ import sket.controllers.GameController;
 import sket.controllers.PlayerController;
 import sket.controllers.QuizController;
 import sket.controllers.RoomController;
+import sket.db.DBConnection;
 import sket.model.action.PlayerAction;
 import sket.model.action.QuizAction;
 import sket.model.action.RoomAction;
@@ -52,11 +53,11 @@ public class WebSocket {
         System.out.println("log : HttpSession : " + httpSession + "\n" +
                 "ID : " + SessionManager.getUserIdEqualSession(httpSession));
 
-        if (((User) httpSession.getAttribute("user")).isGuest()) {
-            player = new Player(((User) httpSession.getAttribute("user")).getId(), httpSession.getId(), true);
-        } else {
-            player = new Player(((User) httpSession.getAttribute("user")).getId(), httpSession.getId(), false);
-        }
+//        if (((User) httpSession.getAttribute("user")).isGuest()) {
+//            player = new Player(((User) httpSession.getAttribute("user")).getId(), httpSession.getId(), true);
+//        } else {
+//            player = new Player(((User) httpSession.getAttribute("user")).getId(), httpSession.getId(), false);
+//        }
 
         // session 에 룸 리스트 보냄
         rcvSession.getBasicRemote().sendText(RoomController.getRoomListAsJSON());
@@ -65,7 +66,7 @@ public class WebSocket {
     }
 
     @OnMessage
-    public void onMessage(String message, Session rcvSession) throws IOException {
+    public void onMessage(String message, Session rcvSession) throws IOException, SQLException {
         // 세션리스트에 접속한 세션 추가, Player객체 생성
         // 접속 유저, 생성된 방의 정보 전송
 
@@ -214,6 +215,14 @@ public class WebSocket {
                 }
 
                 break;
+
+            // 랭킹 JSON
+            case "SHOW_RANK":
+                JSONArray rankInfo = new JSONArray();
+                DBConnection db = new DBConnection();
+                rankInfo = db.showRank(jsonObject.getString("userId"));
+                System.out.println(rankInfo);
+                rcvSession.getBasicRemote().sendText(String.valueOf(rankInfo));
         }
     }
 

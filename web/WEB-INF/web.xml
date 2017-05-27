@@ -7,6 +7,15 @@
 
     <display-name>Apache-Axis</display-name>
 
+    <servlet>
+        <servlet-name>ServerTest</servlet-name>
+        <servlet-class>sket.controllers.ServerTest</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServerTest</servlet-name>
+        <url-pattern>/test</url-pattern>
+    </servlet-mapping>
+
     <!-- SignUpCotroller 는 signup.do 로 매핑 -->
     <servlet>
         <servlet-name>SignUpController</servlet-name>
@@ -22,7 +31,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>GuestController</servlet-name>
-        <url-pattern>/singin/guest</url-pattern>
+        <url-pattern>/signin/guest/</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -44,7 +53,7 @@
         <url-pattern>/signin/facebook/</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
+        <welcome-file>test/sessionTest.jsp</welcome-file>
     </welcome-file-list>
     <servlet>
         <display-name>Apache-Axis Servlet</display-name>

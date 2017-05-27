@@ -16,6 +16,7 @@
 방 아이디 : <input type="text" id="joinRoomId">
 유저 아이디 : <input type="text" id="joinRoomUserId">
 <input type="button" value="방 참가" onclick="joinRoom()"><br>
+<input type="button" value="랭킹 보기" onclick="showRank()"><br>
 <br><br><br>
 <ul id="roomList">
 </ul>
@@ -100,6 +101,17 @@
         };
 
         console.log("joinRoomId : " + roomId + "\t joinRoomUserId : " + userId);
+        webSocket.send(JSON.stringify(msg));
+    }
+
+    function showRank() {
+        var userId = "0000003";
+        var msg={
+            type:"SHOW_RANK",
+            userId: userId
+        };
+
+        console.log("select userID : " + userId);
         webSocket.send(JSON.stringify(msg));
     }
 
