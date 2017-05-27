@@ -4,15 +4,15 @@ import sket.model.data.User;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Created by KwonJH on 2017-05-12.
  */
 public class SessionManager {
+    private static HashSet<HttpSession> sessionList = new HashSet<>();
 
-    private static ArrayList<HttpSession> sessionList = new ArrayList<>();
-
-    public static ArrayList<HttpSession> getSessionList() {
+    public static HashSet<HttpSession> getSessionList() {
         return sessionList;
     }
 

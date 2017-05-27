@@ -44,8 +44,9 @@ public class WebSocket {
     // 세션리스트에 접속한 세션 추가, Player 객체 생성, 생성된 룸 정보 보냄
     @OnOpen
     public void onOpen(Session rcvSession, EndpointConfig config) throws IOException, SQLException {
-        HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
+        System.out.println("HttpSessionList Size : " + SessionManager.getSessionList().size());
 
+        HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
         webSocketSessionMap.put(rcvSession.getId(), rcvSession);
 
         System.out.println("log : HttpSession : " + httpSession + "\n" +
