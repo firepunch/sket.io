@@ -124,24 +124,6 @@ public class DBConnection {
         return jsonObject;
     }
 
-    /* 게스트인지 확인 */
-    public boolean isGuest(String id) throws SQLException {
-        String query = "SELECT * FROM user WHERE id=" + id;
-        try {
-            resultSet = statement.executeQuery(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Failed isGuest in DB " + e);
-        }
-
-        DBClose();
-        if (resultSet.next()) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
     private void DBClose() {
         try {
             if (resultSet != null) {
