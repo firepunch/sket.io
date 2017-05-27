@@ -19,7 +19,6 @@ export function handleLogin(social, user) {
             })
         })
         .then(res => res.json())
-        // .then(json => {dispatch( receiveUserData(json) ))  // 전달 받은 user data를 dispatch
         .then(json => {
             dispatch( receiveUserData(json) );
             dispatch( connectSocket() );    // 소켓 연결 요청
@@ -36,6 +35,19 @@ export function handleGuestLogin() {
     }
 }
 
+export function handleLogout() {
+    return async dispatch => {
+        dispatch( requestLogout() );
+
+        await fetch('/singout')
+        .then(res => res.json())
+        .then(json => {
+            dispatch( disconnectSocket() );
+            dispatch( successLogout() );
+        })
+        .catch(error => dispatch( failLogout() ))
+    }
+}
 
 export function requestLogin() {
     return {
@@ -53,6 +65,24 @@ function receiveUserData(user) {
     return {
         type: types.LOGIN_SUCCESS,
         user
+    }
+}
+
+function requestLogout() {
+    return {
+        type: types.LOGOUT_REQUEST
+    }
+}
+
+function successLogout() {
+    return {
+        type: types.LOGOUT_SUCCESS
+    }
+}
+
+function failLogout() {
+    return {
+        type: types.LOGOUT_FAILURE
     }
 }
 

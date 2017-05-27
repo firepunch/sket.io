@@ -32,6 +32,8 @@ const propTypes = {
     handleLogin: ReactPropTypes.func,
     handleGuestLogin: ReactPropTypes.func,
 
+    handleLogout: ReactPropTypes.func,
+
     handleCreateRoom: ReactPropTypes.func
 };
 
@@ -50,6 +52,8 @@ const defaultProps = {
     handleLoginRequest: createWarning('handleLoginRequest'),
     handleLogin: createWarning('handleLogin'),
     handleGuestLogin: createWarning('handleGuestLogin'),
+
+    handleLogout: createWarning('handleLogout'),
 
     handleCreateRoom: createWarning('handleCreateRoom')
 };
@@ -82,7 +86,7 @@ class Sket extends Component {
                                 offline={false}
                                 />
                         </div>
-                        
+
                         <div className="login-button">
                             <FacebookLogin
                                 appId="741189302727195"
@@ -110,8 +114,9 @@ class Sket extends Component {
 
         const index = (
                 <IndexContent
-                    user={this.props.user}
-                    handleCreateRoom={this.props.handleCreateRoom}
+                    user={ this.props.user }
+                    handleLogout={ this.props.handleLogout }
+                    handleCreateRoom={ this.props.handleCreateRoom }
                 />
         )
 
@@ -160,6 +165,8 @@ const mapDispatchToProps = (dispatch) => {
         handleLoginRequest: () => { dispatch(actions.requestLogin()) },
         handleLogin: (social, user) => { dispatch(actions.handleLogin(social, user)) },
         handleGuestLogin: () => { dispatch(actions.handleGuestLogin()) },
+
+        handleLogout: () => { dispatch(actions.handleLogout()) },
 
         /* 대기 화면 핸들링 */
         handleCreateRoom: (roomInfo) => { dispatch(actions.createRoom(roomInfo)) }

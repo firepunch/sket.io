@@ -28,6 +28,26 @@ export default function login(state=initialState, action) {
                 fetchingUpdate: false
             }
 
+        case types.LOGOUT_REQUEST:
+            return {
+                ...state,
+                fetchingUpdate: true
+            }
+
+        case types.LOGOUT_SUCCESS:
+            return {
+                ...state,
+                fetchingUpdate: false,
+                isLoggedIn: false,
+                user: {}
+            }
+
+        case types.LOGOUT_FAILURE:
+            return {
+                ...state,
+                fetchingUpdate: false
+            }
+
         default:
             return state;
     }

@@ -23,15 +23,20 @@ class IndexContent extends Component {
         return(
             <div className="sket-index">
 
+                <button onClick={ this.props.handleLogout }>
+                    로그아웃
+                </button>
                 <div className="container">
                     <UserProfile
-                        user={this.props.user}
+                        user={ this.props.user }
                     />
                     <FuncButtonArea
-                            handleCreateRoom={this.props.handleCreateRoom}
+                            handleCreateRoom={ this.props.handleCreateRoom }
                     />
                     <RoomList/>
                     <ConnectingUserList/>
+                    <div class="logout">
+                    </div>
                 </div>
 
             </div>
