@@ -12,7 +12,7 @@ class ConnectingUserList extends Component {
     }
     render() {
         return(
-            <div id="connection-list" className="component-container">
+            <div id="connection-list" className="component-container index-left index-bottom">
                 <div>
                     ConnectingUserList
                 </div>

@@ -50,13 +50,14 @@ body {
 }
 
 .container {
-    /* HD: 16:9 */
-    width: 1366px;
-    height: 768px;
+    width: 90%;
+    height: 90%;
 
     margin: auto;
     justify-content: center;
     align-items: center;
+
+    position: relative;
 }
 
 .component-container {
@@ -64,8 +65,8 @@ body {
     border-radius: 20px;
 
     background: rgba(0, 0, 0, 0.6);
-    margin: 5px;
-    /*overflow: auto;*/
+
+    position: absolute;
 }
 
 .loading-svg {
@@ -75,20 +76,46 @@ body {
     align-items: center;
 }
 
+.index-left {
+    width: 20%;
+    min-width: 235px;
+}
+
+.index-right {
+    width: 80%;
+    min-width: 930px;
+}
+
+.index-top {
+    height: 20%;
+    min-height: 135px;
+}
+
+.index-bottom {
+    height: 80%;
+    min-height: 550px;
+}
+
 /*
                 80%	           20%
 width 1366px	1092.8(1050)   273.2(270)
 height 768px	614.4(600)	   153.6(150)
 
+1366 : 768 = 16 : 9
+
+                80%	           20%
+width 1366px	960            240
+height 768px	540	           135
+
+1200 : 675 = 16 : 9
 */
 
 /* 유저 프로필  */
 #sket-profile {
-    width: 270px;
-    height: 150px;
+    /*width: 270px;
+    height: 150px;*/
 
     display: flex;
-
     float: left;
 
     flex-direction: row;
@@ -98,7 +125,7 @@ height 768px	614.4(600)	   153.6(150)
 
 .profile-image {
     /* 프로필 이미지를 감싸는 div */
-
+    margin: 10px;
 }
 
 .profile-image img {
@@ -113,13 +140,14 @@ height 768px	614.4(600)	   153.6(150)
 }
 
 .user-info p {
-    margin: 20px;
+    margin: 10px;
 }
 
 /* 버튼 영역(방 생성, 빠른 시작, 랭킹) */
 #sket-header {
-    width: 1050px;
-    height: 150px;
+    /*width: 1050px;
+    height: 150px;*/
+    left: 22%;
 
     float: right;
 
@@ -170,21 +198,28 @@ height 768px	614.4(600)	   153.6(150)
 }
 
 .craete-room-modal-button button {
-    /*margin: 0 50px 0 50px;*/
+
 }
 
 /* 연결 유저 목록 */
 #connection-list {
-    width: 270px;
-    height: 600px;
+    /*width: 270px;
+    height: 600px;*/
+    top: 23%;
 
     float: left;
 }
 
 /* 방 목록  */
 #room-list {
-    width: 1050px;
-    height: 600px;
+    /*width: 1050px;
+    height: 600px;*/
+
+    width: 80%;
+    height: 80%;
+
+    left: 22%;
+    top: 23%;
 
     float: right;
 }

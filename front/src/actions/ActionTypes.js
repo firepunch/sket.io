@@ -20,10 +20,12 @@ export const SEND_MESSAGE_FINISH = "SEND_MESSAGE_FINISH";   // 소켓 메시지 
 // header function
 // export const CREATE_ROOM    = "CREATE_ROOM";
 export const QUICK_START = "QUICK_START";
-export const GET_ROOM_LIST = "GET_ROOM_LIST";
 export const SHOW_RANKING = "SHOW_RANKING";
-
 export const ENTER_ROOM = "ENTER_ROOM";
+
+export const GET_USER_LIST = "GET_USER_LIST";
+export const GET_ROOM_LIST = "GET_ROOM_LIST";
+export const GET_RANKING = "GET_RANKING";
 
 
 /* GAME */

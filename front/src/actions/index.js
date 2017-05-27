@@ -100,10 +100,24 @@ export function messageReceived() {
 }
 
 // function
+export function getUserList(userList) {
+    return {
+        type: types.GET_USER_LIST,
+        userList
+    }
+}
+
 export function getRoomList(roomList) {
     return {
         type: types.GET_ROOM_LIST,
         roomList
+    }
+}
+
+export function getRanking(ranking) {
+    return {
+        type: types.GET_RANKING,
+        ranking
     }
 }
 
