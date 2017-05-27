@@ -11,7 +11,8 @@ import java.io.IOException;
  * Created by ymr on 2017-05-22.
  */
 public class OauthLogin {
-    public JSONObject getRcvJson(HttpServletRequest req, String starter) throws IOException {
+    /* 구글 혹은 페북에서 제공해주는 json 전처리 */
+    public JSONObject getRcvJson(HttpServletRequest req, String type, String starter) throws IOException {
         JSONObject rcvJson;
 
         try {
@@ -25,6 +26,28 @@ public class OauthLogin {
         } catch (JSONException e) {
             throw new IOException("Error parsing JSON request string");
         }
+
+        rcvJson = initSendJson(rcvJson, type);
         return rcvJson;
+    }
+
+    /* sendJson 초기화 */
+    private JSONObject initSendJson(JSONObject rcvJson, String type) {
+        JSONObject sendJson = new JSONObject();
+
+        sendJson.put("type", type);
+        sendJson.put("name", rcvJson.getString("name"));
+        if (type.equals("google")) {
+//            String token = rcvJson.getJSONObject("tokenObj").getString("access_token");
+            sendJson.put("id", rcvJson.getString("googleId"));
+            sendJson.put("picture", rcvJson.getString("imageUrl"));
+
+        } else if (type.equals("facebook")) {
+//            String token = rcvJson.getString("accessToken");
+            sendJson.put("id", rcvJson.getString("id"));
+            sendJson.put("picture", rcvJson.getJSONObject("picture").getJSONObject("data").getString("url"));
+        }
+
+        return sendJson;
     }
 }

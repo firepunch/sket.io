@@ -5,6 +5,7 @@ import sket.model.data.Room;
 
 import javax.websocket.Session;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Created by KwonJH on 2017-04-28.
@@ -18,13 +19,12 @@ public class RoomAction {
     }
 
     /* 방 안에 있는 player 세션을 반환한다. */
-    public ArrayList<Session> getPlayerSession() {
-        ArrayList<Session> sessionArrayList = new ArrayList<>();
+    public LinkedList<String> getPlayerSessionId() {
+        LinkedList<String> linkedList = new LinkedList<>();
         for (Player player : Room.getRoomIntoPlayer(targetRoom)) {
-//            TODO: 주석처리함
-//            sessionArrayList.add(player.getSession());
+            linkedList.add(player.getSessionID());
         }
-        return sessionArrayList;
+        return linkedList;
     }
 
 
