@@ -36,12 +36,11 @@ public class OauthLogin {
         JSONObject sendJson = new JSONObject();
 
         sendJson.put("type", type);
-        sendJson.put("name", rcvJson.getString("name"));
         if (type.equals("google")) {
 //            String token = rcvJson.getJSONObject("tokenObj").getString("access_token");
             sendJson.put("id", rcvJson.getString("googleId"));
-            sendJson.put("picture", rcvJson.getString("imageUrl"));
-
+            sendJson.put("picture", rcvJson.getJSONObject("profileObj").getString("imageUrl"));
+            System.out.println(rcvJson.getJSONObject("profileObj").getString("imageUrl"));
         } else if (type.equals("facebook")) {
 //            String token = rcvJson.getString("accessToken");
             sendJson.put("id", rcvJson.getString("id"));
