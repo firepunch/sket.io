@@ -3,7 +3,8 @@ import * as types from '../actions/ActionTypes';
 const initialState = {
     fetchingConnect: false,  // 소켓 연결 중
     isConnecting: false,     // 소켓 연결 여부
-    isSocketFetching: false  // 소켓 request / response 중
+    isSocketFetching: false,  // 소켓 request / response 중
+    roomList: {}
 }
 
 export default function main(state=initialState, action) {
@@ -37,6 +38,12 @@ export default function main(state=initialState, action) {
             return {
                 ...state,
                 isSocketFetching: false
+            }
+
+        case types.GET_ROOM_LIST:
+            return {
+                ...state,
+                roomList: action.roomList
             }
 
         default:

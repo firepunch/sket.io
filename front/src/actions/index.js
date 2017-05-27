@@ -100,6 +100,13 @@ export function messageReceived() {
 }
 
 // function
+export function getRoomList(roomList) {
+    return {
+        type: types.GET_ROOM_LIST,
+        roomList
+    }
+}
+
 export function createRoom(roomInfo) {
     return {
         type: types.SEND_MESSAGE,
@@ -107,6 +114,7 @@ export function createRoom(roomInfo) {
         data: roomInfo
     }
 }
+
 
 
 /* GAME */
