@@ -26,16 +26,16 @@ public class GoogleLoginController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("euc-kr");
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
+
         DBConnection db = new DBConnection();
         OauthLogin oauthLogin = new OauthLogin();
         PrintWriter out = resp.getWriter();
 
         HttpSession session = req.getSession();
         JSONObject sendJson = oauthLogin.getRcvJson(req, "google", "user");
-
-        req.setCharacterEncoding("euc-kr");
-        resp.setCharacterEncoding("UTF-8");
-        resp.setContentType("application/json");
 
         try {
             sendJson = db.selectUser(sendJson.getString("id"), "google");
@@ -45,6 +45,7 @@ public class GoogleLoginController extends HttpServlet {
 
         String id = sendJson.getString("id");
         String nick = sendJson.getString("nick");
+
         if (sendJson.getString("id").equals("null")) {
             session.setAttribute("user", new User(id, nick));
             SessionManager.addSession(session);
@@ -67,6 +68,7 @@ public class GoogleLoginController extends HttpServlet {
             session.setAttribute("user", new User(id, nick,
                     sendJson.getInt("level"), sendJson.getInt("limitExp"),
                     sendJson.getInt("totalExp"), sendJson.getInt("curExp")));
+
             SessionManager.addSession(session);
         }
 
