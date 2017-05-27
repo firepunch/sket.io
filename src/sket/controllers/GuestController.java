@@ -1,6 +1,7 @@
 package sket.controllers;
 
 import sket.model.action.SessionManager;
+import sket.model.data.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,21 +22,21 @@ public class GuestController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         req.setCharacterEncoding("euc-kr");
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html");
 
         try {
             HttpSession session = req.getSession();
-//            TODO: ㅇㅁㄹ, 아이디랑 닉넴
-//            session.setAttribute("user", new User(null, null, null, true));
+
+            // Guest 일 때는 생성자 인자로 true 를 줘야한다!
+            session.setAttribute("user", new User(true));
             SessionManager.addSession(session);
 
-            resp.sendRedirect("/test/test.html");
-
-            System.out.println("log : "+"게스트 로그인 성공!");
-        }catch (Exception e){
-            System.out.println("log : "+ "GuestController 오류");
+            System.out.println("log : " + "게스트 로그인 성공!");
+        } catch (Exception e) {
+            System.out.println("log : " + "GuestController 오류");
             e.printStackTrace();
         }
     }
