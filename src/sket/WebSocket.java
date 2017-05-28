@@ -20,7 +20,6 @@ import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -218,7 +217,7 @@ public class WebSocket {
 
             // 랭킹 JSON
             case "SHOW_RANK":
-                JSONArray rankInfo = new JSONArray();
+                JSONObject rankInfo = new JSONObject();
                 DBConnection db = new DBConnection();
                 rankInfo = db.showRank(jsonObject.getString("userId"));
                 System.out.println(rankInfo);

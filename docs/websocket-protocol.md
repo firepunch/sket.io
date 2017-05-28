@@ -199,17 +199,15 @@
             userId : (유저 아이디)
         </td>
         <td> type : SHOW_RANK,<br>
-            rankinfo : [{<br>
-            &nbsp;&nbsp;id : (자신의 아이디),<br>
+            myInfo : [{<br>
             &nbsp;&nbsp;nick : (자신의 닉네임),<br>
             &nbsp;&nbsp;level : (자신의 레벨),<br>
-            &nbsp;&nbsp;exp : (자신의 경험치)
-            <br>&nbsp;},{<br>
-            &nbsp;&nbsp;id : (유저 아이디),<br>
+            &nbsp;&nbsp;rank : (자신의 랭킹)
+            <br>}], otherInfo : [{<br>
             &nbsp;&nbsp;nick : (유저의 닉네임),<br>
             &nbsp;&nbsp;level : (유저의 레벨),<br>
-            &nbsp;&nbsp;exp : (유저의 경험치)
-            <br>},...]
+            &nbsp;&nbsp;exp : (유저의 랭킹)
+            <br>&nbsp;}, ...]
         </td>
     </tr>
     </tbody>

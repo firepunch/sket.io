@@ -6,7 +6,8 @@ import sket.Configure;
 
 import java.io.UnsupportedEncodingException;
 import java.sql.*;
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * DB ID/PW 설정하기
@@ -125,8 +126,41 @@ public class DBConnection {
         return jsonObject;
     }
 
+    private JSONArray makeRankJsonObject(ResultSet resultSet) throws SQLException {
+        JSONArray jsonArray = new JSONArray();
+
+        while (resultSet.next()) {
+            JSONObject innerJsonObject = new JSONObject();
+
+            innerJsonObject.put("nick", resultSet.getString("nick"));
+            innerJsonObject.put("level", resultSet.getString("level"));
+            innerJsonObject.put("rank", resultSet.getString("rank"));
+            jsonArray.put(innerJsonObject);
+        }
+
+        return jsonArray;
+    }
+
     /* 랭킹 오름차순 조회 */
-    //http://newkie.tistory.com/22
+    public JSONObject showRank(String id) throws SQLException {
+        JSONObject outerJsonObject = new JSONObject();
+        outerJsonObject.put("type", "SHOW_RANK");
+
+        // 자신의 랭킹
+        String query = "SELECT nick, level, FIND_IN_SET( totalexp," +
+                "(SELECT GROUP_CONCAT(totalexp ORDER BY totalexp DESC)FROM user))AS rank " +
+                "FROM user WHERE id=" + id;
+        outerJsonObject.put("myInfo",makeRankJsonObject(statement.executeQuery(query)));
+
+        // 다른 사람들의 랭킹
+        query = "SELECT nick, level, @curRank := @curRank + 1 AS rank " +
+                "FROM user p, (SELECT @curRank := 0) r ORDER BY totalexp desc";
+        outerJsonObject.put("otherInfo",makeRankJsonObject(statement.executeQuery(query)));
+
+        DBClose();
+        return outerJsonObject;
+    }
+/*
     public JSONArray showRank(String id) throws SQLException {
         JSONArray jsonArray = new JSONArray();
         JSONObject jsonObject = new JSONObject();
@@ -158,6 +192,7 @@ public class DBConnection {
         DBClose();
         return jsonArray;
     }
+*/
 
     private void DBClose() {
         try {
