@@ -53,8 +53,12 @@ public class PlayerController extends HttpServlet {
     private static String readyToAllPlayerJSON(Room room) {
         JSONObject message = new JSONObject();
         message.put("type", "READY_ALL_PLAYER");
-        message.put("roomId", room.getRoomId());
-        message.put("ready", true);
+
+        JSONObject data = new JSONObject();
+        data.put("roomId", room.getRoomId());
+        data.put("ready", true);
+
+        message.put("data", data);
         return message.toString();
     }
 
@@ -62,8 +66,12 @@ public class PlayerController extends HttpServlet {
     public static String readyToPlayerJSON(Player player) {
         JSONObject message = new JSONObject();
         message.put("type", "PLAYER_READY");
-        message.put("id", player.getId());
-        message.put("ready", player.isReady());
+
+        JSONObject data = new JSONObject();
+        data.put("id", player.getId());
+        data.put("ready", player.isReady());
+
+        message.put("data", data);
         return message.toString();
     }
 }

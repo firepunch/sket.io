@@ -13,7 +13,7 @@
 <body>
 <%
     HttpSession httpSession = request.getSession();
-    session.setAttribute("test", "test");
+    httpSession.setAttribute("test", "test");
     response.sendRedirect("/index.html");
 %>
 </body>

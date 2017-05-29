@@ -1,6 +1,5 @@
 package sket.controllers;
 
-import sket.model.action.SessionManager;
 import sket.model.data.User;
 
 import javax.servlet.ServletException;
@@ -32,7 +31,6 @@ public class GuestController extends HttpServlet {
 
             // Guest 일 때는 생성자 인자로 true 를 줘야한다!
             session.setAttribute("user", new User(true));
-            SessionManager.addSession(session);
 
             System.out.println("log : " + "게스트 로그인 성공!");
         } catch (Exception e) {

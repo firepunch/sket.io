@@ -1,4 +1,4 @@
-# DROP DATABASE sketio;
+DROP DATABASE sketio;
 CREATE DATABASE sketio;
 USE sketio;
 
