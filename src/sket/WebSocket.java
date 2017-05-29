@@ -28,7 +28,7 @@ import java.util.Map;
  * Created by hojak on 2017-04-06.
  */
 
-@ServerEndpoint(value = "/websocket", configurator = GetHttpSessionConfigurator.class)
+@ServerEndpoint(value = "/websocket")
 public class WebSocket {
 
     // 현재 웹소켓에 연결되어 있는 session 을 저장하는 ArrayList (HttpSession 과 다름)
@@ -239,14 +239,20 @@ public class WebSocket {
 
     private String getConnectUserListToJSON() {
         JSONObject message = new JSONObject();
-        JSONArray dataArray = new JSONArray();
-
         message.put("type", "USER_LIST");
 
+        JSONObject data = new JSONObject();
+        JSONArray dataArray = new JSONArray();
+
+        for (User user : User.getUserList()) {
+            JSONObject tempObject = new JSONObject();
+            tempObject.put("level", user.getId());
+            tempObject.put("playerId", user.getLevel());
+            dataArray.put(tempObject);
+        }
 
         message.put("data", dataArray);
 
         return message.toString();
     }
-
 }
