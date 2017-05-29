@@ -55,7 +55,6 @@ public class FBLoginController extends HttpServlet {
             sendJson.put("totalExp", 0);
             sendJson.put("curExp", 0);
 
-            session.setAttribute("user", new User(id, nick));
             new User(id, nick);
 
             System.out.println("log : " + "FB 새로운 세션, 신규회원 생성");
@@ -65,6 +64,7 @@ public class FBLoginController extends HttpServlet {
                     nick,
                     sendJson.getInt("level"),
                     sendJson.getInt("limitExp"),
+                    sendJson.getInt("totalExp"),
                     sendJson.getInt("curExp")
             );
             System.out.println("log : fb 기존회원 새로운 세션 생성");

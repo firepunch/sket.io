@@ -10,7 +10,6 @@ import sket.db.DBConnection;
 import sket.model.action.PlayerAction;
 import sket.model.action.QuizAction;
 import sket.model.action.RoomAction;
-import sket.model.action.SessionManager;
 import sket.model.data.Player;
 import sket.model.data.Room;
 import sket.model.data.User;
@@ -45,23 +44,13 @@ public class WebSocket {
     @OnOpen
     public void onOpen(Session rcvSession, EndpointConfig config) throws IOException, SQLException {
 
-        System.out.println("HttpSessionList Size : " + SessionManager.getSessionList().size());
-        HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
-
         // HttpSession 이 null 일 시에 클라이언트에게 JSON 보냄
-        if (httpSession == null) {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("type", "HttpSessionNULL");
+        JSONObject httpNull = new JSONObject();
 
-            rcvSession.getBasicRemote().sendText(jsonObject.toString());
-        }
+        rcvSession.getBasicRemote().sendText(httpNull.toString());
 
         webSocketSessionMap.put(rcvSession.getId(), rcvSession);
 
-        System.out.println("log : HttpSession : " + httpSession + "\n" +
-                "ID : " + SessionManager.getUserIdEqualSession(httpSession));
-
-//        if (((User) httpSession.getAttribute("user")).isGuest()) {
 //            player = new Player(((User) httpSession.getAttribute("user")).getId(), httpSession.getId(), true);
 //        } else {
 //            player = new Player(((User) httpSession.getAttribute("user")).getId(), httpSession.getId(), false);
@@ -86,10 +75,10 @@ public class WebSocket {
             // 방 생성 했을 때 보내는 JSON
             case "CREATE_ROOM":
                 targetRoom = RoomController.createRoom(
-                        jsonObject.getString("roomName"),
-                        jsonObject.getBoolean("lock"),
-                        jsonObject.getString("password"),
-                        jsonObject.getString("master")
+                        jsonObject.getJSONObject("data").getString("roomName"),
+                        jsonObject.getJSONObject("data").getBoolean("lock"),
+                        jsonObject.getJSONObject("data").getString("password"),
+                        jsonObject.getJSONObject("data").getString("master")
                 );
 
                 rcvSession.getBasicRemote().sendText(
@@ -105,8 +94,8 @@ public class WebSocket {
             // 방 들어갔을 때 보내는 JSON
             case "ENTER_ROOM":
                 targetRoom = RoomAction.enterRoom(
-                        jsonObject.getInt("roomId"),
-                        jsonObject.getString("userId")
+                        jsonObject.getJSONObject("data").getInt("roomId"),
+                        jsonObject.getJSONObject("data").getString("userId")
                 );
 
                 roomAction = new RoomAction(targetRoom);
@@ -131,8 +120,8 @@ public class WebSocket {
 
 
                 String readyJSON = PlayerController.gameReadyToJSON(
-                        jsonObject.getInt("roomId"),
-                        jsonObject.getBoolean("isReady"),
+                        jsonObject.getJSONObject("data").getInt("roomId"),
+                        jsonObject.getJSONObject("data").getBoolean("isReady"),
                         rcvSession.getId()
                 );
 
@@ -162,9 +151,9 @@ public class WebSocket {
                         playerSession = webSocketSessionMap.get(playerSessionId);
                         playerSession.getBasicRemote().sendText(
                                 QuizController.correctAnswer(
-                                        jsonObject.getString("correcterId"),
-                                        jsonObject.getString("examinerId"),
-                                        jsonObject.getInt("score"))
+                                        jsonObject.getJSONObject("data").getString("correcterId"),
+                                        jsonObject.getJSONObject("data").getString("examinerId"),
+                                        jsonObject.getJSONObject("data").getInt("score"))
                         );
                     }
                 }
@@ -172,7 +161,7 @@ public class WebSocket {
 
             // 랜덤 출제자 선택해서 JSON 보냄
             case "RANDOM_EXAMINER":
-                targetRoom = RoomAction.findRoomById(jsonObject.getInt("roomId"));
+                targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
 
                 if (targetRoom != null) {
@@ -180,7 +169,7 @@ public class WebSocket {
                     for (String playerSessionId : roomMembers) {
                         playerSession = webSocketSessionMap.get(playerSessionId);
                         playerSession.getBasicRemote().sendText(GameController.randomExaminerToJSON(
-                                jsonObject.getString("id"),
+                                jsonObject.getJSONObject("data").getString("id"),
                                 targetRoom.getRoomId()
                         ));
                     }
@@ -189,11 +178,11 @@ public class WebSocket {
 
             // 랜덤 문제 JSON 보냄
             case "RANDOM_QUIZ":
-                targetRoom = RoomAction.findRoomById(jsonObject.getInt("roomId"));
+                targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
 
                 if (targetRoom != null) {
-                    Player targetPlayer = PlayerAction.getEqualPlayerId(jsonObject.getString("id"));
+                    Player targetPlayer = PlayerAction.getEqualPlayerId(jsonObject.getJSONObject("data").getString("id"));
                     playerSession = webSocketSessionMap.get(targetPlayer.getSessionID());
                     playerSession.getBasicRemote().sendText(QuizController.sendQuizByJSON());
                 }
@@ -213,13 +202,13 @@ public class WebSocket {
 
             // 채팅 JSON
             case "CHAT_START":
-                targetRoom = RoomAction.findRoomById(jsonObject.getInt("roomId"));
+                targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
 
                 roomMembers = roomAction.getPlayerSessionId();
                 for (String playerSessionId : roomMembers) {
                     playerSession = webSocketSessionMap.get(playerSessionId);
-                    playerSession.getBasicRemote().sendText(jsonObject.getString("msg"));
+                    playerSession.getBasicRemote().sendText(jsonObject.getJSONObject("data").getString("msg"));
                 }
 
                 break;
@@ -228,7 +217,7 @@ public class WebSocket {
             case "SHOW_RANK":
                 JSONObject rankInfo = new JSONObject();
                 DBConnection db = new DBConnection();
-                rankInfo = db.showRank(jsonObject.getString("userId"));
+                rankInfo = db.showRank(jsonObject.getJSONObject("data").getString("userId"));
                 System.out.println(rankInfo);
                 rcvSession.getBasicRemote().sendText(String.valueOf(rankInfo));
         }
@@ -248,24 +237,12 @@ public class WebSocket {
         throwable.printStackTrace();
     }
 
-
     private String getConnectUserListToJSON() {
         JSONObject message = new JSONObject();
         JSONArray dataArray = new JSONArray();
 
         message.put("type", "USER_LIST");
 
-
-        for (HttpSession playerHttpSession : SessionManager.getSessionList()) {
-            int level = ((User) playerHttpSession.getAttribute("user")).getLevel();
-            String playerId = ((User) playerHttpSession.getAttribute("user")).getNick();
-
-            JSONObject tempObject = new JSONObject();
-            tempObject.put("level", level);
-            tempObject.put("playerId", playerId);
-
-            dataArray.put(tempObject);
-        }
 
         message.put("data", dataArray);
 
