@@ -14,8 +14,12 @@ public class GameController extends HttpServlet {
     public static String randomExaminerToJSON(String id, int roomId) {
         JSONObject message = new JSONObject();
         message.put("type", "randomExaminer");
-        message.put("id", id);
-        message.put("roomId", roomId);
+
+        JSONObject data = new JSONObject();
+        data.put("id", id);
+        data.put("roomId", roomId);
+
+        message.put("data", data);
 
         return message.toString();
     }

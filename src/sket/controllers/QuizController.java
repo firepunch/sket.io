@@ -45,17 +45,24 @@ public class QuizController extends HttpServlet {
 
         JSONObject message = new JSONObject();
         message.put("type", "CORRECT_ANSWER");
-        message.put("correcterId", correctP.getId());
-        message.put("examinerId", examinerP.getId());
-        message.put("score", score);
 
+        JSONObject data = new JSONObject();
+        data.put("correcterId", correctP.getId());
+        data.put("examinerId", examinerP.getId());
+        data.put("score", score);
+
+        message.put("data", data);
         return message.toString();
     }
 
     public static String sendCanvasData() {
-        String data = null;
+        String canvasData = null;
         JSONObject message = new JSONObject();
         message.put("type", "CANVAS_DATA");
+
+        JSONObject data = new JSONObject();
+        data.put("data", canvasData);
+
         message.put("data", data);
         // TODO: data 받고 JS의 redraw()실행
 

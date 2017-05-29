@@ -44,9 +44,18 @@ public class WebSocket {
     // 세션리스트에 접속한 세션 추가, Player 객체 생성, 생성된 룸 정보 보냄
     @OnOpen
     public void onOpen(Session rcvSession, EndpointConfig config) throws IOException, SQLException {
-        System.out.println("HttpSessionList Size : " + SessionManager.getSessionList().size());
 
+        System.out.println("HttpSessionList Size : " + SessionManager.getSessionList().size());
         HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
+
+        // HttpSession 이 null 일 시에 클라이언트에게 JSON 보냄
+        if (httpSession == null) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("type", "HttpSessionNULL");
+
+            rcvSession.getBasicRemote().sendText(jsonObject.toString());
+        }
+
         webSocketSessionMap.put(rcvSession.getId(), rcvSession);
 
         System.out.println("log : HttpSession : " + httpSession + "\n" +
