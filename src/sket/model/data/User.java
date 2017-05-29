@@ -1,7 +1,10 @@
 package sket.model.data;
 
+import java.util.ArrayList;
+
 public class User {
 
+    private static ArrayList<User> userList;
     private static int allocateGuestID = 100;
 
     private String id = null;
@@ -21,7 +24,7 @@ public class User {
         this.totalExp = totalExp;
         this.curExp = curExp;
 
-
+        userList.add(this);
     }
 
     public User(boolean isGuest) {
@@ -31,6 +34,7 @@ public class User {
             this.nick = "Guest_" + allocateGuestID + "";
 
             allocateGuestID += 1;
+            userList.add(this);
         }
     }
 
@@ -44,7 +48,7 @@ public class User {
         this.curExp = curExp;
     }
 
-    public boolean isGuest(){
+    public boolean isGuest() {
         return this.isGuest;
     }
 
@@ -102,5 +106,13 @@ public class User {
 
     public static void setAllocateGuestID(int guestID) {
         allocateGuestID = guestID;
+    }
+
+    public static ArrayList<User> getUserList() {
+        return userList;
+    }
+
+    public static void addUser(User user) {
+        userList.add(user);
     }
 }
