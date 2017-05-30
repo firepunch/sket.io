@@ -251,7 +251,8 @@ public class WebSocket {
             dataArray.put(tempObject);
         }
 
-        message.put("data", dataArray);
+        data.put("userList", dataArray);
+        message.put("data", data);
 
         return message.toString();
     }
