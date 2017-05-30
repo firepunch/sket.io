@@ -143,7 +143,6 @@ public class DBConnection {
     public JSONObject showRank(String id) throws SQLException {
         JSONObject outerJsonObject = new JSONObject();
         JSONObject dataJsonObject = new JSONObject();
-        outerJsonObject.put("type", "SHOW_RANK");
 
         // 자신의 랭킹
         String query = "SELECT nick, level, FIND_IN_SET( totalexp," +
@@ -156,6 +155,7 @@ public class DBConnection {
                 "FROM user p, (SELECT @curRank := 0) r ORDER BY totalexp desc";
         outerJsonObject.put("otherInfo", makeRankJsonObject(statement.executeQuery(query)));
         dataJsonObject.put("data", outerJsonObject);
+        dataJsonObject.put("type", "SHOW_RANK");
 
         DBClose();
         return dataJsonObject;
