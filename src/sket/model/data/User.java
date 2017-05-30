@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class User {
 
-    private static ArrayList<User> userList;
+    private static ArrayList<User> userList = new ArrayList<>();
     private static int allocateGuestID = 100;
 
     private String id = null;
