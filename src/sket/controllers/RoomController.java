@@ -23,15 +23,43 @@ public class RoomController {
         return room;
     }
 
+    /*
+
+        JSONObject message = new JSONObject();
+        message.put("type", "ROOM_INFO");
+
+        JSONObject data = new JSONObject();
+        data.put("roomId", "id");
+        data.put("name", "name");
+        data.put("lock", "lock");
+        data.put("playerNumber", "11");
+        data.put("roomMaster", "장호");
+        JSONArray jsonArray = new JSONArray();
+
+        JSONObject temp = new JSONObject();
+        temp.put("id", "플레이어 아이디");
+        JSONObject temp1 = new JSONObject();
+        temp1.put("id", "플레이어 아이디");
+        jsonArray.put(temp);
+        jsonArray.put(temp1);
+
+        data.put("playerList", jsonArray);
+        message.put("data", data);
+        System.out.println("" + message.toString());
+    */
+
     /* 방 정보 json 으로 반환하는 메소드 */
     public static JSONObject getRoomInfoToJSON(Room targetRoom) {
-        JSONObject object = new JSONObject();
-        object.put("roomId", targetRoom.getRoomId());
-        object.put("name", targetRoom.getRoomName());
-        object.put("lock", targetRoom.isLocked());
-        object.put("password", targetRoom.getRoomPwd());
-        object.put("playerNumber", targetRoom.getTotalUserNumber());
-        object.put("roomMaster", targetRoom.getRoomId());
+        JSONObject message = new JSONObject();
+        message.put("type", "ROOM_INFO");
+
+        JSONObject data = new JSONObject();
+        data.put("roomId", targetRoom.getRoomId());
+        data.put("name", targetRoom.getRoomName());
+        data.put("lock", targetRoom.isLocked());
+        data.put("password", targetRoom.getRoomPwd());
+        data.put("playerNumber", targetRoom.getTotalUserNumber());
+        data.put("roomMaster", targetRoom.getRoomId());
         JSONArray jsonArray = new JSONArray();
 
         for (Player player : Room.getRoomIntoPlayer(targetRoom)) {

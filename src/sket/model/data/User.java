@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class User {
 
-    private static ArrayList<User> userList = new ArrayList<>();
+    private static ArrayList<User> userList = new ArrayList<User>();
     private static int allocateGuestID = 100;
 
     private String id = null;
@@ -24,6 +24,7 @@ public class User {
         this.totalExp = totalExp;
         this.curExp = curExp;
 
+        System.out.println(this);
         userList.add(this);
     }
 

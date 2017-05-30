@@ -59,7 +59,6 @@ public class WebSocket {
         // session 에 룸 리스트 보냄
         rcvSession.getBasicRemote().sendText(RoomController.getRoomListAsJSON());
         rcvSession.getBasicRemote().sendText(getConnectUserListToJSON());
-
     }
 
     @OnMessage

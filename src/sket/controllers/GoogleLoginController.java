@@ -27,7 +27,6 @@ public class GoogleLoginController extends HttpServlet {
         DBConnection db = new DBConnection();
         OauthLogin oauthLogin = new OauthLogin();
         PrintWriter out = resp.getWriter();
-
         JSONObject sendJson = oauthLogin.getRcvJson(req, "GOOGLE", "user");
 
         req.setCharacterEncoding("euc-kr");
@@ -36,7 +35,7 @@ public class GoogleLoginController extends HttpServlet {
 
         String id = sendJson.getString("id");
         try {
-            sendJson = db.selectUser(sendJson.getString("id"), "google");
+            sendJson = db.selectUser(sendJson.getString("id"), "GOOGLE");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -65,8 +64,7 @@ public class GoogleLoginController extends HttpServlet {
             System.out.println("log : Google 기존회원 새로운 세션 생성");
 
             new User(
-                    id,
-                    nick,
+                    id, nick,
                     sendJson.getInt("level"),
                     sendJson.getInt("limitExp"),
                     sendJson.getInt("totalExp"),
