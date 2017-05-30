@@ -15,38 +15,12 @@ public class RoomController {
     /* 방 생성하는 메소드 */
     public static Room createRoom(String name, boolean isLock, String pwd, String masterId) {
         // 방 생성 코드. Room 생성자 안에 roomList 에 방 추가하는 코드 작성되있음.
-
         Room room = new Room(name, PlayerAction.getEqualPlayerId(masterId), Room.getCountRoomId(), isLock, pwd);
         Player player = PlayerAction.getEqualPlayerId(masterId);
         player.setMaster(true);
 
         return room;
     }
-
-    /*
-
-        JSONObject message = new JSONObject();
-        message.put("type", "ROOM_INFO");
-
-        JSONObject data = new JSONObject();
-        data.put("roomId", "id");
-        data.put("name", "name");
-        data.put("lock", "lock");
-        data.put("playerNumber", "11");
-        data.put("roomMaster", "장호");
-        JSONArray jsonArray = new JSONArray();
-
-        JSONObject temp = new JSONObject();
-        temp.put("id", "플레이어 아이디");
-        JSONObject temp1 = new JSONObject();
-        temp1.put("id", "플레이어 아이디");
-        jsonArray.put(temp);
-        jsonArray.put(temp1);
-
-        data.put("playerList", jsonArray);
-        message.put("data", data);
-        System.out.println("" + message.toString());
-    */
 
     /* 방 정보 json 으로 반환하는 메소드 */
     public static String getRoomInfoToJSON(Room targetRoom) {
