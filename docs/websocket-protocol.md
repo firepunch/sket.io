@@ -1,4 +1,5 @@
 <b>모든 key-value는 쌍따옴표(")로 쌓여있다.</b><br>
+<b>최상위 key는 type과 data뿐이다.</b> type을 제외한 정보는 data안에 위치한다.<br>
 
 예 ) "type" : "GOOGLE"
 
