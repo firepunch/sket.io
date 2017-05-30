@@ -22,10 +22,7 @@ export const SEND_MESSAGE = "SEND_MESSAGE";             // 소켓 메시지 전�
 export const SEND_MESSAGE_FINISH = "SEND_MESSAGE_FINISH";   // 소켓 메시지 전송 완료
 
 // header function
-// export const CREATE_ROOM    = "CREATE_ROOM";
-export const QUICK_START = "QUICK_START";
-export const SHOW_RANKING = "SHOW_RANKING";
-export const ENTER_ROOM = "ENTER_ROOM";
+export const SHOW_RANK = "SHOW_RANK";
 
 export const GET_USER_LIST = "GET_USER_LIST";
 export const GET_ROOM_LIST = "GET_ROOM_LIST";

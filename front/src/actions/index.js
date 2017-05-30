@@ -125,6 +125,54 @@ export function sendMessageFinish() {
     }
 }
 
+
+/* Websocket Request */
+
+// 방 생성
+export function createRoom(roomInfo) {
+    return {
+        type: types.SEND_MESSAGE,
+        msg_type: "CREATE_ROOM",
+        data: roomInfo
+    }
+}
+
+// 빠른 시작
+export function quickStart() {
+    return {
+        type: types.SEND_MESSAGE,
+        msg_type: "QUICK_START",
+        data: {}
+    }
+}
+
+// 랭킹
+export function showRanking(userId) {
+    return dispatch => {
+        dispatch( requestRanking(userId) );
+        dispatch( handleRanking() )
+    }
+}
+
+// 랭킹 요청
+function requestRanking(userId) {
+    return {
+        type: types.SEND_MESSAGE,
+        msg_type: "SHOW_RANK",
+        data: userId
+    }
+}
+
+// 랭킹 관련 state 변수 변경
+function handleRanking() {
+    return {
+        type: types.SHOW_RANK
+    }
+}
+
+
+/* Websocket Response */
+
 export function messageReceived() {
 
 }
@@ -151,14 +199,6 @@ export function getRanking(ranking) {
     }
 }
 
-export function createRoom(roomInfo) {
-    return {
-        type: types.SEND_MESSAGE,
-        msg_type: "CREATE_ROOM",
-        data: roomInfo
-    }
-}
-
 
 
 /* GAME */
@@ -167,13 +207,5 @@ export function getReady() {
     return {
         type: types.GET_READY,
         // isReady     // boolean
-    }
-}
-
-
-/* TEST */
-export function switch_index() {
-    return {
-        type: types.SWITCH_INDEX
     }
 }

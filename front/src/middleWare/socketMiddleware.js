@@ -25,12 +25,10 @@ const socketMiddleware = (() => {
                 break;
 
             case "ROOM_LIST":
-                console.log(msg);
-
                 store.dispatch(actions.getRoomList(msg.data));
                 break;
 
-            case "RANKING":
+            case "SHOW_RANK":
                 store.dispatch(actions.getRanking(msg.data));
 
             default:

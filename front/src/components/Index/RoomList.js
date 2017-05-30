@@ -1,7 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 
-import Room from './Room';
-
 const propTypes = {
 };
 
@@ -13,10 +11,21 @@ class RoomList extends Component {
         super(props);
     }
     render() {
+        const rooms = (
+            <div>
+                { this.props.roomList }
+            </div>
+        )
+
+        const rank = (
+            <div>
+                { this.props.ranking }
+            </div>
+        )
+
         return(
             <div id="room-list" className="component-container index-right index-bottom">
-                <div>RoomList</div>
-                <Room/>
+                { this.props.isShowRanking }
             </div>
         );
     }

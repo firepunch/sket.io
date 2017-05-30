@@ -1,5 +1,4 @@
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import { PropTypes as ReactPropTypes } from 'prop-types';
 
 import UserProfile from '../components/Index/UserProfile';
@@ -9,7 +8,7 @@ import ConnectingUserList from '../components/Index/ConnectingUserList';
 
 
 function createWarning(funcName) {
-    return () => console.warn(funcName + ' is not defined');
+    return () => console.warn(funcName + ' is not defined in IndexContent');
 }
 
 const propTypes = {
@@ -20,7 +19,11 @@ const propTypes = {
     ranking: ReactPropTypes.array,
 
     handleLogout: ReactPropTypes.func,
-    handleCreateRoom: ReactPropTypes.func
+    handleCreateRoom: ReactPropTypes.func,
+    handleQuickStart: ReactPropTypes.func,
+    handleShowRanking: ReactPropTypes.func,
+
+    isShowRanking: ReactPropTypes.bool
 };
 
 const defaultProps = {
@@ -31,7 +34,11 @@ const defaultProps = {
     ranking: [],
 
     handleLogout: createWarning('handleLogout'),
-    handleCreateRoom: createWarning('handleCreateRoom')
+    handleCreateRoom: createWarning('handleCreateRoom'),
+    handleQuickStart: createWarning('handleQuickStart'),
+    handleShowRanking: createWarning('handleShowRanking'),
+
+    isShowRanking: false
 };
 
 class IndexContent extends Component {
@@ -42,7 +49,7 @@ class IndexContent extends Component {
     render() {
         return(
             <div className="sket-index">
-                <div class="logout">
+                <div className="logout">
                     <button onClick={ this.props.handleLogout }>
                         로그아웃
                     </button>
@@ -54,6 +61,10 @@ class IndexContent extends Component {
 
                     <FuncButtonArea
                         handleCreateRoom={ this.props.handleCreateRoom }
+                        handleQuickStart={ this.props.handleQuickStart }
+                        handleShowRanking={ this.props.handleShowRanking }
+                        isShowRanking={ this.props.isShowRanking }
+                        userId={ this.props.user.id }
                     />
 
                     <ConnectingUserList
@@ -63,6 +74,7 @@ class IndexContent extends Component {
                     <RoomList
                         roomList={ this.props.roomList }
                         ranking={ this.props.ranking }
+                        isShowRanking={ this.props.isShowRanking }
                     />
                 </div>
 

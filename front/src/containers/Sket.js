@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PropTypes as ReactPropTypes } from 'prop-types';
 
@@ -13,7 +13,7 @@ import * as actions from '../actions';
 
 
 function createWarning(funcName) {
-    return () => console.warn(funcName + ' is not defined');
+    return () => console.warn(funcName + ' is not defined in Sket');
 }
 
 const propTypes = {
@@ -30,6 +30,7 @@ const propTypes = {
     userList: ReactPropTypes.array,
     roomList: ReactPropTypes.array,
     ranking: ReactPropTypes.array,
+    isShowRanking: ReactPropTypes.bool,
 
     /* dispatcher function */
     handleLoginRequest: ReactPropTypes.func,
@@ -38,7 +39,9 @@ const propTypes = {
 
     handleLogout: ReactPropTypes.func,
 
-    handleCreateRoom: ReactPropTypes.func
+    handleCreateRoom: ReactPropTypes.func,
+    handleQuickStart: ReactPropTypes.func,
+    handleShowRanking: ReactPropTypes.func
 };
 
 const defaultProps = {
@@ -55,6 +58,7 @@ const defaultProps = {
     userList: [],
     roomList: [],
     ranking: [],
+    isShowRanking: false,
 
     /* dispatcher function */
     handleLoginRequest: createWarning('handleLoginRequest'),
@@ -63,14 +67,13 @@ const defaultProps = {
 
     handleLogout: createWarning('handleLogout'),
 
-    handleCreateRoom: createWarning('handleCreateRoom')
+    handleCreateRoom: createWarning('handleCreateRoom'),
+    handleQuickStart: createWarning('handleQuickStart'),
+    handleShowRanking: createWarning('handleShowRanking')
 };
 
 
 class Sket extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
 
@@ -129,6 +132,9 @@ class Sket extends Component {
 
                     handleLogout={ this.props.handleLogout }
                     handleCreateRoom={ this.props.handleCreateRoom }
+                    handleQuickStart={ this.props.handleQuickStart }
+                    handleShowRanking={ this.props.handleShowRanking }
+                    isShowRanking={ this.props.isShowRanking }
                 />
         )
 
@@ -157,7 +163,7 @@ const mapStateToProps = (state) => {
     const { isLoggedIn, fetchingUpdate, user } = state.login;
 
     const { fetchingConnect, isConnecting, isSocketFetching } = state.main;
-    const { userList, roomList, ranking } = state.main;
+    const { userList, roomList, ranking, isShowRanking } = state.main;
 
     return {
         /* 로그인 */
@@ -169,6 +175,7 @@ const mapStateToProps = (state) => {
         fetchingConnect,
         isConnecting,
         isSocketFetching,
+        isShowRanking,
 
         userList,
         roomList,
@@ -187,7 +194,9 @@ const mapDispatchToProps = (dispatch) => {
         handleLogout: () => { dispatch(actions.handleLogout()) },
 
         /* 대기 화면 핸들링 */
-        handleCreateRoom: (roomInfo) => { dispatch(actions.createRoom(roomInfo)) }
+        handleCreateRoom: (roomInfo) => { dispatch(actions.createRoom(roomInfo)) },
+        handleQuickStart: () => { dispatch(actions.quickStart()) },
+        handleShowRanking: (userId) => { dispatch(actions.showRanking(userId)) }
     };
 }
 

@@ -1,17 +1,79 @@
 import React, { Component, PropTypes } from 'react';
 import { modal } from 'react-redux-modal';
-
-// import FuncButton from './FuncButton';
-
+import { PropTypes as ReactPropTypes } from 'prop-types';
 
 const propTypes = {
-    modalType: React.PropTypes.number
+    handleCreateRoom: ReactPropTypes.func,
+    handleQuickStart: ReactPropTypes.func,
+    handleShowRanking: ReactPropTypes.func,
+    isShowRanking: ReactPropTypes.bool,
+    userId: ReactPropTypes.string
 };
 
 const defaultProps = {
-    modalType: 0
+    handleCreateRoom: createWarning('handleCreateRoom'),
+    handleQuickStart: createWarning('handleQuickStart'),
+    handleShowRanking: createWarning('handleShowRanking'),
+
+    isShowRanking: false,
+
+    userId: ''
 };
 
+function createWarning(funcName) {
+    return () => console.warn(funcName + ' is not defined in FuncButtonArea');
+}
+
+
+class FuncButtonArea extends Component {
+    constructor(props) {
+        super(props);
+
+        this.handleQuickStart = this.props.handleQuickStart.bind(this);
+    }
+
+    addModal() {
+        modal.add(modalComponent, {
+            title: '방 만들기',
+            size: 'medium', // large, medium or small,
+            closeOnOutsideClick: true, // (optional) Switch to true if you want to close the modal by clicking outside of it,
+            hideTitleBar: false, // (optional) Switch to true if do not want the default title bar and close button,
+            hideCloseButton: false, // (optional) if you don't wanna show the top right close button
+            //.. all what you put in here you will get access in the modal props ;)
+            handleCreateRoom: this.props.handleCreateRoom,   // 방 생성을 위한 함수
+        });
+    }
+
+    render() {
+        return(
+            <div id="sket-header" className="component-container index-right index-top">
+
+                <div>
+                    <div className="sket-button" id="craete-room">
+                        <button className="action-button shadow animate blue"
+                                onClick={ this.addModal.bind(this) } >
+                            <p>방 만들기</p>
+                        </button>
+                    </div>
+
+                    <div className="sket-button" id="quick-start">
+                        <button className="action-button shadow animate green"
+                                onClick={ this.props.handleQuickStart }>
+                            <p>빠른 시작</p>
+                        </button>
+                    </div>
+
+                    <div className="sket-button" id="ranking">
+                        <button className="action-button shadow animate yellow"
+                                onClick={ () => this.props.handleShowRanking(this.props.userId) }>
+                            <p>{ this.props.isShowRanking ? "방 목록" : "랭킹" }</p>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
 
 class modalComponent extends Component {
     constructor(props) {
@@ -145,52 +207,6 @@ class modalComponent extends Component {
                         className="action-button shadow animate red">
                         <p>취소</p>
                     </button>
-                </div>
-            </div>
-        );
-    }
-}
-
-class FuncButtonArea extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    addModal() {
-        modal.add(modalComponent, {
-            title: '방 만들기',
-            size: 'medium', // large, medium or small,
-            closeOnOutsideClick: true, // (optional) Switch to true if you want to close the modal by clicking outside of it,
-            hideTitleBar: false, // (optional) Switch to true if do not want the default title bar and close button,
-            hideCloseButton: false, // (optional) if you don't wanna show the top right close button
-            //.. all what you put in here you will get access in the modal props ;)
-            handleCreateRoom: this.props.handleCreateRoom   // 방 생성을 위한 함수
-        });
-    }
-
-    render() {
-        return(
-            <div id="sket-header" className="component-container index-right index-top">
-
-                <div>
-                    <div className="sket-button" id="craete-room">
-                        <button onClick={this.addModal.bind(this)}
-                                className="action-button shadow animate blue">
-                            <p>방 만들기</p>
-                        </button>
-                    </div>
-
-                    <div className="sket-button" id="quick-start">
-                        <button className="action-button shadow animate green">
-                            <p>빠른 시작</p>
-                        </button>
-                    </div>
-
-                    <div className="sket-button" id="ranking">
-                        <button className="action-button shadow animate yellow">
-                            <p>랭킹</p>
-                        </button>
-                    </div>
                 </div>
             </div>
         );

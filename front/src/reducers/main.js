@@ -4,6 +4,8 @@ const initialState = {
     fetchingConnect: false,  // 소켓 연결 중
     isConnecting: false,     // 소켓 연결 여부
     isSocketFetching: false,  // 소켓 request / response 중
+    isShowRanking: false,    // 랭킹 보여주는지
+
     userList: [],
     roomList: [],
     ranking: []
@@ -58,6 +60,13 @@ export default function main(state=initialState, action) {
             return {
                 ...state,
                 ranking: action.ranking
+            }
+
+
+        case types.SHOW_RANK:
+            return {
+                ...state,
+                isShowRanking: !state.isShowRanking
             }
 
         default:
