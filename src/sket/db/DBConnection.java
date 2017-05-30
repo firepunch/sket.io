@@ -86,10 +86,9 @@ public class DBConnection {
             while (rs.next()) {
                 rowCnt = rs.getInt("COUNT(*)");
             }
-            nick = nick + rowCnt;
+            nick = String.format("nick%s", rowCnt);
         }
         query = "INSERT INTO user VALUES ('" + id + "','" + nick + "', 1, 300, 0, 0);";
-        System.out.println("sq  " + query);
 
         try {
             statement.executeUpdate(query);
@@ -105,7 +104,6 @@ public class DBConnection {
     public JSONObject selectUser(String id, String type) throws SQLException {
         JSONObject jsonObject = new JSONObject();
         String query = "SELECT * FROM user WHERE id='" + id + "'";
-        System.out.println(id + "            " + type);
         try {
             resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
@@ -150,49 +148,16 @@ public class DBConnection {
         String query = "SELECT nick, level, FIND_IN_SET( totalexp," +
                 "(SELECT GROUP_CONCAT(totalexp ORDER BY totalexp DESC)FROM user))AS rank " +
                 "FROM user WHERE id=" + id;
-        outerJsonObject.put("myInfo",makeRankJsonObject(statement.executeQuery(query)));
+        outerJsonObject.put("myInfo", makeRankJsonObject(statement.executeQuery(query)));
 
         // 다른 사람들의 랭킹
         query = "SELECT nick, level, @curRank := @curRank + 1 AS rank " +
                 "FROM user p, (SELECT @curRank := 0) r ORDER BY totalexp desc";
-        outerJsonObject.put("otherInfo",makeRankJsonObject(statement.executeQuery(query)));
+        outerJsonObject.put("otherInfo", makeRankJsonObject(statement.executeQuery(query)));
 
         DBClose();
         return outerJsonObject;
     }
-/*
-    public JSONArray showRank(String id) throws SQLException {
-        JSONArray jsonArray = new JSONArray();
-        JSONObject jsonObject = new JSONObject();
-        // 자신의 랭킹
-        String query = "SELECT nick, level, FIND_IN_SET( totalexp," +
-                "(SELECT GROUP_CONCAT(totalexp ORDER BY totalexp DESC)FROM user))AS rank " +
-                "FROM user WHERE id=" + id;
-        System.out.println("old   " + query);
-        resultSet = statement.executeQuery(query);
-        if (resultSet.next()) {
-            jsonObject.put("type", "SHOW_RANK");
-            jsonObject.put("nick", resultSet.getString("nick"));
-            jsonObject.put("level", resultSet.getString("level"));
-            jsonObject.put("rank", resultSet.getString("rank"));
-            jsonArray.put(jsonObject);
-        }
-
-        // 다른 사람들의 랭킹
-        query = "SELECT nick, level, @curRank := @curRank + 1 AS rank " +
-                "FROM user p, (SELECT @curRank := 0) r ORDER BY totalexp desc";
-        System.out.println("new   " + query);
-        resultSet = statement.executeQuery(query);
-        while (resultSet.next()) {
-            jsonObject.put("nick", resultSet.getString("nick"));
-            jsonObject.put("level", resultSet.getString("level"));
-            jsonObject.put("rank", resultSet.getString("rank"));
-            jsonArray.put(jsonArray);
-        }
-        DBClose();
-        return jsonArray;
-    }
-*/
 
     private void DBClose() {
         try {

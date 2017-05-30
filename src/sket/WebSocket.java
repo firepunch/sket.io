@@ -28,7 +28,7 @@ import java.util.Map;
  * Created by hojak on 2017-04-06.
  */
 
-@ServerEndpoint(value = "/websocket", configurator = GetHttpSessionConfigurator.class)
+@ServerEndpoint(value = "/websocket")
 public class WebSocket {
 
     // 현재 웹소켓에 연결되어 있는 session 을 저장하는 ArrayList (HttpSession 과 다름)
@@ -59,7 +59,6 @@ public class WebSocket {
         // session 에 룸 리스트 보냄
         rcvSession.getBasicRemote().sendText(RoomController.getRoomListAsJSON());
         rcvSession.getBasicRemote().sendText(getConnectUserListToJSON());
-
     }
 
     @OnMessage
@@ -82,7 +81,7 @@ public class WebSocket {
                 );
 
                 rcvSession.getBasicRemote().sendText(
-                        RoomController.getRoomInfoToJSON(targetRoom).put("type", "ROOM_INFO").toString()
+                        RoomController.getRoomInfoToJSON(targetRoom)
                 );
                 break;
 
@@ -93,6 +92,7 @@ public class WebSocket {
 
             // 방 들어갔을 때 보내는 JSON
             case "ENTER_ROOM":
+
                 targetRoom = RoomAction.enterRoom(
                         jsonObject.getJSONObject("data").getInt("roomId"),
                         jsonObject.getJSONObject("data").getString("userId")
@@ -100,17 +100,16 @@ public class WebSocket {
 
                 roomAction = new RoomAction(targetRoom);
 
-                if (targetRoom != null && roomAction != null) {
-                    roomMembers = roomAction.getPlayerSessionId();
+                enterRoomPlayerHelp();
+                break;
 
-                    for (String playerSessionId : roomMembers) {
-                        playerSession = webSocketSessionMap.get(playerSessionId);
+            // 빠른 시작 시 JSON
+            case "QUICK_START":
+                targetRoom = RoomAction.getRandomRoom(jsonObject.getJSONObject("data").getString("roomId"));
 
-                        playerSession.getBasicRemote().sendText(
-                                RoomController.getRoomInfoToJSON(targetRoom).put("type", "ROOM_INFO").toString()
-                        );
-                    }
-                }
+                roomAction = new RoomAction(targetRoom);
+
+                enterRoomPlayerHelp();
                 break;
 
             // 플레이어가 방에서 준비했을 때 보내는 JSON. 만약 방장 제외 모두 준비했을 시 방장에거 모두 준비했다고 알림!
@@ -220,6 +219,8 @@ public class WebSocket {
                 rankInfo = db.showRank(jsonObject.getJSONObject("data").getString("userId"));
                 System.out.println(rankInfo);
                 rcvSession.getBasicRemote().sendText(String.valueOf(rankInfo));
+                break;
+
         }
     }
 
@@ -239,14 +240,34 @@ public class WebSocket {
 
     private String getConnectUserListToJSON() {
         JSONObject message = new JSONObject();
-        JSONArray dataArray = new JSONArray();
-
         message.put("type", "USER_LIST");
 
+        JSONObject data = new JSONObject();
+        JSONArray dataArray = new JSONArray();
+
+        for (User user : User.getUserList()) {
+            JSONObject tempObject = new JSONObject();
+            tempObject.put("level", user.getId());
+            tempObject.put("playerId", user.getLevel());
+            dataArray.put(tempObject);
+        }
 
         message.put("data", dataArray);
 
         return message.toString();
     }
 
+    private void enterRoomPlayerHelp() throws IOException {
+        if (targetRoom != null && roomAction != null) {
+            roomMembers = roomAction.getPlayerSessionId();
+
+            for (String playerSessionId : roomMembers) {
+                playerSession = webSocketSessionMap.get(playerSessionId);
+
+                playerSession.getBasicRemote().sendText(
+                        RoomController.getRoomInfoToJSON(targetRoom)
+                );
+            }
+        }
+    }
 }

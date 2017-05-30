@@ -26,15 +26,16 @@ public class FBLoginController extends HttpServlet {
         OauthLogin oauthLogin = new OauthLogin();
         PrintWriter out = resp.getWriter();
 
-        JSONObject sendJson = oauthLogin.getRcvJson(req, "facebook", "user");
+        JSONObject sendJson = oauthLogin.getRcvJson(req, "FACEBOOK", "user");
 
         req.setCharacterEncoding("euc-kr");
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
 
         String id = sendJson.getString("id");
+
         try {
-            sendJson = db.selectUser(sendJson.getString("id"), "facebook");
+            sendJson = db.selectUser(sendJson.getString("id"), "FACEBOOK");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -60,19 +61,18 @@ public class FBLoginController extends HttpServlet {
             System.out.println("log : " + "FB 새로운 세션, 신규회원 생성");
         } else {
             new User(
-                    id,
-                    nick,
+                    id, nick,
                     sendJson.getInt("level"),
                     sendJson.getInt("limitExp"),
                     sendJson.getInt("totalExp"),
                     sendJson.getInt("curExp")
             );
+
             System.out.println("log : fb 기존회원 새로운 세션 생성");
         }
 
         out.print(sendJson);
         out.flush();
-
 //            로그아웃
 //            session.invalidate();
     }
