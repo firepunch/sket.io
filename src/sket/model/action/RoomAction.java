@@ -6,6 +6,7 @@ import sket.model.data.Room;
 import javax.websocket.Session;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Random;
 
 /**
  * Created by KwonJH on 2017-04-28.
@@ -66,6 +67,23 @@ public class RoomAction {
                 return room;
             }
         }
+        return null;
+    }
+
+    public static Room getRandomRoom(String userId) {
+
+        double randomValue = Math.random();
+        int rand = 0;
+        if (Room.getRoomList().size() != 0) {
+            rand = (int) (randomValue * Room.getRoomList().size()) + 1;
+            for (Room targetRoom : Room.getRoomList()) {
+                if (targetRoom.getRoomId() == rand) {
+                    targetRoom.addPlayer(PlayerAction.getEqualPlayerId(userId));
+                    return targetRoom;
+                }
+            }
+        }
+
         return null;
     }
 }
