@@ -32,8 +32,6 @@ public class FBLoginController extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
 
-        System.out.println(sendJson.toString());
-
         String id = sendJson.getString("id");
 
         try {
@@ -63,8 +61,7 @@ public class FBLoginController extends HttpServlet {
             System.out.println("log : " + "FB 새로운 세션, 신규회원 생성");
         } else {
             new User(
-                    id,
-                    nick,
+                    id, nick,
                     sendJson.getInt("level"),
                     sendJson.getInt("limitExp"),
                     sendJson.getInt("totalExp"),

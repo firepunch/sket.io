@@ -40,12 +40,10 @@ public class OauthLogin {
 //            String token = rcvJson.getJSONObject("tokenObj").getString("access_token");
             sendJson.put("id", rcvJson.getString("googleId"));
             sendJson.put("picture", rcvJson.getJSONObject("profileObj").getString("imageUrl"));
-            System.out.println(type + rcvJson.getString("googleId"));
         } else if (type.equals("FACEBOOK")) {
 //            String token = rcvJson.getString("accessToken");
             sendJson.put("id", rcvJson.getString("id"));
             sendJson.put("picture", rcvJson.getJSONObject("picture").getJSONObject("data").getString("url"));
-            System.out.println(type + rcvJson.getString("id"));
         }
 
         return sendJson;
