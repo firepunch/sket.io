@@ -14,7 +14,6 @@ import sket.model.data.Player;
 import sket.model.data.Room;
 import sket.model.data.User;
 
-import javax.servlet.http.HttpSession;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;

@@ -142,6 +142,7 @@ public class DBConnection {
     /* 랭킹 오름차순 조회 */
     public JSONObject showRank(String id) throws SQLException {
         JSONObject outerJsonObject = new JSONObject();
+        JSONObject dataJsonObject = new JSONObject();
         outerJsonObject.put("type", "SHOW_RANK");
 
         // 자신의 랭킹
@@ -154,9 +155,10 @@ public class DBConnection {
         query = "SELECT nick, level, @curRank := @curRank + 1 AS rank " +
                 "FROM user p, (SELECT @curRank := 0) r ORDER BY totalexp desc";
         outerJsonObject.put("otherInfo", makeRankJsonObject(statement.executeQuery(query)));
+        dataJsonObject.put("data", outerJsonObject);
 
         DBClose();
-        return outerJsonObject;
+        return dataJsonObject;
     }
 
     private void DBClose() {
