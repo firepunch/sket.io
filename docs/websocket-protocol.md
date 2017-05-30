@@ -41,7 +41,7 @@
     </tr>
     <tr>
         <td>게스트 로그인</td>
-        <td></td>
+        <td align="center">-</td>
         <td>
             type : GUEST,<br>
             id: (유저 아이디),<br>
@@ -53,6 +53,46 @@
         </td>
     </tr>
     <tr>
+        <td>유저 리스트</td>
+        <td align="center">-</td>
+        <td>
+            type : USER_LIST,<br>
+            userList : [
+                {
+                    name: (유저 이름),
+                    level: (레벨)
+                },
+                {
+                    name: (유저 이름),
+                    level: (레벨)
+                }
+            ]
+    </tr>
+    <tr>
+        <td>방 리스트</td>
+        <td align="center">-</td>
+        <td>
+            type : ROOM_LIST,<br>
+            roomList : [
+                {
+                    roomName: (방 이름),
+                    round: ,
+                    timeLimit: ,
+                    userNumLimit: ,
+                    userNum: ,
+                    isLocked: 
+                },
+                {
+                    roomName: (방 이름),
+                    round: ,
+                    timeLimit: ,
+                    userMax: ,
+                    userNum: ,
+                    isLocked: 
+                }
+            ]
+    </tr>
+    <tr>
         <td>방 생성</td>
         <td>
             type : CREATE_ROOM,<br>
@@ -61,12 +101,7 @@
             password : (null or 1234),<br>
             master : (유저 아이디)
         </td>
-        <td>type : CREATE_ROOM,<br>
-            roomName : (방 이름),<br>
-            lock : (true or false),<br>
-            master : (유저 아이디),<br>
-            roomId : (룸 아이디)
-        </td>
+        <td align="center">-</td>
     </tr>
     <tr>
         <td>방 입장</td>
@@ -76,8 +111,6 @@
         </td>
         <td>type : ENTER_ROOM,<br>
             roomId : (방 아이디),<br>
-            userId : (user id),<br>
-            userNum : (총 인원 수),<br>
             readyUser : [{<br>
             &nbsp;&nbsp;id : (유저 아이디),<br>
             &nbsp;&nbsp;isReady : (boolean)
