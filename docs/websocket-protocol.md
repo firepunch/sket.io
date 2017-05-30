@@ -102,7 +102,9 @@
             password : (null or 1234),<br>
             master : (유저 아이디)
         </td>
-        <td align="center">-</td>
+        <td>type : CREATE_ROOM,<br>
+-            roomId : (룸 아이디)
+-        </td>
     </tr>
     <tr>
         <td>방 입장</td>

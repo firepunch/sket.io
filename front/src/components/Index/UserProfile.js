@@ -1,11 +1,19 @@
 import React, { Component, PropTypes } from 'react';
+import { PropTypes as ReactPropTypes } from 'prop-types';
 
 const propTypes = {
-    divStyle: React.PropTypes.string
+    divStyle: React.PropTypes.string,
+    user: ReactPropTypes.object
 };
 
 const defaultProps = {
-    divStyle: ''
+    divStyle: '',
+    user: {
+        nick: 'GUEST',
+        level: 1,
+        curExp: 0,
+        limitExp: 300
+    }
 };
 
 class UserProfile extends Component {
@@ -37,13 +45,13 @@ class UserProfile extends Component {
         return(
             <div id="sket-profile" className="component-container index-left index-top" style={divStyle}>
                 <div className="profile-image">
-                    <img src={this.props.user.picture} alt="error"/>
+                    <img src={ this.props.user.picture } alt="error"/>
                 </div>
 
                 <div className="user-info">
-                    <p>GUEST10547</p>
-                    <p>Lv.1</p>
-                    <p>exp bar</p>
+                    <p>{ this.props.user.nick }</p>
+                    <p>Lv.{ this.props.user.level }</p>
+                    <p>{ this.props.user.curExp } / { this.props.user.limitExp }</p>
                 </div>
             </div>
         );
