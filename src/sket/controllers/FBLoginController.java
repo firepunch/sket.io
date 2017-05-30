@@ -32,7 +32,10 @@ public class FBLoginController extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
 
+        System.out.println(sendJson.toString());
+
         String id = sendJson.getString("id");
+
         try {
             sendJson = db.selectUser(sendJson.getString("id"), "FACEBOOK");
         } catch (SQLException e) {
@@ -67,12 +70,12 @@ public class FBLoginController extends HttpServlet {
                     sendJson.getInt("totalExp"),
                     sendJson.getInt("curExp")
             );
+
             System.out.println("log : fb 기존회원 새로운 세션 생성");
         }
 
         out.print(sendJson);
         out.flush();
-
 //            로그아웃
 //            session.invalidate();
     }

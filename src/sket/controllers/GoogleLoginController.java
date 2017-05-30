@@ -49,6 +49,7 @@ public class GoogleLoginController extends HttpServlet {
                 e.printStackTrace();
                 throw new IOException("oauth login insert error " + e);
             }
+
             sendJson.put("id", id);
             sendJson.put("nick", nick);
             sendJson.put("level", 1);
@@ -63,8 +64,7 @@ public class GoogleLoginController extends HttpServlet {
             System.out.println("log : Google 기존회원 새로운 세션 생성");
 
             new User(
-                    id,
-                    nick,
+                    id, nick,
                     sendJson.getInt("level"),
                     sendJson.getInt("limitExp"),
                     sendJson.getInt("totalExp"),
