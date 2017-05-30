@@ -27,7 +27,8 @@ public class GoogleLoginController extends HttpServlet {
         DBConnection db = new DBConnection();
         OauthLogin oauthLogin = new OauthLogin();
         PrintWriter out = resp.getWriter();
-        JSONObject sendJson = oauthLogin.getRcvJson(req, "google", "user");
+
+        JSONObject sendJson = oauthLogin.getRcvJson(req, "GOOGLE", "user");
 
         req.setCharacterEncoding("euc-kr");
         resp.setCharacterEncoding("UTF-8");
@@ -49,6 +50,7 @@ public class GoogleLoginController extends HttpServlet {
                 e.printStackTrace();
                 throw new IOException("oauth login insert error " + e);
             }
+
             sendJson.put("id", id);
             sendJson.put("nick", nick);
             sendJson.put("level", 1);
