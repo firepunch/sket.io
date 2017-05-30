@@ -49,7 +49,7 @@ public class RoomController {
     */
 
     /* 방 정보 json 으로 반환하는 메소드 */
-    public static JSONObject getRoomInfoToJSON(Room targetRoom) {
+    public static String getRoomInfoToJSON(Room targetRoom) {
         JSONObject message = new JSONObject();
         message.put("type", "ROOM_INFO");
 
@@ -57,7 +57,6 @@ public class RoomController {
         data.put("roomId", targetRoom.getRoomId());
         data.put("name", targetRoom.getRoomName());
         data.put("lock", targetRoom.isLocked());
-        data.put("password", targetRoom.getRoomPwd());
         data.put("playerNumber", targetRoom.getTotalUserNumber());
         data.put("roomMaster", targetRoom.getRoomId());
         JSONArray jsonArray = new JSONArray();
@@ -68,24 +67,24 @@ public class RoomController {
             jsonArray.put(temp);
         }
 
-        object.put("playerList", jsonArray);
-        return object;
+        data.put("playerList", jsonArray);
+        message.put("data", data);
+        return message.toString();
     }
 
     /* 방 목록을 json 으로 보내는 메소드 */
     public static String getRoomListAsJSON() {
         JSONObject message = new JSONObject();
         message.put("type", "ROOM_LIST");
-        JSONArray jsonArray = new JSONArray();
 
-        /* 방생성 테스트 코드 */
-//        RoomController.createRoom("방제목", false, null, "아디");
-//        RoomController.createRoom("방제목2", true, "123123", "아디");
+        JSONObject data = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
 
         System.out.println("log : 방 목록 리스트 사이즈 : " + Room.getRoomList().size());
 
         if (Room.getRoomList().size() == 0) {
-            message.put("size", 0);
+            data.put("size", 0);
+            message.put("data", data);
             return message.toString();
         }
 
@@ -100,7 +99,8 @@ public class RoomController {
             jsonArray.put(object);
         }
 
-        message.put("roomList", jsonArray);
+        data.put("roomList", jsonArray);
+        message.put("data", data);
         return message.toString();
 
         /*

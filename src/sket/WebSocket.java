@@ -81,7 +81,7 @@ public class WebSocket {
                 );
 
                 rcvSession.getBasicRemote().sendText(
-                        RoomController.getRoomInfoToJSON(targetRoom).put("type", "ROOM_INFO").toString()
+                        RoomController.getRoomInfoToJSON(targetRoom)
                 );
                 break;
 
@@ -265,7 +265,7 @@ public class WebSocket {
                 playerSession = webSocketSessionMap.get(playerSessionId);
 
                 playerSession.getBasicRemote().sendText(
-                        RoomController.getRoomInfoToJSON(targetRoom).put("type", "ROOM_INFO").toString()
+                        RoomController.getRoomInfoToJSON(targetRoom)
                 );
             }
         }
