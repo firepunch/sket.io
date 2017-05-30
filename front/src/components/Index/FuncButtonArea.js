@@ -140,7 +140,7 @@ class modalComponent extends Component {
     createRoom() {
         this.props.handleCreateRoom({
             ...this.state,
-            isLocked: !(this.state.password == null)
+            lock: !(this.state.password == null)
         });
 
         this.removeThisModal();

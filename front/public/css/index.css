@@ -208,6 +208,20 @@ height 768px	540	           135
     top: 23%;
 
     float: left;
+    overflow: scroll;
+}
+
+.user-list {
+    display: flex;
+    flex-direction: row;
+}
+
+.user-list p {
+    font-size: 1.2em;
+}
+
+.user-list p:nth-child(2) {
+    margin-left: 5%;
 }
 
 /* 방 목록  */
@@ -230,6 +244,7 @@ height 768px	540	           135
 
 p, label {
     font-family: 'LotteMartHappy', sans-serif;
+    color: #FFF;
 }
 
 ::-webkit-input-placeholder {

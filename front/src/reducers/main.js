@@ -7,8 +7,8 @@ const initialState = {
     isShowRanking: false,    // 랭킹 보여주는지
 
     userList: [],
-    roomList: [],
-    ranking: []
+    roomList: {},
+    ranking: {}
 }
 
 export default function main(state=initialState, action) {

@@ -18,10 +18,12 @@ const socketMiddleware = (() => {
         // Parse the JSON message received on the websocket
         var msg = JSON.parse(evt.data);
 
+        console.log(msg);
+
         // Server to Client
         switch(msg.type) {
             case "USER_LIST":
-                store.dispatch(actions.getUserList(msg.data));
+                store.dispatch(actions.getUserList(msg.data.userList));
                 break;
 
             case "ROOM_LIST":
@@ -30,6 +32,7 @@ const socketMiddleware = (() => {
 
             case "SHOW_RANK":
                 store.dispatch(actions.getRanking(msg.data));
+                break;
 
             default:
                 console.log("Received unknown message type: '" + msg.type + "'");

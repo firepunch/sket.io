@@ -29,7 +29,7 @@ const propTypes = {
 
     userList: ReactPropTypes.array,
     roomList: ReactPropTypes.array,
-    ranking: ReactPropTypes.array,
+    ranking: ReactPropTypes.object,
     isShowRanking: ReactPropTypes.bool,
 
     /* dispatcher function */
@@ -57,7 +57,7 @@ const defaultProps = {
 
     userList: [],
     roomList: [],
-    ranking: [],
+    ranking: {},
     isShowRanking: false,
 
     /* dispatcher function */
@@ -147,6 +147,7 @@ class Sket extends Component {
         const loading = (<Loading type="cylon" color="white"
                             height='667' width='375' className="loading-svg"/>)
 
+                            // {index}
         return(
             <div className="sket-root">
                 { this.props.fetchingUpdate ? loading : rendering }

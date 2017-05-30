@@ -159,7 +159,7 @@ function requestRanking(userId) {
     return {
         type: types.SEND_MESSAGE,
         msg_type: "SHOW_RANK",
-        data: userId
+        data: { userId: userId }
     }
 }
 

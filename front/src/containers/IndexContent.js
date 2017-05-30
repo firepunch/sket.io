@@ -16,7 +16,7 @@ const propTypes = {
 
     userList: ReactPropTypes.array,
     roomList: ReactPropTypes.array,
-    ranking: ReactPropTypes.array,
+    ranking: ReactPropTypes.object,
 
     handleLogout: ReactPropTypes.func,
     handleCreateRoom: ReactPropTypes.func,
@@ -31,7 +31,7 @@ const defaultProps = {
 
     userList: [],
     roomList: [],
-    ranking: [],
+    ranking: {},
 
     handleLogout: createWarning('handleLogout'),
     handleCreateRoom: createWarning('handleCreateRoom'),
