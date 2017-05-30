@@ -26,7 +26,7 @@ public class FBLoginController extends HttpServlet {
         OauthLogin oauthLogin = new OauthLogin();
         PrintWriter out = resp.getWriter();
 
-        JSONObject sendJson = oauthLogin.getRcvJson(req, "facebook", "user");
+        JSONObject sendJson = oauthLogin.getRcvJson(req, "FACEBOOK", "user");
 
         req.setCharacterEncoding("euc-kr");
         resp.setCharacterEncoding("UTF-8");
@@ -34,7 +34,7 @@ public class FBLoginController extends HttpServlet {
 
         String id = sendJson.getString("id");
         try {
-            sendJson = db.selectUser(sendJson.getString("id"), "facebook");
+            sendJson = db.selectUser(sendJson.getString("id"), "FACEBOOK");
         } catch (SQLException e) {
             e.printStackTrace();
         }

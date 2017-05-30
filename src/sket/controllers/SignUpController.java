@@ -1,8 +1,5 @@
 package sket.controllers;
 
-import sket.model.action.SessionManager;
-import sket.model.data.User;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
