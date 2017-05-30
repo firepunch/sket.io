@@ -57,40 +57,40 @@
         <td align="center">-</td>
         <td>
             type : USER_LIST,<br>
-            userList : [
-                {
-                    name: (유저 이름),
-                    level: (레벨)
-                },
-                {
-                    name: (유저 이름),
-                    level: (레벨)
-                }
-            ]
+            userList : [<br>
+                {<br>
+                    name: (유저 이름),<br>
+                    level: (레벨)<br>
+                },<br>
+                {<br>
+                    name: (유저 이름),<br>
+                    level: (레벨)<br>
+                }<br>
+            ]<br>
     </tr>
     <tr>
         <td>방 리스트</td>
         <td align="center">-</td>
         <td>
             type : ROOM_LIST,<br>
-            roomList : [
-                {
-                    roomName: (방 이름),
-                    round: ,
-                    timeLimit: ,
-                    userNumLimit: ,
-                    userNum: ,
-                    isLocked: 
-                },
-                {
-                    roomName: (방 이름),
-                    round: ,
-                    timeLimit: ,
-                    userMax: ,
-                    userNum: ,
-                    isLocked: 
-                }
-            ]
+            roomList : [<br>
+                {<br>
+                    roomName: (방 이름),<br>
+                    round: ,<br>
+                    timeLimit: ,<br>
+                    userNumLimit: ,<br>
+                    userNum: ,<br>
+                    isLocked: <br>
+                },<br>
+                {<br>
+                    roomName: (방 이름),<br>
+                    round: ,<br>
+                    timeLimit: ,<br>
+                    userMax: ,<br>
+                    userNum: ,<br>
+                    isLocked: <br>
+                }<br>
+            ]<br>
     </tr>
     <tr>
         <td>방 생성</td>
