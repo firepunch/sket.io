@@ -55,6 +55,7 @@ public class FBLoginController extends HttpServlet {
             sendJson.put("limitExp", 300);
             sendJson.put("totalExp", 0);
             sendJson.put("curExp", 0);
+            sendJson.put("isGuest", false);
 
             new User(id, nick);
 
