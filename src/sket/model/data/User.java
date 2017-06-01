@@ -36,6 +36,7 @@ public class User {
 
             allocateGuestID += 1;
             userList.add(this);
+
         }
     }
 
@@ -43,10 +44,6 @@ public class User {
     public User(String id, String nick) {
         this.id = id;
         this.nick = nick;
-        this.level = level;
-        this.limitExp = limitExp;
-        this.totalExp = totalExp;
-        this.curExp = curExp;
     }
 
     public boolean isGuest() {

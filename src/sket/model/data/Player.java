@@ -9,6 +9,7 @@ public class Player {
     public static ArrayList<Player> playerArrayList = new ArrayList<>();
 
     private String id; // guest는 100부터 or oauthID
+    private String nickname;
     private String sessionID;
 
     private int score = 0;
@@ -19,8 +20,9 @@ public class Player {
     private boolean isGuest = false;
 
     /* Guest 일 시 User 에서 게스트 아이디 처리했음 */
-    public Player(String id, String sessionID, boolean isGuest) {
+    public Player(String id, String nickname, String sessionID, boolean isGuest) {
         this.id = id;
+        this.nickname = nickname;
         this.sessionID = sessionID;
         this.isGuest = isGuest;
 
