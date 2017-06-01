@@ -6,12 +6,13 @@ const socketMiddleware = (() => {
     const onOpen = (ws, store) => evt => {
         // Send a handshake, or authenticate with remote end
         // Tell the store we're connected
-        store.dispatch(actions.socketConnected());
+        store.dispatch( actions.socketConnected() );
+        store.dispatch( actions.sendUserInfo(store.getState().login.user) );
     }
 
     const onClose = (ws, store) => evt => {
         //Tell the store we've disconnected
-        store.dispatch(actions.socketDisconneted());
+        store.dispatch( actions.socketDisconneted() );
     }
 
     const onMessage = (ws, store) => evt => {
@@ -23,15 +24,19 @@ const socketMiddleware = (() => {
         // Server to Client
         switch(msg.type) {
             case "USER_LIST":
-                store.dispatch(actions.getUserList(msg.data.userList));
+                store.dispatch( actions.getUserList(msg.data.userList) );
                 break;
 
             case "ROOM_LIST":
-                store.dispatch(actions.getRoomList(msg.data));
+                store.dispatch( actions.getRoomList(msg.data) );
                 break;
 
             case "SHOW_RANK":
-                store.dispatch(actions.getRanking(msg.data));
+                store.dispatch( actions.getRanking(msg.data) );
+                break;
+
+            case "CREATE_ROOM":
+                // store.dispatch(actinos.)
                 break;
 
             default:
@@ -62,7 +67,7 @@ const socketMiddleware = (() => {
                 }
 
                 //Send an action that shows a "connecting..." status for now
-                store.dispatch(actions.requestSocket());
+                store.dispatch( actions.requestSocket() );
 
                 //Attempt to connect (we could send a 'failed' action on error)
                 socket = new WebSocket(action.url);
@@ -82,7 +87,7 @@ const socketMiddleware = (() => {
                 socket = null;
 
                 //Set our state to disconnected
-                store.dispatch(actions.disconnected());
+                store.dispatch( actions.disconnected() );
 
                 break;
 
@@ -91,7 +96,7 @@ const socketMiddleware = (() => {
                 socket.send(JSON.stringify({
                     type: action.msg_type,
                     data: action.data
-                }), () => store.dispatch(actions.sendMessageFinish));   // 메시지 전송
+                }), () => store.dispatch( actions.sendMessageFinish) );   // 메시지 전송
 
                 break;
 

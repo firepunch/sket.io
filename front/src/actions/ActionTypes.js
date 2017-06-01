@@ -27,6 +27,7 @@ export const SHOW_RANK = "SHOW_RANK";
 export const GET_USER_LIST = "GET_USER_LIST";
 export const GET_ROOM_LIST = "GET_ROOM_LIST";
 export const GET_RANKING = "GET_RANKING";
+export const GET_ROOM_ID = "GET_ROOM_ID";
 
 
 /* GAME */

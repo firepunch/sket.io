@@ -20,7 +20,7 @@ export function handleLogin(social, user) {
         })
         .then(res => res.json())
         .then(json => {
-            dispatch( receiveUserData(json) );
+            dispatch( receiveUserData(json.data) );
             dispatch( connectSocket() );    // 소켓 연결 요청
         })
         .catch(error => dispatch( failReceiveUserData() ))    // 오류 catch
@@ -126,7 +126,16 @@ export function sendMessageFinish() {
 }
 
 
+
 /* Websocket Request */
+
+export function sendUserInfo(user) {
+    return {
+        type: types.SEND_MESSAGE,
+        msg_type: "SEND_USER_INFO",
+        data: user
+    }
+}
 
 // 방 생성
 export function createRoom(roomInfo) {
@@ -167,6 +176,22 @@ function requestRanking(userId) {
 function handleRanking() {
     return {
         type: types.SHOW_RANK
+    }
+}
+
+export function enterRoom(userId, roomId, isMaster) {
+    return {
+        type: types.ENTER_ROOM,
+        data: userId, roomId,
+        isMaster
+    }
+}
+
+
+export function getCreatingRoomId(roomId) {
+    return {
+        type: types.GET_ROOM_ID,
+        roomId
     }
 }
 
