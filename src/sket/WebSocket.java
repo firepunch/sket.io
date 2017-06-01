@@ -41,19 +41,9 @@ public class WebSocket {
 
     // 세션리스트에 접속한 세션 추가, Player 객체 생성, 생성된 룸 정보 보냄
     @OnOpen
-    public void onOpen(Session rcvSession, EndpointConfig config) throws IOException, SQLException {
-
-        // HttpSession 이 null 일 시에 클라이언트에게 JSON 보냄
-        JSONObject httpNull = new JSONObject();
-
-        rcvSession.getBasicRemote().sendText(httpNull.toString());
+    public void onOpen(Session rcvSession) throws IOException, SQLException {
 
         webSocketSessionMap.put(rcvSession.getId(), rcvSession);
-
-//            player = new Player(((User) httpSession.getAttribute("user")).getId(), httpSession.getId(), true);
-//        } else {
-//            player = new Player(((User) httpSession.getAttribute("user")).getId(), httpSession.getId(), false);
-//        }
 
         // session 에 룸 리스트 보냄
         rcvSession.getBasicRemote().sendText(RoomController.getRoomListAsJSON());
@@ -69,6 +59,19 @@ public class WebSocket {
         JSONObject jsonObject = new JSONObject(message);
 
         switch (jsonObject.getString("type")) {
+
+            // 제일 처음에 플레이어 생성
+            case "CREATE_PLAYER":
+
+                player = new Player(
+                        jsonObject.getJSONObject("data").getString("id"),
+                        jsonObject.getJSONObject("data").getString("nickname"),
+                        rcvSession.getId(),
+                        jsonObject.getJSONObject("data").getBoolean("isGuest")
+                );
+
+                break;
+
 
             // 방 생성 했을 때 보내는 JSON
             case "CREATE_ROOM":
@@ -98,8 +101,16 @@ public class WebSocket {
                 );
 
                 roomAction = new RoomAction(targetRoom);
+                player = PlayerAction.getEqualPlayerId(jsonObject.getJSONObject("data").getString("userId"));
 
-                enterRoomPlayerHelp();
+                if (targetRoom.getTotalUserNumber() == 0) {
+                    JSONObject temp = new JSONObject();
+                    temp.put("type", "ROOM_INFO");
+                    temp.put("userCount", 0);
+
+                } else {
+                    enterRoomPlayerHelp();
+                }
                 break;
 
             // 빠른 시작 시 JSON
@@ -246,8 +257,8 @@ public class WebSocket {
 
         for (User user : User.getUserList()) {
             JSONObject tempObject = new JSONObject();
-            tempObject.put("level", user.getId());
-            tempObject.put("playerId", user.getLevel());
+            tempObject.put("level", user.getLevel());
+            tempObject.put("nick", user.getNick());
             dataArray.put(tempObject);
         }
 
