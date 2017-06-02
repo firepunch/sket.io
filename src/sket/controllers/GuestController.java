@@ -22,7 +22,7 @@ public class GuestController extends HttpServlet {
     private String id;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         req.setCharacterEncoding("euc-kr");
         resp.setCharacterEncoding("UTF-8");
