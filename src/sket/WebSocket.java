@@ -72,19 +72,20 @@ public class WebSocket {
 
                 break;
 
-
             // 방 생성 했을 때 보내는 JSON
             case "CREATE_ROOM":
                 targetRoom = RoomController.createRoom(
                         jsonObject.getJSONObject("data").getString("roomName"),
                         jsonObject.getJSONObject("data").getBoolean("lock"),
                         jsonObject.getJSONObject("data").getString("password"),
-                        jsonObject.getJSONObject("data").getString("master")
+                        jsonObject.getJSONObject("data").getString("master"),
+                        jsonObject.getJSONObject("data").getInt("userNumLimit")
                 );
 
                 rcvSession.getBasicRemote().sendText(
                         RoomController.getRoomInfoToJSON(targetRoom)
                 );
+
                 break;
 
             // 방 리스트 보내는 JSON

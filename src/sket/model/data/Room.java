@@ -13,7 +13,7 @@ public class Room {
 
     // Room 에 존재하는 User 를 ArrayList 에 저장
     private ArrayList<Player> playerList = new ArrayList<>();
-    private final int MAX_USER = 4;
+    private int userMax = 4;
     private static int countRoomId = 0;
 
     private boolean isLock = false;
@@ -22,13 +22,15 @@ public class Room {
     private String roomName;
     private String roomPwd;
     private Player roomMaster;
+    private int round = 0;
+    private int timeLimit = 50000;
 
-
-    public Room(String name, Player roomMaster, int roomId, boolean isLock, String pwd) {
+    public Room(String name, Player roomMaster, int roomId, boolean isLock, String pwd, int userMax) {
         this.roomName = name;
         this.roomMaster = roomMaster;
         this.roomId = roomId;
         this.isLock = isLock;
+        this.userMax = userMax;
 
         if (isLock == true) {
             if (pwd != null) {
@@ -46,6 +48,30 @@ public class Room {
         totalUserNumber += 1;
 
         playerList.add(roomMaster);
+    }
+
+    public int getUserMax() {
+        return userMax;
+    }
+
+    public void setUserMax(int userMax) {
+        this.userMax = userMax;
+    }
+
+    public int getTimeLimit() {
+        return timeLimit;
+    }
+
+    public void setTimeLimit(int timeLimit) {
+        this.timeLimit = timeLimit;
+    }
+
+    public int getRound() {
+        return round;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
     }
 
     public static ArrayList<Room> getRoomList() {
