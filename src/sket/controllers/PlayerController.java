@@ -21,7 +21,7 @@ public class PlayerController extends HttpServlet {
         Room room = RoomAction.findRoomById(roomId);
 
         if (room != null) {
-            Player player = PlayerAction.getEqualPlayerId(sessionID);
+            Player player = PlayerAction.getPlayerEqualSessionID(sessionID);
             player.setReady(isReady);
             String readyJSON = readyToPlayerJSON(player);
 
