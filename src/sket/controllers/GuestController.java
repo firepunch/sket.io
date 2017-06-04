@@ -37,6 +37,8 @@ public class GuestController extends HttpServlet {
             message.put("level", user.getLevel());
             message.put("totalExp", user.getTotalExp());
             message.put("limitExp", user.getLimitExp());
+            message.put("isGuest", false);
+
 
             message.put("data", message);
 
