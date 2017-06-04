@@ -39,9 +39,6 @@ public class GuestController extends HttpServlet {
             message.put("limitExp", user.getLimitExp());
             message.put("isGuest", false);
 
-
-            message.put("data", message);
-
             System.out.println("log : " + "게스트 로그인 성공!");
 
             PrintWriter out = resp.getWriter();
