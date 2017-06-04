@@ -100,7 +100,8 @@
             roomName : (방 이름),<br>
             lock : (true or false),<br>
             password : (null or 1234),<br>
-            master : (유저 아이디)
+            master : (유저 아이디), <br>
+            userNumLimit : (최대 입장 가능 유저 수)
         </td>
         <td>type : CREATE_ROOM,<br>
 -            roomId : (룸 아이디)
