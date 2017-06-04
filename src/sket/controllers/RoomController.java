@@ -29,15 +29,18 @@ public class RoomController {
 
         JSONObject data = new JSONObject();
         data.put("roomId", targetRoom.getRoomId());
-        data.put("name", targetRoom.getRoomName());
-        data.put("lock", targetRoom.isLocked());
+        data.put("roomName", targetRoom.getRoomName());
+        data.put("numRound", targetRoom.getRound());
+        data.put("timeLimit", targetRoom.getTimeLimit());
         data.put("playerNumber", targetRoom.getTotalUserNumber());
-        data.put("roomMaster", targetRoom.getRoomId());
+        data.put("roomMaster", targetRoom.getRoomMaster());
         JSONArray jsonArray = new JSONArray();
 
         for (Player player : Room.getRoomIntoPlayer(targetRoom)) {
             JSONObject temp = new JSONObject();
-            temp.put("nick", player.getId());
+            temp.put("nick", player.getNickname());
+            temp.put("level", player.getPlayerLevel());
+            temp.put("isReady", player.isReady());
             jsonArray.put(temp);
         }
 
@@ -64,14 +67,13 @@ public class RoomController {
 
         for (Room room : Room.getRoomList()) {
             JSONObject object = new JSONObject();
-            object.put("roomId", room.getRoomId());
             object.put("roomName", room.getRoomName());
             object.put("round", room.getRound());
             object.put("timeLimit", room.getTimeLimit());
             object.put("userNumLimit", room.getUserMax());
             object.put("userNum", room.getTotalUserNumber());
             object.put("isLocked", room.isLocked());
-            
+
             jsonArray.put(object);
         }
 
