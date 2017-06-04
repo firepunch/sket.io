@@ -101,7 +101,7 @@ public class DBConnection {
     }
 
     /* 회원정보 조회 */
-    public JSONObject selectUser(String id, String type) throws SQLException {
+    public JSONObject selectUser(String id, String type, boolean isGuest) throws SQLException {
         JSONObject jsonObject = new JSONObject();
         String query = "SELECT * FROM user WHERE id='" + id + "'";
         try {
@@ -118,6 +118,7 @@ public class DBConnection {
             jsonObject.put("limitExp", resultSet.getString("limitexp"));
             jsonObject.put("totalExp", resultSet.getString("totalexp"));
             jsonObject.put("curExp", resultSet.getString("curexp"));
+            jsonObject.put("isGuest",isGuest);
         } else {
             jsonObject.put("id", "null");
         }

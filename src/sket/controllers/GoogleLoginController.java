@@ -35,7 +35,7 @@ public class GoogleLoginController extends HttpServlet {
 
         String id = sendJson.getString("id");
         try {
-            sendJson = db.selectUser(sendJson.getString("id"), "GOOGLE");
+            sendJson = db.selectUser(sendJson.getString("id"), "GOOGLE", false);
         } catch (SQLException e) {
             e.printStackTrace();
         }
