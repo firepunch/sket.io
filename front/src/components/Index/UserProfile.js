@@ -12,7 +12,8 @@ const defaultProps = {
         nick: 'GUEST',
         level: 1,
         curExp: 0,
-        limitExp: 300
+        limitExp: 300,
+        totalExp: 0
     }
 };
 

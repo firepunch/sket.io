@@ -41,6 +41,7 @@ class FuncButtonArea extends Component {
             hideCloseButton: false, // (optional) if you don't wanna show the top right close button
             //.. all what you put in here you will get access in the modal props ;)
             handleCreateRoom: this.props.handleCreateRoom,   // 방 생성을 위한 함수
+            userId: this.props.userId
         });
     }
 
@@ -140,7 +141,8 @@ class modalComponent extends Component {
     createRoom() {
         this.props.handleCreateRoom({
             ...this.state,
-            lock: !(this.state.password == null)
+            lock: !(this.state.password == null),
+            master: this.props.userId
         });
 
         this.removeThisModal();

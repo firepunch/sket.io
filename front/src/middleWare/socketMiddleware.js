@@ -36,7 +36,8 @@ const socketMiddleware = (() => {
                 break;
 
             case "CREATE_ROOM":
-                // store.dispatch(actinos.)
+                console.log(msg.data)
+                store.dispatch( actions.enterRoom(store.getState().main.user.id, msg.data.roomId) )
                 break;
 
             default:

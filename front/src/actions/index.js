@@ -20,7 +20,7 @@ export function handleLogin(social, user) {
         })
         .then(res => res.json())
         .then(json => {
-            dispatch( receiveUserData(json.data) );
+            dispatch( receiveUserData(json) );
             dispatch( connectSocket() );    // 소켓 연결 요청
         })
         .catch(error => dispatch( failReceiveUserData() ))    // 오류 catch
@@ -132,7 +132,7 @@ export function sendMessageFinish() {
 export function sendUserInfo(user) {
     return {
         type: types.SEND_MESSAGE,
-        msg_type: "SEND_USER_INFO",
+        msg_type: "CREATE_PLAYER",
         data: user
     }
 }
@@ -179,11 +179,10 @@ function handleRanking() {
     }
 }
 
-export function enterRoom(userId, roomId, isMaster) {
+export function enterRoom(userId, roomId) {
     return {
         type: types.ENTER_ROOM,
-        data: userId, roomId,
-        isMaster
+        data: userId, roomId
     }
 }
 
