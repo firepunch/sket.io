@@ -71,7 +71,7 @@
     </tr>
     <tr>
         <td>방 리스트</td>
-        <td align="center">-</td>
+        <td>-</td>
         <td>
             type : ROOM_LIST,<br>
             roomList : [<br>
@@ -92,7 +92,7 @@
                     isLocked: <br>
                 }<br>
             ]<br>
-    </tr>
+        </td>
     <tr>
         <td>방 생성</td>
         <td>
@@ -170,7 +170,7 @@
             &nbsp;&nbsp;exp : (해당 유저의 경험치)
             <br>},...]
         </td>
-    </tr>
+        </tr>
     <tr>
         <td>정답 맞춤</td>
         <td> type : CORRECT_ANSWER,<br>
@@ -214,6 +214,24 @@
             id : (유저 아이디),<br>
             roomId : 2
         </td>
+    </tr>
+    <tr>
+    	<td>캔버스 그리기</td>
+    	<td>
+        	type : "CANVAS_DATA",<br>
+            id: (출제자 아이디),<br>
+            clickX : clickX,<br>
+            clickY : clickY,<br>
+            clickDrag : clickDrag
+         </td>
+         <td>
+        	type : "CANVAS_DATA",<br>
+            id: (출제자 아이디),<br>
+            clickX : clickX,<br>
+            clickY : clickY,<br>
+            clickDrag : clickDrag<br>
+            // 위의 정보를 이용해 코드로 그림을 그려줌
+         </td>
     </tr>
     <tr>
         <td>채팅 시작</td>

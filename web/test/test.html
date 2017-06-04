@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>방 생성 테스트</title>
+    <title>방 생성 테sssss스트</title>
 </head>
 <body>
-
 방 이름 : <input type="text" id="name">
 잠금 : <input type="text" id="isLock" value="true or false">
 잠금일 시 비번 : <input type="text" id="password">
@@ -16,11 +15,15 @@
 방 아이디 : <input type="text" id="joinRoomId">
 유저 아이디 : <input type="text" id="joinRoomUserId">
 <input type="button" value="방 참가" onclick="joinRoom()"><br>
+<br>
 <input type="button" value="랭킹 보기" onclick="showRank()"><br>
+<br><br>
+<canvas id="canvas" width="490" height="220" style="border:1px solid #000000;"></canvas>
+<canvas id="otherCanvas" width="490" height="220" style="border:1px solid #000000;"></canvas>
+
 <br><br><br>
 <ul id="roomList">
 </ul>
-
 <script type="text/javascript">
     var count = 0;
     var serverMsg;
@@ -114,7 +117,107 @@
         console.log("select userID : " + userId);
         webSocket.send(JSON.stringify(msg));
     }
-
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    var webSocket = new WebSocket("ws://localhost:8080/websocket");
+    webSocket.onopen = function () {
+        console.log("서버 연결");
+    };
+
+    webSocket.onclose = function () {
+        console.log("서버 종료");
+    };
+
+    webSocket.onmessage = function (msg) {
+        console.log("서버로부터 받음 : " + msg.data);
+        serverMsg = JSON.parse(msg.data);
+    };
+
+    webSocket.onerror = function (msg) {
+        console.log('onerror()');
+        console.log(msg);
+    };
+
+    var context = document.getElementById('canvas').getContext("2d");
+    var otherContext = document.getElementById('otherCanvas').getContext("2d");
+    var clickX = new Array();
+    var clickY = new Array();
+    var clickDrag = new Array();
+    var paint;
+
+    function addClick(x, y, dragging) {
+        clickX.push(x);
+        clickY.push(y);
+        clickDrag.push(dragging);
+    }
+
+    $('#canvas').mousedown(function(e){
+        var mouseX = e.pageX - this.offsetLeft;
+        var mouseY = e.pageY - this.offsetTop;
+
+        paint = true;
+        addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
+        redraw();
+    });
+
+    $('#canvas').mousemove(function(e){
+        if(paint){
+            addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
+            redraw();
+        }
+    });
+
+    $('#canvas').mouseup(function(e){
+        paint = false;
+    });
+
+    $('#canvas').mouseleave(function(e){
+        paint = false;
+    });
+
+    function redraw(){
+        var msg = {
+            type: "CANVAS_DATA",
+            data: {
+                id: "ee",
+                clickX : clickX,
+                clickY : clickY,
+                clickDrag : clickDrag
+            }
+        };
+
+//        console.log("msg : \n" + msg.toString());
+        webSocket.send(JSON.stringify(msg));
+
+        context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
+        otherContext.clearRect(0, 0, otherContext.canvas.width, otherContext.canvas.height); // Clears the canvas
+
+        context.strokeStyle = "#df4b26";
+        context.lineJoin = "round";
+        context.lineWidth = 5;
+
+        for(var i=0; i < clickX.length; i++) {
+            context.beginPath();
+            otherContext.beginPath();
+            if(clickDrag[i] && i){
+                context.moveTo(clickX[i-1], clickY[i-1]);
+                otherContext.moveTo(clickX[i-1], clickY[i-1]);
+            }else{
+                context.moveTo(clickX[i]-1, clickY[i]);
+                otherContext.moveTo(clickX[i]-1, clickY[i]);
+            }
+            context.lineTo(clickX[i], clickY[i]);
+            context.closePath();
+            context.stroke();
+            otherContext.lineTo(clickX[i], clickY[i]);
+            otherContext.closePath();
+            otherContext.stroke();
+        }
+    }
+</script>
+
+
 </body>
 </html>

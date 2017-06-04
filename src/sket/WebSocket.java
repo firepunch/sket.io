@@ -199,15 +199,15 @@ public class WebSocket {
 
             // 캔바스 데이터 JSON 보냄
             case "CANVAS_DATA":
-                roomMembers = QuizAction.excludeExaminerSession(jsonObject.getString("id"));
+                roomMembers = QuizAction.excludeExaminerSession(jsonObject.getJSONObject("data").getString("id"));
 
                 if (roomMembers != null) {
                     for (String playerSessionId : roomMembers) {
                         playerSession = webSocketSessionMap.get(playerSessionId);
-                        playerSession.getBasicRemote().sendText(QuizController.sendCanvasData());
+//                        playerSession.getBasicRemote().sendText(QuizController.sendCanvasData());
+                        playerSession.getBasicRemote().sendText(String.valueOf(jsonObject));
                     }
                 }
-                break;
 
             // 채팅 JSON
             case "CHAT_START":
@@ -227,10 +227,8 @@ public class WebSocket {
                 JSONObject rankInfo = new JSONObject();
                 DBConnection db = new DBConnection();
                 rankInfo = db.showRank(jsonObject.getJSONObject("data").getString("userId"));
-                System.out.println(rankInfo);
                 rcvSession.getBasicRemote().sendText(String.valueOf(rankInfo));
                 break;
-
         }
     }
 
