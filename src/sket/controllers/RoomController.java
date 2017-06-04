@@ -88,6 +88,7 @@ public class RoomController {
 
         for (Room room : Room.getRoomList()) {
             JSONObject object = new JSONObject();
+            object.put("roomId", room.getRoomId());
             object.put("roomName", room.getRoomName());
             object.put("round", room.getRound());
             object.put("timeLimit", room.getTimeLimit());
