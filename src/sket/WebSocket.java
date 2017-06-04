@@ -121,10 +121,6 @@ public class WebSocket {
                 enterRoomPlayerHelp();
                 break;
 
-            case "GAME_START":
-
-                break;
-
             // 플레이어가 방에서 준비했을 때 보내는 JSON. 만약 방장 제외 모두 준비했을 시 방장에거 모두 준비했다고 알림!
             case "GAME_READY":
                 targetRoom = RoomAction.findRoomById(jsonObject.getInt("roomId"));
@@ -140,15 +136,31 @@ public class WebSocket {
                     playerSession = webSocketSessionMap.get(playerSessionId);
                     playerSession.getBasicRemote().sendText(readyJSON);
                 }
+//
+//                String readyAllPlayerJSON = PlayerController.checkReadyAllPlayer(targetRoom);
+//
+//                if (readyAllPlayerJSON != null) {
+//                    Session tempSession = webSocketSessionMap.get(targetRoom.getRoomMaster().getSessionID());
+//                    System.out.println("log : HashMap.get() : " + tempSession);
+//
+//                    tempSession.getBasicRemote().sendText(readyAllPlayerJSON);
+//                }
+                break;
 
-                String readyAllPlayerJSON = PlayerController.checkReadyAllPlayer(targetRoom);
+            // 방장이 게임 시작 눌렀을 시에 게임 준비 체크
+            case "GAME_START":
+                targetRoom = RoomAction.findRoomById(jsonObject.getInt("roomId"));
+                roomAction = new RoomAction(targetRoom);
 
-                if (readyAllPlayerJSON != null) {
-                    Session tempSession = webSocketSessionMap.get(targetRoom.getRoomMaster().getSessionID());
-                    System.out.println("log : HashMap.get() : " + tempSession);
+                String readyAllPlayerByJSON = PlayerController.checkReadyAllPlayer(targetRoom);
 
-                    tempSession.getBasicRemote().sendText(readyAllPlayerJSON);
+                if (readyAllPlayerByJSON != null) {
+                    Session masterSession = webSocketSessionMap.get(targetRoom.getRoomMaster().getSessionID());
+                    System.out.println("log : HashMap.get() : " + masterSession);
+
+                    masterSession.getBasicRemote().sendText(readyAllPlayerByJSON);
                 }
+
                 break;
 
             // 플레이어가 문제 맞혔을 때 보내는 JSON
@@ -211,7 +223,7 @@ public class WebSocket {
                     }
                 }
 
-            // 채팅 JSON
+                // 채팅 JSON
             case "CHAT_START":
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
