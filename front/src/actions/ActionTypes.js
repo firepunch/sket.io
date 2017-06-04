@@ -35,9 +35,10 @@ export const GET_ROOM_ID = "GET_ROOM_ID";
 export const DRAW_PICTURE   = "DRAW_PICTURE";
 export const START_TIMER    = "START_TIMER";
 export const CHAT_ANSWER    = "CHAT_ANSWER";
-export const CLOSE_MODAL    = "CLOSE_MODAL";
 
-export const GET_READY      = "GET_READY";
+export const MY_READY       = "MY_READY";
+export const OTHER_READY    = "OTHER_READY";
+
 export const GET_START      = "GET_START";
 
 /* TEST */

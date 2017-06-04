@@ -7,15 +7,26 @@ import SystemArea from '../components/Game/SystemArea';
 
 const propTypes = {
     user: ReactPropTypes.object,
+    userList: ReactPropTypes.array,
 
-    userList: ReactPropTypes.array
+    isReady: ReactPropTypes.bool,
+
+    handleGetReady: ReactPropTypes.func
 };
 
 const defaultProps = {
     user: {},
+    userList: [{}, {}, {}],
 
-    userList: [{}, {}, {}]
+    isReady: false,
+
+    handleGetReady: () => createWarning('handleGetReady')
 };
+
+
+function createWarning(funcName) {
+    return () => console.warn(funcName + ' is not defined in GameContent');
+}
 
 class GameContent extends Component {
     constructor(props) {
@@ -27,22 +38,31 @@ class GameContent extends Component {
             <div className="game-content">
                 <UserArea
                     componentClass="game-left game-top"
+
                     user={ this.props.user }
+                    roomId={ this.props.roomInfo.roomId }
+
+                    isReady={ this.props.isReady }
+
+                    handleGetReady={ this.props.handleGetReady }
                 />
 
                 <UserArea
                     componentClass="game-right game-bottom"
                     user={ this.props.userList[0] }
+                    handleGetReady={ this.props.handleGetReady }
                 />
 
                 <UserArea
                     componentClass="game-left game-top"
                     user={ this.props.userList[1] }
+                    handleGetReady={ this.props.handleGetReady }
                 />
 
                 <UserArea
                     componentClass="game-right game-bottom"
                     user={ this.props.userList[2] }
+                    handleGetReady={ this.props.handleGetReady }
                 />
 
             </div>

@@ -36,6 +36,8 @@ const propTypes = {
     isGame: ReactPropTypes.bool,
     roomInfo: ReactPropTypes.object,
 
+    isReady: ReactPropTypes.bool,
+
     /* dispatcher function */
     handleLoginRequest: ReactPropTypes.func,
     handleLogin: ReactPropTypes.func,
@@ -45,7 +47,9 @@ const propTypes = {
 
     handleCreateRoom: ReactPropTypes.func,
     handleQuickStart: ReactPropTypes.func,
-    handleShowRanking: ReactPropTypes.func
+    handleShowRanking: ReactPropTypes.func,
+
+    handleGetReady: ReactPropTypes.func
 };
 
 const defaultProps = {
@@ -68,6 +72,8 @@ const defaultProps = {
     isGame: false,
     roomInfo: {},
 
+    isReady: false,
+
     /* dispatcher function */
     handleLoginRequest: createWarning('handleLoginRequest'),
     handleLogin: createWarning('handleLogin'),
@@ -77,7 +83,9 @@ const defaultProps = {
 
     handleCreateRoom: createWarning('handleCreateRoom'),
     handleQuickStart: createWarning('handleQuickStart'),
-    handleShowRanking: createWarning('handleShowRanking')
+    handleShowRanking: createWarning('handleShowRanking'),
+
+    handleGetReady: createWarning('handleGetReady')
 };
 
 
@@ -149,7 +157,12 @@ class Sket extends Component {
         const game = (
                 <GameContent
                     user={ this.props.user }
-                    roomInfo={ this.props.roomInfo.userList }
+                    userList={ this.props.roomInfo.userList}
+                    roomInfo={ this.props.roomInfo }
+
+                    isReady={ this.props.isReady }
+
+                    handleGetReady={ this.props.handleGetReady }
                 />
         )
 
@@ -177,7 +190,9 @@ const mapStateToProps = (state) => {
 
     const { fetchingConnect, isConnecting, isSocketFetching } = state.main;
     const { userList, roomList, ranking, isShowRanking } = state.main;
+
     const { isGame, roomInfo } = state.game;
+    const { isReady } = state.game;
 
     return {
         /* 로그인 */
@@ -197,7 +212,9 @@ const mapStateToProps = (state) => {
 
         /* 게임 */
         isGame,
-        roomInfo
+        roomInfo,
+
+        isReady
     };
 }
 
@@ -214,7 +231,10 @@ const mapDispatchToProps = (dispatch) => {
         /* 대기 화면 핸들링 */
         handleCreateRoom: (roomInfo) => { dispatch(actions.createRoom(roomInfo)) },
         handleQuickStart: () => { dispatch(actions.quickStart()) },
-        handleShowRanking: (userId) => { dispatch(actions.showRanking(userId)) }
+        handleShowRanking: (userId) => { dispatch(actions.showRanking(userId)) },
+
+        /* 게임 기능 핸들링 */
+        handleGetReady: (roomId, userId, isReady) => { dispatch(actions.getReady(roomId, userId, isReady)) }
     };
 }
 

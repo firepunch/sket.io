@@ -36,7 +36,22 @@ const socketMiddleware = (() => {
                 break;
 
             case "ROOM_INFO":
-                store.dispatch( actions.enterRoom(msg.data) )
+                store.dispatch( actions.enterRoom(msg.data) );
+                break;
+
+            case "PLAYER_READY":
+                if (msg.data.id === store.getState().login.user.id) {    // 자신의 준비 상태가 바뀌었을 경우
+                    store.dispatch( actions.changeMyReady(msg.data.ready) );
+                } else {    // 다른 사람의 상태가 바뀌었을 경우
+                    let playerList = store.getState().game.roomInfo.playerList;
+
+                    for (let i in playerList) {
+                        if (msg.data.id === playerList[i].id) {
+                            store.dispatch( actions.changeOtherReady(msg.data.ready, i) );
+                        }
+                    }
+                }
+
                 break;
 
             default:

@@ -4,18 +4,25 @@ import { PropTypes as ReactPropTypes } from 'prop-types';
 import UserProfile from '../Index/UserProfile';
 
 const propTypes = {
+    user: ReactPropTypes.object,
     isReady: ReactPropTypes.bool,
-    getReady: ReactPropTypes.func
+    roomId: ReactPropTypes.string,
+
+    handleGetReady: ReactPropTypes.func
 };
 
 const defaultProps = {
+    user: {},
     isReady: false,
-    getReady: () => createWarning('getReady')
+    roomId: '',
+
+    handleGetReady: () => createWarning('handleGetReady')
 };
 
 function createWarning(funcName) {
     return () => console.warn(funcName + ' is not defined in UserArea');
 }
+
 
 class UserArea extends Component {
     constructor(props) {
@@ -33,9 +40,9 @@ class UserArea extends Component {
                     />
 
                     <div className="sket-score"
-                        onClick={this.props.getReady}
+                        onClick={ () => this.props.handleGetReady(this.props.roomId, this.props.user.id, !this.props.isReady) }
                     >
-                        {this.props.isReady ? "대기" : "준비"}
+                        {this.props.isReady ? "준비" : "대기"}
                     </div>
                 </div>
             </div>
