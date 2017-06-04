@@ -30,18 +30,15 @@ public class GuestController extends HttpServlet {
 
         JSONObject message = new JSONObject();
         message.put("type", "LOGIN_GUEST");
-
-        JSONObject data = new JSONObject();
-
         try {
             User user = new User(true);
-            data.put("id", user.getId());
-            data.put("nick", user.getNick());
-            data.put("level", user.getLevel());
-            data.put("totalExp", user.getTotalExp());
-            data.put("limitExp", user.getLimitExp());
+            message.put("id", user.getId());
+            message.put("nick", user.getNick());
+            message.put("level", user.getLevel());
+            message.put("totalExp", user.getTotalExp());
+            message.put("limitExp", user.getLimitExp());
 
-            message.put("data", data);
+            message.put("data", message);
 
             System.out.println("log : " + "게스트 로그인 성공!");
 
