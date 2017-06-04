@@ -123,7 +123,7 @@ public class WebSocket {
 
             // 플레이어가 방에서 준비했을 때 보내는 JSON. 만약 방장 제외 모두 준비했을 시 방장에거 모두 준비했다고 알림!
             case "GAME_READY":
-                targetRoom = RoomAction.findRoomById(jsonObject.getInt("roomId"));
+                targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
 
                 String readyJSON = PlayerController.gameReadyToJSON(
