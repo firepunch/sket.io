@@ -23,6 +23,7 @@ export const SEND_MESSAGE_FINISH = "SEND_MESSAGE_FINISH";   // 소켓 메시지 
 
 // header function
 export const SHOW_RANK = "SHOW_RANK";
+export const ENTER_ROOM = "ENTER_ROOM";
 
 export const GET_USER_LIST = "GET_USER_LIST";
 export const GET_ROOM_LIST = "GET_ROOM_LIST";

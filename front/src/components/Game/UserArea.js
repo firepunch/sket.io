@@ -28,7 +28,7 @@ class UserArea extends Component {
     render() {
 
         return(
-            <div className="sket-game-side" id={this.props.direction}>
+            <div className="sket-game-user">
                 <div className="player-area">
                     <UserProfile
                         divStyle="sket-player"/>
@@ -37,16 +37,6 @@ class UserArea extends Component {
                         onClick={this.props.getReady}
                     >
                         {this.props.isReady ? "대기" : "준비"}
-                    </div>
-                </div>
-                <div className="player-area">
-                    <div className="sket-score"
-                        onClick={this.props.getReady}
-                    >
-                        {this.props.isReady ? "대기" : "준비"}
-                    </div>
-                    <div className="sket-player">
-
                     </div>
                 </div>
             </div>

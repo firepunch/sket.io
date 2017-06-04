@@ -179,10 +179,10 @@ function handleRanking() {
     }
 }
 
-export function enterRoom(userId, roomId) {
+export function enterRoom(roomInfo) {
     return {
         type: types.ENTER_ROOM,
-        data: userId, roomId
+        data: roomInfo
     }
 }
 

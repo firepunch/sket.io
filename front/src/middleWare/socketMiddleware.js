@@ -35,9 +35,8 @@ const socketMiddleware = (() => {
                 store.dispatch( actions.getRanking(msg.data) );
                 break;
 
-            case "CREATE_ROOM":
-                console.log(msg.data)
-                store.dispatch( actions.enterRoom(store.getState().main.user.id, msg.data.roomId) )
+            case "ROOM_INFO":
+                store.dispatch( actions.enterRoom(msg.data) )
                 break;
 
             default:

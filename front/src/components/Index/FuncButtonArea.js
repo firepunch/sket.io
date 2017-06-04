@@ -82,7 +82,7 @@ class modalComponent extends Component {
 
         this.state = {
             roomName: '',
-            playerNumber: '',
+            userNumLimit: '',
             roundNumber: '',
             timeLimit: '',
             password: ''
@@ -113,7 +113,7 @@ class modalComponent extends Component {
     handleChangePlayerNumber(evt) {
         this.setState({
             ...this.state,
-            playerNumber: evt.target.value
+            userNumLimit: evt.target.value
         })
     }
 

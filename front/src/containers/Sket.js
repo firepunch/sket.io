@@ -32,6 +32,10 @@ const propTypes = {
     ranking: ReactPropTypes.object,
     isShowRanking: ReactPropTypes.bool,
 
+    /* 게임 */
+    isGame: ReactPropTypes.bool,
+    roomInfo: ReactPropTypes.object,
+
     /* dispatcher function */
     handleLoginRequest: ReactPropTypes.func,
     handleLogin: ReactPropTypes.func,
@@ -59,6 +63,10 @@ const defaultProps = {
     roomList: [],
     ranking: {},
     isShowRanking: false,
+
+    /* 게임 */
+    isGame: false,
+    roomInfo: {},
 
     /* dispatcher function */
     handleLoginRequest: createWarning('handleLoginRequest'),
@@ -139,10 +147,15 @@ class Sket extends Component {
         )
 
         const game = (
-                <GameContent/>
+                <GameContent
+                    user={ this.props.user }
+                    roomInfo={ this.props.roomInfo }
+                />
         )
 
-        const rendering = ( this.props.isLoggedIn ? index : loginPage );
+        const main = ( this.props.isGame ? game : index )
+
+        const rendering = ( this.props.isLoggedIn ? main : loginPage );
 
         const loading = (<Loading type="cylon" color="white"
                             height='667' width='375' className="loading-svg"/>)
@@ -164,6 +177,7 @@ const mapStateToProps = (state) => {
 
     const { fetchingConnect, isConnecting, isSocketFetching } = state.main;
     const { userList, roomList, ranking, isShowRanking } = state.main;
+    const { isGame, roomInfo } = state.game;
 
     return {
         /* 로그인 */
@@ -179,7 +193,11 @@ const mapStateToProps = (state) => {
 
         userList,
         roomList,
-        ranking
+        ranking,
+
+        /* 게임 */
+        isGame,
+        roomInfo
     };
 }
 
