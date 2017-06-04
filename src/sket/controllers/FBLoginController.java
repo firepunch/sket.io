@@ -35,7 +35,7 @@ public class FBLoginController extends HttpServlet {
         String id = sendJson.getString("id");
 
         try {
-            sendJson = db.selectUser(sendJson.getString("id"), "FACEBOOK");
+            sendJson = db.selectUser(sendJson.getString("id"), "FACEBOOK", false);
         } catch (SQLException e) {
             e.printStackTrace();
         }
