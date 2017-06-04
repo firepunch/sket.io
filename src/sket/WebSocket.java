@@ -47,6 +47,8 @@ public class WebSocket {
         // session 에 룸 리스트 보냄
         rcvSession.getBasicRemote().sendText(RoomController.getRoomListAsJSON());
         rcvSession.getBasicRemote().sendText(getConnectUserListToJSON());
+
+        System.out.println(RoomController.getRoomListAsJSON());
     }
 
     @OnMessage
@@ -77,7 +79,8 @@ public class WebSocket {
                         jsonObject.getJSONObject("data").getBoolean("lock"),
                         jsonObject.getJSONObject("data").getString("password"),
                         jsonObject.getJSONObject("data").getString("master"),
-                        jsonObject.getJSONObject("data").getInt("userNumLimit")
+                        jsonObject.getJSONObject("data").getInt("playerNumber"),
+                        jsonObject.getJSONObject("data").getInt("timeLimit")
                 );
 
                 rcvSession.getBasicRemote().sendText(
@@ -243,19 +246,54 @@ public class WebSocket {
                 rankInfo = db.showRank(jsonObject.getJSONObject("data").getString("userId"));
                 rcvSession.getBasicRemote().sendText(String.valueOf(rankInfo));
                 break;
+
+            case "EXIT_ROOM":
+                targetRoom = RoomAction.findRoomById(jsonObject.getInt("roomId"));
+                targetRoom.deletePlayer(jsonObject.getString("userId"));
+
+                roomAction = new RoomAction(targetRoom);
+
+                roomMembers = roomAction.getPlayerSessionId();
+                for (String playerSessionId : roomMembers) {
+                    playerSession = webSocketSessionMap.get(playerSessionId);
+                    playerSession.getBasicRemote().sendText(
+                            PlayerController.exitPlayerJSON(
+                                    jsonObject.getInt("roomId"),
+                                    jsonObject.getString("userId")
+                            )
+                    );
+                }
+
+                if (targetRoom.getTotalUserNumber() == 0) {
+                    Room.getRoomList().remove(targetRoom);
+                    rcvSession.getBasicRemote().sendText(RoomController.removeRoomByJSON(targetRoom));
+                }
         }
     }
 
     @OnClose
     public void onClose(Session session) {
+        for (User user : User.getUserList()) {
+            if (user.getId().equals(player)) {
+                User.getUserList().remove(user);
+            }
+        }
+        Player.getPlayerArrayList().remove(player);
+
         webSocketSessionMap.remove(session.getId(), session);
         System.out.println("onClose()");
     }
 
     @OnError
     public void onError(Throwable throwable, Session session) {
-        webSocketSessionMap.remove(session.getId(), session);
+        for (User user : User.getUserList()) {
+            if (user.getId().equals(player)) {
+                User.getUserList().remove(user);
+            }
+        }
+        Player.getPlayerArrayList().remove(player);
 
+        webSocketSessionMap.remove(session.getId(), session);
         System.out.println("onError()");
         throwable.printStackTrace();
     }
