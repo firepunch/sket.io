@@ -8,13 +8,13 @@ import SystemArea from '../components/Game/SystemArea';
 const propTypes = {
     user: ReactPropTypes.object,
 
-    roomInfo: ReactPropTypes.object
+    userList: ReactPropTypes.array
 };
 
 const defaultProps = {
     user: {},
 
-    roomInfo: {}
+    userList: [{}, {}, {}]
 };
 
 class GameContent extends Component {
@@ -32,19 +32,19 @@ class GameContent extends Component {
 
                 <UserArea
                     componentClass="game-right game-bottom"
-                    user={ this.props.roomInfo.userList[0] }
+                    user={ this.props.userList[0] }
                 />
 
                 <UserArea
                     componentClass="game-left game-top"
-                    user={ this.props.roomInfo.userList[1] }
+                    user={ this.props.userList[1] }
                 />
 
                 <UserArea
                     componentClass="game-right game-bottom"
-                    user={ this.props.roomInfo.userList[2] }
+                    user={ this.props.userList[2] }
                 />
-            
+
             </div>
         );
     }

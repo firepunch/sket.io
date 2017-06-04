@@ -1,23 +1,20 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import { PropTypes as ReactPropTypes } from 'prop-types';
 
 import UserProfile from '../Index/UserProfile';
-import Ready from './Ready';
-import Score from './Score';
 
 const propTypes = {
-    direction: React.PropTypes.string,
-    isReady: React.PropTypes.bool,
-    getReady: React.PropTypes.func
+    isReady: ReactPropTypes.bool,
+    getReady: ReactPropTypes.func
 };
 
 const defaultProps = {
-    direction: '',
     isReady: false,
     getReady: () => createWarning('getReady')
 };
 
 function createWarning(funcName) {
-    return () => console.warn(funcName + ' is not defined');
+    return () => console.warn(funcName + ' is not defined in UserArea');
 }
 
 class UserArea extends Component {
@@ -31,7 +28,9 @@ class UserArea extends Component {
             <div className="sket-game-user">
                 <div className="player-area">
                     <UserProfile
-                        divStyle="sket-player"/>
+                        divStyle="sket-player"
+                        user={ this.props.user }
+                    />
 
                     <div className="sket-score"
                         onClick={this.props.getReady}

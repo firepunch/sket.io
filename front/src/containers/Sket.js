@@ -149,7 +149,7 @@ class Sket extends Component {
         const game = (
                 <GameContent
                     user={ this.props.user }
-                    roomInfo={ this.props.roomInfo }
+                    roomInfo={ this.props.roomInfo.userList }
                 />
         )
 
