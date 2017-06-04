@@ -79,7 +79,7 @@ public class WebSocket {
                         jsonObject.getJSONObject("data").getBoolean("lock"),
                         jsonObject.getJSONObject("data").getString("password"),
                         jsonObject.getJSONObject("data").getString("master"),
-                        jsonObject.getJSONObject("data").getInt("playerNumber"),
+                        jsonObject.getJSONObject("data").getInt("userNumLimit"),
                         jsonObject.getJSONObject("data").getInt("timeLimit")
                 );
 

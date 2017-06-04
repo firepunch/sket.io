@@ -53,7 +53,7 @@ public class RoomController {
         data.put("roomName", targetRoom.getRoomName());
         data.put("numRound", targetRoom.getRound());
         data.put("timeLimit", targetRoom.getTimeLimit());
-        data.put("playerNumber", targetRoom.getTotalUserNumber());
+        data.put("userNumLimit", targetRoom.getTotalUserNumber());
         data.put("roomMaster", targetRoom.getRoomMaster().getId());
         JSONArray jsonArray = new JSONArray();
 
