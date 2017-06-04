@@ -29,6 +29,31 @@ public class Player {
         playerArrayList.add(this);
     }
 
+    public int getPlayerLevel() {
+        for (User user : User.getUserList()) {
+            if (user.getId().equals(this.getId())) {
+                return user.getLevel();
+            }
+        }
+        return 0;
+    }
+
+    public void setPlayerLevel(int level) {
+        for (User user : User.getUserList()) {
+            if (user.getId().equals(this.getId())) {
+                user.setLevel(level);
+            }
+        }
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     public static ArrayList<Player> getPlayerArrayList() {
         return playerArrayList;
     }
