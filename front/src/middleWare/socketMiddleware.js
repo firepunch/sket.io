@@ -28,7 +28,7 @@ const socketMiddleware = (() => {
                 break;
 
             case "ROOM_LIST":
-                store.dispatch( actions.getRoomList(msg.data) );
+                store.dispatch( actions.getRoomList(msg.data.roomList) );
                 break;
 
             case "SHOW_RANK":

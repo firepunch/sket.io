@@ -48,6 +48,7 @@ const propTypes = {
     handleCreateRoom: ReactPropTypes.func,
     handleQuickStart: ReactPropTypes.func,
     handleShowRanking: ReactPropTypes.func,
+    handleEnterRoom: ReactPropTypes.func,
 
     handleGetReady: ReactPropTypes.func
 };
@@ -75,17 +76,18 @@ const defaultProps = {
     isReady: false,
 
     /* dispatcher function */
-    handleLoginRequest: createWarning('handleLoginRequest'),
-    handleLogin: createWarning('handleLogin'),
-    handleGuestLogin: createWarning('handleGuestLogin'),
+    handleLoginRequest: () => createWarning('handleLoginRequest'),
+    handleLogin: () => createWarning('handleLogin'),
+    handleGuestLogin: () => createWarning('handleGuestLogin'),
 
-    handleLogout: createWarning('handleLogout'),
+    handleLogout: () => createWarning('handleLogout'),
 
-    handleCreateRoom: createWarning('handleCreateRoom'),
-    handleQuickStart: createWarning('handleQuickStart'),
-    handleShowRanking: createWarning('handleShowRanking'),
+    handleCreateRoom: () => createWarning('handleCreateRoom'),
+    handleQuickStart: () => createWarning('handleQuickStart'),
+    handleShowRanking: () => createWarning('handleShowRanking'),
+    handleEnterRoom: () => createWarning('handleEnterRoom'),
 
-    handleGetReady: createWarning('handleGetReady')
+    handleGetReady: () => createWarning('handleGetReady')
 };
 
 
@@ -145,12 +147,13 @@ class Sket extends Component {
                     userList={ this.props.userList }
                     roomList={ this.props.roomList }
                     ranking={ this.props.ranking }
+                    isShowRanking={ this.props.isShowRanking }
 
                     handleLogout={ this.props.handleLogout }
                     handleCreateRoom={ this.props.handleCreateRoom }
                     handleQuickStart={ this.props.handleQuickStart }
                     handleShowRanking={ this.props.handleShowRanking }
-                    isShowRanking={ this.props.isShowRanking }
+                    handleEnterRoom={ this.props.handleEnterRoom }
                 />
         )
 
@@ -232,6 +235,7 @@ const mapDispatchToProps = (dispatch) => {
         handleCreateRoom: (roomInfo) => { dispatch(actions.createRoom(roomInfo)) },
         handleQuickStart: () => { dispatch(actions.quickStart()) },
         handleShowRanking: (userId) => { dispatch(actions.showRanking(userId)) },
+        handleEnterRoom: (roomId, userId) => { dispatch(actions.getRoomInfo(roomId, userId)) },
 
         /* 게임 기능 핸들링 */
         handleGetReady: (roomId, userId, isReady) => { dispatch(actions.getReady(roomId, userId, isReady)) }

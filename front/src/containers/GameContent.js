@@ -37,7 +37,7 @@ class GameContent extends Component {
         return(
             <div className="game-content">
                 <UserArea
-                    componentClass="game-left game-top"
+                    componentClass="game-left game-top me"
 
                     user={ this.props.user }
                     roomId={ this.props.roomInfo.roomId }
@@ -50,19 +50,16 @@ class GameContent extends Component {
                 <UserArea
                     componentClass="game-right game-bottom"
                     user={ this.props.userList[0] }
-                    handleGetReady={ this.props.handleGetReady }
                 />
 
                 <UserArea
                     componentClass="game-left game-top"
                     user={ this.props.userList[1] }
-                    handleGetReady={ this.props.handleGetReady }
                 />
 
                 <UserArea
                     componentClass="game-right game-bottom"
                     user={ this.props.userList[2] }
-                    handleGetReady={ this.props.handleGetReady }
                 />
 
             </div>

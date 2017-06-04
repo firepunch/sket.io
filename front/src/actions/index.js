@@ -186,6 +186,14 @@ export function enterRoom(roomInfo) {
     }
 }
 
+export function getRoomInfo(roomId, userId) {
+    return {
+        type: types.SEND_MESSAGE,
+        msg_type: "ENTER_ROOM",
+        data: { roomId, userId }
+    }
+}
+
 
 export function getCreatingRoomId(roomId) {
     return {

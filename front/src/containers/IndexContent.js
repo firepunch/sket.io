@@ -22,6 +22,7 @@ const propTypes = {
     handleCreateRoom: ReactPropTypes.func,
     handleQuickStart: ReactPropTypes.func,
     handleShowRanking: ReactPropTypes.func,
+    handleEnterRoom: ReactPropTypes.func,
 
     isShowRanking: ReactPropTypes.bool
 };
@@ -37,6 +38,7 @@ const defaultProps = {
     handleCreateRoom: createWarning('handleCreateRoom'),
     handleQuickStart: createWarning('handleQuickStart'),
     handleShowRanking: createWarning('handleShowRanking'),
+    handleEnterRoom: createWarning('handleEnterRoom'),
 
     isShowRanking: false
 };
@@ -75,6 +77,8 @@ class IndexContent extends Component {
                         roomList={ this.props.roomList }
                         ranking={ this.props.ranking }
                         isShowRanking={ this.props.isShowRanking }
+                        handleEnterRoom={ this.props.handleEnterRoom }
+                        userId={ this.props.user.id }
                     />
                 </div>
 
