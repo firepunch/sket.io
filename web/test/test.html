@@ -20,7 +20,13 @@
 <br><br>
 <canvas id="canvas" width="490" height="220" style="border:1px solid #000000;"></canvas>
 <canvas id="otherCanvas" width="490" height="220" style="border:1px solid #000000;"></canvas>
-
+<br><br>
+<fieldset>
+    <textarea id="messageWindow" rows="10" cols="50" readonly="true"></textarea>
+    <br/>
+    <input id="inputMessage" type="text"/>
+    <input type="submit" value="send" onclick="send()" />
+</fieldset>
 <br><br><br>
 <ul id="roomList">
 </ul>
@@ -28,6 +34,8 @@
     var count = 0;
     var serverMsg;
     var webSocket = new WebSocket("ws://localhost:8080/websocket");
+    var textarea = document.getElementById("messageWindow");
+    var inputMessage = document.getElementById('inputMessage');
 
     webSocket.onopen = function () {
         console.log("서버 연결")
@@ -45,6 +53,19 @@
     webSocket.onerror = function (msg) {
         console.log('onerror()');
         console.log(msg);
+    }
+
+    function send() {
+        textarea.value += "나 : " + inputMessage.value + "\n";
+        var msg = {
+            type: "CHAT_START",
+            data: {
+                roomId:"001",
+                msg: inputMessage.value
+            }
+        };
+        webSocket.send(JSON.stringify(msg));
+        inputMessage.value = "";
     }
 
     function createButton() {
