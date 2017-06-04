@@ -248,8 +248,8 @@ public class WebSocket {
                 break;
 
             case "EXIT_ROOM":
-                targetRoom = RoomAction.findRoomById(jsonObject.getInt("roomId"));
-                targetRoom.deletePlayer(jsonObject.getString("userId"));
+                targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
+                targetRoom.deletePlayer(jsonObject.getJSONObject("data").getString("userId"));
 
                 roomAction = new RoomAction(targetRoom);
 
@@ -258,8 +258,8 @@ public class WebSocket {
                     playerSession = webSocketSessionMap.get(playerSessionId);
                     playerSession.getBasicRemote().sendText(
                             PlayerController.exitPlayerJSON(
-                                    jsonObject.getInt("roomId"),
-                                    jsonObject.getString("userId")
+                                    jsonObject.getJSONObject("data").getInt("roomId"),
+                                    jsonObject.getJSONObject("data").getString("userId")
                             )
                     );
                 }
