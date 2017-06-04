@@ -42,7 +42,6 @@ public class WebSocket {
     // 세션리스트에 접속한 세션 추가, Player 객체 생성, 생성된 룸 정보 보냄
     @OnOpen
     public void onOpen(Session rcvSession) throws IOException, SQLException {
-
         webSocketSessionMap.put(rcvSession.getId(), rcvSession);
 
         // session 에 룸 리스트 보냄
@@ -65,11 +64,10 @@ public class WebSocket {
 
                 player = new Player(
                         jsonObject.getJSONObject("data").getString("id"),
-                        jsonObject.getJSONObject("data").getString("nickname"),
+                        jsonObject.getJSONObject("data").getString("nick"),
                         rcvSession.getId(),
                         jsonObject.getJSONObject("data").getBoolean("isGuest")
                 );
-
                 break;
 
             // 방 생성 했을 때 보내는 JSON
@@ -123,11 +121,14 @@ public class WebSocket {
                 enterRoomPlayerHelp();
                 break;
 
+            case "GAME_START":
+
+                break;
+
             // 플레이어가 방에서 준비했을 때 보내는 JSON. 만약 방장 제외 모두 준비했을 시 방장에거 모두 준비했다고 알림!
-            case "GET_READY":
+            case "GAME_READY":
                 targetRoom = RoomAction.findRoomById(jsonObject.getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
-
 
                 String readyJSON = PlayerController.gameReadyToJSON(
                         jsonObject.getJSONObject("data").getInt("roomId"),
@@ -257,7 +258,8 @@ public class WebSocket {
         for (User user : User.getUserList()) {
             JSONObject tempObject = new JSONObject();
             tempObject.put("level", user.getLevel());
-            tempObject.put("nick", user.getNick());
+            tempObject.put("name", user.getNick());
+            tempObject.put("isGuest", user.isGuest());
             dataArray.put(tempObject);
         }
 
