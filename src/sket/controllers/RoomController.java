@@ -3,6 +3,7 @@ package sket.controllers;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import sket.model.action.PlayerAction;
+import sket.model.action.RoomAction;
 import sket.model.data.Player;
 import sket.model.data.Room;
 
@@ -12,10 +13,30 @@ public class RoomController {
         super();
     }
 
+    /* 방 인원 0명일 시 방 삭제 */
+    public static String removeRoomByJSON(Room targetRoom) {
+        JSONObject message = new JSONObject();
+        message.put("type", "REMOVE_ROOM");
+
+        JSONObject data = new JSONObject();
+        data.put("roomId", targetRoom.getRoomId());
+        message.put("data", data);
+
+        return message.toString();
+    }
+
+
     /* 방 생성하는 메소드 */
-    public static Room createRoom(String name, boolean isLock, String pwd, String masterId, int userMax) {
+    public static Room createRoom(String name, boolean isLock, String pwd, String masterId, int userMax, int timeLimit) {
         // 방 생성 코드. Room 생성자 안에 roomList 에 방 추가하는 코드 작성되있음.
-        Room room = new Room(name, PlayerAction.getEqualPlayerId(masterId), Room.getCountRoomId(), isLock, pwd, userMax);
+        Room room = new Room(
+                name,
+                PlayerAction.getEqualPlayerId(masterId),
+                Room.getCountRoomId(),
+                isLock,
+                pwd,
+                userMax,
+                timeLimit);
         Player player = PlayerAction.getEqualPlayerId(masterId);
         player.setMaster(true);
 
