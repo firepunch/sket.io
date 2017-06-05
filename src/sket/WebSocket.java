@@ -208,7 +208,7 @@ public class WebSocket {
                     }
                 }
 
-            // 채팅 JSON
+                // 채팅 JSON
             case "CHAT_DATA":
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
@@ -236,12 +236,11 @@ public class WebSocket {
             // 타임아웃일 때 전체 점수 감점 JSON
             case "GAME_TIMEOUT":
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
+                roomAction = new RoomAction(targetRoom);
                 QuizController.minusScore(jsonObject.getJSONObject("data").getInt("roomId"), 10);
                 jsonObject.getJSONObject("data").append("score", 10);
 
-                // TODO 부탁쓰~ 방 안의 모든 사람에게 전송
-                // String.valueOf(jsonObject)
-
+                sendMessageToRoomMembers(roomAction, String.valueOf(jsonObject));
                 break;
 
             // 랭킹 JSON
@@ -289,7 +288,7 @@ public class WebSocket {
 
             webSocketSessionMap.remove(session.getId(), session);
             System.out.println("onClose()");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
