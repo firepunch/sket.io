@@ -173,23 +173,6 @@
         </td>
         </tr>
     <tr>
-        <td>정답 맞춤</td>
-        <td> type : CORRECT_ANSWER,<br>
-            roomId : 2,<br>
-            correcterId : (정답자 아이디),<br>
-            // 이 사람을 문제 출제자로<br>
-            examinerId : (출제자 아이디),<br>
-            score : (정답자 점수)
-        </td>
-        <td> type : CORRECT_ANSWER,<br>
-            roomId : (방 아이디),<br>
-            quizCnt : (문제 카운트),<br>
-            correcterId : (정답자 아이디),<br>
-            // 이 사람을 문제 출제자로<br>
-            plusScore : (정답자 점수,<br> 시간에 따라)
-        </td>
-    </tr>
-    <tr>
         <td>모두 감점</td>
         <td></td>
         <td>type : INCORRECT_ANSWER,<br>
@@ -235,17 +218,34 @@
          </td>
     </tr>
     <tr>
-        <td>채팅 시작</td>
-        <td> type : CHAT_START,<br>
+        <td>채팅하기</td>
+        <td> type : CHAT_DATA,<br>
             id : 유저 아이디,<br>
             roomId : 룸 아이디,<br>
-            msg : 채팅 말
+            msg : 채팅 내용
         </td>
         <td>type : CHAT_START,<br>
             id : 유저 아이디,<br>
             roomId : 룸 아이디,<br>
             msg : 채팅 내용,<br>
             correct : true/false
+        </td>
+    </tr>
+    <tr>
+        <td>정답 맞춤</td>
+        <td> type : CORRECT_ANSWER,<br>
+            roomId : 2,<br>
+            correcterId : (정답자 아이디),<br>
+            // 이 사람을 문제 출제자로<br>
+            examinerId : (출제자 아이디),<br>
+            score : (정답자 점수)
+        </td>
+        <td> type : CORRECT_ANSWER,<br>
+            roomId : (방 아이디),<br>
+            quizCnt : (문제 카운트),<br>
+            correcterId : (정답자 아이디),<br>
+            // 이 사람을 문제 출제자로<br>
+            plusScore : (정답자 점수,<br> 시간에 따라)
         </td>
     </tr>
     <tr>

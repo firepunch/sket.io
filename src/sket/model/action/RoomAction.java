@@ -25,13 +25,13 @@ public class RoomAction {
         for (Player player : Room.getRoomIntoPlayer(targetRoom)) {
             linkedList.add(player.getSessionID());
         }
+
         return linkedList;
     }
 
 
     /* 방 리스트 중에 인자로 들어온 방을 리턴해준다. 만약 없으면 null 반환 */
     public static Room getEqualRoom(Room targetRoom) {
-
         Room tempRoom = null;
 
         for (Room tmp : Room.getRoomList()) {
@@ -67,11 +67,11 @@ public class RoomAction {
                 return room;
             }
         }
+
         return null;
     }
 
     public static Room getRandomRoom(String userId) {
-
         double randomValue = Math.random();
         int rand = 0;
         if (Room.getRoomList().size() != 0) {

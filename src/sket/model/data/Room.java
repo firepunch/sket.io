@@ -7,7 +7,6 @@ import java.util.ArrayList;
  * 방에 대한 정보를 나타내는 클래스
  */
 public class Room {
-
     // Room 객체를 저장하는 ArrayList
     private static ArrayList<Room> roomList = new ArrayList<>();
 
@@ -21,6 +20,7 @@ public class Room {
     private int roomId;
     private String roomName;
     private String roomPwd;
+    private String answer;
     private Player roomMaster;
     private int round = 0;
     private int timeLimit = 50000;
@@ -48,6 +48,14 @@ public class Room {
         totalUserNumber += 1;
 
         playerList.add(roomMaster);
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
     public int getUserMax() {

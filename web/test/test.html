@@ -56,11 +56,15 @@
     }
 
     function send() {
+        var roomId = document.getElementById("joinRoomId").value;
+        var userId = document.getElementById("joinRoomUserId").value;
+
         textarea.value += "나 : " + inputMessage.value + "\n";
         var msg = {
-            type: "CHAT_START",
+            type: "CHAT_DATA",
             data: {
-                roomId:"001",
+                id: userId,
+                roomId:roomId,
                 msg: inputMessage.value
             }
         };
@@ -142,27 +146,9 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
-    var webSocket = new WebSocket("ws://localhost:8080/websocket");
-    webSocket.onopen = function () {
-        console.log("서버 연결");
-    };
-
-    webSocket.onclose = function () {
-        console.log("서버 종료");
-    };
-
-    webSocket.onmessage = function (msg) {
-        console.log("서버로부터 받음 : " + msg.data);
-        serverMsg = JSON.parse(msg.data);
-    };
-
-    webSocket.onerror = function (msg) {
-        console.log('onerror()');
-        console.log(msg);
-    };
-
     var context = document.getElementById('canvas').getContext("2d");
     var otherContext = document.getElementById('otherCanvas').getContext("2d");
+
     var clickX = new Array();
     var clickY = new Array();
     var clickDrag = new Array();
@@ -199,10 +185,11 @@
     });
 
     function redraw(){
+        var roomId = document.getElementById("joinRoomId").value;
         var msg = {
             type: "CANVAS_DATA",
             data: {
-                id: "ee",
+                id: roomId,
                 clickX : clickX,
                 clickY : clickY,
                 clickDrag : clickDrag
@@ -238,7 +225,5 @@
         }
     }
 </script>
-
-
 </body>
 </html>

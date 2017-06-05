@@ -12,14 +12,16 @@ public class QuizController extends HttpServlet {
     }
 
     /* 랜덤 퀴즈를 json 으로 반환하는 메소드 */
-    public static String sendQuizByJSON() {
+    public static JSONObject sendQuizByJSON() {
         String quiz = null;
 
         JSONObject message = new JSONObject();
-        message.put("type", "randomQuiz");
-        message.put("quiz", quiz);
+        JSONObject data = new JSONObject();
+        message.put("type", "RANDOM_QUIZ");
+        data.put("quiz", quiz);
+        message.put("data", data);
 
-        return message.toString();
+        return message;
     }
 
     /* 문제 맞춘 사람, 출제자, score 작업해서 json 으로 반환 */
