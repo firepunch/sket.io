@@ -104,6 +104,8 @@ public class WebSocket {
 
                 roomAction = new RoomAction(targetRoom);
                 player = PlayerAction.getEqualPlayerId(jsonObject.getJSONObject("data").getString("userId"));
+                player.setInRoom(true);
+
 
                 if (targetRoom.getTotalUserNumber() == 0) {
                     JSONObject temp = new JSONObject();
@@ -237,6 +239,8 @@ public class WebSocket {
                 targetRoom.deletePlayer(jsonObject.getJSONObject("data").getString("userId"));
 
                 roomAction = new RoomAction(targetRoom);
+                player = PlayerAction.getEqualPlayerId(jsonObject.getJSONObject("data").getString("userId"));
+                player.setInRoom(false);
 
                 sendMessageToRoomMembers(
                         roomAction,
