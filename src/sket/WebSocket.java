@@ -63,7 +63,6 @@ public class WebSocket {
 
             // 제일 처음에 플레이어 생성
             case "CREATE_PLAYER":
-
                 player = new Player(
                         jsonObject.getJSONObject("data").getString("id"),
                         jsonObject.getJSONObject("data").getString("nick"),
@@ -86,6 +85,7 @@ public class WebSocket {
                 rcvSession.getBasicRemote().sendText(
                         RoomController.getRoomInfoToJSON(targetRoom)
                 );
+                sendMessageToAllSession(RoomController.getRoomListAsJSON());
 
                 break;
 
@@ -111,17 +111,17 @@ public class WebSocket {
                     temp.put("userCount", 0);
 
                 } else {
-                    enterRoomPlayerHelp();
+                    sendMessageToRoomMembers(roomAction, RoomController.getRoomInfoToJSON(targetRoom));
                 }
                 break;
 
             // 빠른 시작 시 JSON
             case "QUICK_START":
                 targetRoom = RoomAction.getRandomRoom(jsonObject.getJSONObject("data").getString("roomId"));
-
                 roomAction = new RoomAction(targetRoom);
 
-                enterRoomPlayerHelp();
+                sendMessageToRoomMembers(roomAction, RoomController.getRoomInfoToJSON(targetRoom));
+
                 break;
 
             // 플레이어가 방에서 준비했을 때 보내는 JSON. 만약 방장 제외 모두 준비했을 시 방장에거 모두 준비했다고 알림!
@@ -135,24 +135,13 @@ public class WebSocket {
                         rcvSession.getId()
                 );
 
-                for (String playerSessionId : roomAction.getPlayerSessionId()) {
-                    playerSession = webSocketSessionMap.get(playerSessionId);
-                    playerSession.getBasicRemote().sendText(readyJSON);
-                }
-//
-//                String readyAllPlayerJSON = PlayerController.checkReadyAllPlayer(targetRoom);
-//
-//                if (readyAllPlayerJSON != null) {
-//                    Session tempSession = webSocketSessionMap.get(targetRoom.getRoomMaster().getSessionID());
-//                    System.out.println("log : HashMap.get() : " + tempSession);
-//
-//                    tempSession.getBasicRemote().sendText(readyAllPlayerJSON);
-//                }
+                sendMessageToRoomMembers(roomAction, readyJSON);
+
                 break;
 
             // 방장이 게임 시작 눌렀을 시에 게임 준비 체크
             case "GAME_START":
-                targetRoom = RoomAction.findRoomById(jsonObject.getInt("roomId"));
+                targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
 
                 String readyAllPlayerByJSON = PlayerController.checkReadyAllPlayer(targetRoom);
@@ -168,20 +157,18 @@ public class WebSocket {
 
             // 플레이어가 문제 맞혔을 때 보내는 JSON
             case "CORRECT_ANSWER":
-                targetRoom = RoomAction.findRoomById(jsonObject.getInt("roomId"));
+                targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
 
                 if (targetRoom != null) {
-                    roomMembers = roomAction.getPlayerSessionId();
-                    for (String playerSessionId : roomMembers) {
-                        playerSession = webSocketSessionMap.get(playerSessionId);
-                        playerSession.getBasicRemote().sendText(
-                                QuizController.correctAnswer(
-                                        jsonObject.getJSONObject("data").getString("correcterId"),
-                                        jsonObject.getJSONObject("data").getString("examinerId"),
-                                        jsonObject.getJSONObject("data").getInt("score"))
-                        );
-                    }
+                    sendMessageToRoomMembers(
+                            roomAction,
+                            QuizController.correctAnswer(
+                                    jsonObject.getJSONObject("data").getString("correcterId"),
+                                    jsonObject.getJSONObject("data").getString("examinerId"),
+                                    jsonObject.getJSONObject("data").getInt("score")
+                            )
+                    );
                 }
                 break;
 
@@ -191,14 +178,13 @@ public class WebSocket {
                 roomAction = new RoomAction(targetRoom);
 
                 if (targetRoom != null) {
-                    roomMembers = roomAction.getPlayerSessionId();
-                    for (String playerSessionId : roomMembers) {
-                        playerSession = webSocketSessionMap.get(playerSessionId);
-                        playerSession.getBasicRemote().sendText(GameController.randomExaminerToJSON(
-                                jsonObject.getJSONObject("data").getString("id"),
-                                targetRoom.getRoomId()
-                        ));
-                    }
+                    sendMessageToRoomMembers(
+                            roomAction,
+                            GameController.randomExaminerToJSON(
+                                    jsonObject.getJSONObject("data").getString("id"),
+                                    targetRoom.getRoomId()
+                            )
+                    );
                 }
                 break;
 
@@ -231,11 +217,10 @@ public class WebSocket {
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
 
-                roomMembers = roomAction.getPlayerSessionId();
-                for (String playerSessionId : roomMembers) {
-                    playerSession = webSocketSessionMap.get(playerSessionId);
-                    playerSession.getBasicRemote().sendText(jsonObject.getJSONObject("data").getString("msg"));
-                }
+                sendMessageToRoomMembers(
+                        roomAction,
+                        jsonObject.getJSONObject("data").getString("msg")
+                );
 
                 break;
 
@@ -253,20 +238,17 @@ public class WebSocket {
 
                 roomAction = new RoomAction(targetRoom);
 
-                roomMembers = roomAction.getPlayerSessionId();
-                for (String playerSessionId : roomMembers) {
-                    playerSession = webSocketSessionMap.get(playerSessionId);
-                    playerSession.getBasicRemote().sendText(
-                            PlayerController.exitPlayerJSON(
-                                    jsonObject.getJSONObject("data").getInt("roomId"),
-                                    jsonObject.getJSONObject("data").getString("userId")
-                            )
-                    );
-                }
+                sendMessageToRoomMembers(
+                        roomAction,
+                        PlayerController.exitPlayerJSON(
+                                jsonObject.getJSONObject("data").getInt("roomId"),
+                                jsonObject.getJSONObject("data").getString("userId")
+                        )
+                );
 
                 if (targetRoom.getTotalUserNumber() == 0) {
                     Room.getRoomList().remove(targetRoom);
-                    rcvSession.getBasicRemote().sendText(RoomController.removeRoomByJSON(targetRoom));
+                    sendMessageToAllSession(RoomController.removeRoomByJSON(targetRoom));
                 }
         }
     }
@@ -319,17 +301,32 @@ public class WebSocket {
         return message.toString();
     }
 
-    private void enterRoomPlayerHelp() throws IOException {
-        if (targetRoom != null && roomAction != null) {
-            roomMembers = roomAction.getPlayerSessionId();
+    private void checkPlayerInRoom() {
 
-            for (String playerSessionId : roomMembers) {
-                playerSession = webSocketSessionMap.get(playerSessionId);
+    }
 
-                playerSession.getBasicRemote().sendText(
-                        RoomController.getRoomInfoToJSON(targetRoom)
-                );
+    private void sendMessageToAllSession(String message) {
+        try {
+            for (String sessionId : webSocketSessionMap.keySet()) {
+                webSocketSessionMap.get(sessionId).getBasicRemote().sendText(message);
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void sendMessageToRoomMembers(RoomAction roomAction, String message) {
+        try {
+            if (roomAction != null) {
+                LinkedList<String> roomMembers;
+                roomMembers = roomAction.getPlayerSessionId();
+
+                for (String playerSessionId : roomMembers) {
+                    webSocketSessionMap.get(playerSessionId).getBasicRemote().sendText(message);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
