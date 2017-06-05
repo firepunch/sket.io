@@ -57,7 +57,7 @@
 .profile-score {
     /*display: inline-block;*/
     height: 100%;
-
+    text-align: center;
     opacity: 0.7;
 }
 
