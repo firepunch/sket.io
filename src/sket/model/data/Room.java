@@ -46,7 +46,7 @@ public class Room {
         System.out.println("log : " + "방 생성 성공");
 
         Room.roomList.add(this);
-        totalUserNumber += 1;
+        this.totalUserNumber += 1;
 
         playerList.add(roomMaster);
     }

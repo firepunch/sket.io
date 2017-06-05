@@ -84,7 +84,7 @@ public class WebSocket {
                 );
 
                 player.setInRoom(true);
-                
+
                 rcvSession.getBasicRemote().sendText(
                         RoomController.getRoomInfoToJSON(targetRoom)
                 );
@@ -299,6 +299,7 @@ public class WebSocket {
 
     @OnError
     public void onError(Throwable throwable, Session session) {
+        /*
         for (User user : User.getUserList()) {
             if (user.getId().equals(player)) {
                 User.getUserList().remove(user);
@@ -309,6 +310,7 @@ public class WebSocket {
         Player.getPlayerArrayList().remove(player);
 
         webSocketSessionMap.remove(session.getId(), session);
+        */
         System.out.println("onError()");
         throwable.printStackTrace();
     }
