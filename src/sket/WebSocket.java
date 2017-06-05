@@ -276,21 +276,26 @@ public class WebSocket {
 
     @OnClose
     public void onClose(Session session) {
-        for (User user : User.getUserList()) {
-            if (user.getId().equals(player.getId())) {
-                System.out.println("유저 삭제");
-                User.getUserList().remove(user);
+        try {
+            for (User user : User.getUserList()) {
+                if (user.getId().equals(player.getId())) {
+                    System.out.println("유저 삭제");
+                    User.getUserList().remove(user);
+                    break;
+                }
             }
-        }
-        autoExitRoom();
-        Player.getPlayerArrayList().remove(player);
+            autoExitRoom();
+            Player.getPlayerArrayList().remove(player);
 
-        webSocketSessionMap.remove(session.getId(), session);
-        System.out.println("onClose()");
+            webSocketSessionMap.remove(session.getId(), session);
+            System.out.println("onClose()");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @OnError
-    public void onError(Throwable throwable, Session session) {
+    public void onError(Throwable throwable, Session session) throws IOException {
         /*
         for (User user : User.getUserList()) {
             if (user.getId().equals(player)) {

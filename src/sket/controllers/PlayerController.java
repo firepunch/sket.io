@@ -76,9 +76,9 @@ public class PlayerController extends HttpServlet {
         return null;
     }
 
-    public static String noReadyAllPlayerJSON(Room room){
+    public static String noReadyAllPlayerJSON(Room room) {
         JSONObject message = new JSONObject();
-        message.put("type", "READY_ALL_PLAYER");
+        message.put("type", "NO_READY_ALL_PLAYER");
 
         JSONObject data = new JSONObject();
         data.put("roomId", room.getRoomId());
