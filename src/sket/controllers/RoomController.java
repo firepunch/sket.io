@@ -13,6 +13,17 @@ public class RoomController {
         super();
     }
 
+    public static String noEnterRoom(String id) {
+        JSONObject message = new JSONObject();
+        message.put("type", "NO_ENTER_ROOM");
+
+        JSONObject data = new JSONObject();
+        data.put("id", id);
+        message.put("data", data);
+
+        return message.toString();
+    }
+
     /* 방 인원 0명일 시 방 삭제 */
     public static String removeRoomByJSON(Room targetRoom) {
         JSONObject message = new JSONObject();
