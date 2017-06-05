@@ -208,7 +208,7 @@ public class WebSocket {
                     }
                 }
 
-                // 채팅 JSON
+            // 채팅 JSON
             case "CHAT_DATA":
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);

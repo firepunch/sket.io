@@ -41,6 +41,7 @@ public class QuizController extends HttpServlet {
 
     /* 전체 점수 감점 */
     public static void minusScore(int roomId, int minusScore) {
-        // TODO 부탁쓰~~~ 모든 룸 멤버의 점수 감점
+        // TODO 부탁쓰~~~ 모든 룸 멤버의 점수 감점 매소드는 만들었음
+        // ~~.minusScore(minusScore);
     }
 }

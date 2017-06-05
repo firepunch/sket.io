@@ -94,6 +94,10 @@ public class Player {
         this.score += score;
     }
 
+    public void minusScore(int score) {
+        this.score -= score;
+    }
+
     public boolean isMaster() {
         return isMaster;
     }
