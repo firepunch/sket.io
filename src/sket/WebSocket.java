@@ -82,6 +82,8 @@ public class WebSocket {
                         jsonObject.getJSONObject("data").getInt("timeLimit")
                 );
 
+                player.setInRoom(true);
+                
                 rcvSession.getBasicRemote().sendText(
                         RoomController.getRoomInfoToJSON(targetRoom)
                 );
@@ -290,6 +292,7 @@ public class WebSocket {
     }
 
     private void autoExitRoom() {
+        System.out.println("log : player.isInRoom() : " + player.isInRoom());
         if (player.isInRoom() == true) {
 
             targetRoom.deletePlayer(player);
