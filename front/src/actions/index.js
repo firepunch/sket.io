@@ -179,13 +179,26 @@ function handleRanking() {
     }
 }
 
-export function enterRoom(userId, roomId) {
+export function enterRoom(roomInfo) {
     return {
-        type: types.ENTER_ROOM,
-        data: userId, roomId
+        type: types.ROOM_INFO,
+        roomInfo
     }
 }
 
+export function getRoomInfo(roomId, userId) {
+    return {
+        type: types.SEND_MESSAGE,
+        msg_type: "ENTER_ROOM",
+        data: { roomId, userId }
+    }
+}
+
+export function setMaster() {
+    return {
+        type: types.SET_MASTER
+    }
+}
 
 export function getCreatingRoomId(roomId) {
     return {
@@ -227,9 +240,33 @@ export function getRanking(ranking) {
 
 /* GAME */
 
-export function getReady() {
+export function getReady(roomId, userId, isReady) {
     return {
-        type: types.GET_READY,
-        // isReady     // boolean
+        type: types.SEND_MESSAGE,
+        msg_type: "GAME_READY",
+        data: { roomId, userId, isReady }   // isReady 는 현재 상태의 반대값으로 전달됨
+    }
+}
+
+export function changeMyReady(ready) {
+    return {
+        type: types.MY_READY,
+        ready
+    }
+}
+
+export function changeOtherReady(ready, userIndex) {
+    return {
+        type: types.OTHER_READY,
+        ready,
+        userIndex
+    }
+}
+
+export function startGame(roomId, userId) {
+    return {
+        type: types.SEND_MESSAGE,
+        msg_type: "GAME_START",
+        data: { roomId, userId }
     }
 }

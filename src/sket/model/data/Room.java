@@ -23,14 +23,15 @@ public class Room {
     private String answer;
     private Player roomMaster;
     private int round = 0;
-    private int timeLimit = 50000;
+    private int timeLimit = 0;
 
-    public Room(String name, Player roomMaster, int roomId, boolean isLock, String pwd, int userMax) {
+    public Room(String name, Player roomMaster, int roomId, boolean isLock, String pwd, int userMax, int timeLimit) {
         this.roomName = name;
         this.roomMaster = roomMaster;
         this.roomId = roomId;
         this.isLock = isLock;
         this.userMax = userMax;
+        this.timeLimit = timeLimit;
 
         if (isLock == true) {
             if (pwd != null) {

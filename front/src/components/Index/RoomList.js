@@ -5,14 +5,24 @@ import { PropTypes as ReactPropTypes } from 'prop-types';
 const propTypes = {
     roomList: ReactPropTypes.array,
     ranking: ReactPropTypes.object,
-    isShowRanking: ReactPropTypes.bool
+    isShowRanking: ReactPropTypes.bool,
+    userId: ReactPropTypes.string,
+
+    handleEnterRoom: ReactPropTypes.func
 };
 
 const defaultProps = {
     roomList: [],
     ranking: {},
-    isShowRanking: false
+    isShowRanking: false,
+    userId: '',
+
+    handleEnterRoom: () => createWarning('handleEnterRoom')
 };
+
+function createWarning(funcName) {
+    return () => console.warn(funcName + ' is not defined in RoomList');
+}
 
 class RoomList extends Component {
     constructor(props) {
@@ -34,12 +44,16 @@ class RoomList extends Component {
         if (this.props.roomList.length > 0) {
             rooms = this.props.roomList.map((a, index) => {
                 return (
-                    <div className="room-info">
-                        { a.roomName }
-                        { a.timeLimit }
-                        { a.userNumLimit }
-                        { a.userNum }
-                        { a.lock }
+                    <div
+                        className="room-info"
+                        roomId={ a.roomId }
+                        onClick={ () => this.props.handleEnterRoom(a.roomId, this.props.userId) }
+                    >
+                        <p>{ a.roomName }</p>
+                        <p>{ a.timeLimit }</p>
+                        <p>{ a.userNumLimit }</p>
+                        <p>{ a.userNum }</p>
+                        <p>{ a.lock }</p>
                     </div>
                 )
             });

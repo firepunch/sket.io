@@ -1,17 +1,36 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import { PropTypes as ReactPropTypes } from 'prop-types';
 
 import UserArea from '../components/Game/UserArea';
 import GameArea from '../components/Game/GameArea';
 import SystemArea from '../components/Game/SystemArea';
 
-import { connect } from 'react-redux';
-import * as actions from '../actions';
-
 const propTypes = {
+    user: ReactPropTypes.object,
+    roomInfo: ReactPropTypes.object,
+    playerList: ReactPropTypes.array,
+
+    isReady: ReactPropTypes.bool,
+
+    handleGetReady: ReactPropTypes.func,
+    handleStartGame: ReactPropTypes.func
 };
 
 const defaultProps = {
+    user: {},
+    roomInfo: {},
+    playerList: [{}, {}, {}],
+
+    isReady: false,
+
+    handleGetReady: () => createWarning('handleGetReady'),
+    handleStartGame: () => createWarning('handleStartGame')
 };
+
+
+function createWarning(funcName) {
+    return () => console.warn(funcName + ' is not defined in GameContent');
+}
 
 class GameContent extends Component {
     constructor(props) {
@@ -19,19 +38,53 @@ class GameContent extends Component {
     }
 
     render() {
+
+        let playerList = this.props.playerList;
+
+        for (let player in playerList) {
+            if (playerList[player].id === this.props.user.id) {
+                console.log(playerList[player])
+                playerList.splice(player, 1);
+            }
+        }
+
         return(
             <div className="game-content">
                 <UserArea
-                    direction="left-side"
-                    isReady={this.props.isReady}
-                    getReady={this.props.handleGetReady}
+                    componentClass="game-left game-top me"
+                    me={ true }
+
+                    user={ this.props.user }
+                    roomId={ this.props.roomInfo.roomId }
+                    master={ this.props.roomMaster }
+
+                    isReady={ this.props.isReady }
+
+                    handleGetReady={ this.props.handleGetReady }
+                    handleStartGame={ this.props.handleStartGame }
                 />
-                <GameArea/>
+
                 <UserArea
-                    direction="right-side"
-                    isReady={this.props.isReady}
-                    getReady={this.props.handleGetReady}
+                    componentClass="game-right game-bottom"
+                    me={ false }
+                    user={ playerList[0] }
+                    master={ this.props.roomMaster }
                 />
+
+                <UserArea
+                    componentClass="game-left game-top"
+                    me={ false }
+                    user={ playerList[1] }
+                    master={ this.props.roomMaster }
+                />
+
+                <UserArea
+                    componentClass="game-right game-bottom"
+                    me={ false }
+                    user={ playerList[2] }
+                    master={ this.props.roomMaster }
+                />
+
             </div>
         );
     }
@@ -40,20 +93,4 @@ class GameContent extends Component {
 GameContent.propTypes = propTypes;
 GameContent.defaultProps = defaultProps;
 
-// 여기서의 state 는 컴포넌트에서 사용하는 state와 다름
-// redux의 state임
-const mapStateToProps = (state) => {
-    return {
-        isReady: state.game.isReady
-    };
-}
-
-// action을 dispatch하는 함수를 props에 연결
-const mapDispatchToProps = (dispatch) => {
-    // return bindActionCreators(actions, dispatch);
-    return {
-        handleGetReady: () => { dispatch(actions.getReady()) }
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(GameContent);
+export default GameContent;

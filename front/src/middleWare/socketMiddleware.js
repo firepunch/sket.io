@@ -28,16 +28,33 @@ const socketMiddleware = (() => {
                 break;
 
             case "ROOM_LIST":
-                store.dispatch( actions.getRoomList(msg.data) );
+                store.dispatch( actions.getRoomList(msg.data.roomList) );
                 break;
 
             case "SHOW_RANK":
                 store.dispatch( actions.getRanking(msg.data) );
                 break;
 
-            case "CREATE_ROOM":
-                console.log(msg.data)
-                store.dispatch( actions.enterRoom(store.getState().main.user.id, msg.data.roomId) )
+            case "ROOM_INFO":
+                // if (msg.data.roomMaster === store.getState().login.user.id) {
+                //     store.dispatch( actions.setMaster() );
+                // }
+                store.dispatch( actions.enterRoom(msg.data) );
+                break;
+
+            case "PLAYER_READY":
+                if (msg.data.id === store.getState().login.user.id) {    // 자신의 준비 상태가 바뀌었을 경우
+                    store.dispatch( actions.changeMyReady(msg.data.ready) );
+                } else {    // 다른 사람의 상태가 바뀌었을 경우
+                    let playerList = store.getState().game.roomInfo.playerList;
+
+                    for (let i in playerList) {
+                        if (msg.data.id === playerList[i].id) {
+                            store.dispatch( actions.changeOtherReady(msg.data.ready, i) );
+                        }
+                    }
+                }
+
                 break;
 
             default:

@@ -32,6 +32,12 @@ const propTypes = {
     ranking: ReactPropTypes.object,
     isShowRanking: ReactPropTypes.bool,
 
+    /* 게임 */
+    isGame: ReactPropTypes.bool,
+    roomInfo: ReactPropTypes.object,
+
+    isReady: ReactPropTypes.bool,
+
     /* dispatcher function */
     handleLoginRequest: ReactPropTypes.func,
     handleLogin: ReactPropTypes.func,
@@ -41,7 +47,11 @@ const propTypes = {
 
     handleCreateRoom: ReactPropTypes.func,
     handleQuickStart: ReactPropTypes.func,
-    handleShowRanking: ReactPropTypes.func
+    handleShowRanking: ReactPropTypes.func,
+    handleEnterRoom: ReactPropTypes.func,
+
+    handleGetReady: ReactPropTypes.func,
+    handleStartGame: ReactPropTypes.func
 };
 
 const defaultProps = {
@@ -60,16 +70,26 @@ const defaultProps = {
     ranking: {},
     isShowRanking: false,
 
+    /* 게임 */
+    isGame: false,
+    roomInfo: {},
+
+    isReady: false,
+
     /* dispatcher function */
-    handleLoginRequest: createWarning('handleLoginRequest'),
-    handleLogin: createWarning('handleLogin'),
-    handleGuestLogin: createWarning('handleGuestLogin'),
+    handleLoginRequest: () => createWarning('handleLoginRequest'),
+    handleLogin: () => createWarning('handleLogin'),
+    handleGuestLogin: () => createWarning('handleGuestLogin'),
 
-    handleLogout: createWarning('handleLogout'),
+    handleLogout: () => createWarning('handleLogout'),
 
-    handleCreateRoom: createWarning('handleCreateRoom'),
-    handleQuickStart: createWarning('handleQuickStart'),
-    handleShowRanking: createWarning('handleShowRanking')
+    handleCreateRoom: () => createWarning('handleCreateRoom'),
+    handleQuickStart: () => createWarning('handleQuickStart'),
+    handleShowRanking: () => createWarning('handleShowRanking'),
+    handleEnterRoom: () => createWarning('handleEnterRoom'),
+
+    handleGetReady: () => createWarning('handleGetReady'),
+    handleStartGame: () => createWarning('handleStartGame')
 };
 
 
@@ -129,20 +149,32 @@ class Sket extends Component {
                     userList={ this.props.userList }
                     roomList={ this.props.roomList }
                     ranking={ this.props.ranking }
+                    isShowRanking={ this.props.isShowRanking }
 
                     handleLogout={ this.props.handleLogout }
                     handleCreateRoom={ this.props.handleCreateRoom }
                     handleQuickStart={ this.props.handleQuickStart }
                     handleShowRanking={ this.props.handleShowRanking }
-                    isShowRanking={ this.props.isShowRanking }
+                    handleEnterRoom={ this.props.handleEnterRoom }
                 />
         )
 
         const game = (
-                <GameContent/>
+                <GameContent
+                    user={ this.props.user }
+                    playerList={ this.props.roomInfo.playerList }
+                    roomInfo={ this.props.roomInfo }
+
+                    isReady={ this.props.isReady }
+
+                    handleGetReady={ this.props.handleGetReady }
+                    handleStartGame={ this.props.handleStartGame }
+                />
         )
 
-        const rendering = ( this.props.isLoggedIn ? index : loginPage );
+        const main = ( this.props.isGame ? game : index )
+
+        const rendering = ( this.props.isLoggedIn ? main : loginPage );
 
         const loading = (<Loading type="cylon" color="white"
                             height='667' width='375' className="loading-svg"/>)
@@ -165,6 +197,9 @@ const mapStateToProps = (state) => {
     const { fetchingConnect, isConnecting, isSocketFetching } = state.main;
     const { userList, roomList, ranking, isShowRanking } = state.main;
 
+    const { isGame, roomInfo } = state.game;
+    const { isMaster, isReady } = state.game;
+
     return {
         /* 로그인 */
         isLoggedIn,
@@ -179,7 +214,14 @@ const mapStateToProps = (state) => {
 
         userList,
         roomList,
-        ranking
+        ranking,
+
+        /* 게임 */
+        isMaster,
+        isGame,
+        roomInfo,
+
+        isReady
     };
 }
 
@@ -196,7 +238,12 @@ const mapDispatchToProps = (dispatch) => {
         /* 대기 화면 핸들링 */
         handleCreateRoom: (roomInfo) => { dispatch(actions.createRoom(roomInfo)) },
         handleQuickStart: () => { dispatch(actions.quickStart()) },
-        handleShowRanking: (userId) => { dispatch(actions.showRanking(userId)) }
+        handleShowRanking: (userId) => { dispatch(actions.showRanking(userId)) },
+        handleEnterRoom: (roomId, userId) => { dispatch(actions.getRoomInfo(roomId, userId)) },
+
+        /* 게임 기능 핸들링 */
+        handleGetReady: (roomId, userId, isReady) => { dispatch(actions.getReady(roomId, userId, isReady)) },
+        handleStartGame: (roomId, userId) => { dispatch(actions.startGame(roomId, userId)) }
     };
 }
 
