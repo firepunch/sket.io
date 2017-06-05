@@ -81,6 +81,20 @@ class UserArea extends Component {
             )
         );
 
+        if (!this.props.enable) {
+            return (
+                <div className="sket-game-user">
+                    <div className="game-profile profile-score" style={profileBackground}>
+                        <h1>X</h1>
+                    </div>
+
+                    <div className="sket-score profile-score" style={scoreBackground}>
+                        <h1>X</h1>
+                    </div>
+                </div>
+            )
+        }
+
         return(
             <div className="sket-game-user">
                 <div className="game-profile profile-score" style={profileBackground}>
