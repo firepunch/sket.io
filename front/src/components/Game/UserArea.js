@@ -8,7 +8,8 @@ const propTypes = {
     isReady: ReactPropTypes.bool,
     roomId: ReactPropTypes.string,
 
-    handleGetReady: ReactPropTypes.func
+    handleGetReady: ReactPropTypes.func,
+    handleStartGame: ReactPropTypes.func
 };
 
 const defaultProps = {
@@ -16,7 +17,8 @@ const defaultProps = {
     isReady: false,
     roomId: '',
 
-    handleGetReady: () => createWarning('handleGetReady')
+    handleGetReady: () => createWarning('handleGetReady'),
+    handleStartGame: () => createWarning('handleStartGame')
 };
 
 function createWarning(funcName) {
@@ -31,6 +33,8 @@ class UserArea extends Component {
 
     render() {
 
+        // 방장이 아닌 플레이어일 때
+        // 사용자 자신의 영역이라면 핸들링 함수 추가
         const player = (
             this.props.me
             ?
@@ -49,12 +53,14 @@ class UserArea extends Component {
             )
         )
 
+        // 방장일 때
+        // 사용자 자신의 영역이라면 핸들링 함수 추가
         const master = (
             this.props.me
             ?
             (
                 <div className="sket-score"
-                    onClick={ () => this.props.handleGetReady(this.props.roomId, this.props.user.id, !this.props.isReady) }
+                    onClick={ () => this.props.handleStartGame(this.props.roomId, this.props.user.id) }
                 >
                     <p>시작</p>
                 </div>

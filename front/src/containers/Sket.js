@@ -50,7 +50,8 @@ const propTypes = {
     handleShowRanking: ReactPropTypes.func,
     handleEnterRoom: ReactPropTypes.func,
 
-    handleGetReady: ReactPropTypes.func
+    handleGetReady: ReactPropTypes.func,
+    handleStartGame: ReactPropTypes.func
 };
 
 const defaultProps = {
@@ -87,7 +88,8 @@ const defaultProps = {
     handleShowRanking: () => createWarning('handleShowRanking'),
     handleEnterRoom: () => createWarning('handleEnterRoom'),
 
-    handleGetReady: () => createWarning('handleGetReady')
+    handleGetReady: () => createWarning('handleGetReady'),
+    handleStartGame: () => createWarning('handleStartGame')
 };
 
 
@@ -166,6 +168,7 @@ class Sket extends Component {
                     isReady={ this.props.isReady }
 
                     handleGetReady={ this.props.handleGetReady }
+                    handleStartGame={ this.props.handleStartGame }
                 />
         )
 
@@ -239,7 +242,8 @@ const mapDispatchToProps = (dispatch) => {
         handleEnterRoom: (roomId, userId) => { dispatch(actions.getRoomInfo(roomId, userId)) },
 
         /* 게임 기능 핸들링 */
-        handleGetReady: (roomId, userId, isReady) => { dispatch(actions.getReady(roomId, userId, isReady)) }
+        handleGetReady: (roomId, userId, isReady) => { dispatch(actions.getReady(roomId, userId, isReady)) },
+        handleStartGame: (roomId, userId) => { dispatch(actions.startGame(roomId, userId)) }
     };
 }
 

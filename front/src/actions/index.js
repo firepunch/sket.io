@@ -262,3 +262,11 @@ export function changeOtherReady(ready, userIndex) {
         userIndex
     }
 }
+
+export function startGame(roomId, userId) {
+    return {
+        type: types.SEND_MESSAGE,
+        msg_type: "GAME_START",
+        data: { roomId, userId }
+    }
+}

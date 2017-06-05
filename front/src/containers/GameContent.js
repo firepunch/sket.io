@@ -12,7 +12,8 @@ const propTypes = {
 
     isReady: ReactPropTypes.bool,
 
-    handleGetReady: ReactPropTypes.func
+    handleGetReady: ReactPropTypes.func,
+    handleStartGame: ReactPropTypes.func
 };
 
 const defaultProps = {
@@ -22,7 +23,8 @@ const defaultProps = {
 
     isReady: false,
 
-    handleGetReady: () => createWarning('handleGetReady')
+    handleGetReady: () => createWarning('handleGetReady'),
+    handleStartGame: () => createWarning('handleStartGame')
 };
 
 
@@ -59,6 +61,7 @@ class GameContent extends Component {
                     isReady={ this.props.isReady }
 
                     handleGetReady={ this.props.handleGetReady }
+                    handleStartGame={ this.props.handleStartGame }
                 />
 
                 <UserArea
