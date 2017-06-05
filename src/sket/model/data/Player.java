@@ -90,6 +90,10 @@ public class Player {
         this.score = score;
     }
 
+    public void addScore(int score) {
+        this.score += score;
+    }
+
     public boolean isMaster() {
         return isMaster;
     }

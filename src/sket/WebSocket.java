@@ -84,7 +84,7 @@ public class WebSocket {
                 );
 
                 player.setInRoom(true);
-                
+
                 rcvSession.getBasicRemote().sendText(
                         RoomController.getRoomInfoToJSON(targetRoom)
                 );
@@ -99,7 +99,6 @@ public class WebSocket {
 
             // 방 들어갔을 때 보내는 JSON
             case "ENTER_ROOM":
-
                 targetRoom = RoomAction.enterRoom(
                         jsonObject.getJSONObject("data").getInt("roomId"),
                         jsonObject.getJSONObject("data").getString("userId")
@@ -109,15 +108,14 @@ public class WebSocket {
                 player = PlayerAction.getEqualPlayerId(jsonObject.getJSONObject("data").getString("userId"));
                 player.setInRoom(true);
 
-
                 if (targetRoom.getTotalUserNumber() == 0) {
                     JSONObject temp = new JSONObject();
                     temp.put("type", "ROOM_INFO");
                     temp.put("userCount", 0);
-
                 } else {
                     sendMessageToRoomMembers(roomAction, RoomController.getRoomInfoToJSON(targetRoom));
                 }
+
                 break;
 
             // 빠른 시작 시 JSON
@@ -185,7 +183,7 @@ public class WebSocket {
                 targetRoom.setAnswer(quizData.getJSONObject("data").getString("quiz"));
 
                 if (targetRoom != null) {
-                    Player targetPlayer = PlayerAction.getEqualPlayerId(jsonObject.getJSONObject("data").getString("id"));
+                    Player targetPlayer = PlayerAction.getEqualPlayerId(jsonObject.getJSONObject("data").getString("userId"));
                     playerSession = webSocketSessionMap.get(targetPlayer.getSessionID());
                     playerSession.getBasicRemote().sendText(String.valueOf(quizData));
                 }
@@ -194,16 +192,15 @@ public class WebSocket {
 
             // 캔바스 데이터 JSON 보냄
             case "CANVAS_DATA":
-                System.out.println(jsonObject.getJSONObject("data").getString("id"));
                 roomMembers = QuizAction.excludeExaminerSession(jsonObject.getJSONObject("data").getString("id"));
 
                 if (roomMembers != null) {
                     for (String playerSessionId : roomMembers) {
                         playerSession = webSocketSessionMap.get(playerSessionId);
-//                        playerSession.getBasicRemote().sendText(QuizController.sendCanvasData());
                         playerSession.getBasicRemote().sendText(String.valueOf(jsonObject));
                     }
                 }
+
 
             // 채팅 JSON
             case "CHAT_DATA":
@@ -212,50 +209,38 @@ public class WebSocket {
                 roomMembers = roomAction.getPlayerSessionId();
                 String msg = jsonObject.getJSONObject("data").getString("msg");
 
-                // 정답인지 확인
+                // 정답 확인
                 if (msg.equals(targetRoom.getAnswer())) {
+                    int restTime = jsonObject.getJSONObject("data").getInt("restTime");
+                    int addScore = QuizController.getScore(targetRoom.getTimeLimit(), restTime);
+                    QuizController.addScore(jsonObject.getJSONObject("data").getString("id"), addScore);
+
+                    // TODO append확인
                     jsonObject.getJSONObject("data").append("correct", "true");
+                    jsonObject.getJSONObject("data").append("score", addScore);
                 } else {
                     jsonObject.getJSONObject("data").append("correct", "false");
                 }
 
                 // 다른 플레이어들에게 전송
-                for (String playerSessionId : roomMembers) {
-                    playerSession = webSocketSessionMap.get(playerSessionId);
-                    playerSession.getBasicRemote().sendText(msg);
-                }
-
-                sendMessageToRoomMembers(
-                        roomAction,
-                        jsonObject.getJSONObject("data").getString("msg")
-                );
+                sendMessageToRoomMembers(roomAction, String.valueOf(jsonObject));
 
                 break;
 
-            // 플레이어가 문제 맞췄을 때 보내는 JSON
-            case "CORRECT_ANSWER":
-                targetRoom = RoomAction.findRoomById(jsonObject.getInt("roomId"));
-                roomAction = new RoomAction(targetRoom);
+            // 타임아웃일 때 전체 점수 감점 JSON
+            case "GAME_TIMEOUT":
+                targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
+                QuizController.minusScore(jsonObject.getJSONObject("data").getInt("roomId"),10);
+                jsonObject.getJSONObject("data").append("score", 10);
 
-                if (targetRoom != null) {
-                    roomMembers = roomAction.getPlayerSessionId();
-                    for (String playerSessionId : roomMembers) {
-                        playerSession = webSocketSessionMap.get(playerSessionId);
-                        playerSession.getBasicRemote().sendText(
-                                QuizController.correctAnswer(
-                                        jsonObject.getJSONObject("data").getString("correcterId"),
-                                        jsonObject.getJSONObject("data").getString("examinerId"),
-                                        jsonObject.getJSONObject("data").getInt("score"))
-                        );
-                    }
-                }
+                sendMessageToRoomMembers(roomAction, String.valueOf(jsonObject));
+
                 break;
 
             // 랭킹 JSON
             case "SHOW_RANK":
-                JSONObject rankInfo = new JSONObject();
                 DBConnection db = new DBConnection();
-                rankInfo = db.showRank(jsonObject.getJSONObject("data").getString("userId"));
+                JSONObject rankInfo = db.showRank(jsonObject.getJSONObject("data").getString("id"));
                 rcvSession.getBasicRemote().sendText(String.valueOf(rankInfo));
                 break;
 
@@ -318,11 +303,8 @@ public class WebSocket {
         if (player.isInRoom() == true) {
 
             targetRoom.deletePlayer(player);
-            sendMessageToRoomMembers(roomAction,
-                    PlayerController.exitPlayerJSON(
-                            targetRoom,
-                            player
-                    )
+            sendMessageToRoomMembers(
+                    roomAction, PlayerController.exitPlayerJSON(targetRoom, player)
             );
 
             if (targetRoom.getTotalUserNumber() == 0) {

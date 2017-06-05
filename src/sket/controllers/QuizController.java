@@ -24,50 +24,23 @@ public class QuizController extends HttpServlet {
         return message;
     }
 
-    /* 문제 맞춘 사람, 출제자, score 작업해서 json 으로 반환 */
-    public static String correctAnswer(String correctId, String examinerId, int playerScore) {
+    /* 문제 맞춘 시간에 따라 점수 측정 */
+    public static int getScore(int total, int cur) {
+        // 한 문제당 100점
+        int addScore = total / cur * 100;
+
+        return addScore;
+    }
+
+    /* 문제 맞춘 사람 점수 더해줌 */
+    public static void addScore(String correctId, int addScore) {
         Player targetPlayer = PlayerAction.getEqualPlayerId(correctId);
-        Player examinerPlayer = PlayerAction.getEqualPlayerId(examinerId);
 
-        targetPlayer.setScore(playerScore);
-
-        String message = correctAnswerByJSON(targetPlayer, examinerPlayer, playerScore);
-
-        if (message != null) {
-            return message;
-        } else {
-            return null;
-        }
+        targetPlayer.addScore(addScore);
     }
 
-    /* correctAnswer 메소드를 위한 json 반환 메소드 */
-    private static String correctAnswerByJSON(Player correctP, Player examinerP, int score) {
-        correctP.setExaminer(true);
-        examinerP.setExaminer(false);
-
-        JSONObject message = new JSONObject();
-        message.put("type", "CORRECT_ANSWER");
-
-        JSONObject data = new JSONObject();
-        data.put("correcterId", correctP.getId());
-        data.put("examinerId", examinerP.getId());
-        data.put("score", score);
-
-        message.put("data", data);
-        return message.toString();
-    }
-
-    public static String sendCanvasData() {
-        String canvasData = null;
-        JSONObject message = new JSONObject();
-        message.put("type", "CANVAS_DATA");
-
-        JSONObject data = new JSONObject();
-        data.put("data", canvasData);
-
-        message.put("data", data);
-        // TODO: data 받고 JS의 redraw()실행
-
-        return message.toString();
+    /* 전체 점수 감점 */
+    public static void minusScore(int roomId, int minusScore) {
+        // TODO 부탁쓰~~~ 모든 룸 멤버의 점수 감점
     }
 }

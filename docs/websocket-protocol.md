@@ -104,8 +104,8 @@
             userNumLimit : (최대 입장 가능 유저 수)
         </td>
         <td>type : CREATE_ROOM,<br>
--            roomId : (룸 아이디)
--        </td>
+           roomId : (룸 아이디)
+        </td>
     </tr>
     <tr>
         <td>방 입장</td>
@@ -173,22 +173,13 @@
         </td>
         </tr>
     <tr>
-        <td>모두 감점</td>
-        <td></td>
-        <td>type : INCORRECT_ANSWER,<br>
-            roomId : (방 아이디),<br>
-            quizCnt : (문제 카운터),<br>
-            minusScore : (전체 점수 10점 감점)
-        </td>
-    </tr>
-    <tr>
         <td>랜덤 퀴즈 전송</td>
         <td> type : RANDOM_QUIZ,<br>
-            roomId : 2,<br>
-            id : ~~
+            roomId : 룸 아이디,<br>
+            userId : 문제 받을 사람 아이디
         </td>
         <td> type : RANDOM_QUIZ,<br>
-            quiz : ~~~~
+             quiz : 출제된 문제
         </td>
     </tr>
     <tr>
@@ -218,40 +209,39 @@
          </td>
     </tr>
     <tr>
-        <td>채팅하기</td>
+        <td>채팅&정답처리</td>
         <td> type : CHAT_DATA,<br>
-            id : 유저 아이디,<br>
+            userId : 발신자 아이디,<br>
             roomId : 룸 아이디,<br>
+            restTime : 남은 시간,<br>
             msg : 채팅 내용
         </td>
-        <td>type : CHAT_START,<br>
-            id : 유저 아이디,<br>
+        <td>
+            type : CHAT_DATA,<br>
+            userId : 발신자 아이디,<br>
             roomId : 룸 아이디,<br>
             msg : 채팅 내용,<br>
-            correct : true/false
+            correct : true/false,<br>
+            // 정답이라면 아래의 key-value 추가로 전송<br>
+            score : 시간에 따른 정답자의 점수
         </td>
     </tr>
     <tr>
-        <td>정답 맞춤</td>
-        <td> type : CORRECT_ANSWER,<br>
-            roomId : 2,<br>
-            correcterId : (정답자 아이디),<br>
-            // 이 사람을 문제 출제자로<br>
-            examinerId : (출제자 아이디),<br>
-            score : (정답자 점수)
+        <td>전체 감점</td>
+        <td>
+            type : GAME_TIMEOUT,<br>
+            roomId : 룸 아이디
         </td>
-        <td> type : CORRECT_ANSWER,<br>
-            roomId : (방 아이디),<br>
-            quizCnt : (문제 카운트),<br>
-            correcterId : (정답자 아이디),<br>
-            // 이 사람을 문제 출제자로<br>
-            plusScore : (정답자 점수,<br> 시간에 따라)
+        <td>
+            type : GAME_TIMEOUT,<br>
+            roomId : 룸 아이디,<br>
+            score : 10
         </td>
     </tr>
     <tr>
         <td>랭킹 보여주기</td>
         <td> type : SHOW_RANK,<br>
-            userId : (유저 아이디)
+            id : (유저 아이디)
         </td>
         <td> type : SHOW_RANK,<br>
             myInfo : [{<br>
