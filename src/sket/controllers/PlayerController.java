@@ -30,7 +30,7 @@ public class PlayerController extends HttpServlet {
         return message.toString();
     }
 
-    public static String exitPlayerJSON(Room targetRoom, Player player){
+    public static String exitPlayerJSON(Room targetRoom, Player player) {
         JSONObject message = new JSONObject();
         message.put("type", "EXIT_ROOM");
 
@@ -73,8 +73,20 @@ public class PlayerController extends HttpServlet {
         if (tempCount == countTotalUser) {
             return readyToAllPlayerJSON(room);
         }
-
         return null;
+    }
+
+    public static String noReadyAllPlayerJSON(Room room){
+        JSONObject message = new JSONObject();
+        message.put("type", "READY_ALL_PLAYER");
+
+        JSONObject data = new JSONObject();
+        data.put("roomId", room.getRoomId());
+        data.put("ready", false);
+
+        message.put("data", data);
+
+        return message.toString();
     }
 
     /* checkReadyAllPlayer() 메소드를 위한 json 반환 메소드 */
