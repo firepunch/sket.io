@@ -102,25 +102,27 @@ public class WebSocket {
             // 방 들어갔을 때 보내는 JSON
             case "ENTER_ROOM":
 
-                targetRoom = RoomAction.enterRoom(
-                        jsonObject.getJSONObject("data").getInt("roomId"),
-                        jsonObject.getJSONObject("data").getString("userId")
-                );
+                targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
 
-                roomAction = new RoomAction(targetRoom);
-                player = PlayerAction.getEqualPlayerId(jsonObject.getJSONObject("data").getString("userId"));
-                player.setInRoom(true);
+                if (targetRoom.getTotalUserNumber() < targetRoom.getUserMax()) {
+                    RoomAction.enterRoom(
+                            jsonObject.getJSONObject("data").getInt("roomId"),
+                            jsonObject.getJSONObject("data").getString("userId")
+                    );
 
+                    roomAction = new RoomAction(targetRoom);
+                    player = PlayerAction.getEqualPlayerId(jsonObject.getJSONObject("data").getString("userId"));
+                    player.setInRoom(true);
 
-                if (targetRoom.getTotalUserNumber() == 0) {
-                    JSONObject temp = new JSONObject();
-                    temp.put("type", "ROOM_INFO");
-                    temp.put("userCount", 0);
-
-                } else {
                     sendMessageToRoomMembers(roomAction, RoomController.getRoomInfoToJSON(targetRoom));
                     System.out.println("ENTER_ROOM : " + RoomController.getRoomInfoToJSON(targetRoom));
+
+                } else {
+                    rcvSession.getBasicRemote().sendText(
+                            RoomController.noEnterRoom(jsonObject.getJSONObject("data").getString("userId"))
+                    );
                 }
+
                 break;
 
             // 빠른 시작 시 JSON

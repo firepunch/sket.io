@@ -120,8 +120,8 @@ public class Room {
     }
 
     public void addPlayer(Player player) {
-        playerList.add(player);
-        totalUserNumber += 1;
+            playerList.add(player);
+            totalUserNumber += 1;
     }
 
     public void deletePlayer(Player player) {
