@@ -273,11 +273,10 @@ public class WebSocket {
 
                 sendMessageToRoomMembers(
                         roomAction,
-                        PlayerController.exitPlayerJSON(
-                                jsonObject.getJSONObject("data").getInt("roomId"),
-                                jsonObject.getJSONObject("data").getString("userId")
-                        )
+                        RoomController.getRoomInfoToJSON(targetRoom)
                 );
+
+                System.out.println("EXIT_ROOM : " + RoomController.getRoomInfoToJSON(targetRoom));
 
                 if (targetRoom.getTotalUserNumber() == 0) {
                     Room.getRoomList().remove(targetRoom);
