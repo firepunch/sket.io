@@ -147,14 +147,15 @@ public class WebSocket {
                 roomAction = new RoomAction(targetRoom);
 
                 String readyAllPlayerByJSON = PlayerController.checkReadyAllPlayer(targetRoom);
+                Session masterSession = webSocketSessionMap.get(targetRoom.getRoomMaster().getSessionID());
 
                 if (readyAllPlayerByJSON != null) {
-                    Session masterSession = webSocketSessionMap.get(targetRoom.getRoomMaster().getSessionID());
                     System.out.println("log : HashMap.get() : " + masterSession);
-
-                    masterSession.getBasicRemote().sendText(readyAllPlayerByJSON);
+                    sendMessageToAllSession(readyAllPlayerByJSON);
+                } else {
+                    System.out.println("log : HashMap.get() : " + masterSession);
+                    masterSession.getBasicRemote().sendText(PlayerController.noReadyAllPlayerJSON(targetRoom));
                 }
-
                 break;
 
             // 플레이어가 문제 맞혔을 때 보내는 JSON
@@ -288,7 +289,7 @@ public class WebSocket {
         throwable.printStackTrace();
     }
 
-    private void autoExitRoom(){
+    private void autoExitRoom() {
         if (player.isInRoom() == true) {
 
             targetRoom.deletePlayer(player);
