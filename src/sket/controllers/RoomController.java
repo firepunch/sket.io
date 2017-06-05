@@ -62,7 +62,7 @@ public class RoomController {
             temp.put("nick", player.getNickname());
             temp.put("level", player.getPlayerLevel());
             temp.put("isReady", player.isReady());
-            temp.put("userId", player.getId());
+            temp.put("id", player.getId());
             jsonArray.put(temp);
         }
 
