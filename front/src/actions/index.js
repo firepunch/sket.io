@@ -181,7 +181,7 @@ function handleRanking() {
 
 export function enterRoom(roomInfo) {
     return {
-        type: types.ENTER_ROOM,
+        type: types.ROOM_INFO,
         roomInfo
     }
 }
@@ -194,6 +194,11 @@ export function getRoomInfo(roomId, userId) {
     }
 }
 
+export function setMaster() {
+    return {
+        type: types.SET_MASTER
+    }
+}
 
 export function getCreatingRoomId(roomId) {
     return {

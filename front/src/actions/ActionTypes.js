@@ -23,6 +23,7 @@ export const SEND_MESSAGE_FINISH = "SEND_MESSAGE_FINISH";   // 소켓 메시지 
 
 // header function
 export const SHOW_RANK = "SHOW_RANK";
+export const ROOM_INFO = "ROOM_INFO";
 export const ENTER_ROOM = "ENTER_ROOM";
 
 export const GET_USER_LIST = "GET_USER_LIST";
@@ -37,7 +38,9 @@ export const START_TIMER    = "START_TIMER";
 export const CHAT_ANSWER    = "CHAT_ANSWER";
 
 export const MY_READY       = "MY_READY";
-export const OTHER_READY    = "OTHER_READY";
+export const OTHER_READY    = "OTHER_READY"
+
+export const SET_MASTER     = "SET_MASTER";
 
 export const GET_START      = "GET_START";
 

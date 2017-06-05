@@ -31,6 +31,42 @@ class UserArea extends Component {
 
     render() {
 
+        const player = (
+            this.props.me
+            ?
+            (
+                <div className="sket-score"
+                    onClick={ () => this.props.handleGetReady(this.props.roomId, this.props.user.id, !this.props.isReady) }
+                >
+                    {this.props.isReady ? "준비" : "대기"}
+                </div>
+            )
+            :
+            (
+                <div className="sket-score">
+                    {this.props.user.isReady ? "준비" : "대기"}
+                </div>
+            )
+        )
+
+        const master = (
+            this.props.me
+            ?
+            (
+                <div className="sket-score"
+                    onClick={ () => this.props.handleGetReady(this.props.roomId, this.props.user.id, !this.props.isReady) }
+                >
+                    <p>시작</p>
+                </div>
+            )
+            :
+            (
+                <div className="sket-score">
+                    <p>방장</p>
+                </div>
+            )
+        );
+
         return(
             <div className="sket-game-user">
                 <div className="player-area">
@@ -39,11 +75,7 @@ class UserArea extends Component {
                         user={ this.props.user }
                     />
 
-                    <div className="sket-score"
-                        onClick={ () => this.props.handleGetReady(this.props.roomId, this.props.user.id, !this.props.isReady) }
-                    >
-                        {this.props.isReady ? "준비" : "대기"}
-                    </div>
+                    { (this.props.user.id === this.props.master) ? master : player }
                 </div>
             </div>
         );

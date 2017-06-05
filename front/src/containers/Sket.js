@@ -160,7 +160,7 @@ class Sket extends Component {
         const game = (
                 <GameContent
                     user={ this.props.user }
-                    userList={ this.props.roomInfo.userList}
+                    playerList={ this.props.roomInfo.playerList }
                     roomInfo={ this.props.roomInfo }
 
                     isReady={ this.props.isReady }
@@ -195,7 +195,7 @@ const mapStateToProps = (state) => {
     const { userList, roomList, ranking, isShowRanking } = state.main;
 
     const { isGame, roomInfo } = state.game;
-    const { isReady } = state.game;
+    const { isMaster, isReady } = state.game;
 
     return {
         /* 로그인 */
@@ -214,6 +214,7 @@ const mapStateToProps = (state) => {
         ranking,
 
         /* 게임 */
+        isMaster,
         isGame,
         roomInfo,
 

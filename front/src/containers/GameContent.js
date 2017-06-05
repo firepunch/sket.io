@@ -7,7 +7,8 @@ import SystemArea from '../components/Game/SystemArea';
 
 const propTypes = {
     user: ReactPropTypes.object,
-    userList: ReactPropTypes.array,
+    roomInfo: ReactPropTypes.object,
+    playerList: ReactPropTypes.array,
 
     isReady: ReactPropTypes.bool,
 
@@ -16,7 +17,8 @@ const propTypes = {
 
 const defaultProps = {
     user: {},
-    userList: [{}, {}, {}],
+    roomInfo: {},
+    playerList: [{}, {}, {}],
 
     isReady: false,
 
@@ -34,13 +36,25 @@ class GameContent extends Component {
     }
 
     render() {
+
+        let playerList = this.props.playerList;
+
+        for (let player in playerList) {
+            if (playerList[player].id === this.props.user.id) {
+                console.log(playerList[player])
+                playerList.splice(player, 1);
+            }
+        }
+
         return(
             <div className="game-content">
                 <UserArea
                     componentClass="game-left game-top me"
+                    me={ true }
 
                     user={ this.props.user }
                     roomId={ this.props.roomInfo.roomId }
+                    master={ this.props.roomMaster }
 
                     isReady={ this.props.isReady }
 
@@ -49,17 +63,23 @@ class GameContent extends Component {
 
                 <UserArea
                     componentClass="game-right game-bottom"
-                    user={ this.props.userList[0] }
+                    me={ false }
+                    user={ playerList[0] }
+                    master={ this.props.roomMaster }
                 />
 
                 <UserArea
                     componentClass="game-left game-top"
-                    user={ this.props.userList[1] }
+                    me={ false }
+                    user={ playerList[1] }
+                    master={ this.props.roomMaster }
                 />
 
                 <UserArea
                     componentClass="game-right game-bottom"
-                    user={ this.props.userList[2] }
+                    me={ false }
+                    user={ playerList[2] }
+                    master={ this.props.roomMaster }
                 />
 
             </div>

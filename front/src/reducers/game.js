@@ -3,6 +3,7 @@ import * as types from '../actions/ActionTypes';
 const initialState = {
     isReady: false,
     isGame: false,
+    isMaster: false,
 
     roomInfo: {}
 }
@@ -17,12 +18,18 @@ export default function game(state=initialState, action) {
 
     switch (action.type) {
 
-        case types.ENTER_ROOM:
-        return {
-            ...state,
-            roomInfo: action.roomInfo,
-            isGame: true
-        }
+        case types.ROOM_INFO:
+            return {
+                ...state,
+                isGame: true,
+                roomInfo: action.roomInfo
+            }
+
+        case types.SET_MASTER:
+            return {
+                ...state,
+                isMaster: true
+            }
 
         case types.MY_READY:
             return {

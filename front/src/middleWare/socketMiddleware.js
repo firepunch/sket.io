@@ -36,6 +36,9 @@ const socketMiddleware = (() => {
                 break;
 
             case "ROOM_INFO":
+                // if (msg.data.roomMaster === store.getState().login.user.id) {
+                //     store.dispatch( actions.setMaster() );
+                // }
                 store.dispatch( actions.enterRoom(msg.data) );
                 break;
 
