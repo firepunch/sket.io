@@ -33,22 +33,30 @@ class UserArea extends Component {
 
     render() {
 
+        const profileBackground = {
+            backgroundColor: this.props.color[0]
+        }
+
+        const scoreBackground = {
+            backgroundColor: this.props.color[1]
+        }
+
         // 방장이 아닌 플레이어일 때
         // 사용자 자신의 영역이라면 핸들링 함수 추가
         const player = (
             this.props.me
             ?
             (
-                <div className="sket-score"
+                <div className="sket-score profile-score" style={scoreBackground}
                     onClick={ () => this.props.handleGetReady(this.props.roomId, this.props.user.id, !this.props.isReady) }
                 >
-                    {this.props.isReady ? "준비" : "대기"}
+                    <p>{this.props.isReady ? "준비" : "대기"}</p>
                 </div>
             )
             :
             (
-                <div className="sket-score">
-                    {this.props.user.isReady ? "준비" : "대기"}
+                <div className="sket-score profile-score" style={scoreBackground}>
+                    <p>{this.props.user.isReady ? "준비" : "대기"}</p>
                 </div>
             )
         )
@@ -59,7 +67,7 @@ class UserArea extends Component {
             this.props.me
             ?
             (
-                <div className="sket-score"
+                <div className="sket-score profile-score" style={scoreBackground}
                     onClick={ () => this.props.handleStartGame(this.props.roomId, this.props.user.id) }
                 >
                     <p>시작</p>
@@ -67,7 +75,7 @@ class UserArea extends Component {
             )
             :
             (
-                <div className="sket-score">
+                <div className="sket-score profile-score" style={scoreBackground}>
                     <p>방장</p>
                 </div>
             )
@@ -75,14 +83,24 @@ class UserArea extends Component {
 
         return(
             <div className="sket-game-user">
-                <div className="player-area">
-                    <UserProfile
-                        divStyle="sket-player"
-                        user={ this.props.user }
-                    />
+                <div className="game-profile profile-score" style={profileBackground}>
+                    <div className="player-image">
+                        <img src={ this.props.user.picture } alt="error"/>
+                    </div>
 
-                    { (this.props.user.id === this.props.master) ? master : player }
+                    <div className="player-info">
+                        <p>{ this.props.user.nick }</p>
+                        <p>Lv.{ this.props.user.level }</p>
+                    </div>
                 </div>
+
+                {
+                    (
+                        typeof this.props.user.id !== 'undefined'
+                        && typeof this.props.master !== 'undefined'
+                        && this.props.user.id === this.props.master
+                    )   ? master : player
+                }
             </div>
         );
     }
