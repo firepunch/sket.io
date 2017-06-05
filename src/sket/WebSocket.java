@@ -47,6 +47,8 @@ public class WebSocket {
 
         // session 에 룸 리스트 보냄
         rcvSession.getBasicRemote().sendText(RoomController.getRoomListAsJSON());
+
+        System.out.println("USER_LIST : " + getConnectUserListToJSON());
         rcvSession.getBasicRemote().sendText(getConnectUserListToJSON());
 
         System.out.println(RoomController.getRoomListAsJSON());
@@ -100,24 +102,27 @@ public class WebSocket {
             // 방 들어갔을 때 보내는 JSON
             case "ENTER_ROOM":
 
-                targetRoom = RoomAction.enterRoom(
-                        jsonObject.getJSONObject("data").getInt("roomId"),
-                        jsonObject.getJSONObject("data").getString("userId")
-                );
+                targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
 
-                roomAction = new RoomAction(targetRoom);
-                player = PlayerAction.getEqualPlayerId(jsonObject.getJSONObject("data").getString("userId"));
-                player.setInRoom(true);
+                if (targetRoom.getTotalUserNumber() < targetRoom.getUserMax()) {
+                    RoomAction.enterRoom(
+                            jsonObject.getJSONObject("data").getInt("roomId"),
+                            jsonObject.getJSONObject("data").getString("userId")
+                    );
 
+                    roomAction = new RoomAction(targetRoom);
+                    player = PlayerAction.getEqualPlayerId(jsonObject.getJSONObject("data").getString("userId"));
+                    player.setInRoom(true);
 
-                if (targetRoom.getTotalUserNumber() == 0) {
-                    JSONObject temp = new JSONObject();
-                    temp.put("type", "ROOM_INFO");
-                    temp.put("userCount", 0);
+                    sendMessageToRoomMembers(roomAction, RoomController.getRoomInfoToJSON(targetRoom));
+                    System.out.println("ENTER_ROOM : " + RoomController.getRoomInfoToJSON(targetRoom));
 
                 } else {
-                    sendMessageToRoomMembers(roomAction, RoomController.getRoomInfoToJSON(targetRoom));
+                    rcvSession.getBasicRemote().sendText(
+                            RoomController.noEnterRoom(jsonObject.getJSONObject("data").getString("userId"))
+                    );
                 }
+
                 break;
 
             // 빠른 시작 시 JSON
@@ -205,7 +210,7 @@ public class WebSocket {
                     }
                 }
 
-            // 채팅 JSON
+                // 채팅 JSON
             case "CHAT_DATA":
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
@@ -270,11 +275,10 @@ public class WebSocket {
 
                 sendMessageToRoomMembers(
                         roomAction,
-                        PlayerController.exitPlayerJSON(
-                                jsonObject.getJSONObject("data").getInt("roomId"),
-                                jsonObject.getJSONObject("data").getString("userId")
-                        )
+                        RoomController.getRoomInfoToJSON(targetRoom)
                 );
+
+                System.out.println("EXIT_ROOM : " + RoomController.getRoomInfoToJSON(targetRoom));
 
                 if (targetRoom.getTotalUserNumber() == 0) {
                     Room.getRoomList().remove(targetRoom);
@@ -286,7 +290,8 @@ public class WebSocket {
     @OnClose
     public void onClose(Session session) {
         for (User user : User.getUserList()) {
-            if (user.getId().equals(player)) {
+            if (user.getId().equals(player.getId())) {
+                System.out.println("유저 삭제");
                 User.getUserList().remove(user);
             }
         }
