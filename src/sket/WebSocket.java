@@ -1,6 +1,5 @@
 package sket;
 
-import org.eclipse.jetty.util.ajax.JSON;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import sket.controllers.GameController;
@@ -24,8 +23,8 @@ import java.util.LinkedList;
 import java.util.Map;
 
 /**
- * 게임 메인화면에 연결되는 웹 소켓
- * Created by hojak on 2017-04-06.
+ * 게임과 연결하는 웹 소켓
+ * Created by hojak,firepunch on 2017-04-06.
  */
 
 @ServerEndpoint(value = "/websocket")
@@ -47,6 +46,8 @@ public class WebSocket {
 
         // session 에 룸 리스트 보냄
         rcvSession.getBasicRemote().sendText(RoomController.getRoomListAsJSON());
+
+        System.out.println("USER_LIST : " + getConnectUserListToJSON());
         rcvSession.getBasicRemote().sendText(getConnectUserListToJSON());
 
         System.out.println(RoomController.getRoomListAsJSON());
@@ -99,21 +100,26 @@ public class WebSocket {
 
             // 방 들어갔을 때 보내는 JSON
             case "ENTER_ROOM":
-                targetRoom = RoomAction.enterRoom(
-                        jsonObject.getJSONObject("data").getInt("roomId"),
-                        jsonObject.getJSONObject("data").getString("userId")
-                );
 
-                roomAction = new RoomAction(targetRoom);
-                player = PlayerAction.getEqualPlayerId(jsonObject.getJSONObject("data").getString("userId"));
-                player.setInRoom(true);
+                targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
 
-                if (targetRoom.getTotalUserNumber() == 0) {
-                    JSONObject temp = new JSONObject();
-                    temp.put("type", "ROOM_INFO");
-                    temp.put("userCount", 0);
-                } else {
+                if (targetRoom.getTotalUserNumber() < targetRoom.getUserMax()) {
+                    RoomAction.enterRoom(
+                            jsonObject.getJSONObject("data").getInt("roomId"),
+                            jsonObject.getJSONObject("data").getString("userId")
+                    );
+
+                    roomAction = new RoomAction(targetRoom);
+                    player = PlayerAction.getEqualPlayerId(jsonObject.getJSONObject("data").getString("userId"));
+                    player.setInRoom(true);
+
                     sendMessageToRoomMembers(roomAction, RoomController.getRoomInfoToJSON(targetRoom));
+                    System.out.println("ENTER_ROOM : " + RoomController.getRoomInfoToJSON(targetRoom));
+
+                } else {
+                    rcvSession.getBasicRemote().sendText(
+                            RoomController.noEnterRoom(jsonObject.getJSONObject("data").getString("userId"))
+                    );
                 }
 
                 break;
@@ -192,6 +198,7 @@ public class WebSocket {
 
             // 캔바스 데이터 JSON 보냄
             case "CANVAS_DATA":
+                System.out.println(jsonObject.getJSONObject("data").getString("id"));
                 roomMembers = QuizAction.excludeExaminerSession(jsonObject.getJSONObject("data").getString("id"));
 
                 if (roomMembers != null) {
@@ -201,8 +208,7 @@ public class WebSocket {
                     }
                 }
 
-
-            // 채팅 JSON
+                // 채팅 JSON
             case "CHAT_DATA":
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
@@ -230,10 +236,11 @@ public class WebSocket {
             // 타임아웃일 때 전체 점수 감점 JSON
             case "GAME_TIMEOUT":
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
-                QuizController.minusScore(jsonObject.getJSONObject("data").getInt("roomId"),10);
+                QuizController.minusScore(jsonObject.getJSONObject("data").getInt("roomId"), 10);
                 jsonObject.getJSONObject("data").append("score", 10);
 
-                sendMessageToRoomMembers(roomAction, String.valueOf(jsonObject));
+                // TODO 부탁쓰~ 방 안의 모든 사람에게 전송
+                // String.valueOf(jsonObject)
 
                 break;
 
@@ -255,11 +262,10 @@ public class WebSocket {
 
                 sendMessageToRoomMembers(
                         roomAction,
-                        PlayerController.exitPlayerJSON(
-                                jsonObject.getJSONObject("data").getInt("roomId"),
-                                jsonObject.getJSONObject("data").getString("userId")
-                        )
+                        RoomController.getRoomInfoToJSON(targetRoom)
                 );
+
+                System.out.println("EXIT_ROOM : " + RoomController.getRoomInfoToJSON(targetRoom));
 
                 if (targetRoom.getTotalUserNumber() == 0) {
                     Room.getRoomList().remove(targetRoom);
@@ -271,7 +277,8 @@ public class WebSocket {
     @OnClose
     public void onClose(Session session) {
         for (User user : User.getUserList()) {
-            if (user.getId().equals(player)) {
+            if (user.getId().equals(player.getId())) {
+                System.out.println("유저 삭제");
                 User.getUserList().remove(user);
             }
         }
@@ -284,6 +291,7 @@ public class WebSocket {
 
     @OnError
     public void onError(Throwable throwable, Session session) {
+        /*
         for (User user : User.getUserList()) {
             if (user.getId().equals(player)) {
                 User.getUserList().remove(user);
@@ -294,6 +302,7 @@ public class WebSocket {
         Player.getPlayerArrayList().remove(player);
 
         webSocketSessionMap.remove(session.getId(), session);
+        */
         System.out.println("onError()");
         throwable.printStackTrace();
     }
@@ -303,8 +312,11 @@ public class WebSocket {
         if (player.isInRoom() == true) {
 
             targetRoom.deletePlayer(player);
-            sendMessageToRoomMembers(
-                    roomAction, PlayerController.exitPlayerJSON(targetRoom, player)
+            sendMessageToRoomMembers(roomAction,
+                    PlayerController.exitPlayerJSON(
+                            targetRoom,
+                            player
+                    )
             );
 
             if (targetRoom.getTotalUserNumber() == 0) {

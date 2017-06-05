@@ -46,7 +46,7 @@ public class Room {
         System.out.println("log : " + "방 생성 성공");
 
         Room.roomList.add(this);
-        totalUserNumber += 1;
+        this.totalUserNumber += 1;
 
         playerList.add(roomMaster);
     }
@@ -120,8 +120,8 @@ public class Room {
     }
 
     public void addPlayer(Player player) {
-        playerList.add(player);
-        totalUserNumber += 1;
+            playerList.add(player);
+            totalUserNumber += 1;
     }
 
     public void deletePlayer(Player player) {

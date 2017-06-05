@@ -25,7 +25,7 @@ class ConnectingUserList extends Component {
                 return (
                     <div className="user-list">
                         <p>{ a.level }</p>
-                        <p>{ a.playerId }</p>
+                        <p>{ a.name }</p>
                     </div>
                 )
             })
