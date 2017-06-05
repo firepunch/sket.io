@@ -234,6 +234,7 @@ public class WebSocket {
                 rcvSession.getBasicRemote().sendText(String.valueOf(rankInfo));
                 break;
 
+            // 플레이어가 방 나갔을 때
             case "EXIT_ROOM":
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 targetRoom.deletePlayer(jsonObject.getJSONObject("data").getString("userId"));
@@ -264,6 +265,7 @@ public class WebSocket {
                 User.getUserList().remove(user);
             }
         }
+        autoExitRoom();
         Player.getPlayerArrayList().remove(player);
 
         webSocketSessionMap.remove(session.getId(), session);
@@ -277,11 +279,31 @@ public class WebSocket {
                 User.getUserList().remove(user);
             }
         }
+
+        autoExitRoom();
         Player.getPlayerArrayList().remove(player);
 
         webSocketSessionMap.remove(session.getId(), session);
         System.out.println("onError()");
         throwable.printStackTrace();
+    }
+
+    private void autoExitRoom(){
+        if (player.isInRoom() == true) {
+
+            targetRoom.deletePlayer(player);
+            sendMessageToRoomMembers(roomAction,
+                    PlayerController.exitPlayerJSON(
+                            targetRoom,
+                            player
+                    )
+            );
+
+            if (targetRoom.getTotalUserNumber() == 0) {
+                Room.getRoomList().remove(targetRoom);
+                sendMessageToAllSession(RoomController.removeRoomByJSON(targetRoom));
+            }
+        }
     }
 
     private String getConnectUserListToJSON() {
