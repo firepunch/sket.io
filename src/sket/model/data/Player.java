@@ -13,11 +13,11 @@ public class Player {
     private String sessionID;
 
     private int score = 0;
-
     private boolean isMaster = false;
     private boolean isExaminer = false;
     private boolean isReady = false;
     private boolean isGuest = false;
+    private boolean inRoom = false;
 
     /* Guest 일 시 User 에서 게스트 아이디 처리했음 */
     public Player(String id, String nickname, String sessionID, boolean isGuest) {
@@ -44,6 +44,14 @@ public class Player {
                 user.setLevel(level);
             }
         }
+    }
+
+    public boolean isInRoom() {
+        return inRoom;
+    }
+
+    public void setInRoom(boolean inRoom) {
+        this.inRoom = inRoom;
     }
 
     public String getNickname() {
