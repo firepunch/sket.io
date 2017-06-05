@@ -24,6 +24,7 @@ public class PlayerController extends HttpServlet {
         JSONObject data = new JSONObject();
         data.put("roomId", roomId);
         data.put("userId", userId);
+        data.put("userNum", RoomAction.findRoomById(roomId).getTotalUserNumber());
 
         message.put("data", data);
         return message.toString();
@@ -36,6 +37,8 @@ public class PlayerController extends HttpServlet {
         JSONObject data = new JSONObject();
         data.put("roomId", targetRoom.getRoomId());
         data.put("userId", player.getId());
+        data.put("userNum", targetRoom.getTotalUserNumber());
+
 
         message.put("data", data);
         return message.toString();
