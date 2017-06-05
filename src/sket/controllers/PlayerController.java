@@ -29,6 +29,18 @@ public class PlayerController extends HttpServlet {
         return message.toString();
     }
 
+    public static String exitPlayerJSON(Room targetRoom, Player player){
+        JSONObject message = new JSONObject();
+        message.put("type", "EXIT_ROOM");
+
+        JSONObject data = new JSONObject();
+        data.put("roomId", targetRoom.getRoomId());
+        data.put("userId", player.getId());
+
+        message.put("data", data);
+        return message.toString();
+    }
+
     /* 게임 준비 처리해서 json 으로 반환 */
     public static String gameReadyToJSON(int roomId, boolean isReady, String sessionID) throws IOException {
         Room room = RoomAction.findRoomById(roomId);
