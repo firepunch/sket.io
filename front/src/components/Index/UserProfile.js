@@ -21,32 +21,24 @@ class UserProfile extends Component {
     constructor(props) {
         super(props);
     }
+
     render() {
-        const indexStyle = {
-            // width: '20%',
-            // height: '20%',
-            //
-            // float: 'left'
-            // backgroundColor: 'skyblue',
+        console.log(this.props.user.picture)
+
+        let profileImage;
+
+        if (this.props.user.type === 'LOGIN_GUEST' || typeof this.props.user.picture === 'undefined') {
+            profileImage = ( <img src={'img/guest-profile.png'} alt="error"/> )
+        } else {
+            profileImage = ( <img src={ this.props.user.picture } alt="error"/> )
         }
 
-        const gameStyle = {
-            // width: '100%',
-            // height: '50%',
-            // float: 'none'
-            // backgroundColor: 'lightgreen'
-        };
+        profileImage = (<img src={('img/guest-profile.png')} alt="error"/> )
 
-        let divStyle = {};
-
-        if (this.props.divStyle === 'sket-player') divStyle = gameStyle;
-        else divStyle = indexStyle;
-
-        // <p>{this.props.user.name}</p>
         return(
-            <div id="sket-profile" className="component-container index-left index-top" style={divStyle}>
+            <div id="sket-profile" className="component-container index-left index-top">
                 <div className="profile-image">
-                    <img src={ this.props.user.picture } alt="error"/>
+                    { profileImage }
                 </div>
 
                 <div className="user-info">
