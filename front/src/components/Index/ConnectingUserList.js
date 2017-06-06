@@ -24,8 +24,9 @@ class ConnectingUserList extends Component {
             userListInfo = this.props.userList.map((a, index) => {
                 return (
                     <div className="user-list">
-                        <p>{ a.level }</p>
-                        <p>{ a.name }</p>
+                        <span id="user-name">{ a.name }</span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span id="user-level">{ 'Lv. ' + a.level }</span>
                     </div>
                 )
             })
@@ -33,6 +34,7 @@ class ConnectingUserList extends Component {
 
         return(
             <div id="connection-list" className="component-container index-left index-bottom">
+                <br />
                 { userListInfo }
             </div>
         );

@@ -23,8 +23,6 @@ class UserProfile extends Component {
     }
 
     render() {
-        console.log(this.props.user.picture)
-
         let profileImage;
 
         if (this.props.user.type === 'LOGIN_GUEST' || typeof this.props.user.picture === 'undefined') {
@@ -32,8 +30,6 @@ class UserProfile extends Component {
         } else {
             profileImage = ( <img src={ this.props.user.picture } alt="error"/> )
         }
-
-        profileImage = (<img src={('img/guest-profile.png')} alt="error"/> )
 
         return(
             <div id="sket-profile" className="component-container index-left index-top">

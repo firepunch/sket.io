@@ -209,20 +209,50 @@ height 768px	540	           135
 
     float: left;
     overflow: scroll;
+    overflow-x: hidden;
+
+    text-align: center;
+}
+
+#connection-list::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+}
+
+#connection-list::-webkit-scrollbar
+{
+	width: 12px;
+}
+
+#connection-list::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #F5F5F5;
 }
 
 .user-list {
-    display: flex;
-    flex-direction: row;
+    text-align: center;
+
+    font-family: 'LotteMartHappy', sans-serif;
+    color: #FFF;
+
+    margin-bottom: 10px;
 }
 
-.user-list p {
+#user-name {
+    font-size: 1.5em;
+}
+
+#user-level {
     font-size: 1.2em;
 }
 
-.user-list p:nth-child(2) {
+
+/*.user-list p:nth-child(2) {
     margin-left: 5%;
-}
+}*/
 
 /* 방 목록  */
 #room-list {
