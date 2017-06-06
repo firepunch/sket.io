@@ -25,54 +25,54 @@ public class FBLoginController extends HttpServlet {
         DBConnection db = new DBConnection();
         OauthLogin oauthLogin = new OauthLogin();
         PrintWriter out = resp.getWriter();
-
-        JSONObject sendJson = oauthLogin.getRcvJson(req, "FACEBOOK", "user");
+        JSONObject originJson = oauthLogin.getRcvJson(req, "FACEBOOK", "user");
+        JSONObject dbJson = new JSONObject();
 
         req.setCharacterEncoding("euc-kr");
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
 
-        String id = sendJson.getString("id");
-
+        String id = originJson.getString("id");
         try {
-            sendJson = db.selectUser(sendJson.getString("id"), "FACEBOOK", false);
+            dbJson = db.selectUser(id, "FACEBOOK", false);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-//        String nick = sendJson.getString("nick");
+//        String nick = originJson.getString("nick");
         String nick = "null";
-        if (sendJson.getString("id").equals("null")) {
+        if (dbJson.getString("id").equals("null")) {
             try {
                 nick = db.insertUser(id, nick);
             } catch (SQLException e) {
                 e.printStackTrace();
                 throw new IOException("oauth login insert error " + e);
             }
-            sendJson.put("id", id);
-            sendJson.put("nick", nick);
-            sendJson.put("level", 1);
-            sendJson.put("limitExp", 300);
-            sendJson.put("totalExp", 0);
-            sendJson.put("curExp", 0);
-            sendJson.put("isGuest", false);
+            originJson.put("nick", nick);
+            originJson.put("level", 1);
+            originJson.put("limitExp", 300);
+            originJson.put("totalExp", 0);
+            originJson.put("curExp", 0);
+            originJson.put("isGuest", false);
 
             new User(id, nick);
+            out.print(originJson);
 
             System.out.println("log : " + "FB 새로운 세션, 신규회원 생성");
         } else {
             new User(
                     id, nick,
-                    sendJson.getInt("level"),
-                    sendJson.getInt("limitExp"),
-                    sendJson.getInt("totalExp"),
-                    sendJson.getInt("curExp")
+                    dbJson.getInt("level"),
+                    dbJson.getInt("limitExp"),
+                    dbJson.getInt("totalExp"),
+                    dbJson.getInt("curExp")
             );
+            dbJson.put("picture", originJson.getString("picture"));
+            out.print(dbJson);
 
             System.out.println("log : fb 기존회원 새로운 세션 생성");
         }
 
-        out.print(sendJson);
         out.flush();
 //            로그아웃
 //            session.invalidate();

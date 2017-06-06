@@ -97,6 +97,7 @@ public class DBConnection {
             throw new RuntimeException("Failed insert user data " + e);
         }
         DBClose();
+        System.out.println("DB   "+nick);
         return nick;
     }
 

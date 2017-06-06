@@ -27,38 +27,40 @@ public class GoogleLoginController extends HttpServlet {
         DBConnection db = new DBConnection();
         OauthLogin oauthLogin = new OauthLogin();
         PrintWriter out = resp.getWriter();
-        JSONObject sendJson = oauthLogin.getRcvJson(req, "GOOGLE", "user");
+        JSONObject originJson = oauthLogin.getRcvJson(req, "GOOGLE", "user");
+        JSONObject dbJson = new JSONObject();
 
         req.setCharacterEncoding("euc-kr");
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
 
-        String id = sendJson.getString("id");
+        String id = originJson.getString("id");
         try {
-            sendJson = db.selectUser(sendJson.getString("id"), "GOOGLE", false);
+            dbJson = db.selectUser(id, "GOOGLE", false);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-//        String nick = sendJson.getString("nick");
+//        String nick = dbJson.getString("nick");
         String nick = "null";
-        if (sendJson.getString("id").equals("null")) {
+        if (dbJson.getString("id").equals("null")) {
             try {
                 nick = db.insertUser(id, nick);
             } catch (SQLException e) {
                 e.printStackTrace();
                 throw new IOException("oauth login insert error " + e);
             }
+            System.out.println("GoogleNick   "+nick);
 
-            sendJson.put("id", id);
-            sendJson.put("nick", nick);
-            sendJson.put("level", 1);
-            sendJson.put("limitExp", 300);
-            sendJson.put("totalExp", 0);
-            sendJson.put("curExp", 0);
-            sendJson.put("isGuest", false);
+            originJson.put("nick", nick);
+            originJson.put("level", 1);
+            originJson.put("limitExp", 300);
+            originJson.put("totalExp", 0);
+            originJson.put("curExp", 0);
+            originJson.put("isGuest", false);
 
             new User(id, nick);
+            out.print(originJson);
 
             System.out.println("log : " + "Google 새로운 세션, 신규회원 생성");
         } else {
@@ -66,14 +68,15 @@ public class GoogleLoginController extends HttpServlet {
 
             new User(
                     id, nick,
-                    sendJson.getInt("level"),
-                    sendJson.getInt("limitExp"),
-                    sendJson.getInt("totalExp"),
-                    sendJson.getInt("curExp")
+                    dbJson.getInt("level"),
+                    dbJson.getInt("limitExp"),
+                    dbJson.getInt("totalExp"),
+                    dbJson.getInt("curExp")
             );
+            dbJson.put("picture", originJson.getString("picture"));
+            out.print(dbJson);
         }
 
-        out.print(sendJson);
         out.flush();
 
 //            로그아웃
