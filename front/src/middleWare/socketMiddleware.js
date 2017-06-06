@@ -57,7 +57,7 @@ const socketMiddleware = (() => {
 
                 break;
 
-            case "READY_ALL_PLAYER":
+            case "NO_READY_ALL_PLAYER":
                 alert("모든 인원이 준비해야 합니다.")
                 break;
 
