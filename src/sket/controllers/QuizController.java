@@ -14,13 +14,14 @@ public class QuizController extends HttpServlet {
     }
 
     /* 랜덤 퀴즈를 json 으로 반환하는 메소드 */
-    public static JSONObject sendQuizByJSON() {
+    public static JSONObject sendQuizByJSON(Room targetRoom) {
         String quiz = null;
 
         JSONObject message = new JSONObject();
         JSONObject data = new JSONObject();
         message.put("type", "RANDOM_QUIZ");
         data.put("quiz", quiz);
+        data.put("id", targetRoom.getRoomMaster().getId());
         message.put("data", data);
 
         return message;

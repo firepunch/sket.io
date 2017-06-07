@@ -184,7 +184,7 @@ public class WebSocket {
             case "RANDOM_QUIZ":
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
-                JSONObject quizData = QuizController.sendQuizByJSON();
+                JSONObject quizData = QuizController.sendQuizByJSON(targetRoom);
                 targetRoom.setAnswer(quizData.getJSONObject("data").getString("quiz"));
 
                 if (targetRoom != null) {
