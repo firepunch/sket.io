@@ -24,36 +24,70 @@ function createWarning(funcName) {
     return () => console.warn(funcName + ' is not defined in RoomList');
 }
 
+function hexToRgb(hex) {
+    // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+    var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+        return r + r + g + g + b + b;
+    });
+
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}
+
 class RoomList extends Component {
     constructor(props) {
         super(props);
     }
     render() {
         let rooms = (
-            <div>
+            <div className="no-info">
                 <p>방이 존재하지 않습니다</p>
             </div>
         )
 
         let rank = (
-            <div>
+            <div className="no-info">
                 <p>랭킹을 불러오는데 실패하였습니다.</p>
             </div>
         )
 
+        let colors = ['#F5624D', '#34A65F', '#235E6F', '#ED5565', '#FFCE54', '#AC92EC', '#4FC1E9', '#EC87C0'];
+        let random_color, color_style;
+
         if (this.props.roomList.length > 0) {
             rooms = this.props.roomList.map((a, index) => {
+                random_color = colors[Math.floor(Math.random() * colors.length)];
+                console.log(random_color)
+                color_style = {
+                    background: 'rgba('
+                    + `${hexToRgb(random_color).r}, ${hexToRgb(random_color).g}, ${hexToRgb(random_color).b}, 0.9`
+                    + ')'
+                }
                 return (
                     <div
                         className="room-info"
                         roomId={ a.roomId }
                         onClick={ () => this.props.handleEnterRoom(a.roomId, this.props.userId) }
+                        style={ color_style }
                     >
-                        <p>{ a.roomName }</p>
-                        <p>{ a.timeLimit }</p>
-                        <p>{ a.userNumLimit }</p>
-                        <p>{ a.userNum }</p>
-                        <p>{ a.lock }</p>
+
+                        <div className="room-info-row">
+                            <span id="room-name-info">{ a.roomName }</span>
+                            <br/><br/>
+                            <span>{ '라운드 ' + a.round + ' / 제한시간 ' + a.timeLimit}</span>
+                        </div>
+
+                        <div className="room-info-row">
+                            <span id="user-num">{ a.userNum + ' / ' + a.userNumLimit }</span>
+                            <br/><br/>
+                            <span>{ a.lock ? '비공개' : '공개' }</span>
+                        </div>
+
                     </div>
                 )
             });
@@ -62,7 +96,7 @@ class RoomList extends Component {
         if (this.props.ranking.hasOwnProperty('otherInfo')) {
             rank = this.props.ranking.otherInfo.map((a, index) => {
                 return (
-                    <div className="rank-info">
+                    <div className="rank-info overflow-scroll">
                         <div className="my-rank">
                             <p>{ this.props.ranking.myInfo.rank }</p>
                             <p>{ this.props.ranking.myInfo.level }</p>
@@ -79,7 +113,7 @@ class RoomList extends Component {
         }
 
         return(
-            <div id="room-list" className="component-container index-right index-bottom">
+            <div id="room-list" className="component-container index-right index-bottom overflow-scroll">
                 { this.props.isShowRanking ? rank : rooms }
             </div>
         );

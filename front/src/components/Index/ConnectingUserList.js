@@ -33,7 +33,7 @@ class ConnectingUserList extends Component {
         }
 
         return(
-            <div id="connection-list" className="component-container index-left index-bottom">
+            <div id="connection-list" className="component-container index-left index-bottom overflow-scroll">
                 <br />
                 { userListInfo }
             </div>

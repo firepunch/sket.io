@@ -13,6 +13,7 @@ const socketMiddleware = (() => {
     const onClose = (ws, store) => evt => {
         //Tell the store we've disconnected
         store.dispatch( actions.socketDisconneted() );
+        console.log('fuck')
     }
 
     const onMessage = (ws, store) => evt => {

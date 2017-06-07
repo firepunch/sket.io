@@ -154,7 +154,7 @@ height 768px	540	           135
     display: flex;
 
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
 }
 
@@ -208,29 +208,11 @@ height 768px	540	           135
     top: 23%;
 
     float: left;
-    overflow: scroll;
-    overflow-x: hidden;
+
 
     text-align: center;
 }
 
-#connection-list::-webkit-scrollbar-track
-{
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	border-radius: 10px;
-}
-
-#connection-list::-webkit-scrollbar
-{
-	width: 12px;
-}
-
-#connection-list::-webkit-scrollbar-thumb
-{
-	border-radius: 10px;
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-	background-color: #F5F5F5;
-}
 
 .user-list {
     text-align: center;
@@ -250,15 +232,8 @@ height 768px	540	           135
 }
 
 
-/*.user-list p:nth-child(2) {
-    margin-left: 5%;
-}*/
-
 /* 방 목록  */
 #room-list {
-    /*width: 1050px;
-    height: 600px;*/
-
     width: 80%;
     height: 80%;
 
@@ -266,11 +241,47 @@ height 768px	540	           135
     top: 23%;
 
     float: right;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
-.room {
+.room-info {
     border: 1px solid black;
+    width: 40%;
+    height: 15%;
+
+    margin-top: 5%;
+    margin-bottom: 5%;
+
+    margin-left: 3%;
+    margin-right: 3%;
+
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-between;
+    align-items: center;
+
+    border-radius: 20px;
+    border: 0;
 }
+
+#room-name-info {
+    font-size: 2em;
+}
+
+.room-info-row > span {
+    font-family: 'LotteMartHappy', sans-serif;
+    color: #FFF;
+    margin: 20px;
+}
+
+
 
 p, label {
     font-family: 'LotteMartHappy', sans-serif;
@@ -282,3 +293,33 @@ p, label {
     /*font-style:italic;*/
     letter-spacing:3px;
     color:#999; }
+
+.no-info {
+    margin: auto;
+    font-size: 3em;
+}
+
+/* 스크롤 스타일 */
+
+.overflow-scroll {
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.overflow-scroll::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+}
+
+.overflow-scroll::-webkit-scrollbar
+{
+    width: 12px;
+}
+
+.overflow-scroll::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #F5F5F5;
+}
