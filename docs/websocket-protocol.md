@@ -182,9 +182,9 @@
         </td>
         <td> type : RANDOM_QUIZ,<br>
              quiz : 출제된 문제,<br>
-             userId : 문제 받을 사람 아이디,<br>
+             id : 문제 받을 사람 아이디,<br>
              round : 현재 라운드 수,<br>
-             // 모든 라운드를 진행해 게임이 끝났을 경우 true<br>
+             // 모든 라운드를 진행해 게임이 끝났을 경우 true 정보만 전송<br>
              gameEnd : true or false
         </td>
     </tr>

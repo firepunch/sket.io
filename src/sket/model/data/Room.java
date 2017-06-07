@@ -84,8 +84,8 @@ public class Room {
         return curRound;
     }
 
-    public void addCurRound(int curRound) {
-        this.curRound += curRound;
+    public void addCurRound() {
+        this.curRound += 1;
     }
 
     public static ArrayList<Room> getRoomList() {

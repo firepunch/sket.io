@@ -185,18 +185,8 @@ public class WebSocket {
             case "RANDOM_QUIZ":
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
-                JSONObject quizData = QuizController.sendQuizByJSON(targetRoom);
-                targetRoom.setAnswer(quizData.getJSONObject("data").getString("quiz"));
-                quizData.getJSONObject("data").append("round", "test");
-
-/*
-                type : RANDOM_QUIZ,<br>
-                    quiz : 출제된 문제,<br>
-                    userId : 문제 받을 사람 아이디,<br>
-                    round : 현재 라운드 수,<br>
-                    // 모든 라운드를 진행해 게임이 끝났을 경우 true<br>
-                    gameEnd : true or false
-*/
+                JSONObject quizData = QuizController.sendQuizByJSON(targetRoom,
+                                    jsonObject.getJSONObject("data").getInt("userId"));
 
                 if (targetRoom != null) {
                     Player targetPlayer = PlayerAction.getEqualPlayerId(jsonObject.getJSONObject("data").getString("userId"));
