@@ -79,7 +79,7 @@ class RoomList extends Component {
                         <div className="room-info-row">
                             <span id="room-name-info">{ a.roomName }</span>
                             <br/><br/>
-                            <span>{ '라운드 ' + a.round + ' / 제한시간 ' + a.timeLimit}</span>
+                            <span>{ '라운드 ' + a.round + ' / 제한시간 ' + a.timeLimit + '초'}</span>
                         </div>
 
                         <div className="room-info-row">
@@ -96,7 +96,7 @@ class RoomList extends Component {
         if (this.props.ranking.hasOwnProperty('otherInfo')) {
             rank = this.props.ranking.otherInfo.map((a, index) => {
                 return (
-                    <div className="rank-info overflow-scroll">
+                    <div className="rank-info">
                         <div className="my-rank">
                             <p>{ this.props.ranking.myInfo.rank }</p>
                             <p>{ this.props.ranking.myInfo.level }</p>
