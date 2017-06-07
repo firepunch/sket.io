@@ -18,6 +18,9 @@
 <br>
 <input type="button" value="랭킹 보기" onclick="showRank()"><br>
 <br><br>
+<input type="button" value="문제 생성" onclick="randomQuiz()"><br>
+<br><br>
+
 <canvas id="canvas" width="490" height="220" style="border:1px solid #000000;"></canvas>
 <canvas id="otherCanvas" width="490" height="220" style="border:1px solid #000000;"></canvas>
 <br><br>
@@ -142,6 +145,23 @@
         console.log("select userID : " + userId);
         webSocket.send(JSON.stringify(msg));
     }
+
+    function randomQuiz() {
+        var roomId = document.getElementById("joinRoomId").value;
+        var userId = document.getElementById("joinRoomUserId").value;
+
+        var msg={
+            type:"RANDOM_QUIZ",
+            data : {
+                roomId: roomId,
+                userId: userId
+            }
+        };
+
+        console.log("select userID : " + userId);
+        webSocket.send(JSON.stringify(msg));
+    }
+
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

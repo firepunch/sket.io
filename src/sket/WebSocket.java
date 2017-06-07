@@ -80,7 +80,8 @@ public class WebSocket {
                         jsonObject.getJSONObject("data").getString("password"),
                         jsonObject.getJSONObject("data").getString("master"),
                         jsonObject.getJSONObject("data").getInt("userNumLimit"),
-                        jsonObject.getJSONObject("data").getInt("timeLimit")
+                        jsonObject.getJSONObject("data").getInt("limitTime"),
+                        jsonObject.getJSONObject("data").getInt("limitRound")
                 );
 
                 player.setInRoom(true);
@@ -186,10 +187,21 @@ public class WebSocket {
                 roomAction = new RoomAction(targetRoom);
                 JSONObject quizData = QuizController.sendQuizByJSON(targetRoom);
                 targetRoom.setAnswer(quizData.getJSONObject("data").getString("quiz"));
+                quizData.getJSONObject("data").append("round", "test");
+
+/*
+                type : RANDOM_QUIZ,<br>
+                    quiz : 출제된 문제,<br>
+                    userId : 문제 받을 사람 아이디,<br>
+                    round : 현재 라운드 수,<br>
+                    // 모든 라운드를 진행해 게임이 끝났을 경우 true<br>
+                    gameEnd : true or false
+*/
 
                 if (targetRoom != null) {
                     Player targetPlayer = PlayerAction.getEqualPlayerId(jsonObject.getJSONObject("data").getString("userId"));
                     playerSession = webSocketSessionMap.get(targetPlayer.getSessionID());
+                    System.out.println(String.valueOf(quizData));
                     playerSession.getBasicRemote().sendText(String.valueOf(quizData));
                 }
 
