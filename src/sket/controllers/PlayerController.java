@@ -62,6 +62,8 @@ public class PlayerController extends HttpServlet {
     public static String checkReadyAllPlayer(Room room) {
         ArrayList<Player> playerArrayList = room.getRoomIntoPlayer(room);
         int countTotalUser = room.getTotalUserNumber();
+
+        System.out.println("log : checkReadyAllPlayer() : countTotalUser = " + countTotalUser);
         int tempCount = 0;
 
         for (Player tempPlayer : playerArrayList) {
@@ -70,7 +72,9 @@ public class PlayerController extends HttpServlet {
             }
         }
 
-        if (tempCount == countTotalUser) {
+        System.out.println("log : checkReadyAllPlayer() : tempCount = " + tempCount);
+        // 방장까지 합쳐서 계산해야 한다.
+        if (tempCount + 1 == countTotalUser) {
             return readyToAllPlayerJSON(room);
         }
         return null;
@@ -92,13 +96,7 @@ public class PlayerController extends HttpServlet {
     /* checkReadyAllPlayer() 메소드를 위한 json 반환 메소드 */
     private static String readyToAllPlayerJSON(Room room) {
         JSONObject message = new JSONObject();
-        message.put("type", "READY_ALL_PLAYER");
-
-        JSONObject data = new JSONObject();
-        data.put("roomId", room.getRoomId());
-        data.put("ready", true);
-
-        message.put("data", data);
+        message.put("type", "GAME_START");
         return message.toString();
     }
 
