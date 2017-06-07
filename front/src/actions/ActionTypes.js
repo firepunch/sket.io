@@ -33,16 +33,11 @@ export const GET_ROOM_ID = "GET_ROOM_ID";
 
 
 /* GAME */
-export const DRAW_PICTURE   = "DRAW_PICTURE";
-export const START_TIMER    = "START_TIMER";
-export const CHAT_ANSWER    = "CHAT_ANSWER";
-
-export const MY_READY       = "MY_READY";
-export const OTHER_READY    = "OTHER_READY"
-
 export const SET_MASTER     = "SET_MASTER";
 
-export const GET_START      = "GET_START";
+export const MY_READY       = "MY_READY";
+export const OTHER_READY    = "OTHER_READY";
+export const START_GAME     = "START_GAME";
 
-/* TEST */
-export const SWITCH_INDEX   = "SWITCH_INDEX";
+export const SET_EXAMINER   = "SET_EXAMINER";
+export const GET_QUIZ       = "GET_QUIZ";

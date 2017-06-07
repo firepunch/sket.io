@@ -13,6 +13,7 @@ const socketMiddleware = (() => {
     const onClose = (ws, store) => evt => {
         //Tell the store we've disconnected
         store.dispatch( actions.socketDisconneted() );
+        alert('소켓을 닫습니다')
         console.log('fuck')
     }
 
@@ -24,26 +25,26 @@ const socketMiddleware = (() => {
 
         // Server to Client
         switch(msg.type) {
-            case "USER_LIST":
+            case "USER_LIST":   // 접속 유저 목록
                 store.dispatch( actions.getUserList(msg.data.userList) );
                 break;
 
-            case "ROOM_LIST":
+            case "ROOM_LIST":   // 현재 있는 방 목록
                 store.dispatch( actions.getRoomList(msg.data.roomList) );
                 break;
 
-            case "SHOW_RANK":
+            case "SHOW_RANK":   // 랭킹을 보여줌
                 store.dispatch( actions.getRanking(msg.data) );
                 break;
 
-            case "ROOM_INFO":
+            case "ROOM_INFO":   // 현재 있는 방에 대한 정보
                 // if (msg.data.roomMaster === store.getState().login.user.id) {
                 //     store.dispatch( actions.setMaster() );
                 // }
                 store.dispatch( actions.enterRoom(msg.data) );
                 break;
 
-            case "PLAYER_READY":
+            case "PLAYER_READY":    // 게임 레디
                 if (msg.data.id === store.getState().login.user.id) {    // 자신의 준비 상태가 바뀌었을 경우
                     store.dispatch( actions.changeMyReady(msg.data.ready) );
                 } else {    // 다른 사람의 상태가 바뀌었을 경우
@@ -58,8 +59,21 @@ const socketMiddleware = (() => {
 
                 break;
 
-            case "NO_READY_ALL_PLAYER":
+            case "NO_READY_ALL_PLAYER": // 모든 플레이어가 준비를 하지 않았음
                 alert("모든 인원이 준비해야 합니다.")
+                break;
+
+            case "GAME_START":
+                store.dispatch( actions.startGame() );
+                break;
+
+            case "RANDOM_EXAMINER": // 게임을 처음 시작했을 때 랜덤 출제자 선정 및 퀴즈 요청
+                store.dispatch( actions.setExaminer(msg.data.id) );
+                store.dispatch( actions.requestQuiz(store.getState().game.roomInfo.roomId, msg.data.id) );
+                break;
+
+            case "RANDOM_QUIZ":
+                store.dispatch( actions.getQuiz(msg.data.id, msg.data.quiz) );
                 break;
 
             default:
@@ -69,6 +83,7 @@ const socketMiddleware = (() => {
     }
 
     const onError = (ws, store) => evt => {
+        alert('오류 발생')
         console.log('error');
     }
 

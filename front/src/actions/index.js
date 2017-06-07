@@ -263,10 +263,38 @@ export function changeOtherReady(ready, userIndex) {
     }
 }
 
-export function startGame(roomId, userId) {
+export function requestStartGame(roomId, userId) {
     return {
         type: types.SEND_MESSAGE,
         msg_type: "GAME_START",
         data: { roomId, userId }
+    }
+}
+
+export function startGame() {
+    return [
+        type: types.START_GAME
+    ]
+}
+
+export function setExaminer(userId) {
+    return {
+        type: types.SET_EXAMINER,
+        userId
+    }
+}
+
+export function requestQuiz(roomId, roomId) {
+    return {
+        type: types.SEND_MESSAGE,
+        msg_type: "RANDOM_QUIZ",
+        data: { roomId, userId }
+    }
+}
+
+export function getQuiz(userId, quiz) {
+    return {
+        type: types.GET_QUIZ
+        data: { userId, quiz }
     }
 }

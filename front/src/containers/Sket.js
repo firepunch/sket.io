@@ -198,7 +198,8 @@ const mapStateToProps = (state) => {
     const { userList, roomList, ranking, isShowRanking } = state.main;
 
     const { isGame, roomInfo } = state.game;
-    const { isMaster, isReady } = state.game;
+    const { isMaster, isReady, isGame } = state.game;
+    const { quiz, examinerId } = state.game;
 
     return {
         /* 로그인 */
@@ -217,11 +218,13 @@ const mapStateToProps = (state) => {
         ranking,
 
         /* 게임 */
-        isMaster,
-        isGame,
         roomInfo,
 
-        isReady
+        isMaster,
+        isReady,
+        isPlay,
+
+        quiz
     };
 }
 
@@ -243,7 +246,7 @@ const mapDispatchToProps = (dispatch) => {
 
         /* 게임 기능 핸들링 */
         handleGetReady: (roomId, userId, isReady) => { dispatch(actions.getReady(roomId, userId, isReady)) },
-        handleStartGame: (roomId, userId) => { dispatch(actions.startGame(roomId, userId)) }
+        handleStartGame: (roomId, userId) => { dispatch(actions.requestStartGame(roomId, userId)) }
     };
 }
 
