@@ -51,11 +51,6 @@ class IndexContent extends Component {
     render() {
         return(
             <div className="sket-index">
-                <div className="logout">
-                    <button onClick={ this.props.handleLogout }>
-                        로그아웃
-                    </button>
-                </div>
                 <div className="container">
                     <UserProfile
                         user={ this.props.user }

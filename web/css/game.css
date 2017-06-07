@@ -3,17 +3,18 @@
     height: 100%;
 
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .game-content {
     width: 90%;
     height: 90%;
 
-    justify-content: center;
-    align-items: center;
-
-    margin: auto;
+    display: flex;
+    flex-direction: row;
 }
+
 
 /* 플레이어 정보, 버튼(준비/대기, 시작, 점수 등) 영역 */
 .player-area {
@@ -29,7 +30,7 @@
     display: flex;
     flex-direction: row;
 
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 /* 프로필 영역 */
@@ -62,101 +63,13 @@
 }
 
 
-/*
+/* 게임 영역 */
 
-
-.game-wrapper {
-    width: 100%;
-    height: 100%;
-
-    position: relative;
-}
-
-
-
-.player-area {
-    width: 100%;
-    height: 50%;
-
-    position: absolute;
-}
-
-.game-left {
-}
-
-.game-right {
-    left: 75%;
-}
-
-.game-top {
-
-}
-
-.game-bottom {
-    top: 50%;
-}
-
-.game-profile {
-    height: 50%;
-}
-
-.sket-score {
-    height: 50%;
-}*/
-
-
-
-/*#left-side {
-    float: left;
-
-}
-
-#right-side {
-    float: right;
-}
-
-#game-area {
-    float: left;
-    width: 50%;
+.game-area {
+    width: 60%;
     height: 100%;
 }
-
-#player-1 {
-    width: 100%;
-    height: 50%;
-}
-
-#player-2 {
-    width: 100%;
-    height: 50%;
-}
-
-#player-3 {
-    width: 100%;
-    height: 50%;
-}
-
-#player-4 {
-    width: 100%;
-    height: 50%;
-}
-
-
-.sket-player {
-    width: 100%;
-    height: 50%;
-
-    background-color: lightgreen;
-}
-
-.sket-score {
-    width: 100%;
-    height: 50%;
-
-    background-color: skyblue;
-}
-
-#sket-round-info {
+/*#sket-round-info {
     height: 5%;
     padding: 10px 5px 5px 10px;
 }

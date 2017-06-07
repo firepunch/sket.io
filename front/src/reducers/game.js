@@ -1,9 +1,9 @@
 import * as types from '../actions/ActionTypes';
 
 const initialState = {
-    isMaster: false,    // 유저가 방장인지
     isReady: false,     // 유저가 준비를 하였는지(isMaster가 true라면 이 변수는 의미 없음)
     isGame: false,      // 게임이 진행 중인지
+    isPlay: false,
 
     quiz: '',           // 받은 퀴즈
     examinerId: '',     // 문제 출제자 아이디
@@ -17,7 +17,7 @@ const initialState = {
 3.  준비 버튼을 눌렀을 때 준비 / 대기 토글
 4.  PLAYER_READY 을 받아 어떤 유저가 준비를 했는지 확인 및 UI 변경
 5.  게임 시작 (모든 플레이어가 준비를 마치지 않았을 시 NO_READY_ALL_PLAYER 메시지 수신)
-6.  정상적으로 게임이 시작되었을 때 GAME_START 메시지를 받아 확인 및 UI 변경
+6.  정상적으로 게임이 시작되었을 때 GAME_START 메시지를 받아 확인 및 UI 변경 - 진행 중
 7.  RANDOM_EXAMINER 를 통해 첫 문제 출제자를 랜덤으로 선정함
 8.  RANDOM_QUIZ 요청을 출제자 ID와 함께 서버에 보내 퀴즈를 받아옴
 9.  CANVAS_DATA 로 캔버스 스케치 데이터를 실시간으로 전송 - CHAT_DATA 를 이용하여 채팅 및 정답 검사
@@ -36,12 +36,6 @@ export default function game(state=initialState, action) {
                 ...state,
                 isGame: true,
                 roomInfo: action.roomInfo
-            }
-
-        case types.SET_MASTER:
-            return {
-                ...state,
-                isMaster: true
             }
 
         case types.MY_READY:
@@ -63,6 +57,12 @@ export default function game(state=initialState, action) {
                         ...state.roomInfo.playerList.slice(action.userIndex + 1)
                     ]
                 }
+            }
+
+        case types.GAME_START:
+            return {
+                ...state,
+                isPlay: true
             }
 
         case types.SET_EXAMINER:

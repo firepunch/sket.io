@@ -56,6 +56,10 @@ class GameContent extends Component {
             enable[j] = true;
         }
 
+        // 문제 출제자가 아닌 플레이어들은 프로필 영역이 회색으로 바뀌도록.
+        // 출제 중인 플레이어만 붉은 색 배경으로.
+        // 시작 / 대기 / 점수 영역의 색깔은 랜덤으로
+
         return(
             <div className="game-root">
                 <div className="game-content">
@@ -73,7 +77,7 @@ class GameContent extends Component {
 
                             handleGetReady={ this.props.handleGetReady }
                             handleStartGame={ this.props.handleStartGame }
-                            />
+                        />
 
                         <UserArea
                             me={ false }
@@ -82,7 +86,7 @@ class GameContent extends Component {
 
                             user={ playerList[0] }
                             master={ this.props.roomInfo.roomMaster }
-                            />
+                        />
 
                         <UserArea
                             me={ false }
@@ -91,7 +95,7 @@ class GameContent extends Component {
 
                             user={ playerList[1] }
                             master={ this.props.roomInfo.roomMaster }
-                            />
+                        />
 
                         <UserArea
                             me={ false }
@@ -100,8 +104,10 @@ class GameContent extends Component {
 
                             user={ playerList[2] }
                             master={ this.props.roomInfo.roomMaster }
-                            />
+                        />
                     </div>
+
+                    { this.props.isPlay ? <GameArea /> : '' }
 
                 </div>
             </div>
