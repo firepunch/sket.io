@@ -83,8 +83,8 @@ class modalComponent extends Component {
         this.state = {
             roomName: '',
             userNumLimit: '',
-            roundNumber: '',
-            timeLimit: '',
+            limitRound: '',
+            limitTime: '',
             password: ''
         };
 
@@ -120,14 +120,14 @@ class modalComponent extends Component {
     handleChangeRoundNumber(evt) {
         this.setState({
             ...this.state,
-            roundNumber: evt.target.value
+            limitRound: evt.target.value
         })
     }
 
     handleChangeTimeLimit(evt) {
         this.setState({
             ...this.state,
-            timeLimit: evt.target.value
+            limitTime: evt.target.value
         })
     }
 

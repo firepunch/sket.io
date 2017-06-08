@@ -1,4 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import { PropTypes as ReactPropTypes } from 'prop-types';
+
+import $ from 'jquery';
 
 const propTypes = {
 };
@@ -10,7 +13,14 @@ class GameArea extends Component {
     constructor(props) {
         super(props);
     }
+    
     render() {
+        var context = document.getElementById('canvas').getContext("2d");
+            var clickX = new Array();
+            var clickY = new Array();
+            var clickDrag = new Array();
+            var paint;
+
         return(
             <div className="game-area">
                 <div className="sket-round-info">
@@ -18,7 +28,7 @@ class GameArea extends Component {
                 </div>
 
                 <div className="sketch-area">
-                    캔버스
+                    <canvas id="canvas" width="600" height="600" style="border:1px solid #000000;"></canvas>
                 </div>
 
                 <div className="time-progress-bar">
