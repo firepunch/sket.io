@@ -89,7 +89,6 @@ public class WebSocket {
                 );
 
                 player.setInRoom(true);
-
                 rcvSession.getBasicRemote().sendText(
                         RoomController.getRoomInfoToJSON(targetRoom)
                 );
