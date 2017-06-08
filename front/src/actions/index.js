@@ -194,12 +194,6 @@ export function getRoomInfo(roomId, userId) {
     }
 }
 
-export function setMaster() {
-    return {
-        type: types.SET_MASTER
-    }
-}
-
 export function getCreatingRoomId(roomId) {
     return {
         type: types.GET_ROOM_ID,
@@ -272,9 +266,9 @@ export function requestStartGame(roomId, userId) {
 }
 
 export function startGame() {
-    return [
-        type: types.START_GAME
-    ]
+    return {
+        type: types.GAME_START
+    }
 }
 
 export function setExaminer(userId) {
@@ -284,7 +278,7 @@ export function setExaminer(userId) {
     }
 }
 
-export function requestQuiz(roomId, roomId) {
+export function requestQuiz(roomId, userId) {
     return {
         type: types.SEND_MESSAGE,
         msg_type: "RANDOM_QUIZ",
@@ -294,7 +288,7 @@ export function requestQuiz(roomId, roomId) {
 
 export function getQuiz(userId, quiz) {
     return {
-        type: types.GET_QUIZ
+        type: types.GET_QUIZ,
         data: { userId, quiz }
     }
 }

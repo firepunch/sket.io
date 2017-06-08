@@ -1,6 +1,7 @@
 package sket.controllers;
 
 import org.json.JSONObject;
+import sket.db.DBConnection;
 import sket.model.action.PlayerAction;
 import sket.model.action.RoomAction;
 import sket.model.data.Player;
@@ -14,14 +15,25 @@ public class QuizController extends HttpServlet {
     }
 
     /* 랜덤 퀴즈를 json 으로 반환하는 메소드 */
-    public static JSONObject sendQuizByJSON(Room targetRoom) {
-        String quiz = null;
-
+    public static JSONObject sendQuizByJSON(Room targetRoom, int userId) {
         JSONObject message = new JSONObject();
         JSONObject data = new JSONObject();
+        targetRoom.addCurRound();
+
+        if (!(targetRoom.getCurRound() < targetRoom.getRoundLimit())) {
+            DBConnection db = new DBConnection();
+            String quiz = db.selectQuiz();
+
+            data.put("gameEnd", "false");
+            data.put("id", userId);
+            data.put("round", targetRoom.getCurRound());
+            data.put("quiz", quiz);
+            targetRoom.setAnswer(quiz);
+        } else {
+            data.put("gameEnd", "true");
+        }
+
         message.put("type", "RANDOM_QUIZ");
-        data.put("quiz", quiz);
-        data.put("id", targetRoom.getRoomMaster().getId());
         message.put("data", data);
 
         return message;

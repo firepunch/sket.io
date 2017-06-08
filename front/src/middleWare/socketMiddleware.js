@@ -38,9 +38,6 @@ const socketMiddleware = (() => {
                 break;
 
             case "ROOM_INFO":   // 현재 있는 방에 대한 정보
-                // if (msg.data.roomMaster === store.getState().login.user.id) {
-                //     store.dispatch( actions.setMaster() );
-                // }
                 store.dispatch( actions.enterRoom(msg.data) );
                 break;
 

@@ -101,7 +101,9 @@
             lock : (true or false),<br>
             password : (null or 1234),<br>
             master : (유저 아이디), <br>
-            userNumLimit : (최대 입장 가능 유저 수)
+            userNumLimit : (최대 입장 가능 유저 수), <br>
+            limitRound : 라운드 수,<br>
+            limitTime : 제한시간
         </td>
         <td>type : CREATE_ROOM,<br>
            roomId : (룸 아이디)
@@ -173,13 +175,17 @@
         </td>
         </tr>
     <tr>
-        <td>랜덤 퀴즈 전송</td>
+        <td>랜덤 문제 전송</td>
         <td> type : RANDOM_QUIZ,<br>
             roomId : 룸 아이디,<br>
             userId : 문제 받을 사람 아이디
         </td>
         <td> type : RANDOM_QUIZ,<br>
-             quiz : 출제된 문제
+             quiz : 출제된 문제,<br>
+             id : 문제 받을 사람 아이디,<br>
+             round : 현재 라운드 수,<br>
+             // 모든 라운드를 진행해 게임이 끝났을 경우 true 정보만 전송<br>
+             gameEnd : true or false
         </td>
     </tr>
     <tr>

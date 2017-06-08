@@ -12,22 +12,22 @@ class GameArea extends Component {
     }
     render() {
         return(
-            <div className="stage" id="game-area">
-                <div id="sket-round-info">
-                    <h3>1/10 라운드</h3>
+            <div className="game-area">
+                <div className="sket-round-info">
+                    <h3>Round 1/10</h3>
                 </div>
 
-                <div id="sketch-area">
-
+                <div className="sketch-area">
+                    캔버스
                 </div>
 
-                <div id="time-progress-bar">
+                <div className="time-progress-bar">
                     <div className="progressbar progressbar-blue">
                         <div className="progressbar-inner"></div>
                     </div>
                 </div>
 
-                <div id="sket-chatting">
+                <div className="sket-chatting">
                     chatting
                 </div>
             </div>

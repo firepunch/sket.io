@@ -22,17 +22,18 @@ public class Room {
     private String roomPwd;
     private String answer;
     private Player roomMaster;
-    private int round = 0;
     private int timeLimit = 0;
     private boolean playingGame = false;
+    private int roundLimit = 0;
+    private int curRound = 0;
 
-    public Room(String name, Player roomMaster, int roomId, boolean isLock, String pwd, int userMax, int timeLimit) {
+    public Room(String name, Player roomMaster, int roomId, boolean isLock, String pwd, int userMax, int timeLimit, int roundLimit) {
         this.roomName = name;
         this.roomMaster = roomMaster;
         this.roomId = roomId;
         this.isLock = isLock;
         this.userMax = userMax;
-        this.timeLimit = timeLimit;
+        this.roundLimit = roundLimit;
 
         if (isLock == true) {
             if (pwd != null) {
@@ -76,12 +77,16 @@ public class Room {
         this.timeLimit = timeLimit;
     }
 
-    public int getRound() {
-        return round;
+    public int getRoundLimit() {
+        return roundLimit;
     }
 
-    public void setRound(int round) {
-        this.round = round;
+    public int getCurRound() {
+        return curRound;
+    }
+
+    public void addCurRound() {
+        this.curRound += 1;
     }
 
     public static ArrayList<Room> getRoomList() {

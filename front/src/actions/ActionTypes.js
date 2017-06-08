@@ -33,11 +33,9 @@ export const GET_ROOM_ID = "GET_ROOM_ID";
 
 
 /* GAME */
-export const SET_MASTER     = "SET_MASTER";
-
 export const MY_READY       = "MY_READY";
 export const OTHER_READY    = "OTHER_READY";
-export const START_GAME     = "START_GAME";
+export const GAME_START     = "GAME_START";
 
 export const SET_EXAMINER   = "SET_EXAMINER";
 export const GET_QUIZ       = "GET_QUIZ";

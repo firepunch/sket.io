@@ -34,9 +34,12 @@ const propTypes = {
 
     /* 게임 */
     isGame: ReactPropTypes.bool,
+    isReady: ReactPropTypes.bool,
+    isPlay: ReactPropTypes.bool,
+
     roomInfo: ReactPropTypes.object,
 
-    isReady: ReactPropTypes.bool,
+    quiz: ReactPropTypes.string,
 
     /* dispatcher function */
     handleLoginRequest: ReactPropTypes.func,
@@ -72,9 +75,12 @@ const defaultProps = {
 
     /* 게임 */
     isGame: false,
+    isReady: false,
+    isPlay: false,
+
     roomInfo: {},
 
-    isReady: false,
+    quiz: '',
 
     /* dispatcher function */
     handleLoginRequest: () => createWarning('handleLoginRequest'),
@@ -166,6 +172,7 @@ class Sket extends Component {
                     roomInfo={ this.props.roomInfo }
 
                     isReady={ this.props.isReady }
+                    isPlay={ this.props.isPlay}
 
                     handleGetReady={ this.props.handleGetReady }
                     handleStartGame={ this.props.handleStartGame }
@@ -198,7 +205,7 @@ const mapStateToProps = (state) => {
     const { userList, roomList, ranking, isShowRanking } = state.main;
 
     const { isGame, roomInfo } = state.game;
-    const { isMaster, isReady, isGame } = state.game;
+    const { isReady, isPlay } = state.game;
     const { quiz, examinerId } = state.game;
 
     return {
@@ -220,7 +227,7 @@ const mapStateToProps = (state) => {
         /* 게임 */
         roomInfo,
 
-        isMaster,
+        isGame,
         isReady,
         isPlay,
 
