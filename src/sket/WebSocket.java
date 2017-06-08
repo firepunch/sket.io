@@ -74,6 +74,10 @@ public class WebSocket {
 
             // 방 생성 했을 때 보내는 JSON
             case "CREATE_ROOM":
+
+                System.out.println("lock : " + jsonObject.getJSONObject("data").getBoolean("lock")
+                        + ", " + jsonObject.getJSONObject("data").getString("password"));
+
                 targetRoom = RoomController.createRoom(
                         jsonObject.getJSONObject("data").getString("roomName"),
                         jsonObject.getJSONObject("data").getBoolean("lock"),
@@ -89,7 +93,6 @@ public class WebSocket {
                         RoomController.getRoomInfoToJSON(targetRoom)
                 );
                 sendMessageToAllSession(RoomController.getRoomListAsJSON());
-
                 break;
 
             // 방 리스트 보내는 JSON
@@ -129,7 +132,6 @@ public class WebSocket {
                 roomAction = new RoomAction(targetRoom);
 
                 sendMessageToRoomMembers(roomAction, RoomController.getRoomInfoToJSON(targetRoom));
-
                 break;
 
             // 플레이어가 방에서 준비했을 때 보내는 JSON. 만약 방장 제외 모두 준비했을 시 방장에거 모두 준비했다고 알림!
@@ -156,10 +158,15 @@ public class WebSocket {
                 Session masterSession = webSocketSessionMap.get(targetRoom.getRoomMaster().getSessionID());
 
                 if (readyAllPlayerByJSON != null) {
-                    System.out.println("log : HashMap.get() : " + masterSession);
-                    sendMessageToAllSession(readyAllPlayerByJSON);
+                    sendMessageToRoomMembers(roomAction, readyAllPlayerByJSON);
+                    sendMessageToRoomMembers(
+                            roomAction,
+                            GameController.randomExaminerToJSON(targetRoom.getRoomId())
+                    );
+
+                    targetRoom.setPlayingGame(true);
+                    sendMessageToAllSession(RoomController.getRoomListAsJSON());
                 } else {
-                    System.out.println("log : HashMap.get() : " + masterSession);
                     masterSession.getBasicRemote().sendText(PlayerController.noReadyAllPlayerJSON(targetRoom));
                 }
                 break;
@@ -170,13 +177,7 @@ public class WebSocket {
                 roomAction = new RoomAction(targetRoom);
 
                 if (targetRoom != null) {
-                    sendMessageToRoomMembers(
-                            roomAction,
-                            GameController.randomExaminerToJSON(
-                                    jsonObject.getJSONObject("data").getString("id"),
-                                    targetRoom.getRoomId()
-                            )
-                    );
+
                 }
                 break;
 
