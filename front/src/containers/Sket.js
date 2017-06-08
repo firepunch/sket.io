@@ -11,7 +11,6 @@ import GameContent from './GameContent';
 
 import * as actions from '../actions';
 
-
 function createWarning(funcName) {
     return () => console.warn(funcName + ' is not defined in Sket');
 }
