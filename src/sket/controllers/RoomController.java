@@ -101,20 +101,25 @@ public class RoomController {
         }
 
         for (Room room : Room.getRoomList()) {
-            JSONObject object = new JSONObject();
-            object.put("roomId", room.getRoomId());
-            object.put("roomName", room.getRoomName());
-            object.put("round", room.getRound());
-            object.put("timeLimit", room.getTimeLimit());
-            object.put("userNumLimit", room.getUserMax());
-            object.put("userNum", room.getTotalUserNumber());
-            object.put("isLocked", room.isLocked());
+            if (room.isPlayingGame() == false) {
+                JSONObject object = new JSONObject();
+                object.put("roomId", room.getRoomId());
+                object.put("roomName", room.getRoomName());
+                object.put("round", room.getRound());
+                object.put("timeLimit", room.getTimeLimit());
+                object.put("userNumLimit", room.getUserMax());
+                object.put("userNum", room.getTotalUserNumber());
+                object.put("isLocked", room.isLocked());
+                object.put("password", room.getRoomPwd());
 
-            jsonArray.put(object);
+                jsonArray.put(object);
+            }
         }
 
         data.put("roomList", jsonArray);
         message.put("data", data);
+
+        System.out.println(message.toString());
         return message.toString();
 
         /*
