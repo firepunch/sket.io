@@ -24,6 +24,7 @@ public class Room {
     private Player roomMaster;
     private int round = 0;
     private int timeLimit = 0;
+    private boolean playingGame = false;
 
     public Room(String name, Player roomMaster, int roomId, boolean isLock, String pwd, int userMax, int timeLimit) {
         this.roomName = name;
@@ -138,4 +139,19 @@ public class Room {
         }
     }
 
+    public boolean isPlayingGame() {
+        return playingGame;
+    }
+
+    public void setPlayingGame(boolean playingGame) {
+        this.playingGame = playingGame;
+    }
+
+    public ArrayList<Player> getPlayerList() {
+        return playerList;
+    }
+
+    public void setPlayerList(ArrayList<Player> playerList) {
+        this.playerList = playerList;
+    }
 }
