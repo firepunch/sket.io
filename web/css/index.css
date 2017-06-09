@@ -129,8 +129,8 @@ height 768px	540	           135
 }
 
 .profile-image img {
-    width: 100px;
-    height: 100px;
+    width: auto;
+    height: 120px;
 }
 
 .user-info {
@@ -279,6 +279,44 @@ height 768px	540	           135
     font-family: 'LotteMartHappy', sans-serif;
     color: #FFF;
     margin: 20px;
+}
+
+.rank-info {
+    width: 80%;
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: stretch;
+}
+
+.rank {
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-around;
+    align-items: flex-start;
+
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    text-align: center;
+}
+
+.rank span {
+    font-family: 'LotteMartHappy', sans-serif;
+    color: #FFF;
+
+    flex: 1;
+    font-size: 1.5em;
+}
+
+.my-rank {
+    font-size: 1.7em;
+    text-shadow: 2px 2px cadetblue
 }
 
 

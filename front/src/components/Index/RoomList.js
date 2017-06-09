@@ -62,7 +62,6 @@ class RoomList extends Component {
         if (this.props.roomList.length > 0) {
             rooms = this.props.roomList.map((a, index) => {
                 random_color = colors[Math.floor(Math.random() * colors.length)];
-                console.log(random_color)
                 color_style = {
                     background: 'rgba('
                     + `${hexToRgb(random_color).r}, ${hexToRgb(random_color).g}, ${hexToRgb(random_color).b}, 0.9`
@@ -94,22 +93,31 @@ class RoomList extends Component {
         }
 
         if (this.props.ranking.hasOwnProperty('otherInfo')) {
-            rank = this.props.ranking.otherInfo.map((a, index) => {
-                return (
-                    <div className="rank-info">
-                        <div className="my-rank">
-                            <p>{ this.props.ranking.myInfo.rank }</p>
-                            <p>{ this.props.ranking.myInfo.level }</p>
-                            <p>{ this.props.ranking.myInfo.nick }</p>
-                        </div>
-                        <div className="others-rank">
-                            <p>{ a.rank }</p>
-                            <p>{ a.level }</p>
-                            <p>{ a.nick }</p>
-                        </div>
+            rank = (
+                <div className="rank-info">
+                    <div className="rank-header rank">
+                        <span>#</span>
+                        <span>레벨</span>
+                        <span>닉네임</span>
                     </div>
-                )
-            });
+                    <div className="my-rank rank">
+                        <span>{ this.props.ranking.myInfo.rank }</span>
+                        <span>{ this.props.ranking.myInfo.level }</span>
+                        <span>{ this.props.ranking.myInfo.nick }</span>
+                    </div>
+                    {
+                        this.props.ranking.otherInfo.map((a, index) => {
+                            return (
+                                <div className="others-rank rank">
+                                    <span>{ a.rank }</span>
+                                    <span>{ a.level }</span>
+                                    <span>{ a.nick }</span>
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+            )
         }
 
         return(

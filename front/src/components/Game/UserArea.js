@@ -33,12 +33,16 @@ class UserArea extends Component {
 
     render() {
 
-        const profileBackground = {
-            backgroundColor: this.props.color[0]
-        }
+        let profileImage;
 
-        const scoreBackground = {
-            backgroundColor: this.props.color[1]
+        let isMaster = typeof this.props.user.id !== 'undefined'
+                        && typeof this.props.master !== 'undefined'
+                        && this.props.user.id === this.props.master
+
+        if (this.props.user.type === 'LOGIN_GUEST' || typeof this.props.user.picture === 'undefined') {
+            profileImage = ( <img src={'img/guest-profile.png'} alt="error"/> )
+        } else {
+            profileImage = ( <img src={ this.props.user.picture } alt="error"/> )
         }
 
         // 방장이 아닌 플레이어일 때
@@ -47,7 +51,8 @@ class UserArea extends Component {
             this.props.me
             ?
             (
-                <div className="sket-score profile-score" style={scoreBackground}
+                <div className="sket-score profile-score"
+                    style={{'backgroundColor': this.props.color}}
                     onClick={ () => this.props.handleGetReady(this.props.roomId, this.props.user.id, !this.props.isReady) }
                 >
                     <p>{this.props.isReady ? "준비" : "대기"}</p>
@@ -55,7 +60,8 @@ class UserArea extends Component {
             )
             :
             (
-                <div className="sket-score profile-score" style={scoreBackground}>
+                <div className="sket-score profile-score"
+                    style={{'backgroundColor': this.props.color}}>
                     <p>{this.props.user.isReady ? "준비" : "대기"}</p>
                 </div>
             )
@@ -67,7 +73,8 @@ class UserArea extends Component {
             this.props.me
             ?
             (
-                <div className="sket-score profile-score" style={scoreBackground}
+                <div className="sket-score profile-score"
+                    style={{'backgroundColor': this.props.color}}
                     onClick={ () => this.props.handleStartGame(this.props.roomId, this.props.user.id) }
                 >
                     <p>시작</p>
@@ -75,31 +82,35 @@ class UserArea extends Component {
             )
             :
             (
-                <div className="sket-score profile-score" style={scoreBackground}>
+                <div className="sket-score profile-score"
+                    style={{'backgroundColor': this.props.color}}>
                     <p>방장</p>
                 </div>
             )
         );
 
-        if (!this.props.enable) {
+        if (!this.props.enable) {   // 방 인원에 제한이 있어서 X를 표시할 때
             return (
                 <div className="sket-game-user">
-                    <div className="game-profile profile-score" style={profileBackground}>
+                    <div className="game-profile profile-score no-player">
                         <h1>X</h1>
                     </div>
 
-                    <div className="sket-score profile-score" style={scoreBackground}>
+                    <div className="sket-score profile-score no-player"
+                        style={{'backgroundColor': this.props.color}}>>
                         <h1>X</h1>
                     </div>
                 </div>
             )
         }
 
+
+
         return(
             <div className="sket-game-user">
-                <div className="game-profile profile-score" style={profileBackground}>
+                <div className={(isMaster ? "room-master" : "") + " game-profile profile-score"}>
                     <div className="player-image">
-                        <img src={ this.props.user.picture } alt="error"/>
+                        { profileImage }
                     </div>
 
                     <div className="player-info">
@@ -108,13 +119,7 @@ class UserArea extends Component {
                     </div>
                 </div>
 
-                {
-                    (
-                        typeof this.props.user.id !== 'undefined'
-                        && typeof this.props.master !== 'undefined'
-                        && this.props.user.id === this.props.master
-                    )   ? master : player
-                }
+                { isMaster ? master : player }
             </div>
         );
     }

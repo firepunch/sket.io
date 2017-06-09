@@ -60,13 +60,20 @@ class GameContent extends Component {
         // 출제 중인 플레이어만 붉은 색 배경으로.
         // 시작 / 대기 / 점수 영역의 색깔은 랜덤으로
 
+        const colors = ['#2ECC71', '#E67E22', '#FFCE54', '#34495E'];
+
         return(
             <div className="game-root">
+                <div className="exit-button">
+                    <button className="action-button shadow animate red">
+                        <p>나가기</p>
+                    </button>
+                </div>
                 <div className="game-content">
                     <div className="player-area">
                         <UserArea
                             me={ true }
-                            color={ ['#3498DB', '#82BF56'] }
+                            color={ colors[0] }
                             enable={ true }
 
                             user={ this.props.user }
@@ -81,7 +88,7 @@ class GameContent extends Component {
 
                         <UserArea
                             me={ false }
-                            color={ ['#3498DB', '#82BF56'] }
+                            color={ colors[1] }
                             enable={ enable[0] }
 
                             user={ playerList[0] }
@@ -90,7 +97,7 @@ class GameContent extends Component {
 
                         <UserArea
                             me={ false }
-                            color={ ['#3498DB', '#82BF56'] }
+                            color={ colors[2] }
                             enable={ enable[1] }
 
                             user={ playerList[1] }
@@ -99,7 +106,7 @@ class GameContent extends Component {
 
                         <UserArea
                             me={ false }
-                            color={ ['#3498DB', '#82BF56'] }
+                            color={ colors[3] }
                             enable={ enable[2] }
 
                             user={ playerList[2] }
