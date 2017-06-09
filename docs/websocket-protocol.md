@@ -76,22 +76,16 @@
             type : ROOM_LIST,<br>
             roomList : [<br>
                 {<br>
-                    roomName: (방 이름),<br>
-                    round: ,<br>
-                    timeLimit: ,<br>
-                    userNumLimit: ,<br>
-                    userNum: ,<br>
-                    isLocked: <br>
-                },<br>
-                {<br>
-                    roomName: (방 이름),<br>
-                    round: ,<br>
-                    timeLimit: ,<br>
-                    userMax: ,<br>
-                    userNum: ,<br>
-                    isLocked: <br>
-                }<br>
-            ]<br>
+                    roomId: 방 아이디, <br>
+                    roomName: 방 이름, <br>
+                    round: 현재 라운드, <br>
+                    roundLimit: 제한 라운드, <br>
+                    timeLimit: 제한 시간, <br>
+                    userNumLimit: 최대 인원, <br>
+                    userNum: 현재 인원, <br>
+                    isLocked: 비밀방 여부, <br>
+                    password: 암호
+                }...]
         </td>
     <tr>
         <td>방 생성</td>

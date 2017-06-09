@@ -101,6 +101,7 @@ public class RoomController {
                 object.put("roomId", room.getRoomId());
                 object.put("roomName", room.getRoomName());
                 object.put("round", room.getCurRound());
+                object.put("roundLimit", room.getRoundLimit());
                 object.put("timeLimit", room.getTimeLimit());
                 object.put("userNumLimit", room.getUserMax());
                 object.put("userNum", room.getTotalUserNumber());
