@@ -194,17 +194,15 @@
     	<td>캔버스 그리기</td>
     	<td>
         	type : "CANVAS_DATA",<br>
-            id: (출제자 아이디),<br>
-            clickX : clickX,<br>
-            clickY : clickY,<br>
-            clickDrag : clickDrag
+            userId: (출제자 아이디),<br>
+            roomId: ( 방 아이디 ),<br>
+            clickX : clickX,<br>
+            clickY : clickY
          </td>
          <td>
         	type : "CANVAS_DATA",<br>
-            id: (출제자 아이디),<br>
-            clickX : clickX,<br>
-            clickY : clickY,<br>
-            clickDrag : clickDrag<br>
+            clickX : clickX,<br>
+            clickY : clickY
             // 위의 정보를 이용해 코드로 그림을 그려줌
          </td>
     </tr>
