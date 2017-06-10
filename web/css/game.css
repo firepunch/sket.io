@@ -129,9 +129,26 @@
     align-items: center;
 }
 
+.sketch-btn {
+    display: flex;
+    flex-direction: column;
+}
+
+.sketch-btn > img {
+    height: 60px;
+    width: 60px;
+
+    margin: 30px;
+
+    border-radius: 100px;
+    border: 1px solid black;
+    background: white;
+}
+
 #canvas {
     border: 1px solid black;
     background: white;
+    cursor: crosshair;
 }
 
 

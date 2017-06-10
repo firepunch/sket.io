@@ -10,69 +10,85 @@ const propTypes = {
 const defaultProps = {
 };
 
+//Canvas
+var canvas;
+var ctx;
+
+//Variables
+var canvasx;
+var canvasy;
+
+var last_mousex = 0;
+var last_mousey = 0;
+
+var mousex = 0;
+var mousey = 0;
+var mousedown = false;
+
+var tooltype = 'draw';
+
 
 class GameArea extends Component {
     constructor(props) {
         super(props);
+
+        this.useTool = this.useTool.bind(this);
+
+        this.handleMouseDown = this.handleMouseDown.bind(this);
+        this.handleMouseUp = this.handleMouseUp.bind(this);
+        this.handleMouseMove = this.handleMouseMove.bind(this);
     }
 
-    // addClick(x, y, dragging) {
-    //     clickX.push(x);
-    //     clickY.push(y);
-    //     clickDrag.push(dragging);
-    // }
-    //
-    // redraw() {  // 캔버스에 그려줌
-    //     context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
-    //     context.strokeStyle = "#df4b26";
-    //     context.lineJoin = "round";
-    //     context.lineWidth = 5;
-    //
-    //     for (var i = 0; i < clickX.length; i++) {
-    //         context.beginPath();
-    //         if (clickDrag[i] && i){
-    //             context.moveTo(clickX[i - 1], clickY[i - 1]);
-    //         } else {
-    //             context.moveTo(clickX[i] - 1, clickY[i]);
-    //         }
-    //         context.lineTo(clickX[i], clickY[i]);
-    //         context.closePath();
-    //         context.stroke();
-    //     }
-    // }
+    componentDidMount() {
+        //Variables
+        canvas = document.getElementById('canvas');
+        ctx = canvas.getContext('2d');
+
+        canvasx = $("#canvas").offset().left;
+        canvasy = $("#canvas").offset().top;
+    }
+
+    //Use draw|erase
+    useTool(tool) {
+        tooltype = tool; //update
+
+    }
+
+    handleMouseDown(e) {
+        last_mousex = mousex = parseInt(e.clientX-canvasx);
+        last_mousey = mousey = parseInt(e.clientY-canvasy);
+        mousedown = true;
+    }
+
+    handleMouseUp(e) {
+        mousedown = false;
+    }
+
+    handleMouseMove(e) {
+        mousex = parseInt(e.clientX-canvasx);
+        mousey = parseInt(e.clientY-canvasy);
+        if(mousedown) {
+            ctx.beginPath();
+            if(tooltype=='draw') {
+                ctx.globalCompositeOperation = 'source-over';
+                ctx.strokeStyle = 'black';
+                ctx.lineWidth = 3;
+            } else {
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.lineWidth = 10;
+            }
+            ctx.moveTo(last_mousex,last_mousey);
+            ctx.lineTo(mousex,mousey);
+            ctx.lineJoin = ctx.lineCap = 'round';
+            ctx.stroke();
+        }
+        last_mousex = mousex;
+        last_mousey = mousey;
+        //Output
+        $('#output').html('current: '+mousex+', '+mousey+'<br/>last: '+last_mousex+', '+last_mousey+'<br/>mousedown: '+mousedown);
+    }
 
     render() {
-        // let context = document.getElementById('canvas').getContext("2d");
-        // let clickX = new Array();   //
-        // let clickY = new Array();
-        // let clickDrag = new Array();
-        // let paint;
-        //
-        // $('#canvas').mousedown(function(e){
-        //         let mouseX = e.pageX - this.offsetLeft;
-        //         let mouseY = e.pageY - this.offsetTop;
-        //         paint = true;
-        //         this.addClick(mouseX, mouseY, '');
-        //         // webSocket.send(JSON.stringify(msg));
-        //         this.redraw();
-        //     });
-        // $('#canvas').mousemove(function(e){
-        //     if (paint) {    // mousedown을 한 상태에서 마우스를 움직일 때
-        //         this.addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
-        //         // webSocket.send(JSON.stringify(msg));
-        //         this.redraw();
-        //     }
-        // });
-        //
-        // /* mouseup을 하거나 마우스가 캔버스를 벗어났을 때 */
-        // $('#canvas').mouseup(function(e){
-        //     paint = false;
-        // });
-        // $('#canvas').mouseleave(function(e){
-        //     paint = false;
-        // });
-
-
         return(
             <div className="game-area">
                 <div className="sket-round-info">
@@ -80,9 +96,18 @@ class GameArea extends Component {
                 </div>
 
                 <div className="sketch-area">
-                    <canvas id="canvas" width="600" height="600">
+                    <div className="sketch-btn">
+                        <img src={"img/pencil-icon.png"} onClick={ () => this.useTool('draw') } />
+                        <img src={"img/eraser-icon.png"} onClick={ () => this.useTool('erase') } />
+                    </div>
+
+                    <canvas id="canvas" width="600" height="600"
+                        onMouseDown={ (evt) => this.handleMouseDown(evt) }
+                        onMouseUp={ (evt) => this.handleMouseUp(evt) }
+                        onMouseMove={ (evt) => this.handleMouseMove(evt) }>
                         이 브라우저는 canvas를 지원하지 않는 브라우저입니다. 포기하시고 크롬을 사용하십시오.
                     </canvas>
+
                     <div className="progress progress-bar-vertical">
                         <div className="progress-bar progress-bar-danger progress-bar-striped active"
                             role="progressbar" aria-valuenow="100"

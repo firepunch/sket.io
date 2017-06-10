@@ -114,11 +114,10 @@ class GameContent extends Component {
                         />
                     </div>
 
-                    <GameArea />
+                    { this.props.isPlay ? <GameArea /> : '' }
                 </div>
             </div>
         );
-        // { this.props.isPlay ? <GameArea /> : '' }
     }
 }
 
