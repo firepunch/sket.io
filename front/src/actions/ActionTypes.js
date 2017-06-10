@@ -39,3 +39,5 @@ export const GAME_START     = "GAME_START";
 
 export const SET_EXAMINER   = "SET_EXAMINER";
 export const GET_QUIZ       = "GET_QUIZ";
+
+export const CANVAS_DATA    = "CANVAS_DATA";

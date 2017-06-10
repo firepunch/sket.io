@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes as ReactPropTypes } from 'prop-types';
 
 import $ from 'jquery';
-import Progress from 'react-progressbar';
+import { modal } from 'react-redux-modal';
 
 const propTypes = {
 };
@@ -25,18 +25,10 @@ var mousex = 0;
 var mousey = 0;
 var mousedown = false;
 
-var tooltype = 'draw';
-
 
 class GameArea extends Component {
     constructor(props) {
         super(props);
-
-        this.useTool = this.useTool.bind(this);
-
-        this.handleMouseDown = this.handleMouseDown.bind(this);
-        this.handleMouseUp = this.handleMouseUp.bind(this);
-        this.handleMouseMove = this.handleMouseMove.bind(this);
     }
 
     componentDidMount() {
@@ -48,47 +40,79 @@ class GameArea extends Component {
         canvasy = $("#canvas").offset().top;
     }
 
-    //Use draw|erase
-    useTool(tool) {
-        tooltype = tool; //update
+    componentWillReceiveProps() {
+        // 좌표를 이용하여 그림을 그림
+        ctx.beginPath();
 
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 3;
+
+        ctx.moveTo(this.props.canvas.clickX, this.props.canvas.clickY);
+        ctx.lineTo(mousex, mousey);
+        ctx.lineJoin = ctx.lineCap = 'round';
+        ctx.stroke();
     }
 
     handleMouseDown(e) {
-        last_mousex = mousex = parseInt(e.clientX-canvasx);
-        last_mousey = mousey = parseInt(e.clientY-canvasy);
+        last_mousex = mousex = parseInt(e.clientX - canvasx);
+        last_mousey = mousey = parseInt(e.clientY - canvasy);
         mousedown = true;
     }
 
     handleMouseUp(e) {
         mousedown = false;
+
+        let msg = {
+            userId: this.props.userId,
+            roomId: this.props.roomId,
+            clickX : last_mousex,
+            clickY : last_mousey
+        };
+
+        this.props.handleCanvasData(msg);
     }
 
     handleMouseMove(e) {
         mousex = parseInt(e.clientX-canvasx);
         mousey = parseInt(e.clientY-canvasy);
-        if(mousedown) {
-            ctx.beginPath();
-            if(tooltype=='draw') {
-                ctx.globalCompositeOperation = 'source-over';
-                ctx.strokeStyle = 'black';
-                ctx.lineWidth = 3;
-            } else {
-                ctx.globalCompositeOperation = 'destination-out';
-                ctx.lineWidth = 10;
-            }
-            ctx.moveTo(last_mousex,last_mousey);
-            ctx.lineTo(mousex,mousey);
-            ctx.lineJoin = ctx.lineCap = 'round';
-            ctx.stroke();
+
+        if( mousedown ) {
+            clickX.push(last_mousex);
+            clickX.push(last_mousey);
+
+            last_mousex = mousex;
+            last_mousey = mousey;
         }
-        last_mousex = mousex;
-        last_mousey = mousey;
-        //Output
-        $('#output').html('current: '+mousex+', '+mousey+'<br/>last: '+last_mousex+', '+last_mousey+'<br/>mousedown: '+mousedown);
     }
 
+    // <div className="sketch-btn">
+    //     <img src={"img/pencil-icon.png"} onClick={ () => this.useTool('draw') } />
+    //     <img src={"img/eraser-icon.png"} onClick={ () => this.useTool('erase') } />
+    // </div>
+
     render() {
+        // 출제자가 아닐 때에는 canvas handle 함수를 비활성해야 할 듯
+        // boolean 변수를 하나 만들어서 삼항 연산자로 제어...
+
+        let canvas = (
+            <canvas id="canvas" width="600" height="600">
+                이 브라우저는 canvas를 지원하지 않는 브라우저입니다. 포기하시고 크롬을 사용하십시오.
+            </canvas>
+        )
+
+        if (this.props.userId === this.props.examinerId) {
+            canvas = (
+                <canvas id="canvas" width="600" height="600"
+                    onMouseDown={ (evt) => this.handleMouseDown(evt) }
+                    onMouseUp={ (evt) => this.handleMouseUp(evt) }
+                    onMouseMove={ (evt) => this.handleMouseMove(evt) }
+                    onMouseLeave={ (evt) => this.handleMouseMove(evt) } >
+                    이 브라우저는 canvas를 지원하지 않는 브라우저입니다. 포기하시고 크롬을 사용하십시오.
+                </canvas>
+            )
+        }
+
         return(
             <div className="game-area">
                 <div className="sket-round-info">
@@ -96,17 +120,8 @@ class GameArea extends Component {
                 </div>
 
                 <div className="sketch-area">
-                    <div className="sketch-btn">
-                        <img src={"img/pencil-icon.png"} onClick={ () => this.useTool('draw') } />
-                        <img src={"img/eraser-icon.png"} onClick={ () => this.useTool('erase') } />
-                    </div>
 
-                    <canvas id="canvas" width="600" height="600"
-                        onMouseDown={ (evt) => this.handleMouseDown(evt) }
-                        onMouseUp={ (evt) => this.handleMouseUp(evt) }
-                        onMouseMove={ (evt) => this.handleMouseMove(evt) }>
-                        이 브라우저는 canvas를 지원하지 않는 브라우저입니다. 포기하시고 크롬을 사용하십시오.
-                    </canvas>
+                    { canvas }
 
                     <div className="progress progress-bar-vertical">
                         <div className="progress-bar progress-bar-danger progress-bar-striped active"

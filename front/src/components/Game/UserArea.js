@@ -89,6 +89,17 @@ class UserArea extends Component {
             )
         );
 
+        const gameScore = (
+            <div className="sket-score profile-score"
+                style={{'backgroundColor': this.props.color}}>
+                <p>{ this.props.score }</p>
+            </div>
+        )
+
+        const beforeGame = isMaster ? master : player;
+
+        const rendering = this.props.isPlay ? gameScore : beforeGame;
+
         if (!this.props.enable) {   // 방 인원에 제한이 있어서 X를 표시할 때
             return (
                 <div className="sket-game-user">
@@ -105,7 +116,6 @@ class UserArea extends Component {
         }
 
 
-
         return(
             <div className="sket-game-user">
                 <div className={(isMaster ? "room-master" : "") + " game-profile profile-score"}>
@@ -119,7 +129,7 @@ class UserArea extends Component {
                     </div>
                 </div>
 
-                { isMaster ? master : player }
+                { rendering }
             </div>
         );
     }

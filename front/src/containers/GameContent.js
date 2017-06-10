@@ -62,6 +62,32 @@ class GameContent extends Component {
 
         const colors = ['#2ECC71', '#E67E22', '#FFCE54', '#34495E'];
 
+        const users = (
+            this.props.playerList.map((data, index) => {
+                return (
+                    <UserArea
+                        me={ false }
+                        color={ colors[index + 1] }
+                        enable={ enable[index] }
+                        isPlay={ this.props.isPlay }
+                        score={0}
+
+                        user={ playerList[index] }
+                        master={ this.props.roomInfo.roomMaster }
+                    />
+                )
+            })
+        )
+
+        const gameArea= (
+            <GameArea roomId={ this.props.roomInfo.roomId }
+                    userId={ this.props.user.id }
+                    handleCanvasData={ this.props.handleCanvasData }
+                    canvas={ this.props.canvas }
+                    examinerId={ this.props.examinerId }
+            />
+        )
+
         return(
             <div className="game-root">
                 <div className="exit-button">
@@ -79,42 +105,19 @@ class GameContent extends Component {
                             user={ this.props.user }
                             roomId={ this.props.roomInfo.roomId }
                             master={ this.props.roomInfo.roomMaster }
+                            score={0}
 
                             isReady={ this.props.isReady }
+                            isPlay={ this.props.isPlay }
 
                             handleGetReady={ this.props.handleGetReady }
                             handleStartGame={ this.props.handleStartGame }
                         />
 
-                        <UserArea
-                            me={ false }
-                            color={ colors[1] }
-                            enable={ enable[0] }
-
-                            user={ playerList[0] }
-                            master={ this.props.roomInfo.roomMaster }
-                        />
-
-                        <UserArea
-                            me={ false }
-                            color={ colors[2] }
-                            enable={ enable[1] }
-
-                            user={ playerList[1] }
-                            master={ this.props.roomInfo.roomMaster }
-                        />
-
-                        <UserArea
-                            me={ false }
-                            color={ colors[3] }
-                            enable={ enable[2] }
-
-                            user={ playerList[2] }
-                            master={ this.props.roomInfo.roomMaster }
-                        />
+                    { users }
                     </div>
 
-                    { this.props.isPlay ? <GameArea /> : '' }
+                    { this.props.isPlay ? gameArea : '' }
                 </div>
             </div>
         );

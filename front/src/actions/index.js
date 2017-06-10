@@ -292,3 +292,18 @@ export function getQuiz(userId, quiz) {
         data: { userId, quiz }
     }
 }
+
+export function drawCanvas(data) {
+    return {
+        type: types.SEND_MESSAGE,
+        msg_type: "CANVAS_DATA",
+        data
+    }
+}
+
+export function getCanvasData(clickX, clickY) {
+    return {
+        type: types.CANVAS_DATA,
+        data: { clickX, clickY }
+    }
+}

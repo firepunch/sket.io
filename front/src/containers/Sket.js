@@ -169,12 +169,15 @@ class Sket extends Component {
                     user={ this.props.user }
                     playerList={ this.props.roomInfo.playerList }
                     roomInfo={ this.props.roomInfo }
+                    canvas={ this.props.canvas }
+                    examinerId={ this.props.examinerId }
 
                     isReady={ this.props.isReady }
                     isPlay={ this.props.isPlay}
 
                     handleGetReady={ this.props.handleGetReady }
                     handleStartGame={ this.props.handleStartGame }
+                    handleCanvasData={ this.props.handleCanvasData }
                 />
         )
 
@@ -206,6 +209,7 @@ const mapStateToProps = (state) => {
     const { isGame, roomInfo } = state.game;
     const { isReady, isPlay } = state.game;
     const { quiz, examinerId } = state.game;
+    const { canvas } = state.game;
 
     return {
         /* 로그인 */
@@ -230,7 +234,10 @@ const mapStateToProps = (state) => {
         isReady,
         isPlay,
 
-        quiz
+        quiz,
+        examinerId,
+
+        canvas
     };
 }
 
@@ -252,7 +259,8 @@ const mapDispatchToProps = (dispatch) => {
 
         /* 게임 기능 핸들링 */
         handleGetReady: (roomId, userId, isReady) => { dispatch(actions.getReady(roomId, userId, isReady)) },
-        handleStartGame: (roomId, userId) => { dispatch(actions.requestStartGame(roomId, userId)) }
+        handleStartGame: (roomId, userId) => { dispatch(actions.requestStartGame(roomId, userId)) },
+        handleCanvasData: (data) => { dispatch(actions.handleCanvasData(data)) }
     };
 }
 

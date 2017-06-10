@@ -8,7 +8,8 @@ const initialState = {
     quiz: '',           // 받은 퀴즈
     examinerId: '',     // 문제 출제자 아이디
 
-    roomInfo: {}        // 방 정보 객체
+    roomInfo: {},        // 방 정보 객체
+    canvas: {}
 }
 
 /*
@@ -17,10 +18,10 @@ const initialState = {
 3.  준비 버튼을 눌렀을 때 준비 / 대기 토글
 4.  PLAYER_READY 을 받아 어떤 유저가 준비를 했는지 확인 및 UI 변경
 5.  게임 시작 (모든 플레이어가 준비를 마치지 않았을 시 NO_READY_ALL_PLAYER 메시지 수신)
-6.  정상적으로 게임이 시작되었을 때 GAME_START 메시지를 받아 확인 및 UI 변경 - 진행 중
+6.  정상적으로 게임이 시작되었을 때 GAME_START 메시지를 받아 확인 및 UI 변경
 7.  RANDOM_EXAMINER 를 통해 첫 문제 출제자를 랜덤으로 선정함
 8.  RANDOM_QUIZ 요청을 출제자 ID와 함께 서버에 보내 퀴즈를 받아옴
-9.  CANVAS_DATA 로 캔버스 스케치 데이터를 실시간으로 전송 - CHAT_DATA 를 이용하여 채팅 및 정답 검사
+9.  CANVAS_DATA 로 캔버스 스케치 데이터를 실시간으로 전송 - CHAT_DATA 를 이용하여 채팅 및 정답 검사 - 진행 중
 10. CHAT_DATA의 correct 변수를 통해 정답 여부 확인 및 결과 처리(점수 변경 등)
 11. GAME_TIMEOUT 이 되면 모든 유저가 공통적으로 감점을 받음(score)
 12. 게임이 종료되면 GAME_END 전송(roomId, scoreInfo: 유저 아이디, 레벨, 경험치 등)
@@ -75,6 +76,12 @@ export default function game(state=initialState, action) {
             return {
                 ...state,
                 quiz: action.quiz
+            }
+
+        case types.CANVAS_DATA:
+            return {
+                ...state,
+                canvas: action.data
             }
 
         default:

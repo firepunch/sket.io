@@ -73,6 +73,10 @@ const socketMiddleware = (() => {
                 store.dispatch( actions.getQuiz(msg.data.id, msg.data.quiz) );
                 break;
 
+            case "CANVAS_DATA":
+                store.dispatch( actions.getCanvasData(msg.data.clickX, msg.data.clickY) );
+                break;
+
             default:
                 console.log("Received unknown message type: '" + msg.type + "'");
                 break;
