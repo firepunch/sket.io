@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes as ReactPropTypes } from 'prop-types';
 
 import $ from 'jquery';
+import Progress from 'react-progressbar';
 
 const propTypes = {
 };
@@ -79,19 +80,27 @@ class GameArea extends Component {
                 </div>
 
                 <div className="sketch-area">
-                    <canvas id="canvas" width="600" height="600" style="border:1px solid #000000;">
+                    <canvas id="canvas" width="600" height="600">
                         이 브라우저는 canvas를 지원하지 않는 브라우저입니다. 포기하시고 크롬을 사용하십시오.
                     </canvas>
-                </div>
-
-                <div className="time-progress-bar">
-                    <div className="progressbar progressbar-blue">
-                        <div className="progressbar-inner"></div>
+                    <div className="progress progress-bar-vertical">
+                        <div className="progress-bar progress-bar-danger progress-bar-striped active"
+                            role="progressbar" aria-valuenow="100"
+                            aria-valuemin="0" aria-valuemax="100"
+                            style={{"height": '100%'}}>
+                            <span className="sr-only">&nbsp;</span>
+                        </div>
                     </div>
                 </div>
 
                 <div className="sket-chatting">
-                    chatting
+                    <div className="chat-body overflow-scroll">
+
+                    </div>
+                    <div className="chat">
+                        <input type="text" id="chat-talk" />
+                        <button id="chat-btn"><p>전송</p></button>
+                    </div>
                 </div>
             </div>
         );
