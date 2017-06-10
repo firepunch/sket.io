@@ -171,6 +171,8 @@ class Sket extends Component {
                     roomInfo={ this.props.roomInfo }
                     canvas={ this.props.canvas }
                     examinerId={ this.props.examinerId }
+                    quiz={ this.props.quiz }
+                    chat={ this.props.chat }
 
                     isReady={ this.props.isReady }
                     isPlay={ this.props.isPlay}
@@ -178,6 +180,7 @@ class Sket extends Component {
                     handleGetReady={ this.props.handleGetReady }
                     handleStartGame={ this.props.handleStartGame }
                     handleCanvasData={ this.props.handleCanvasData }
+                    handleChatData={ this.props.handleChatData }
                 />
         )
 
@@ -209,7 +212,7 @@ const mapStateToProps = (state) => {
     const { isGame, roomInfo } = state.game;
     const { isReady, isPlay } = state.game;
     const { quiz, examinerId } = state.game;
-    const { canvas } = state.game;
+    const { canvas, chat } = state.game;
 
     return {
         /* 로그인 */
@@ -237,7 +240,8 @@ const mapStateToProps = (state) => {
         quiz,
         examinerId,
 
-        canvas
+        canvas,
+        chat
     };
 }
 
@@ -260,7 +264,8 @@ const mapDispatchToProps = (dispatch) => {
         /* 게임 기능 핸들링 */
         handleGetReady: (roomId, userId, isReady) => { dispatch(actions.getReady(roomId, userId, isReady)) },
         handleStartGame: (roomId, userId) => { dispatch(actions.requestStartGame(roomId, userId)) },
-        handleCanvasData: (data) => { dispatch(actions.handleCanvasData(data)) }
+        handleCanvasData: (data) => { dispatch(actions.drawCanvas(data)) },
+        handleChatData: (data) => { dispatch(actions.chatSend(data)) }
     };
 }
 

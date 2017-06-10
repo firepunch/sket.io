@@ -9,7 +9,8 @@ const initialState = {
     examinerId: '',     // 문제 출제자 아이디
 
     roomInfo: {},        // 방 정보 객체
-    canvas: {}
+    canvas: {},
+    chat: {}
 }
 
 /*
@@ -82,6 +83,12 @@ export default function game(state=initialState, action) {
             return {
                 ...state,
                 canvas: action.data
+            }
+
+        case types.CHAT_DATA:
+            return {
+                ...state,
+                chat: action.chat
             }
 
         default:

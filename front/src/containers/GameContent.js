@@ -71,6 +71,7 @@ class GameContent extends Component {
                         enable={ enable[index] }
                         isPlay={ this.props.isPlay }
                         score={0}
+                        examinerId={ this.props.examinerId }
 
                         user={ playerList[index] }
                         master={ this.props.roomInfo.roomMaster }
@@ -85,6 +86,10 @@ class GameContent extends Component {
                     handleCanvasData={ this.props.handleCanvasData }
                     canvas={ this.props.canvas }
                     examinerId={ this.props.examinerId }
+                    quiz={ this.props.quiz }
+                    handleChatData={ this.props.handleChatData }
+                    roomId={ this.props.roomInfo.roomId }
+                    chat={ this.props.chat }
             />
         )
 
@@ -106,6 +111,7 @@ class GameContent extends Component {
                             roomId={ this.props.roomInfo.roomId }
                             master={ this.props.roomInfo.roomMaster }
                             score={0}
+                            examinerId={ this.props.examinerId }
 
                             isReady={ this.props.isReady }
                             isPlay={ this.props.isPlay }

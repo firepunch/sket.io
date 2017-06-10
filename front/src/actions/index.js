@@ -307,3 +307,23 @@ export function getCanvasData(clickX, clickY) {
         data: { clickX, clickY }
     }
 }
+
+export function chatSend(roomId, userId, restTime, msg) {
+    return {
+        type: types.SEND_MESSAGE,
+        msg_type: "CHAT_DATA",
+        data: {
+            roomId,
+            userId,
+            restTime,
+            msg
+        }
+    }
+}
+
+export function chatReceive(msg) {
+    return {
+        type: types.CHAT_DATA,
+        msg
+    }
+}

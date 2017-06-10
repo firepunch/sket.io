@@ -25,10 +25,17 @@ var mousex = 0;
 var mousey = 0;
 var mousedown = false;
 
+var chatList = [];
+
 
 class GameArea extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            chat: '',
+            time: 0
+        }
     }
 
     componentDidMount() {
@@ -41,6 +48,8 @@ class GameArea extends Component {
     }
 
     componentWillReceiveProps() {
+        chatList.push(this.props.chat)
+
         // 좌표를 이용하여 그림을 그림
         ctx.beginPath();
 
@@ -54,52 +63,35 @@ class GameArea extends Component {
         ctx.stroke();
     }
 
-    handleMouseDown(e) {
-        last_mousex = mousex = parseInt(e.clientX - canvasx);
-        last_mousey = mousey = parseInt(e.clientY - canvasy);
-        mousedown = true;
-    }
-
-    handleMouseUp(e) {
-        mousedown = false;
-
-        let msg = {
-            userId: this.props.userId,
-            roomId: this.props.roomId,
-            clickX : last_mousex,
-            clickY : last_mousey
-        };
-
-        this.props.handleCanvasData(msg);
-    }
-
-    handleMouseMove(e) {
-        mousex = parseInt(e.clientX-canvasx);
-        mousey = parseInt(e.clientY-canvasy);
-
-        if( mousedown ) {
-            clickX.push(last_mousex);
-            clickX.push(last_mousey);
-
-            last_mousex = mousex;
-            last_mousey = mousey;
-        }
-    }
-
-    // <div className="sketch-btn">
-    //     <img src={"img/pencil-icon.png"} onClick={ () => this.useTool('draw') } />
-    //     <img src={"img/eraser-icon.png"} onClick={ () => this.useTool('erase') } />
-    // </div>
-
     render() {
-        // 출제자가 아닐 때에는 canvas handle 함수를 비활성해야 할 듯
-        // boolean 변수를 하나 만들어서 삼항 연산자로 제어...
 
-        let canvas = (
+        let canvas = (  // 문제 출제자가 아니면 캔버스에 핸들링 함수를 포함하지 않음
             <canvas id="canvas" width="600" height="600">
                 이 브라우저는 canvas를 지원하지 않는 브라우저입니다. 포기하시고 크롬을 사용하십시오.
             </canvas>
         )
+
+        const chat = chatList.map((data, index) => {
+            let d = new Date();
+
+            let hour = d.getHours();
+            let min = d.getMinutes();
+            let sec = d.getSeconds();
+
+            let when;
+
+            (hour < 12) ? when = '오전 ' : when = '오후 ';
+
+            let timestamp = when + hour + ':' + min + ':' + sec;
+
+            return (
+                <div className="chat-item">
+                    <span>{ data.nick }</span>
+                    <span>{ data.msg }</span>
+                    <span>{ timestamp }</span>
+                </div>
+            )
+        });
 
         if (this.props.userId === this.props.examinerId) {
             canvas = (
@@ -111,6 +103,9 @@ class GameArea extends Component {
                     이 브라우저는 canvas를 지원하지 않는 브라우저입니다. 포기하시고 크롬을 사용하십시오.
                 </canvas>
             )
+
+            console.log('fuck')
+            this.addModal();
         }
 
         return(
@@ -135,13 +130,101 @@ class GameArea extends Component {
 
                 <div className="sket-chatting">
                     <div className="chat-body overflow-scroll">
-
+                        {chat}
                     </div>
                     <div className="chat">
-                        <input type="text" id="chat-talk" />
-                        <button id="chat-btn"><p>전송</p></button>
+                        <input type="text" id="chat-talk"
+                                onChange={ (evt) => this.handleChatChange(evt) }/>
+                        <button id="chat-btn"
+                                onClick={ () => this.handleChatting() }>
+                            <p>전송</p>
+                        </button>
                     </div>
                 </div>
+            </div>
+        );
+    }
+
+    handleMouseDown(e) {
+        last_mousex = mousex = parseInt(e.clientX - canvasx);
+        last_mousey = mousey = parseInt(e.clientY - canvasy);
+
+        mousedown = true;
+    }
+
+    handleMouseUp(e) {
+        mousedown = false;
+    }
+
+    handleMouseMove(e) {
+        mousex = parseInt(e.clientX-canvasx);
+        mousey = parseInt(e.clientY-canvasy);
+
+        if( mousedown ) {
+            last_mousex = mousex;
+            last_mousey = mousey;
+
+            let msg = {
+                userId: this.props.userId,
+                roomId: this.props.roomId,
+                clickX : last_mousex,
+                clickY : last_mousey
+            };
+
+            this.props.handleCanvasData(msg);
+        }
+    }
+
+    handleChatChange(evt) {
+        this.setState({
+            ...this.state,
+            chat: evt.target.value
+        })
+    }
+
+    handleChatting() {
+        this.props.handleChatData(
+            this.props.roomId,
+            this.props.userId,
+            this.state.time,
+            this.state.chat
+        )
+    }
+
+    // <div className="sketch-btn">
+    //     <img src={"img/pencil-icon.png"} onClick={ () => this.useTool('draw') } />
+    //     <img src={"img/eraser-icon.png"} onClick={ () => this.useTool('erase') } />
+    // </div>
+
+    addModal() {
+        modal.add(modalComponent, {
+            title: '문제',
+            size: 'large', // large, medium or small,
+            closeOnOutsideClick: true, // (optional) Switch to true if you want to close the modal by clicking outside of it,
+            hideTitleBar: false, // (optional) Switch to true if do not want the default title bar and close button,
+            hideCloseButton: true, // (optional) if you don't wanna show the top right close button
+            quiz: this.props.quiz
+            //.. all what you put in here you will get access in the modal props ;)
+        });
+    }
+}
+
+class modalComponent extends Component {
+
+    componentDidMount() {
+        setTimeout(() => {
+            this.removeThisModal();
+        }, 3000);
+    }
+
+    removeThisModal() {
+        this.props.removeModal();
+    }
+
+    render() {
+        return (
+            <div className="show-quiz">
+                <p>{ this.props.quiz }</p>
             </div>
         );
     }

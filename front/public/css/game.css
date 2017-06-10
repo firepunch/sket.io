@@ -145,6 +145,18 @@
     background: white;
 }
 
+.show-quiz {
+    display: flex;
+    flex-direction: row;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.show-quiz > p {
+    font-size: 10em;
+}
+
 #canvas {
     border: 1px solid black;
     background: white;
