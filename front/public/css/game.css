@@ -288,6 +288,27 @@
     width: 100%;
 }
 
+.chat-item {
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-around;
+    align-items: flex-start;
+
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.chat-item span {
+    font-family: 'LotteMartHappy', sans-serif;
+    color: #FFF;
+
+    flex: 1;
+    font-size: 1.5em;
+}
+
 .chat {
     height: 10%;
 
