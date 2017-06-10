@@ -34,7 +34,11 @@ class GameArea extends Component {
 
         this.state = {
             chat: '',
-            time: 0
+            time: this.props.roomInfo.timeLimit
+        }
+
+        if (this.props.userId === this.props.examinerId) {
+            this.addModal();
         }
     }
 
@@ -45,10 +49,23 @@ class GameArea extends Component {
 
         canvasx = $("#canvas").offset().left;
         canvasy = $("#canvas").offset().top;
+
+        setInterval(() => {
+            this.setState({
+                ...this.state,
+                time: this.state.time - 1
+            })
+        }, 1000);
     }
 
     componentWillReceiveProps() {
-        chatList.push(this.props.chat)
+
+        // if (this.props.chat.correct === true) {
+        //
+        // }
+        if (chatList[chatList.length - 1] !== this.props.chat) {
+            chatList.push(this.props.chat)
+        }
 
         // 좌표를 이용하여 그림을 그림
         ctx.beginPath();
@@ -65,6 +82,11 @@ class GameArea extends Component {
 
     render() {
 
+        if (this.state.time <= 0) {
+            // this.props.handleTimeout();
+            console.log('timeout');
+        }
+
         let canvas = (  // 문제 출제자가 아니면 캔버스에 핸들링 함수를 포함하지 않음
             <canvas id="canvas" width="600" height="600">
                 이 브라우저는 canvas를 지원하지 않는 브라우저입니다. 포기하시고 크롬을 사용하십시오.
@@ -72,23 +94,23 @@ class GameArea extends Component {
         )
 
         const chat = chatList.map((data, index) => {
-            let d = new Date();
-
-            let hour = d.getHours();
-            let min = d.getMinutes();
-            let sec = d.getSeconds();
-
-            let when;
-
-            (hour < 12) ? when = '오전 ' : when = '오후 ';
-
-            let timestamp = when + hour + ':' + min + ':' + sec;
+            // let d = new Date();
+            //
+            // let hour = d.getHours();
+            // let min = d.getMinutes();
+            // let sec = d.getSeconds();
+            //
+            // let when;
+            //
+            // (hour < 12) ? when = '오전 ' : when = '오후 ';
+            //
+            // let timestamp = when + hour + ':' + min + ':' + sec;
 
             return (
                 <div className="chat-item">
                     <span>{ data.nick }</span>
                     <span>{ data.msg }</span>
-                    <span>{ timestamp }</span>
+                    <span>{ data.time }</span>
                 </div>
             )
         });
@@ -103,9 +125,6 @@ class GameArea extends Component {
                     이 브라우저는 canvas를 지원하지 않는 브라우저입니다. 포기하시고 크롬을 사용하십시오.
                 </canvas>
             )
-
-            console.log('fuck')
-            this.addModal();
         }
 
         return(
@@ -122,7 +141,9 @@ class GameArea extends Component {
                         <div className="progress-bar progress-bar-danger progress-bar-striped active"
                             role="progressbar" aria-valuenow="100"
                             aria-valuemin="0" aria-valuemax="100"
-                            style={{"height": '100%'}}>
+                            style={{
+                                'height': (this.state.time / this.props.roomInfo.timeLimit) * 100}
+                            }>
                             <span className="sr-only">&nbsp;</span>
                         </div>
                     </div>
@@ -130,7 +151,7 @@ class GameArea extends Component {
 
                 <div className="sket-chatting">
                     <div className="chat-body overflow-scroll">
-                        {chat}
+                        { chat }
                     </div>
                     <div className="chat">
                         <input type="text" id="chat-talk"

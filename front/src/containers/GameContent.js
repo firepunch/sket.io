@@ -82,14 +82,14 @@ class GameContent extends Component {
 
         const gameArea= (
             <GameArea roomId={ this.props.roomInfo.roomId }
+                    roomInfo={ this.props.roomInfo }
                     userId={ this.props.user.id }
-                    handleCanvasData={ this.props.handleCanvasData }
                     canvas={ this.props.canvas }
                     examinerId={ this.props.examinerId }
                     quiz={ this.props.quiz }
-                    handleChatData={ this.props.handleChatData }
-                    roomId={ this.props.roomInfo.roomId }
                     chat={ this.props.chat }
+                    handleCanvasData={ this.props.handleCanvasData }
+                    handleChatData={ this.props.handleChatData }
             />
         )
 
