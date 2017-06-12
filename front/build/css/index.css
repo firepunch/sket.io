@@ -1,0 +1,361 @@
+@font-face {
+    font-family: 'LotteMartHappy';
+    font-style: normal;
+    font-weight: 400;
+    src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartHappy/LotteMartHappyMedium.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartHappy/LotteMartHappyMedium.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'LotteMartHappy';
+    font-style: normal;
+    font-weight: 700;
+    src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartHappy/LotteMartHappyBold.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartHappy/LotteMartHappyBold.woff') format('woff');
+}
+
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    background-image: url("%PUBLIC_URL%/img/16.jpg");
+    background-color: #cccccc;
+}
+
+#root {
+    height: 100%;
+    width: 100%;
+}
+
+.wrapper {
+    height: 100%;
+    width: 100%;
+}
+
+.sket-root {
+    height: 100%;
+    width: 100%;
+}
+
+.sket-index {
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+}
+
+.container {
+    width: 90%;
+    height: 90%;
+
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+}
+
+.component-container {
+    border-width: 1px;
+    border-radius: 20px;
+
+    background: rgba(0, 0, 0, 0.6);
+
+    position: absolute;
+}
+
+.loading-svg {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.index-left {
+    width: 20%;
+    min-width: 235px;
+}
+
+.index-right {
+    width: 80%;
+    min-width: 930px;
+}
+
+.index-top {
+    height: 20%;
+    min-height: 135px;
+}
+
+.index-bottom {
+    height: 80%;
+    min-height: 550px;
+}
+
+/*
+                80%	           20%
+width 1366px	1092.8(1050)   273.2(270)
+height 768px	614.4(600)	   153.6(150)
+
+1366 : 768 = 16 : 9
+
+                80%	           20%
+width 1366px	960            240
+height 768px	540	           135
+
+1200 : 675 = 16 : 9
+*/
+
+/* 유저 프로필  */
+#sket-profile {
+    /*width: 270px;
+    height: 150px;*/
+
+    display: flex;
+    float: left;
+
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.profile-image {
+    /* 프로필 이미지를 감싸는 div */
+    margin: 10px;
+}
+
+.profile-image img {
+    width: auto;
+    height: 120px;
+}
+
+.user-info {
+    /* 유저 정보(닉네임, 레벨, 경험치 등) */
+    font-size: 1.2em;
+    color: white;
+}
+
+.user-info p {
+    margin: 10px;
+}
+
+/* 버튼 영역(방 생성, 빠른 시작, 랭킹) */
+#sket-header {
+    /*width: 1050px;
+    height: 150px;*/
+    left: 22%;
+
+    float: right;
+
+    display: flex;
+
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.sket-button {
+    display: inline;
+    margin: 0 50px 0 50px;
+}
+
+.sket-button button {
+    height: 100px;
+    width: 200px;
+}
+
+.room-configure {
+    margin: auto;
+}
+
+.input-area {
+    display: flex;
+
+    justify-content: space-around;
+    align-items: center;
+
+    border-radius: 5px;
+    /*background-color: #f2f2f2;*/
+    padding: 20px;
+}
+
+.input-area label {
+    font-size: 1.5em;
+    color: white;
+}
+
+.craete-room-modal-button {
+    display: flex;
+
+    justify-content: space-around;
+    align-items: center;
+
+    margin-top: 20px;
+}
+
+.craete-room-modal-button button {
+
+}
+
+/* 연결 유저 목록 */
+#connection-list {
+    /*width: 270px;
+    height: 600px;*/
+    top: 23%;
+
+    float: left;
+
+
+    text-align: center;
+}
+
+
+.user-list {
+    text-align: center;
+
+    font-family: 'LotteMartHappy', sans-serif;
+    color: #FFF;
+
+    margin-bottom: 10px;
+}
+
+#user-name {
+    font-size: 1.5em;
+}
+
+#user-level {
+    font-size: 1.2em;
+}
+
+
+/* 방 목록  */
+#room-list {
+    width: 80%;
+    height: 80%;
+
+    left: 22%;
+    top: 23%;
+
+    float: right;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.room-info {
+    border: 1px solid black;
+    width: 40%;
+    height: 15%;
+
+    margin-top: 5%;
+    margin-bottom: 5%;
+
+    margin-left: 3%;
+    margin-right: 3%;
+
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-between;
+    align-items: center;
+
+    border-radius: 20px;
+    border: 0;
+}
+
+#room-name-info {
+    font-size: 2em;
+}
+
+.room-info-row > span {
+    font-family: 'LotteMartHappy', sans-serif;
+    color: #FFF;
+    margin: 20px;
+}
+
+.rank-info {
+    width: 80%;
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: stretch;
+}
+
+.rank {
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-around;
+    align-items: flex-start;
+
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    text-align: center;
+}
+
+.rank span {
+    font-family: 'LotteMartHappy', sans-serif;
+    color: #FFF;
+
+    flex: 1;
+    font-size: 1.5em;
+}
+
+.my-rank {
+    font-size: 1.7em;
+    text-shadow: 2px 2px cadetblue
+}
+
+p, label {
+    font-family: 'LotteMartHappy', sans-serif;
+    color: #FFF;
+}
+
+::-webkit-input-placeholder {
+    font-family: 'LotteMartHappy', sans-serif;
+    /*font-style:italic;*/
+    letter-spacing:3px;
+    color:#999; }
+
+.no-info {
+    margin: auto;
+    font-size: 3em;
+}
+
+/* 스크롤 스타일 */
+
+.overflow-scroll {
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.overflow-scroll::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+}
+
+.overflow-scroll::-webkit-scrollbar
+{
+    width: 12px;
+}
+
+.overflow-scroll::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #F5F5F5;
+}

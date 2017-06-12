@@ -48,7 +48,9 @@ class UserArea extends Component {
                         && typeof this.props.master !== 'undefined'
                         && this.props.user.id === this.props.master
 
-        if (this.props.user.type === 'LOGIN_GUEST' || typeof this.props.user.picture === 'undefined') {
+        if ( this.props.user.type === 'LOGIN_GUEST'
+                || typeof this.props.user.picture === 'undefined'
+                || this.props.user.picture === 'null' ) {
             profileImage = ( <img src={'img/guest-profile.png'} alt="error"/> )
         } else {
             profileImage = ( <img src={ this.props.user.picture } alt="error"/> )

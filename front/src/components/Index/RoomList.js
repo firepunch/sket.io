@@ -78,13 +78,13 @@ class RoomList extends Component {
                         <div className="room-info-row">
                             <span id="room-name-info">{ a.roomName }</span>
                             <br/><br/>
-                            <span>{ '라운드 ' + a.round + ' / 제한시간 ' + a.timeLimit + '초'}</span>
+                            <span>{ '라운드 ' + a.roundLimit + ' / 제한시간 ' + a.timeLimit + '초'}</span>
                         </div>
 
                         <div className="room-info-row">
                             <span id="user-num">{ a.userNum + ' / ' + a.userNumLimit }</span>
                             <br/><br/>
-                            <span>{ a.lock ? '비공개' : '공개' }</span>
+                            <span>{ a.isLocked ? '비공개' : '공개' }</span>
                         </div>
 
                     </div>
@@ -101,9 +101,9 @@ class RoomList extends Component {
                         <span>닉네임</span>
                     </div>
                     <div className="my-rank rank">
-                        <span>{ this.props.ranking.myInfo.rank }</span>
-                        <span>{ this.props.ranking.myInfo.level }</span>
-                        <span>{ this.props.ranking.myInfo.nick }</span>
+                        <span>{ this.props.ranking.myInfo[0].rank }</span>
+                        <span>{ this.props.ranking.myInfo[0].level }</span>
+                        <span>{ this.props.ranking.myInfo[0].nick }</span>
                     </div>
                     {
                         this.props.ranking.otherInfo.map((a, index) => {
