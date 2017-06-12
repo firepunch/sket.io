@@ -124,6 +124,7 @@ public class Player {
         isExaminer = examiner;
     }
 
+
     public boolean isReady() {
         return isReady;
     }
