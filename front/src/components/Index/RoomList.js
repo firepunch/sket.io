@@ -104,15 +104,15 @@ class RoomList extends Component {
                         ( this.props.ranking.myInfo.length <= 0 )
                         ?
                         (
+                            <div className="my-rank rank"></div>
+                        )
+                        :
+                        (
                             <div className="my-rank rank">
                                 <span>{ this.props.ranking.myInfo[0].rank }</span>
                                 <span>{ this.props.ranking.myInfo[0].level }</span>
                                 <span>{ this.props.ranking.myInfo[0].nick }</span>
                             </div>
-                        )
-                        :
-                        (
-                            <div className="my-rank rank"></div>
                         )
                     }
                     {
