@@ -31,6 +31,15 @@ class UserArea extends Component {
         super(props);
     }
 
+    startGame() {
+        if ( this.props.playerList.length <= 0 ) {
+            alert("혼자서 놀지 마세요. 불쌍하잖습니까.")
+            return;
+        }
+
+        this.props.handleStartGame(this.props.roomId, this.props.user.id);
+    }
+
     render() {
 
         let profileImage;
@@ -75,7 +84,7 @@ class UserArea extends Component {
             (
                 <div className="sket-score profile-score"
                     style={{'backgroundColor': this.props.color}}
-                    onClick={ () => this.props.handleStartGame(this.props.roomId, this.props.user.id) }
+                    onClick={ () => this.startGame }
                 >
                     <p>시작</p>
                 </div>
