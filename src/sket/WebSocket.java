@@ -188,7 +188,7 @@ public class WebSocket {
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
                 JSONObject quizData = QuizController.sendQuizByJSON(targetRoom,
-                                    jsonObject.getJSONObject("data").getInt("userId"));
+                                    jsonObject.getJSONObject("data").getString("userId"));
 
                 if (targetRoom != null) {
                     Player targetPlayer = PlayerAction.getEqualPlayerId(jsonObject.getJSONObject("data").getString("userId"));

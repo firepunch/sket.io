@@ -15,12 +15,13 @@ public class QuizController extends HttpServlet {
     }
 
     /* 랜덤 퀴즈를 json 으로 반환하는 메소드 */
-    public static JSONObject sendQuizByJSON(Room targetRoom, int userId) {
+    public static JSONObject sendQuizByJSON(Room targetRoom, String userId) {
         JSONObject message = new JSONObject();
         JSONObject data = new JSONObject();
         targetRoom.addCurRound();
 
-        if (!(targetRoom.getCurRound() < targetRoom.getRoundLimit())) {
+        System.out.println(targetRoom.getCurRound()+"    "+ targetRoom.getRoundLimit());
+        if (targetRoom.getCurRound() <= targetRoom.getRoundLimit()) {
             DBConnection db = new DBConnection();
             String quiz = db.selectQuiz();
 
@@ -28,14 +29,12 @@ public class QuizController extends HttpServlet {
             data.put("id", userId);
             data.put("round", targetRoom.getCurRound());
             data.put("quiz", quiz);
-            targetRoom.setAnswer(quiz);
         } else {
             data.put("gameEnd", "true");
         }
 
         message.put("type", "RANDOM_QUIZ");
         message.put("data", data);
-
         return message;
     }
 
