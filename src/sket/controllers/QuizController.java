@@ -14,13 +14,21 @@ public class QuizController extends HttpServlet {
         super();
     }
 
+    /* 문제 당 남은 시간을 측정하도록 문제 시작을 json으로 전송*/
+    public static String alarmStartQuiz() {
+        JSONObject message = new JSONObject();
+        message.put("type", "START_QUIZ");
+
+        return message.toString();
+    }
+
     /* 랜덤 퀴즈를 json 으로 반환하는 메소드 */
     public static JSONObject sendQuizByJSON(Room targetRoom, String userId) {
         JSONObject message = new JSONObject();
         JSONObject data = new JSONObject();
         targetRoom.addCurRound();
 
-        System.out.println(targetRoom.getCurRound()+"    "+ targetRoom.getRoundLimit());
+        System.out.println(targetRoom.getCurRound() + "    " + targetRoom.getRoundLimit());
         if (targetRoom.getCurRound() <= targetRoom.getRoundLimit()) {
             DBConnection db = new DBConnection();
             String quiz = db.selectQuiz();

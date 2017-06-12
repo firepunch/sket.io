@@ -195,6 +195,7 @@ public class WebSocket {
                     playerSession = webSocketSessionMap.get(targetPlayer.getSessionID());
                     System.out.println(String.valueOf(quizData));
                     playerSession.getBasicRemote().sendText(String.valueOf(quizData));
+                    playerSession.getBasicRemote().sendText(QuizController.alarmStartQuiz()); //START_QUIZ
                 }
 
                 break;
@@ -238,7 +239,6 @@ public class WebSocket {
                     jsonObject.getJSONObject("data").append("correct", "false");
                 }
 
-                // 다른 플레이어들에게 전송
                 sendMessageToRoomMembers(roomAction, String.valueOf(jsonObject));
 
                 break;

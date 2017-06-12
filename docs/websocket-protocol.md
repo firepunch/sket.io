@@ -186,6 +186,11 @@
             <br>},...]
         </td>
     </tr>
+        <tr>
+        <td>문제 보냄 알람</td>
+        <td>-</td>
+        <td>type: "START_QUIZ"</td>
+        </tr>
     <tr>
         <td>랜덤 문제 전송</td>
         <td> type : RANDOM_QUIZ,<br>
