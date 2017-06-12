@@ -200,8 +200,7 @@ public class WebSocket {
 
             // 캔바스 데이터 JSON 보냄
             case "CANVAS_DATA":
-                System.out.println(jsonObject.getJSONObject("data").getString("id"));
-                roomMembers = QuizAction.excludeExaminerSession(jsonObject.getJSONObject("data").getString("id"));
+                roomMembers = QuizAction.excludeExaminerSession(jsonObject.getJSONObject("data").getString("userId"));
 
                 if (roomMembers != null) {
                     for (String playerSessionId : roomMembers) {
