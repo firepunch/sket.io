@@ -18,6 +18,7 @@ import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -214,15 +215,23 @@ public class WebSocket {
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
                 roomMembers = roomAction.getPlayerSessionId();
-                String msg = jsonObject.getJSONObject("data").getString("msg");
+                player = PlayerAction.getEqualPlayerId(jsonObject.getJSONObject("data").getString("userId"));
+
+                String msg = jsonObject.getJSONObject("data").getString("msg"); // 정답 비교 시 필요
+
+                java.util.Date date = new java.util.Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+//                System.out.println("채팅 수신 시각:  "+sdf.format(date));
+
+                jsonObject.getJSONObject("data").append("time", sdf.format(date));
+                jsonObject.getJSONObject("data").append("userNick", player.getNickname());
 
                 // 정답 확인
                 if (msg.equals(targetRoom.getAnswer())) {
                     int restTime = jsonObject.getJSONObject("data").getInt("restTime");
                     int addScore = QuizController.getScore(targetRoom.getTimeLimit(), restTime);
-                    QuizController.addScore(jsonObject.getJSONObject("data").getString("id"), addScore);
+                    QuizController.addScore(jsonObject.getJSONObject("data").getString("userId"), addScore);
 
-                    // TODO append확인
                     jsonObject.getJSONObject("data").append("correct", "true");
                     jsonObject.getJSONObject("data").append("score", addScore);
                 } else {

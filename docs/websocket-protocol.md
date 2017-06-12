@@ -235,8 +235,10 @@
         <td>
             type : CHAT_DATA,<br>
             userId : 발신자 아이디,<br>
+            userNick : 발신자 닉네임,<br>
             roomId : 룸 아이디,<br>
             msg : 채팅 내용,<br>
+            time : 수신 시각,<br>
             correct : true/false,<br>
             // 정답이라면 아래의 key-value 추가로 전송<br>
             score : 시간에 따른 정답자의 점수
