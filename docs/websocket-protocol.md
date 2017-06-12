@@ -20,8 +20,8 @@
             nick : (nickXX or 유저 닉넴),<br>
             picture : (유저 사진 링크),<br>
             level : (유저 레벨),<br>
-            limitExp: (레벨에 필요한 경험치),<br>
-            totalExp : (유저 총경험치),<br>
+            limitExp: (레벨에 필요한 경험치),<br>
+            totalExp : (유저 총경험치),<br>
             curExp : (유저 현재경험치),<br>
         </td>
     </tr>
@@ -48,8 +48,8 @@
             id: (유저 아이디),<br>
             nick : (nickXX or 유저 닉넴),<br>
             level : 1,<br>
-            limitExp: (레벨에 필요한 경험치),<br>
-            totalExp : 0,<br>
+            limitExp: (레벨에 필요한 경험치),<br>
+            totalExp : 0,<br>
             curExp : 0<br>
         </td>
     </tr>
@@ -58,50 +58,68 @@
         <td align="center">-</td>
         <td>
             type : USER_LIST,<br>
-            userList : [<br>
-                {<br>
-                    name: (유저 이름),<br>
-                    level: (레벨)<br>
-                },<br>
-                {<br>
-                    name: (유저 이름),<br>
-                    level: (레벨)<br>
-                }<br>
-            ]<br>
-    </tr>
-    <tr>
-        <td>방 리스트</td>
-        <td>-</td>
-        <td>
-            type : ROOM_LIST,<br>
-            roomList : [<br>
-                {<br>
-                    roomId: 방 아이디, <br>
-                    roomName: 방 이름, <br>
-                    round: 현재 라운드, <br>
-                    roundLimit: 제한 라운드, <br>
-                    timeLimit: 제한 시간, <br>
-                    userNumLimit: 최대 인원, <br>
-                    userNum: 현재 인원, <br>
-                    isLocked: 비밀방 여부, <br>
-                    password: 암호
-                }...]
-        </td>
-    <tr>
-        <td>방 생성</td>
-        <td>
-            type : CREATE_ROOM,<br>
-            roomName : (방 이름),<br>
-            lock : (true or false),<br>
-            password : (null or 1234),<br>
-            master : (유저 아이디), <br>
-            userNumLimit : (최대 입장 가능 유저 수), <br>
-            limitRound : 라운드 수,<br>
-            limitTime : 제한시간
+            userList : [{<br>
+            name: (유저 이름),<br>
+            level: (레벨)<br>
+            },{<br>
+            name: (유저 이름),<br>
+            level: (레벨)<br>
+            }]
         </td>
-        <td>type : CREATE_ROOM,<br>
-           roomId : (룸 아이디)
+    </tr>
+    <tr>
+               
+        <td>방 리스트</td>
+               
+        <td align="center">-</td>
+        <td>
+            type : ROOM_LIST,<br>
+            roomList : [{<br>
+            roomId: 방 아이디, <br>
+            roomName: 방 이름, <br>
+            round: 현재 라운드, <br>
+            roundLimit: 제한 라운드, <br>
+            timeLimit: 제한 시간, <br>
+            userNumLimit: 최대 인원, <br>
+            userNum: 현재 인원, <br>
+            isLocked: 비밀방 여부, <br>
+            password: 암호
+            }...]
         </td>
+    </tr>
+    <tr>
+               
+        <td>방 정보</td>
+               
+        <td>-</td>
+        <td>
+            type : ROOM_INFO,<br>
+            roomList : [{<br>
+            nick: 닉네임, <br>
+            picture: 사진, <br>
+            level: 레벨, <br>
+            isReady: 준비 여부, <br>
+            id: 아이디, <br>
+            master: 방장 <br>
+            }...]
+        </td>
+    </tr>
+    <tr>
+    <td>방 생성</td>
+    <td>
+        type : CREATE_ROOM,<br>
+        roomName : (방 이름),<br>
+        lock : (true or false),<br>
+        password : (null or 1234),<br>
+        master : (유저 아이디), <br>
+        userNumLimit : (최대 입장 가능 유저 수), <br>
+        limitRound : 라운드 수,<br>
+        limitTime : 제한시간
+    </td>
+    <td>
+        type : CREATE_ROOM,<br>
+        roomId : (룸 아이디)
+    </td>
     </tr>
     <tr>
         <td>방 입장</td>
@@ -167,7 +185,7 @@
             &nbsp;&nbsp;exp : (해당 유저의 경험치)
             <br>},...]
         </td>
-        </tr>
+    </tr>
     <tr>
         <td>랜덤 문제 전송</td>
         <td> type : RANDOM_QUIZ,<br>
@@ -175,11 +193,11 @@
             userId : 문제 받을 사람 아이디
         </td>
         <td> type : RANDOM_QUIZ,<br>
-             quiz : 출제된 문제,<br>
-             id : 문제 받을 사람 아이디,<br>
-             round : 현재 라운드 수,<br>
-             // 모든 라운드를 진행해 게임이 끝났을 경우 true 정보만 전송<br>
-             gameEnd : true or false
+            quiz : 출제된 문제,<br>
+            id : 문제 받을 사람 아이디,<br>
+            round : 현재 라운드 수,<br>
+            // 모든 라운드를 진행해 게임이 끝났을 경우 true 정보만 전송<br>
+            gameEnd : true or false
         </td>
     </tr>
     <tr>
@@ -191,20 +209,20 @@
         </td>
     </tr>
     <tr>
-    	<td>캔버스 그리기</td>
-    	<td>
-        	type : "CANVAS_DATA",<br>
+        <td>캔버스 그리기</td>
+        <td>
+            type : "CANVAS_DATA",<br>
             userId: (출제자 아이디),<br>
-            roomId: ( 방 아이디 ),<br>
-            clickX : clickX,<br>
+            roomId: ( 방 아이디 ),<br>
+            clickX : clickX,<br>
             clickY : clickY
-         </td>
-         <td>
-        	type : "CANVAS_DATA",<br>
-            clickX : clickX,<br>
+        </td>
+        <td>
+            type : "CANVAS_DATA",<br>
+            clickX : clickX,<br>
             clickY : clickY
             // 위의 정보를 이용해 코드로 그림을 그려줌
-         </td>
+        </td>
     </tr>
     <tr>
         <td>채팅&정답처리</td>
