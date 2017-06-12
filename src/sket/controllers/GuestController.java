@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -34,6 +33,7 @@ public class GuestController extends HttpServlet {
             User user = new User(true);
             message.put("id", user.getId());
             message.put("nick", user.getNick());
+            message.put("picture", "null");
             message.put("level", user.getLevel());
             message.put("totalExp", user.getTotalExp());
             message.put("limitExp", user.getLimitExp());
