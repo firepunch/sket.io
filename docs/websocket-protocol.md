@@ -188,8 +188,12 @@
     </tr>
         <tr>
         <td>문제 보냄 알람</td>
-        <td>-</td>
         <td>type: "START_QUIZ"</td>
+        <td>type: "START_QUIZ",<br>
+            round : 현재 라운드 수,<br>
+            // 모든 라운드를 진행해 게임이 끝났을 경우 true 정보만 전송<br>
+            gameEnd : true or false
+        </td>
         </tr>
     <tr>
         <td>랜덤 문제 전송</td>
@@ -199,10 +203,8 @@
         </td>
         <td> type : RANDOM_QUIZ,<br>
             quiz : 출제된 문제,<br>
-            id : 문제 받을 사람 아이디,<br>
-            round : 현재 라운드 수,<br>
-            // 모든 라운드를 진행해 게임이 끝났을 경우 true 정보만 전송<br>
-            gameEnd : true or false
+            userId : 문제 받을 사람 아이디,
+            roomId
         </td>
     </tr>
     <tr>
