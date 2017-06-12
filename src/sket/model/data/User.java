@@ -9,6 +9,7 @@ public class User {
 
     private String id = null;
     private String nick = null;
+    private String picture = null;
     private int level = 1;
     private int limitExp = 300;
     private int totalExp = 0;
@@ -16,9 +17,10 @@ public class User {
     private boolean isGuest = false;
 
     /* oauth 로그인 시 생성자 */
-    public User(String id, String nick, int level, int limitExp, int totalExp, int curExp) {
+    public User(String id, String nick, String picture, int level, int limitExp, int totalExp, int curExp) {
         this.id = id;
         this.nick = nick;
+        this.picture = picture;
         this.level = level;
         this.limitExp = limitExp;
         this.totalExp = totalExp;
@@ -44,6 +46,10 @@ public class User {
     public User(String id, String nick) {
         this.id = id;
         this.nick = nick;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
     public boolean isGuest() {

@@ -67,6 +67,7 @@ public class RoomController {
         for (Player player : Room.getRoomIntoPlayer(targetRoom)) {
             JSONObject temp = new JSONObject();
             temp.put("nick", player.getNickname());
+            temp.put("picture", player.getPicture());
             temp.put("level", player.getPlayerLevel());
             temp.put("isReady", player.isReady());
             temp.put("id", player.getId());

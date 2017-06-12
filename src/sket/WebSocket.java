@@ -67,6 +67,7 @@ public class WebSocket {
                 player = new Player(
                         jsonObject.getJSONObject("data").getString("id"),
                         jsonObject.getJSONObject("data").getString("nick"),
+                        jsonObject.getJSONObject("data").getString("picture"),
                         rcvSession.getId(),
                         jsonObject.getJSONObject("data").getBoolean("isGuest")
                 );
