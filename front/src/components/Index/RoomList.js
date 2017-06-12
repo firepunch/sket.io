@@ -100,11 +100,21 @@ class RoomList extends Component {
                         <span>레벨</span>
                         <span>닉네임</span>
                     </div>
-                    <div className="my-rank rank">
-                        <span>{ this.props.ranking.myInfo[0].rank }</span>
-                        <span>{ this.props.ranking.myInfo[0].level }</span>
-                        <span>{ this.props.ranking.myInfo[0].nick }</span>
-                    </div>
+                    {
+                        ( this.props.ranking.myInfo.length <= 0 )
+                        ?
+                        (
+                            <div className="my-rank rank">
+                                <span>{ this.props.ranking.myInfo[0].rank }</span>
+                                <span>{ this.props.ranking.myInfo[0].level }</span>
+                                <span>{ this.props.ranking.myInfo[0].nick }</span>
+                            </div>
+                        )
+                        :
+                        (
+                            <div className="my-rank rank"></div>
+                        )
+                    }
                     {
                         this.props.ranking.otherInfo.map((a, index) => {
                             return (
