@@ -85,8 +85,10 @@ class GameContent extends Component {
                     roomInfo={ this.props.roomInfo }
                     userId={ this.props.user.id }
                     canvas={ this.props.canvas }
+
                     examinerId={ this.props.examinerId }
                     quiz={ this.props.quiz }
+                    roundInfo={ this.props.roundInfo }
                     chat={ this.props.chat }
 
                     handlequizStart={ this.props.handlequizStart }
@@ -118,6 +120,7 @@ class GameContent extends Component {
 
                             isReady={ this.props.isReady }
                             isPlay={ this.props.isPlay }
+                            isQuiz={ this.props.isQuiz }
 
                             handleGetReady={ this.props.handleGetReady }
                             handleStartGame={ this.props.handleStartGame }

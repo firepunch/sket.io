@@ -293,10 +293,18 @@ export function getQuiz(userId, quiz) {
     }
 }
 
-export function quizStart() {
+export function requestQuizStart(roomId) {
     return {
         type: types.SEND_MESSAGE,
-        msg_type: "START_QUIZ"
+        msg_type: "START_QUIZ",
+        data: roomId
+    }
+}
+
+export function quizStart(roundInfo) {
+    return {
+        type: types.START_QUIZ,
+        roundInfo
     }
 }
 

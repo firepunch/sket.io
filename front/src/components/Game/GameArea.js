@@ -34,7 +34,8 @@ class GameArea extends Component {
 
         this.state = {
             chat: '',
-            time: this.props.roomInfo.timeLimit
+            time: this.props.roomInfo.timeLimit,
+            isModal: true
         }
     }
 
@@ -47,10 +48,12 @@ class GameArea extends Component {
         canvasy = $("#canvas").offset().top;
 
         setInterval(() => {
-            this.setState({
-                ...this.state,
-                time: this.state.time - 1
-            })
+            if (this.props.isQuiz)  {   // 퀴즈가 진행중일 때
+                this.setState({
+                    ...this.state,
+                    time: this.state.time - 1
+                })
+            }
         }, 1000);
     }
 
@@ -59,11 +62,6 @@ class GameArea extends Component {
     // 다음 props는 함수의 인자로 받아올 수 있음
     componentWillReceiveProps(nextProps) {
 
-
-        console.log('sdf : ' + JSON.stringify(nextProps.quiz.quiz));
-        console.log('sdf : ' + JSON.stringify(nextProps));
-        console.log('fuck : ' + this.props.quiz.quiz)
-
         // if (this.props.chat.correct === true) {
         //
         // }
@@ -71,16 +69,18 @@ class GameArea extends Component {
             chatList.push(this.props.chat)
         }
 
-        if (nextProps.quiz.quiz !== '') {
-            console.log('hello')
-        }
+        if (this.state.isModal) {
+            if (this.props.userId === this.props.examinerId) {
+                if (nextProps.quiz.quiz !== '')
+                    this.addModal(nextProps.quiz.quiz);
+            } else {
+                this.addModal('문제를 출제 중입니다...');
+            }
 
-        if (this.props.quiz.userId === this.props.examinerId) {
-            console.log('world')
-        }
-
-        if (nextProps.quiz.userId === this.props.examinerId && nextProps.quiz.quiz !== '') {
-            this.addModal(nextProps.quiz.quiz);
+            this.setState({
+                ...this.state,
+                isModal: true
+            })
         }
 
         // 좌표를 이용하여 그림을 그림
@@ -90,7 +90,7 @@ class GameArea extends Component {
         ctx.strokeStyle = 'black';
         ctx.lineWidth = 3;
 
-        ctx.moveTo(this.props.canvas.clickX, this.props.canvas.clickY);
+        ctx.moveTo(nextProps.canvas.clickX, nextProps.canvas.clickY);
         ctx.lineTo(mousex, mousey);
         ctx.lineJoin = ctx.lineCap = 'round';
         ctx.stroke();
@@ -110,18 +110,6 @@ class GameArea extends Component {
         )
 
         const chat = chatList.map((data, index) => {
-            // let d = new Date();
-            //
-            // let hour = d.getHours();
-            // let min = d.getMinutes();
-            // let sec = d.getSeconds();
-            //
-            // let when;
-            //
-            // (hour < 12) ? when = '오전 ' : when = '오후 ';
-            //
-            // let timestamp = when + hour + ':' + min + ':' + sec;
-
             return (
                 <div className="chat-item">
                     <span>{ data.nick }</span>
@@ -147,7 +135,7 @@ class GameArea extends Component {
         return(
             <div className="game-area">
                 <div className="sket-round-info">
-                    <h3>Round 1/10</h3>
+                    <h3>Round { this.props.roundInfo.round + '/' + this.props.roomInfo.numRound }</h3>
                 </div>
 
                 <div className="sketch-area">
@@ -242,7 +230,8 @@ class GameArea extends Component {
             hideTitleBar: false, // (optional) Switch to true if do not want the default title bar and close button,
             hideCloseButton: true, // (optional) if you don't wanna show the top right close button
             quiz: quiz,
-            handlequizStart: this.props.handlequizStart
+            handlequizStart: this.props.handlequizStart,
+            roomId: this.props.roomId
             //.. all what you put in here you will get access in the modal props ;)
         });
     }
@@ -257,12 +246,11 @@ class modalComponent extends Component {
     }
 
     removeThisModal() {
-        this.props.handlequizStart();
+        this.props.handlequizStart(this.props.roomId);
         this.props.removeModal();
     }
 
     render() {
-        console.log('shit : ' + this.props.quiz)
         return (
             <div className="show-quiz">
                 <p>{ this.props.quiz }</p>

@@ -4,8 +4,10 @@ const initialState = {
     isReady: false,     // 유저가 준비를 하였는지(isMaster가 true라면 이 변수는 의미 없음)
     isGame: false,      // 게임이 진행 중인지
     isPlay: false,
+    isQuiz: false,
 
     quiz: {},           // 받은 퀴즈
+    roundInfo: {},      // 라운드 정보
     examinerId: '',     // 문제 출제자 아이디
 
     roomInfo: {},        // 방 정보 객체
@@ -27,6 +29,10 @@ const initialState = {
 11. GAME_TIMEOUT 이 되면 모든 유저가 공통적으로 감점을 받음(score)
 12. 게임이 종료되면 GAME_END 전송(roomId, scoreInfo: 유저 아이디, 레벨, 경험치 등)
 13. 레벨업 모달 띄어주기
+
+
+퀴즈 끝나고 초기화해줄 것이 많음
+quiz, examinerId, isModal(GameArea), canvas 등
 */
 
 export default function game(state=initialState, action) {
@@ -77,6 +83,13 @@ export default function game(state=initialState, action) {
             return {
                 ...state,
                 quiz: action.quiz
+            }
+
+        case types.START_QUIZ:
+            return {
+                ...state,
+                roundInfo: action.roundInfo,
+                isQuiz: true
             }
 
         case types.CANVAS_DATA:
