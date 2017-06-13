@@ -88,6 +88,8 @@ class GameContent extends Component {
                     examinerId={ this.props.examinerId }
                     quiz={ this.props.quiz }
                     chat={ this.props.chat }
+
+                    handlequizStart={ this.props.handlequizStart }
                     handleCanvasData={ this.props.handleCanvasData }
                     handleChatData={ this.props.handleChatData }
             />

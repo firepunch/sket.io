@@ -179,6 +179,7 @@ class Sket extends Component {
 
                     handleGetReady={ this.props.handleGetReady }
                     handleStartGame={ this.props.handleStartGame }
+                    handlequizStart={ this.props.handlequizStart }
                     handleCanvasData={ this.props.handleCanvasData }
                     handleChatData={ this.props.handleChatData }
                 />
@@ -265,7 +266,8 @@ const mapDispatchToProps = (dispatch) => {
         handleGetReady: (roomId, userId, isReady) => { dispatch(actions.getReady(roomId, userId, isReady)) },
         handleStartGame: (roomId, userId) => { dispatch(actions.requestStartGame(roomId, userId)) },
         handleCanvasData: (data) => { dispatch(actions.drawCanvas(data)) },
-        handleChatData: (data) => { dispatch(actions.chatSend(data)) }
+        handleChatData: (data) => { dispatch(actions.chatSend(data)) },
+        handlequizStart: () => { dispatch(actions.quizStart()) }
     };
 }
 

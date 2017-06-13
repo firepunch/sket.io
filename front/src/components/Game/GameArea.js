@@ -36,10 +36,6 @@ class GameArea extends Component {
             chat: '',
             time: this.props.roomInfo.timeLimit
         }
-
-        if (this.props.userId === this.props.examinerId) {
-            this.addModal();
-        }
     }
 
     componentDidMount() {
@@ -58,13 +54,33 @@ class GameArea extends Component {
         }, 1000);
     }
 
-    componentWillReceiveProps() {
+    // 컴포넌트의 props가 update 되기 전에 실행됨
+    // 여기서 값을 update 할지 안할지 정하는 것임
+    // 다음 props는 함수의 인자로 받아올 수 있음
+    componentWillReceiveProps(nextProps) {
+
+
+        console.log('sdf : ' + JSON.stringify(nextProps.quiz.quiz));
+        console.log('sdf : ' + JSON.stringify(nextProps));
+        console.log('fuck : ' + this.props.quiz.quiz)
 
         // if (this.props.chat.correct === true) {
         //
         // }
         if (chatList[chatList.length - 1] !== this.props.chat) {
             chatList.push(this.props.chat)
+        }
+
+        if (nextProps.quiz.quiz !== '') {
+            console.log('hello')
+        }
+
+        if (this.props.quiz.userId === this.props.examinerId) {
+            console.log('world')
+        }
+
+        if (nextProps.quiz.userId === this.props.examinerId && nextProps.quiz.quiz !== '') {
+            this.addModal(nextProps.quiz.quiz);
         }
 
         // 좌표를 이용하여 그림을 그림
@@ -126,6 +142,7 @@ class GameArea extends Component {
                 </canvas>
             )
         }
+
 
         return(
             <div className="game-area">
@@ -206,7 +223,7 @@ class GameArea extends Component {
     handleChatting() {
         this.props.handleChatData(
             this.props.roomId,
-            this.props.userId,
+            this.props.user.id,
             this.state.time,
             this.state.chat
         )
@@ -217,14 +234,15 @@ class GameArea extends Component {
     //     <img src={"img/eraser-icon.png"} onClick={ () => this.useTool('erase') } />
     // </div>
 
-    addModal() {
+    addModal(quiz) {
         modal.add(modalComponent, {
             title: '문제',
             size: 'large', // large, medium or small,
             closeOnOutsideClick: true, // (optional) Switch to true if you want to close the modal by clicking outside of it,
             hideTitleBar: false, // (optional) Switch to true if do not want the default title bar and close button,
             hideCloseButton: true, // (optional) if you don't wanna show the top right close button
-            quiz: this.props.quiz
+            quiz: quiz,
+            handlequizStart: this.props.handlequizStart
             //.. all what you put in here you will get access in the modal props ;)
         });
     }
@@ -239,10 +257,12 @@ class modalComponent extends Component {
     }
 
     removeThisModal() {
+        this.props.handlequizStart();
         this.props.removeModal();
     }
 
     render() {
+        console.log('shit : ' + this.props.quiz)
         return (
             <div className="show-quiz">
                 <p>{ this.props.quiz }</p>

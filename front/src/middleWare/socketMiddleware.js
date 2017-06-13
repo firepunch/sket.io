@@ -37,6 +37,10 @@ const socketMiddleware = (() => {
                 store.dispatch( actions.getRanking(msg.data) );
                 break;
 
+            case "NO_ENTER_ROOM":
+                alert("방에 들어갈 수 없습니다!!!");
+                break;
+
             case "ROOM_INFO":   // 현재 있는 방에 대한 정보
                 store.dispatch( actions.enterRoom(msg.data) );
                 break;

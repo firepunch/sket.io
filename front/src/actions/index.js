@@ -289,7 +289,14 @@ export function requestQuiz(roomId, userId) {
 export function getQuiz(userId, quiz) {
     return {
         type: types.GET_QUIZ,
-        data: { userId, quiz }
+        quiz: { userId, quiz }
+    }
+}
+
+export function quizStart() {
+    return {
+        type: types.SEND_MESSAGE,
+        msg_type: "START_QUIZ"
     }
 }
 
@@ -324,6 +331,6 @@ export function chatSend(roomId, userId, restTime, msg) {
 export function chatReceive(msg) {
     return {
         type: types.CHAT_DATA,
-        msg
+        chat: msg
     }
 }
