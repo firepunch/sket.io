@@ -33,6 +33,8 @@ export const GET_ROOM_ID = "GET_ROOM_ID";
 
 
 /* GAME */
+export const EXIT_ROOM      = "EXIT_ROOM";
+
 export const MY_READY       = "MY_READY";
 export const OTHER_READY    = "OTHER_READY";
 export const GAME_START     = "GAME_START";

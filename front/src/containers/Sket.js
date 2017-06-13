@@ -181,6 +181,7 @@ class Sket extends Component {
                     isPlay={ this.props.isPlay }
                     isQuiz={ this.props.isQuiz }
 
+                    handleExitRoom={ this.props.handleExitRoom }
                     handleGetReady={ this.props.handleGetReady }
                     handleStartGame={ this.props.handleStartGame }
                     handlequizStart={ this.props.handlequizStart }
@@ -269,6 +270,7 @@ const mapDispatchToProps = (dispatch) => {
         handleEnterRoom: (roomId, userId) => { dispatch(actions.getRoomInfo(roomId, userId)) },
 
         /* 게임 기능 핸들링 */
+        handleExitRoom: (roomId, userId) => { dispatch(actions.requestExitRoom(roomId, userId)) },
         handleGetReady: (roomId, userId, isReady) => { dispatch(actions.getReady(roomId, userId, isReady)) },
         handleStartGame: (roomId, userId) => { dispatch(actions.requestStartGame(roomId, userId)) },
         handleCanvasData: (data) => { dispatch(actions.drawCanvas(data)) },

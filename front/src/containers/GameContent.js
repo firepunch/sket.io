@@ -100,7 +100,8 @@ class GameContent extends Component {
         return(
             <div className="game-root">
                 <div className="exit-button">
-                    <button className="action-button shadow animate red">
+                    <button className="action-button shadow animate red"
+                            onClick={ () => this.props.handleExitRoom(this.props.roomInfo.roomId, this.props.user.id) }>
                         <p>나가기</p>
                     </button>
                 </div>

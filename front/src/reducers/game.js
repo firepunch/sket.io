@@ -46,6 +46,11 @@ export default function game(state=initialState, action) {
                 roomInfo: action.roomInfo
             }
 
+        case types.EXIT_ROOM:
+            return {
+                ...state
+            }
+
         case types.MY_READY:
             return {
                 ...state,

@@ -234,6 +234,20 @@ export function getRanking(ranking) {
 
 /* GAME */
 
+export function requestExitRoom(roomId, userId) {
+    return {
+        type: types.SEND_MESSAGE,
+        msg_type: "EXIT_ROOM",
+        data: { roomId, userId  }
+    }
+}
+
+export function exitRoom() {
+    return {
+        type: types.EXIT_ROOM
+    }
+}
+
 export function getReady(roomId, userId, isReady) {
     return {
         type: types.SEND_MESSAGE,
