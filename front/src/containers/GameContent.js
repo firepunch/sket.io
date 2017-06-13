@@ -101,7 +101,7 @@ class GameContent extends Component {
             <div className="game-root">
                 <div className="exit-button">
                     <button className="action-button shadow animate red"
-                            onClick={ () => this.props.handleExitRoom(this.props.roomInfo.roomId, this.props.user.id) }>
+                            onClick={ () => this.exitRoom() }>
                         <p>나가기</p>
                     </button>
                 </div>
@@ -134,6 +134,11 @@ class GameContent extends Component {
                 </div>
             </div>
         );
+    }
+
+    exitRoom() {
+        this.props.handleRequestExitRoom(this.props.roomInfo.roomId, this.props.user.id);
+        this.props.handleExitRoom();
     }
 }
 
