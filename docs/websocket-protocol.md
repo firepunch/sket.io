@@ -188,7 +188,9 @@
     </tr>
         <tr>
         <td>문제 보냄 알람</td>
-        <td>type: "START_QUIZ"</td>
+        <td>type: "START_QUIZ",<br>
+            roomId: roomId
+        </td>
         <td>type: "START_QUIZ",<br>
             round : 현재 라운드 수,<br>
             // 모든 라운드를 진행해 게임이 끝났을 경우 true 정보만 전송<br>
