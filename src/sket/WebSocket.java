@@ -163,7 +163,6 @@ public class WebSocket {
                             roomAction,
                             GameController.randomExaminerToJSON(targetRoom.getRoomId())
                     );
-
                     targetRoom.setPlayingGame(true);
                     sendMessageToAllSession(RoomController.getRoomListAsJSON());
                 } else {
@@ -186,7 +185,7 @@ public class WebSocket {
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
                 JSONObject quizData = QuizController.sendQuizByJSON(targetRoom,
-                                    jsonObject.getJSONObject("data").getInt("userId"));
+                        jsonObject.getJSONObject("data").getInt("userId"));
 
                 if (targetRoom != null) {
                     Player targetPlayer = PlayerAction.getEqualPlayerId(jsonObject.getJSONObject("data").getString("userId"));
@@ -194,7 +193,6 @@ public class WebSocket {
                     System.out.println(String.valueOf(quizData));
                     playerSession.getBasicRemote().sendText(String.valueOf(quizData));
                 }
-
                 break;
 
             // 캔바스 데이터 JSON 보냄
@@ -296,18 +294,6 @@ public class WebSocket {
 
     @OnError
     public void onError(Throwable throwable, Session session) throws IOException {
-        /*
-        for (User user : User.getUserList()) {
-            if (user.getId().equals(player)) {
-                User.getUserList().remove(user);
-            }
-        }
-
-        autoExitRoom();
-        Player.getPlayerArrayList().remove(player);
-
-        webSocketSessionMap.remove(session.getId(), session);
-        */
         System.out.println("onError()");
         throwable.printStackTrace();
     }
