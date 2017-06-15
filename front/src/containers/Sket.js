@@ -169,12 +169,25 @@ class Sket extends Component {
                     user={ this.props.user }
                     playerList={ this.props.roomInfo.playerList }
                     roomInfo={ this.props.roomInfo }
+                    canvas={ this.props.canvas }
+
+                    examinerId={ this.props.examinerId }
+                    quiz={ this.props.quiz }
+                    roundInfo={ this.props.roundInfo }
+
+                    chat={ this.props.chat }
 
                     isReady={ this.props.isReady }
-                    isPlay={ this.props.isPlay}
+                    isPlay={ this.props.isPlay }
+                    isQuiz={ this.props.isQuiz }
 
+                    handleRequestExitRoom={ this.props.handleRequestExitRoom }
+                    handleExitRoom={ this.props.handleExitRoom }
                     handleGetReady={ this.props.handleGetReady }
                     handleStartGame={ this.props.handleStartGame }
+                    handlequizStart={ this.props.handlequizStart }
+                    handleCanvasData={ this.props.handleCanvasData }
+                    handleChatData={ this.props.handleChatData }
                 />
         )
 
@@ -205,7 +218,8 @@ const mapStateToProps = (state) => {
 
     const { isGame, roomInfo } = state.game;
     const { isReady, isPlay } = state.game;
-    const { quiz, examinerId } = state.game;
+    const { examinerId, quiz, roundInfo, isQuiz } = state.game;
+    const { canvas, chat } = state.game;
 
     return {
         /* 로그인 */
@@ -229,8 +243,14 @@ const mapStateToProps = (state) => {
         isGame,
         isReady,
         isPlay,
+        isQuiz,
 
-        quiz
+        examinerId,
+        quiz,
+        roundInfo,
+
+        canvas,
+        chat
     };
 }
 
@@ -251,8 +271,13 @@ const mapDispatchToProps = (dispatch) => {
         handleEnterRoom: (roomId, userId) => { dispatch(actions.getRoomInfo(roomId, userId)) },
 
         /* 게임 기능 핸들링 */
+        handleRequestExitRoom: (roomId, userId) => { dispatch(actions.requestExitRoom(roomId, userId)) },
+        handleExitRoom: () => { dispatch(actions.exitRoom()) },
         handleGetReady: (roomId, userId, isReady) => { dispatch(actions.getReady(roomId, userId, isReady)) },
-        handleStartGame: (roomId, userId) => { dispatch(actions.requestStartGame(roomId, userId)) }
+        handleStartGame: (roomId, userId) => { dispatch(actions.requestStartGame(roomId, userId)) },
+        handleCanvasData: (data) => { dispatch(actions.drawCanvas(data)) },
+        handleChatData: (data) => { dispatch(actions.chatSend(data)) },
+        handlequizStart: (roomId) => { dispatch(actions.requestQuizStart(roomId)) }
     };
 }
 

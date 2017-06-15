@@ -10,6 +10,7 @@ public class Player {
 
     private String id; // guest는 100부터 or oauthID
     private String nickname;
+    private String picture;
     private String sessionID;
 
     private int score = 0;
@@ -20,13 +21,22 @@ public class Player {
     private boolean inRoom = false;
 
     /* Guest 일 시 User 에서 게스트 아이디 처리했음 */
-    public Player(String id, String nickname, String sessionID, boolean isGuest) {
+    public Player(String id, String nickname, String picture, String sessionID, boolean isGuest) {
         this.id = id;
         this.nickname = nickname;
+        this.picture = picture;
         this.sessionID = sessionID;
         this.isGuest = isGuest;
 
         playerArrayList.add(this);
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
     public int getPlayerLevel() {
@@ -113,6 +123,7 @@ public class Player {
     public void setExaminer(boolean examiner) {
         isExaminer = examiner;
     }
+
 
     public boolean isReady() {
         return isReady;

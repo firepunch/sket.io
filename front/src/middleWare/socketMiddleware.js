@@ -37,6 +37,10 @@ const socketMiddleware = (() => {
                 store.dispatch( actions.getRanking(msg.data) );
                 break;
 
+            case "NO_ENTER_ROOM":
+                alert("방에 들어갈 수 없습니다!!!");
+                break;
+
             case "ROOM_INFO":   // 현재 있는 방에 대한 정보
                 store.dispatch( actions.enterRoom(msg.data) );
                 break;
@@ -66,11 +70,23 @@ const socketMiddleware = (() => {
 
             case "RANDOM_EXAMINER": // 게임을 처음 시작했을 때 랜덤 출제자 선정 및 퀴즈 요청
                 store.dispatch( actions.setExaminer(msg.data.id) );
-                store.dispatch( actions.requestQuiz(store.getState().game.roomInfo.roomId, msg.data.id) );
+
+                if (store.getState().login.user.id === msg.data.id) {
+                    store.dispatch( actions.requestQuiz(store.getState().game.roomInfo.roomId, msg.data.id) );
+                }
+
                 break;
 
             case "RANDOM_QUIZ":
                 store.dispatch( actions.getQuiz(msg.data.id, msg.data.quiz) );
+                break;
+
+            case "CANVAS_DATA":
+                store.dispatch( actions.getCanvasData(msg.data.clickX, msg.data.clickY) );
+                break;
+
+            case "CHAT_DATA":
+                store.dispatch();
                 break;
 
             default:

@@ -234,6 +234,20 @@ export function getRanking(ranking) {
 
 /* GAME */
 
+export function requestExitRoom(roomId, userId) {
+    return {
+        type: types.SEND_MESSAGE,
+        msg_type: "EXIT_ROOM",
+        data: { roomId, userId  }
+    }
+}
+
+export function exitRoom() {
+    return {
+        type: types.EXIT_ROOM
+    }
+}
+
 export function getReady(roomId, userId, isReady) {
     return {
         type: types.SEND_MESSAGE,
@@ -289,6 +303,56 @@ export function requestQuiz(roomId, userId) {
 export function getQuiz(userId, quiz) {
     return {
         type: types.GET_QUIZ,
-        data: { userId, quiz }
+        quiz: { userId, quiz }
+    }
+}
+
+export function requestQuizStart(roomId) {
+    return {
+        type: types.SEND_MESSAGE,
+        msg_type: "START_QUIZ",
+        data: roomId
+    }
+}
+
+export function quizStart(roundInfo) {
+    return {
+        type: types.START_QUIZ,
+        roundInfo
+    }
+}
+
+export function drawCanvas(data) {
+    return {
+        type: types.SEND_MESSAGE,
+        msg_type: "CANVAS_DATA",
+        data
+    }
+}
+
+export function getCanvasData(clickX, clickY) {
+    return {
+        type: types.CANVAS_DATA,
+        data: { clickX, clickY }
+    }
+}
+
+export function chatSend(roomId, userId, restTime, msg) {
+    return {
+        type: types.SEND_MESSAGE,
+        msg_type: "CHAT_DATA",
+        data: {
+            roomId,
+            userId,
+            restTime,
+            msg
+        }
+    }
+}
+
+export function chatReceive(msg) {
+    return {
+        type: types.CHAT_DATA,
+        chat: msg
     }
 }

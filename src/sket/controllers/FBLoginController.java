@@ -62,6 +62,7 @@ public class FBLoginController extends HttpServlet {
         } else {
             new User(
                     id, nick,
+                    originJson.getString("picture"),
                     dbJson.getInt("level"),
                     dbJson.getInt("limitExp"),
                     dbJson.getInt("totalExp"),

@@ -33,9 +33,15 @@ export const GET_ROOM_ID = "GET_ROOM_ID";
 
 
 /* GAME */
+export const EXIT_ROOM      = "EXIT_ROOM";
+
 export const MY_READY       = "MY_READY";
 export const OTHER_READY    = "OTHER_READY";
 export const GAME_START     = "GAME_START";
 
 export const SET_EXAMINER   = "SET_EXAMINER";
 export const GET_QUIZ       = "GET_QUIZ";
+export const START_QUIZ     = "START_QUIZ";
+
+export const CANVAS_DATA    = "CANVAS_DATA";
+export const CHAT_DATA      = "CHAT_DATA";

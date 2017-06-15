@@ -31,6 +31,16 @@ class UserArea extends Component {
         super(props);
     }
 
+    startGame() {
+        console.log(this.props.playerList.length)
+        if ( this.props.playerList.length <= 0 ) {
+            alert("혼자서 놀지 마세요. 불쌍하잖습니까.")
+            return;
+        }
+
+        this.props.handleStartGame(this.props.roomId, this.props.user.id);
+    }
+
     render() {
 
         let profileImage;
@@ -39,7 +49,9 @@ class UserArea extends Component {
                         && typeof this.props.master !== 'undefined'
                         && this.props.user.id === this.props.master
 
-        if (this.props.user.type === 'LOGIN_GUEST' || typeof this.props.user.picture === 'undefined') {
+        if ( this.props.user.type === 'LOGIN_GUEST'
+                || typeof this.props.user.picture === 'undefined'
+                || this.props.user.picture === 'null' ) {
             profileImage = ( <img src={'img/guest-profile.png'} alt="error"/> )
         } else {
             profileImage = ( <img src={ this.props.user.picture } alt="error"/> )
@@ -75,7 +87,7 @@ class UserArea extends Component {
             (
                 <div className="sket-score profile-score"
                     style={{'backgroundColor': this.props.color}}
-                    onClick={ () => this.props.handleStartGame(this.props.roomId, this.props.user.id) }
+                    onClick={ () => this.startGame() }
                 >
                     <p>시작</p>
                 </div>
@@ -88,6 +100,17 @@ class UserArea extends Component {
                 </div>
             )
         );
+
+        const gameScore = (
+            <div className="sket-score profile-score"
+                style={{'backgroundColor': this.props.color}}>
+                <p>{ this.props.score }</p>
+            </div>
+        )
+
+        const beforeGame = isMaster ? master : player;
+
+        const rendering = this.props.isPlay ? gameScore : beforeGame;
 
         if (!this.props.enable) {   // 방 인원에 제한이 있어서 X를 표시할 때
             return (
@@ -105,7 +128,6 @@ class UserArea extends Component {
         }
 
 
-
         return(
             <div className="sket-game-user">
                 <div className={(isMaster ? "room-master" : "") + " game-profile profile-score"}>
@@ -119,7 +141,7 @@ class UserArea extends Component {
                     </div>
                 </div>
 
-                { isMaster ? master : player }
+                { rendering }
             </div>
         );
     }
