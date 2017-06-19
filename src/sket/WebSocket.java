@@ -261,16 +261,18 @@ public class WebSocket {
             // 플레이어가 방 나갔을 때
             case "EXIT_ROOM":
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
-                targetRoom.deletePlayer(jsonObject.getJSONObject("data").getString("userId"));
 
                 roomAction = new RoomAction(targetRoom);
                 player = PlayerAction.getEqualPlayerId(jsonObject.getJSONObject("data").getString("userId"));
                 player.setInRoom(false);
 
+                targetRoom.deletePlayer(jsonObject.getJSONObject("data").getString("userId"));
+                
                 sendMessageToRoomMembers(
                         roomAction,
                         RoomController.getRoomInfoToJSON(targetRoom)
                 );
+
 
                 System.out.println("EXIT_ROOM : " + RoomController.getRoomInfoToJSON(targetRoom));
 
