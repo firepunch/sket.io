@@ -200,12 +200,14 @@ public class WebSocket {
 
             // 캔바스 데이터 JSON 보냄
             case "CANVAS_DATA":
-                roomMembers = QuizAction.excludeExaminerSession(jsonObject.getJSONObject("data").getString("userId"));
+                targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
+                roomAction = new RoomAction(targetRoom);
+                roomMembers = roomAction.getPlayerSessionId();
 
                 if (roomMembers != null) {
                     for (String playerSessionId : roomMembers) {
                         playerSession = webSocketSessionMap.get(playerSessionId);
-                        playerSession.getBasicRemote().sendText(String.valueOf(jsonObject));
+                        sendMessageToRoomMembers(roomAction, String.valueOf(jsonObject));
                     }
                 }
 
@@ -267,7 +269,7 @@ public class WebSocket {
                 player.setInRoom(false);
 
                 targetRoom.deletePlayer(jsonObject.getJSONObject("data").getString("userId"));
-                
+
                 sendMessageToRoomMembers(
                         roomAction,
                         RoomController.getRoomInfoToJSON(targetRoom)
