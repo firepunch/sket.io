@@ -1,5 +1,6 @@
 package sket.model.action;
 
+import org.json.JSONObject;
 import sket.model.data.Player;
 import sket.model.data.Room;
 
@@ -85,5 +86,15 @@ public class RoomAction {
         }
 
         return null;
+    }
+
+    public  Player getRandomExaminer() {
+        int countUser = targetRoom.getTotalUserNumber();
+
+        int randValue = (int) (Math.random() * countUser) + 1;
+        ArrayList<Player> roomMembers = targetRoom.getPlayerList();
+
+        Player targetPlayer = roomMembers.get(randValue - 1);
+        return targetPlayer;
     }
 }
