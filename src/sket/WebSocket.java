@@ -232,10 +232,10 @@ public class WebSocket {
                 if (msg.equals(targetRoom.getAnswer())) {
                     int restTime = jsonObject.getJSONObject("data").getInt("restTime");
                     int addScore = QuizController.getScore(targetRoom.getTimeLimit(), restTime);
-                    QuizController.addScore(jsonObject.getJSONObject("data").getString("userId"), addScore);
+                    QuizController.addScore(senderId, addScore);
 
-                    jsonObject.getJSONObject("data").append("correct", "true");
-                    jsonObject.getJSONObject("data").append("score", addScore);
+                    jsonObject.getJSONObject("data").put("correct", "true");
+                    jsonObject.getJSONObject("data").put("score", addScore);
 
                     if (targetRoom.getCurRound() == targetRoom.getRoundLimit()) {
                         //sendMessageToRoomMembers();

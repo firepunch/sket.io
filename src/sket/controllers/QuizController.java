@@ -37,6 +37,7 @@ public class QuizController extends HttpServlet {
             data.put("id", userId);
             data.put("round", targetRoom.getCurRound());
             data.put("quiz", quiz);
+            targetRoom.setAnswer(quiz);
         } else {
             data.put("gameEnd", "true");
         }
