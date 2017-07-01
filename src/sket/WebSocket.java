@@ -210,8 +210,10 @@ public class WebSocket {
                         sendMessageToRoomMembers(roomAction, String.valueOf(jsonObject));
                     }
                 }
+                break;
 
-                // 채팅 JSON
+
+            // 채팅 JSON
             case "CHAT_DATA":
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
@@ -222,7 +224,6 @@ public class WebSocket {
 
                 java.util.Date date = new java.util.Date();
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-//                System.out.println("채팅 수신 시각:  "+sdf.format(date));
 
                 jsonObject.getJSONObject("data").append("time", sdf.format(date));
                 jsonObject.getJSONObject("data").append("userNick", player.getNickname());
