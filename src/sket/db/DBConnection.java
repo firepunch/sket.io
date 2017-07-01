@@ -97,7 +97,7 @@ public class DBConnection {
             throw new RuntimeException("Failed insert user data " + e);
         }
         DBClose();
-        System.out.println("DB   "+nick);
+        System.out.println("DB   " + nick);
         return nick;
     }
 
@@ -119,7 +119,7 @@ public class DBConnection {
             jsonObject.put("limitExp", resultSet.getString("limitexp"));
             jsonObject.put("totalExp", resultSet.getString("totalexp"));
             jsonObject.put("curExp", resultSet.getString("curexp"));
-            jsonObject.put("isGuest",isGuest);
+            jsonObject.put("isGuest", isGuest);
         } else {
             jsonObject.put("id", "null");
         }
