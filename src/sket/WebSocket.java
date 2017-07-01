@@ -8,7 +8,6 @@ import sket.controllers.QuizController;
 import sket.controllers.RoomController;
 import sket.db.DBConnection;
 import sket.model.action.PlayerAction;
-import sket.model.action.QuizAction;
 import sket.model.action.RoomAction;
 import sket.model.data.Player;
 import sket.model.data.Room;
@@ -218,6 +217,7 @@ public class WebSocket {
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
                 roomMembers = roomAction.getPlayerSessionId();
+                System.out.println("AAAAAAAAA       " + jsonObject.getJSONObject("data"));
                 player = PlayerAction.getEqualPlayerId(jsonObject.getJSONObject("data").getString("userId"));
 
                 String msg = jsonObject.getJSONObject("data").getString("msg"); // 정답 비교 시 필요
