@@ -242,7 +242,6 @@ public class WebSocket {
                         //sendMessageToRoomMembers();
                         break;
                     }
-
                 } else {
                     jsonObject.getJSONObject("data").append("correct", "false");
                 }
@@ -275,19 +274,27 @@ public class WebSocket {
                 player = PlayerAction.getEqualPlayerId(jsonObject.getJSONObject("data").getString("userId"));
                 player.setInRoom(false);
 
-                targetRoom.deletePlayer(jsonObject.getJSONObject("data").getString("userId"));
+                targetRoom.deletePlayer(player.getId());
 
                 sendMessageToRoomMembers(
                         roomAction,
                         RoomController.getRoomInfoToJSON(targetRoom)
                 );
 
-                System.out.println("EXIT_ROOM : " + RoomController.getRoomInfoToJSON(targetRoom));
-
                 if (targetRoom.getTotalUserNumber() == 0) {
                     Room.getRoomList().remove(targetRoom);
                     sendMessageToAllSession(RoomController.removeRoomByJSON(targetRoom));
                 }
+
+                if (player.isMaster()) {
+                    targetRoom.setRoomMaster(roomAction.getRandomExaminer());
+                }
+
+                System.out.println("방 정보 : " + RoomController.getRoomInfoToJSON(targetRoom));
+                sendMessageToRoomMembers(
+                        roomAction,
+                        RoomController.getRoomInfoToJSON(targetRoom)
+                );
                 break;
 
             case "START_QUIZ":
@@ -345,6 +352,11 @@ public class WebSocket {
                 }
                 Room.getRoomList().remove(targetRoom);
             } else {
+
+                if (player.isMaster()) {
+                    targetRoom.setRoomMaster(roomAction.getRandomExaminer());
+                }
+
                 sendMessageToRoomMembers(roomAction,
                         RoomController.getRoomInfoToJSON(targetRoom)
                 );
