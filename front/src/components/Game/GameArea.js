@@ -138,7 +138,24 @@ class GameArea extends Component {
             </canvas>
         )
 
-        const chat = chatList.map((data, index) => {
+        let chat = (
+            <div className="sket-chatting">
+                <div className="chat-body overflow-scroll">
+                    { chatItem }
+                </div>
+                <div className="chat">
+                    <input type="text" id="chat-talk"
+                            onChange={ (evt) => this.handleChatChange(evt) }
+                            onKeyPress={ (evt) => this.handleChatKeyPress(evt) }/>
+                    <button id="chat-btn"
+                            onClick={ () => this.handleChatting() }>
+                        <p>전송</p>
+                    </button>
+                </div>
+            </div>
+        )
+
+        const chatItem = chatList.map((data, index) => {
             return (
                 <div className="chat-item">
                     <span>{ data.nick }</span>
@@ -157,6 +174,20 @@ class GameArea extends Component {
                     onMouseLeave={ (evt) => this.handleMouseMove(evt) } >
                     이 브라우저는 canvas를 지원하지 않는 브라우저입니다. 포기하시고 크롬을 사용하십시오.
                 </canvas>
+            )
+
+            chat = (
+                <div className="sket-chatting">
+                    <div className="chat-body overflow-scroll">
+                        { chatItem }
+                    </div>
+                    <div className="chat">
+                        <input type="text" id="chat-talk" disabled />
+                        <button id="chat-btn">
+                            <p>전송</p>
+                        </button>
+                    </div>
+                </div>
             )
         }
 
@@ -183,19 +214,7 @@ class GameArea extends Component {
                     </div>
                 </div>
 
-                <div className="sket-chatting">
-                    <div className="chat-body overflow-scroll">
-                        { chat }
-                    </div>
-                    <div className="chat">
-                        <input type="text" id="chat-talk"
-                                onChange={ (evt) => this.handleChatChange(evt) }/>
-                        <button id="chat-btn"
-                                onClick={ () => this.handleChatting() }>
-                            <p>전송</p>
-                        </button>
-                    </div>
-                </div>
+                { chat }
             </div>
         );
     }
@@ -251,17 +270,24 @@ class GameArea extends Component {
         })
     }
 
-    handleChatting() {
-        console.log('time : ' + this.state.time);
-        console.log('chat : ' + this.state.chat);
-        console.log('fuck : ' + this.props)
+    handleChatKeyPress(evt) {
+        let key = evt.keyCode || evt.which;
+        console.log(key)
 
+        if (key === 13) {
+            this.handleChatting();
+        }
+    }
+
+    handleChatting() {
         this.props.handleChatData(
             this.props.roomId,
             this.props.userId,
             this.state.time,
             this.state.chat
-        )
+        );
+
+        document.getElementById('chat-talk').value = '';
     }
 
     // <div className="sketch-btn">
@@ -273,7 +299,7 @@ class GameArea extends Component {
         modal.add(modalComponent, {
             title: '문제',
             size: 'large', // large, medium or small,
-            closeOnOutsideClick: true, // (optional) Switch to true if you want to close the modal by clicking outside of it,
+            closeOnOutsideClick: false, // (optional) Switch to true if you want to close the modal by clicking outside of it,
             hideTitleBar: false, // (optional) Switch to true if do not want the default title bar and close button,
             hideCloseButton: true, // (optional) if you don't wanna show the top right close button
             quiz: quiz,
