@@ -119,4 +119,16 @@ public class RoomController {
         System.out.println(message.toString());
         return message.toString();
     }
+
+    public static String getRoomStartQuizToJSON(int roomId, boolean isGameEnd){
+        JSONObject message = new JSONObject();
+        message.put("tyoe", "START_QUIZ");
+
+        JSONObject data = new JSONObject();
+        data.put("roomId",roomId);
+        data.put("gameEnd", isGameEnd);
+
+        message.put("data",data);
+        return message.toString();
+    }
 }

@@ -167,6 +167,7 @@ public class WebSocket {
                     );
                     targetRoom.setPlayingGame(true);
                     sendMessageToAllSession(RoomController.getRoomListAsJSON());
+                    targetRoom.setGameEnd(false);
                 } else {
                     masterSession.getBasicRemote().sendText(PlayerController.noReadyAllPlayerJSON(targetRoom));
                 }
@@ -276,13 +277,26 @@ public class WebSocket {
                         RoomController.getRoomInfoToJSON(targetRoom)
                 );
 
-
                 System.out.println("EXIT_ROOM : " + RoomController.getRoomInfoToJSON(targetRoom));
 
                 if (targetRoom.getTotalUserNumber() == 0) {
                     Room.getRoomList().remove(targetRoom);
                     sendMessageToAllSession(RoomController.removeRoomByJSON(targetRoom));
                 }
+                break;
+
+            case "START_QUIZ":
+                targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
+                roomAction = new RoomAction(targetRoom);
+
+                sendMessageToRoomMembers(
+                        roomAction,
+                        RoomController.getRoomStartQuizToJSON(
+                                jsonObject.getJSONObject("data").getInt("roomId"),
+                                targetRoom.isGameEnd()
+                        )
+                );
+                break;
         }
     }
 
