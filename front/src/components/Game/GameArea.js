@@ -46,8 +46,9 @@ class GameArea extends Component {
         canvas = document.getElementById('canvas');
         ctx = canvas.getContext('2d');
 
+        // 일단 이 부분의 구현은 나중으로 미루자.(시작 시점을 언제로 잡아야할지 잘 모르겠음)
         setInterval(() => {
-            if (this.props.isQuiz)  {   // 퀴즈가 진행중일 때
+            if (this.props.isQuiz && this.state.time > 0)  {   // 퀴즈가 진행중일 때
                 this.setState({
                     ...this.state,
                     time: this.state.time - 1
@@ -64,9 +65,10 @@ class GameArea extends Component {
         // if (this.props.chat.correct === true) {
         //
         // }
-        if (chatList[chatList.length - 1] !== this.props.chat) {
-            chatList.push(this.props.chat)
+        if (chatList[chatList.length - 1] !== nextProps.chat) {
+            chatList.push(nextProps.chat)
         }
+        console.log(chatList);
 
 
         // 문제 출제자일 때 보여지는 모달
@@ -138,6 +140,16 @@ class GameArea extends Component {
             </canvas>
         )
 
+        const chatItem = chatList.map((data, index) => {
+            return (
+                <div className="chat-item">
+                    <span>{ data.nick }</span>
+                    <span>{ data.msg }</span>
+                    <span>{ data.time }</span>
+                </div>
+            )
+        });
+
         let chat = (
             <div className="sket-chatting">
                 <div className="chat-body overflow-scroll">
@@ -155,15 +167,6 @@ class GameArea extends Component {
             </div>
         )
 
-        const chatItem = chatList.map((data, index) => {
-            return (
-                <div className="chat-item">
-                    <span>{ data.nick }</span>
-                    <span>{ data.msg }</span>
-                    <span>{ data.time }</span>
-                </div>
-            )
-        });
 
         if (this.props.userId === this.props.examinerId) {
             canvas = (
@@ -272,7 +275,6 @@ class GameArea extends Component {
 
     handleChatKeyPress(evt) {
         let key = evt.keyCode || evt.which;
-        console.log(key)
 
         if (key === 13) {
             this.handleChatting();

@@ -90,7 +90,7 @@ const socketMiddleware = (() => {
                 break;
 
             case "CHAT_DATA":
-                store.dispatch();
+                store.dispatch( actions.chatReceive(msg.data) );
                 break;
 
             default:
