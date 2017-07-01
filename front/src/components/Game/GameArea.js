@@ -72,7 +72,7 @@ class GameArea extends Component {
         // 문제 출제자일 때 보여지는 모달
         if (this.state.isModal) {
             if (this.props.userId === this.props.examinerId
-                && nextProps.quiz.quiz !== '') {
+                && typeof nextProps.quiz.quiz !== 'undefined') {
                     this.addModal(nextProps.quiz.quiz);
                     this.setState({
                         ...this.state,
@@ -82,7 +82,7 @@ class GameArea extends Component {
         }
 
         // 문제 출제자가 아닐 때 보여지는 모달
-        if (nextProps.quiz.isQuiz && this.props.isModal) {
+        if (nextProps.quiz.isQuiz && this.state.isModal) {
             if (this.props.userId !== this.props.examinerId) {
                 this.addModal('문제를 출제 중입니다...');
                 this.setState({
