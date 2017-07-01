@@ -16,4 +16,3 @@ INSERT INTO quiz (category, name) VALUES ('과일', '포도');
 INSERT INTO quiz (category, name) VALUES ('과일', '레몬');
 INSERT INTO quiz (category, name) VALUES ('과일', '밤');
 INSERT INTO quiz (category, name) VALUES ('과일', '호두');
-

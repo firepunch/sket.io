@@ -218,7 +218,8 @@ public class WebSocket {
                 roomAction = new RoomAction(targetRoom);
                 roomMembers = roomAction.getPlayerSessionId();
 
-                player = PlayerAction.getEqualPlayerId(jsonObject.getJSONObject("data").getString("userId"));
+                String senderId = jsonObject.getJSONObject("data").getString("userId");
+                player = PlayerAction.getEqualPlayerId(senderId);
 
                 String msg = jsonObject.getJSONObject("data").getString("msg"); // 정답 비교 시 필요
 
@@ -233,10 +234,10 @@ public class WebSocket {
                 if (msg.equals(targetRoom.getAnswer())) {
                     int restTime = jsonObject.getJSONObject("data").getInt("restTime");
                     int addScore = QuizController.getScore(targetRoom.getTimeLimit(), restTime);
-                    QuizController.addScore(jsonObject.getJSONObject("data").getString("userId"), addScore);
+                    QuizController.addScore(senderId, addScore);
 
-                    jsonObject.getJSONObject("data").append("correct", "true");
-                    jsonObject.getJSONObject("data").append("score", addScore);
+                    jsonObject.getJSONObject("data").put("correct", "true");
+                    jsonObject.getJSONObject("data").put("score", addScore);
 
                     if (targetRoom.getCurRound() == targetRoom.getRoundLimit()) {
                         //sendMessageToRoomMembers();
