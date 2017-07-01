@@ -36,6 +36,7 @@ public class Room {
         this.isLock = isLock;
         this.userMax = userMax;
         this.roundLimit = roundLimit;
+        this.timeLimit = timeLimit;
 
         if (isLock == true) {
             if (pwd != null) {
@@ -127,6 +128,12 @@ public class Room {
         return this.roomMaster;
     }
 
+    public void setRoomMaster(Player roomMaster) {
+        this.roomMaster.setMaster(false);
+        this.roomMaster = roomMaster;
+        this.roomMaster.setMaster(true);
+    }
+
     public static ArrayList<Player> getRoomIntoPlayer(Room targetRoom) {
         return targetRoom.playerList;
     }
@@ -150,6 +157,7 @@ public class Room {
             if (player.getId().equals(id)) {
                 playerList.remove(player);
                 totalUserNumber -= 1;
+                break;
             }
         }
     }
