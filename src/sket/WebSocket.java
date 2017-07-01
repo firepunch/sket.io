@@ -228,7 +228,6 @@ public class WebSocket {
 
                 jsonObject.getJSONObject("data").append("time", sdf.format(date));
                 jsonObject.getJSONObject("data").append("nick", player.getNickname());
-                jsonObject.getJSONObject("data").append("userId", player.getId());
 
                 // 정답 확인
                 if (msg.equals(targetRoom.getAnswer())) {
@@ -247,6 +246,7 @@ public class WebSocket {
                     jsonObject.getJSONObject("data").append("correct", "false");
                 }
 
+                System.out.println("CHAT_DATA 정보 : "+ jsonObject.toString());
                 sendMessageToRoomMembers(roomAction, String.valueOf(jsonObject));
                 break;
 
