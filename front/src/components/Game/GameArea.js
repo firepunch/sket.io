@@ -83,7 +83,6 @@ class GameArea extends Component {
 
         // 문제 출제자가 아닐 때 보여지는 모달
         if (nextProps.isQuiz && this.state.isModal) {
-            console.log('fuck');
             if (this.props.userId !== this.props.examinerId) {
                 this.addModal('문제를 출제 중입니다...');
                 this.setState({
@@ -255,6 +254,7 @@ class GameArea extends Component {
     handleChatting() {
         console.log('time : ' + this.state.time);
         console.log('chat : ' + this.state.chat);
+        console.log('fuck : ' + this.props)
 
         this.props.handleChatData(
             this.props.roomId,
