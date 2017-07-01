@@ -120,15 +120,15 @@ public class RoomController {
         return message.toString();
     }
 
-    public static String getRoomStartQuizToJSON(int roomId, boolean isGameEnd){
+    public static String getRoomStartQuizToJSON(int round, boolean isGameEnd) {
         JSONObject message = new JSONObject();
-        message.put("tyoe", "START_QUIZ");
+        message.put("type", "START_QUIZ");
 
         JSONObject data = new JSONObject();
-        data.put("roomId",roomId);
+        data.put("round", round);
         data.put("gameEnd", isGameEnd);
 
-        message.put("data",data);
+        message.put("data", data);
         return message.toString();
     }
 }

@@ -228,6 +228,7 @@ public class WebSocket {
 
                 jsonObject.getJSONObject("data").append("time", sdf.format(date));
                 jsonObject.getJSONObject("data").append("userNick", player.getNickname());
+                jsonObject.getJSONObject("data").append("userId", player.getId());
 
                 // 정답 확인
                 if (msg.equals(targetRoom.getAnswer())) {
@@ -237,12 +238,18 @@ public class WebSocket {
 
                     jsonObject.getJSONObject("data").append("correct", "true");
                     jsonObject.getJSONObject("data").append("score", addScore);
+
+                    if(targetRoom.getCurRound() == targetRoom.getRoundLimit()){
+                        //sendMessageToRoomMembers();
+                        break;
+                    }
+
+                    targetRoom.addCurRound();
                 } else {
                     jsonObject.getJSONObject("data").append("correct", "false");
                 }
 
                 sendMessageToRoomMembers(roomAction, String.valueOf(jsonObject));
-
                 break;
 
             // 타임아웃일 때 전체 점수 감점 JSON
@@ -292,7 +299,7 @@ public class WebSocket {
                 sendMessageToRoomMembers(
                         roomAction,
                         RoomController.getRoomStartQuizToJSON(
-                                jsonObject.getJSONObject("data").getInt("roomId"),
+                                targetRoom.getCurRound(),
                                 targetRoom.isGameEnd()
                         )
                 );
