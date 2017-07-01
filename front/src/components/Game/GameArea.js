@@ -82,7 +82,8 @@ class GameArea extends Component {
         }
 
         // 문제 출제자가 아닐 때 보여지는 모달
-        if (nextProps.quiz.isQuiz && this.state.isModal) {
+        if (nextProps.isQuiz && this.state.isModal) {
+            console.log('fuck');
             if (this.props.userId !== this.props.examinerId) {
                 this.addModal('문제를 출제 중입니다...');
                 this.setState({
@@ -103,8 +104,6 @@ class GameArea extends Component {
         ctx.globalCompositeOperation = 'source-over';
         ctx.strokeStyle = 'black';
         ctx.lineWidth = 3;
-
-        console.log(this.props.canvas);
 
         if (nextProps.canvas.mouse === 'up') {
             // 점 하나만 찍고 땔 때
