@@ -78,16 +78,7 @@ class GameArea extends Component {
                         ...this.state,
                         isModal: false
                     })
-                }
             }
-            // else {
-            //     this.addModal('문제를 출제 중입니다...');
-            //
-            //     this.setState({
-            //         ...this.state,
-            //         isModal: false
-            //     })
-            // }
         }
 
         // 문제 출제자가 아닐 때 보여지는 모달

@@ -203,8 +203,6 @@ height 768px	540	           135
 
 /* 연결 유저 목록 */
 #connection-list {
-    /*width: 270px;
-    height: 600px;*/
     top: 23%;
 
     float: left;
