@@ -213,7 +213,6 @@ public class WebSocket {
                 }
                 break;
 
-
             // 채팅 JSON
             case "CHAT_DATA":
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
@@ -239,12 +238,11 @@ public class WebSocket {
                     jsonObject.getJSONObject("data").append("correct", "true");
                     jsonObject.getJSONObject("data").append("score", addScore);
 
-                    if(targetRoom.getCurRound() == targetRoom.getRoundLimit()){
+                    if (targetRoom.getCurRound() == targetRoom.getRoundLimit()) {
                         //sendMessageToRoomMembers();
                         break;
                     }
 
-                    targetRoom.addCurRound();
                 } else {
                     jsonObject.getJSONObject("data").append("correct", "false");
                 }
@@ -317,10 +315,11 @@ public class WebSocket {
                     break;
                 }
             }
-            autoExitRoom();
             Player.getPlayerArrayList().remove(player);
 
             webSocketSessionMap.remove(session.getId(), session);
+            autoExitRoom();
+
             System.out.println("onClose()");
         } catch (Exception e) {
             e.printStackTrace();
@@ -337,17 +336,18 @@ public class WebSocket {
         System.out.println("log : player.isInRoom() : " + player.isInRoom());
         if (player.isInRoom() == true) {
 
+            roomAction = new RoomAction(targetRoom);
             targetRoom.deletePlayer(player);
-            sendMessageToRoomMembers(roomAction,
-                    PlayerController.exitPlayerJSON(
-                            targetRoom,
-                            player
-                    )
-            );
 
             if (targetRoom.getTotalUserNumber() == 0) {
+                if (webSocketSessionMap.size() != 0) {
+                    sendMessageToAllSession(RoomController.removeRoomByJSON(targetRoom));
+                }
                 Room.getRoomList().remove(targetRoom);
-                sendMessageToAllSession(RoomController.removeRoomByJSON(targetRoom));
+            } else {
+                sendMessageToRoomMembers(roomAction,
+                        RoomController.getRoomInfoToJSON(targetRoom)
+                );
             }
         }
     }
@@ -371,10 +371,6 @@ public class WebSocket {
         message.put("data", data);
 
         return message.toString();
-    }
-
-    private void checkPlayerInRoom() {
-
     }
 
     private void sendMessageToAllSession(String message) {
