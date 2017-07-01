@@ -217,7 +217,7 @@ public class WebSocket {
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
                 roomMembers = roomAction.getPlayerSessionId();
-                System.out.println("AAAAAAAAA       " + jsonObject.getJSONObject("data"));
+
                 player = PlayerAction.getEqualPlayerId(jsonObject.getJSONObject("data").getString("userId"));
 
                 String msg = jsonObject.getJSONObject("data").getString("msg"); // 정답 비교 시 필요
@@ -226,7 +226,7 @@ public class WebSocket {
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
                 jsonObject.getJSONObject("data").append("time", sdf.format(date));
-                jsonObject.getJSONObject("data").append("userNick", player.getNickname());
+                jsonObject.getJSONObject("data").append("nick", player.getNickname());
                 jsonObject.getJSONObject("data").append("userId", player.getId());
 
                 // 정답 확인
