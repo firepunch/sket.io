@@ -38,8 +38,8 @@ class GameArea extends Component {
             isModal: true
         }
     }
-
     componentDidMount() {
+
         //Variables
         canvas = document.getElementById('canvas');
         ctx = canvas.getContext('2d');
@@ -74,12 +74,13 @@ class GameArea extends Component {
                 if (nextProps.quiz.quiz !== '')
                     this.addModal(nextProps.quiz.quiz);
             } else {
+                console.log(nextProps.quiz)
                 this.addModal('문제를 출제 중입니다...');
             }
 
             this.setState({
                 ...this.state,
-                isModal: true
+                isModal: false
             })
         }
 
@@ -209,9 +210,12 @@ class GameArea extends Component {
     }
 
     handleChatting() {
+        console.log('time : ' + this.state.time);
+        console.log('chat : ' + this.state.chat);
+
         this.props.handleChatData(
             this.props.roomId,
-            this.props.user.id,
+            this.props.userId,
             this.state.time,
             this.state.chat
         )

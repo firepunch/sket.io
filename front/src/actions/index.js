@@ -311,7 +311,9 @@ export function requestQuizStart(roomId) {
     return {
         type: types.SEND_MESSAGE,
         msg_type: "START_QUIZ",
-        data: roomId
+        data: {
+            roomId: roomid
+        }
     }
 }
 
