@@ -81,6 +81,10 @@ const socketMiddleware = (() => {
                 store.dispatch( actions.getQuiz(msg.data.id, msg.data.quiz) );
                 break;
 
+            case "START_QUIZ":
+                store.dispatch( actions.quizStart(msg.data.round, msg.data.gameEnd));
+                break;
+
             case "CANVAS_DATA":
                 store.dispatch( actions.getCanvasData(msg.data.clickX, msg.data.clickY) );
                 break;

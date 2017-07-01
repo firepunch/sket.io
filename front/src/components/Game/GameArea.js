@@ -69,19 +69,36 @@ class GameArea extends Component {
             chatList.push(this.props.chat)
         }
 
+        // 문제 출제자일 때 보여지는 모달
         if (this.state.isModal) {
-            if (this.props.userId === this.props.examinerId) {
-                if (nextProps.quiz.quiz !== '')
+            if (this.props.userId === this.props.examinerId
+                && nextProps.quiz.quiz !== '') {
                     this.addModal(nextProps.quiz.quiz);
-            } else {
-                console.log(nextProps.quiz)
-                this.addModal('문제를 출제 중입니다...');
+                    this.setState({
+                        ...this.state,
+                        isModal: false
+                    })
+                }
             }
+            // else {
+            //     this.addModal('문제를 출제 중입니다...');
+            //
+            //     this.setState({
+            //         ...this.state,
+            //         isModal: false
+            //     })
+            // }
+        }
 
-            this.setState({
-                ...this.state,
-                isModal: false
-            })
+        // 문제 출제자가 아닐 때 보여지는 모달
+        if (nextProps.quiz.isQuiz && this.props.isModal) {
+            if (this.props.userId !== this.props.examinerId) {
+                this.addModal('문제를 출제 중입니다...');
+                this.setState({
+                    ...this.state,
+                    isModal: false
+                })
+            }
         }
 
         // 좌표를 이용하여 그림을 그림
@@ -244,13 +261,13 @@ class GameArea extends Component {
 class modalComponent extends Component {
 
     componentDidMount() {
+        this.props.handlequizStart(this.props.roomId);
         setTimeout(() => {
             this.removeThisModal();
         }, 3000);
     }
 
     removeThisModal() {
-        this.props.handlequizStart(this.props.roomId);
         this.props.removeModal();
     }
 

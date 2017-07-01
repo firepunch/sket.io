@@ -2,9 +2,9 @@ import * as types from '../actions/ActionTypes';
 
 const initialState = {
     isReady: false,     // 유저가 준비를 하였는지(isMaster가 true라면 이 변수는 의미 없음)
-    isGame: false,      // 게임이 진행 중인지
-    isPlay: false,
-    isQuiz: false,
+    isGame: false,      // 게임 입장
+    isPlay: false,      // 게임 시작 여부
+    isQuiz: false,      // 퀴즈가 시작했는지. 한 개의 퀴즈가 끝날 때마다 false가 되어야 함
 
     quiz: {},           // 받은 퀴즈
     roundInfo: {},      // 라운드 정보
