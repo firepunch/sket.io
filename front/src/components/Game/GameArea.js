@@ -5,9 +5,11 @@ import $ from 'jquery';
 import { modal } from 'react-redux-modal';
 
 const propTypes = {
+    canvas: ReactPropTypes.object
 };
 
 const defaultProps = {
+    canvas: {}
 };
 
 //Canvas
@@ -44,9 +46,6 @@ class GameArea extends Component {
         canvas = document.getElementById('canvas');
         ctx = canvas.getContext('2d');
 
-        canvasx = $("#canvas").offset().left;
-        canvasy = $("#canvas").offset().top;
-
         setInterval(() => {
             if (this.props.isQuiz)  {   // 퀴즈가 진행중일 때
                 this.setState({
@@ -68,6 +67,7 @@ class GameArea extends Component {
         if (chatList[chatList.length - 1] !== this.props.chat) {
             chatList.push(this.props.chat)
         }
+
 
         // 문제 출제자일 때 보여지는 모달
         if (this.state.isModal) {
@@ -92,6 +92,11 @@ class GameArea extends Component {
             }
         }
 
+
+        canvasx = $("#canvas").offset().left;   // 캔버스의 x 좌표값
+        canvasy = $("#canvas").offset().top;    // 캔버스의 y 좌표값
+
+
         // 좌표를 이용하여 그림을 그림
         ctx.beginPath();
 
@@ -99,8 +104,25 @@ class GameArea extends Component {
         ctx.strokeStyle = 'black';
         ctx.lineWidth = 3;
 
-        ctx.moveTo(nextProps.canvas.clickX, nextProps.canvas.clickY);
-        ctx.lineTo(mousex, mousey);
+        console.log(this.props.canvas);
+
+        if (nextProps.canvas.mouse === 'up') {
+            // 점 하나만 찍고 땔 때
+            ctx.moveTo(nextProps.canvas.clickX, nextProps.canvas.clickY);
+            ctx.lineTo(nextProps.canvas.clickX, nextProps.canvas.clickY);
+        } else if (nextProps.canvas.mouse === 'move') {
+            // 마우스를 누른 상태에서 움직일 때
+
+            if (this.props.canvas.mouse === 'up') {
+                // 이전에 마우스를 땠다가 새로 그릴 때
+                ctx.moveTo(nextProps.canvas.clickX, nextProps.canvas.clickY);
+                ctx.lineTo(nextProps.canvas.clickX, nextProps.canvas.clickY);
+            } else {
+                ctx.moveTo(this.props.canvas.clickX, this.props.canvas.clickY);
+                ctx.lineTo(nextProps.canvas.clickX, nextProps.canvas.clickY);
+            }
+        }
+
         ctx.lineJoin = ctx.lineCap = 'round';
         ctx.stroke();
     }
@@ -144,7 +166,7 @@ class GameArea extends Component {
         return(
             <div className="game-area">
                 <div className="sket-round-info">
-                    <h3>Round { this.props.roundInfo.round + '/' + this.props.roomInfo.numRound }</h3>
+                    <h3>Round { this.props.roundInfo + '/' + this.props.roomInfo.numRound }</h3>
                 </div>
 
                 <div className="sketch-area">
@@ -181,6 +203,7 @@ class GameArea extends Component {
     }
 
     handleMouseDown(e) {
+        // clientX, clientY : element를 클릭했을 때의 좌표 값
         last_mousex = mousex = parseInt(e.clientX - canvasx);
         last_mousey = mousey = parseInt(e.clientY - canvasy);
 
@@ -188,14 +211,26 @@ class GameArea extends Component {
     }
 
     handleMouseUp(e) {
+        if (mousedown) {
+            let msg = {
+                userId: this.props.userId,
+                roomId: this.props.roomId,
+                clickX : last_mousex,
+                clickY : last_mousey,
+                mouse: 'up'
+            };
+
+            this.props.handleCanvasData(msg);
+        }
+
         mousedown = false;
     }
 
     handleMouseMove(e) {
-        mousex = parseInt(e.clientX-canvasx);
-        mousey = parseInt(e.clientY-canvasy);
+        mousex = parseInt(e.pageX - canvasx);
+        mousey = parseInt(e.pageY - canvasy);
 
-        if( mousedown ) {
+        if (mousedown) {
             last_mousex = mousex;
             last_mousey = mousey;
 
@@ -203,7 +238,8 @@ class GameArea extends Component {
                 userId: this.props.userId,
                 roomId: this.props.roomId,
                 clickX : last_mousex,
-                clickY : last_mousey
+                clickY : last_mousey,
+                mouse: 'move'
             };
 
             this.props.handleCanvasData(msg);

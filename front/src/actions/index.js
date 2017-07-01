@@ -332,10 +332,10 @@ export function drawCanvas(data) {
     }
 }
 
-export function getCanvasData(clickX, clickY) {
+export function getCanvasData(clickX, clickY, mouse) {
     return {
         type: types.CANVAS_DATA,
-        data: { clickX, clickY }
+        data: { clickX, clickY, mouse }
     }
 }
 

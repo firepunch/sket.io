@@ -86,7 +86,7 @@ const socketMiddleware = (() => {
                 break;
 
             case "CANVAS_DATA":
-                store.dispatch( actions.getCanvasData(msg.data.clickX, msg.data.clickY) );
+                store.dispatch( actions.getCanvasData(msg.data.clickX, msg.data.clickY, msg.data.mouse) );
                 break;
 
             case "CHAT_DATA":

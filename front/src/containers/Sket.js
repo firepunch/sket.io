@@ -198,6 +198,7 @@ class Sket extends Component {
         const loading = (<Loading type="cylon" color="white"
                             height='667' width='375' className="loading-svg"/>)
 
+
         return(
             <div className="sket-root">
                 { this.props.fetchingUpdate ? loading : rendering }
