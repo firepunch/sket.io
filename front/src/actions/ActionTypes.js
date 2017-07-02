@@ -45,3 +45,6 @@ export const START_QUIZ     = "START_QUIZ";
 
 export const CANVAS_DATA    = "CANVAS_DATA";
 export const CHAT_DATA      = "CHAT_DATA";
+
+export const CORRECT_ANSWER = "CORRECT_ANSWER";
+export const ADD_SCORE      = "ADD_SCORE";

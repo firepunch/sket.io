@@ -62,9 +62,18 @@ class GameArea extends Component {
     // 다음 props는 함수의 인자로 받아올 수 있음
     componentWillReceiveProps(nextProps) {
 
-        // if (this.props.chat.correct === true) {
-        //
-        // }
+        /*
+        if (nextProps.chat.correct) {
+            if (nextProps.chat.userId === this.props.userId) {
+                // 현재 사용자가 정답을 맞췄다면
+
+            } else {
+                // 다른 사람이 정답을 맞춤
+
+            }
+        }
+        */
+
         if (chatList[chatList.length - 1] !== nextProps.chat) {
             chatList.push(nextProps.chat)
         }

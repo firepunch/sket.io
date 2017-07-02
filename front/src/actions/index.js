@@ -352,9 +352,24 @@ export function chatSend(roomId, userId, restTime, msg) {
     }
 }
 
+export function correctAnswer(score, userIndex) {
+    return {
+        type: types.CORRECT_ANSWER,
+        score,
+        userIndex
+    }
+}
+
 export function chatReceive(msg) {
     return {
         type: types.CHAT_DATA,
         chat: msg
     }
 }
+
+
+// export function getScore() {
+//     return {
+//         type: types.ADD_SCORE
+//     }
+// }

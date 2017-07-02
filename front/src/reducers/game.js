@@ -12,7 +12,8 @@ const initialState = {
 
     roomInfo: {},        // 방 정보 객체
     canvas: {},
-    chat: {}
+    chat: {},
+    score: {}
 }
 
 /*
@@ -107,6 +108,21 @@ export default function game(state=initialState, action) {
             return {
                 ...state,
                 chat: action.chat
+            }
+
+        case types.CORRECT_ANSWER:
+            return {
+                ...state,
+                roomInfo: {
+                    ...state.roomInfo,
+                    playerList: [
+                        ...state.roomInfo.playerList.slice(0, action.userIndex),
+                        Object.assign({}, state.roomInfo.playerList[action.userIndex], {
+                            score: action.score
+                        }),
+                        ...state.roomInfo.playerList.slice(action.userIndex + 1)
+                    ]
+                }
             }
 
         default:

@@ -39,6 +39,7 @@ class GameContent extends Component {
 
     render() {
 
+        /* 인원 수에 제한이 걸려있거나 방이 꽉 차있지 않을 때의 처리 */
         let playerList = this.props.playerList;
         let enable = new Array(3);
 
@@ -70,7 +71,7 @@ class GameContent extends Component {
                         color={ colors[index + 1] }
                         enable={ enable[index] }
                         isPlay={ this.props.isPlay }
-                        score={0}
+                        score={ data.score }
                         examinerId={ this.props.examinerId }
 
                         user={ playerList[index] }
