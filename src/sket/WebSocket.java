@@ -165,7 +165,6 @@ public class WebSocket {
                     );
                     targetRoom.setPlayingGame(true);
                     sendMessageToAllSession(RoomController.getRoomListAsJSON());
-                    targetRoom.setGameEnd(false);
                 } else {
                     masterSession.getBasicRemote().sendText(PlayerController.noReadyAllPlayerJSON(targetRoom));
                 }
@@ -307,7 +306,7 @@ public class WebSocket {
                         roomAction,
                         RoomController.getRoomStartQuizToJSON(
                                 targetRoom.getCurRound(),
-                                targetRoom.isGameEnd()
+                                !targetRoom.isPlayingGame()
                         )
                 );
                 break;
