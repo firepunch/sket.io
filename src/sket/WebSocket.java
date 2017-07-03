@@ -231,7 +231,7 @@ public class WebSocket {
                 // 정답 확인
                 if (msg.equals(targetRoom.getAnswer())) {
                     int restTime = jsonObject.getJSONObject("data").getInt("restTime");
-                    System.out.println("TIME     "+targetRoom.getTimeLimit()+"  ||  "+ restTime);
+                    System.out.println("TIME     " + targetRoom.getTimeLimit() + "  ||  " + restTime);
 
                     int addScore = QuizController.getScore(targetRoom.getTimeLimit(), restTime);
                     QuizController.addScore(senderId, addScore);
@@ -248,7 +248,7 @@ public class WebSocket {
                     jsonObject.getJSONObject("data").put("correct", "false");
                 }
 
-                System.out.println("CHAT_DATA 정보 : "+ jsonObject.toString());
+                System.out.println("CHAT_DATA 정보 : " + jsonObject.toString());
                 sendMessageToRoomMembers(roomAction, String.valueOf(jsonObject));
                 break;
 
