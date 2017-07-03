@@ -170,13 +170,16 @@ public class WebSocket {
                 }
                 break;
 
-            // 랜덤 출제자 선택해서 JSON 보냄
+            // 맞춘 사람이 출제자 되도록
             case "SET_EXAMINER":
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
 
                 if (targetRoom != null) {
-
+                    sendMessageToRoomMembers(
+                            roomAction,
+                            GameController.setExaminerToJSON(targetRoom, jsonObject.getJSONObject("data").getString("userId"))
+                    );
                 }
                 break;
 
@@ -242,6 +245,11 @@ public class WebSocket {
                         // 라운드 종료
                         //sendMessageToRoomMembers();
                         break;
+                    } else {
+                        sendMessageToRoomMembers(
+                                roomAction,
+                                GameController.setExaminerToJSON(targetRoom, jsonObject.getJSONObject("data").getString("userId"))
+                        );
                     }
                 } else {
                     jsonObject.getJSONObject("data").put("correct", "false");
@@ -281,7 +289,7 @@ public class WebSocket {
                 if (targetRoom.getTotalUserNumber() == 0) {
                     Room.getRoomList().remove(targetRoom);
                     sendMessageToAllSession(RoomController.removeRoomByJSON(targetRoom));
-                }else {
+                } else {
                     sendMessageToRoomMembers(
                             roomAction,
                             RoomController.getRoomInfoToJSON(targetRoom)

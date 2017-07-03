@@ -36,4 +36,14 @@ public class GameController extends HttpServlet {
 
         return message.toString();
     }
+
+    public static String setExaminerToJSON(Room targetRoom, String userId){
+        JSONObject message = new JSONObject();
+        message.put("type", "SET_EXAMINER");
+        JSONObject data = new JSONObject();
+        data.put("id", userId);
+        message.put("data", data);
+
+        return message.toString();
+    }
 }
