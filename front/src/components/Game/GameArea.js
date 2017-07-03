@@ -67,9 +67,8 @@ class GameArea extends Component {
                         // 출제자의 시간을 기준으로 하나의 요청만 보냄
                         this.props.handleTimeout(this.props.roomId);
                     }
-                    context.clearRect(0, 0, canvas.width, canvas.height);
-
-                    clearInterval(timer);   // 시간이 끝나면 setInterval 종료
+                    // context.clearRect(0, 0, canvas.width, canvas.height);
+                    // clearInterval(timer);   // 시간이 끝나면 setInterval 종료
                 }
             }
         }, 1000);
