@@ -50,7 +50,11 @@ public class QuizController extends HttpServlet {
     /* 문제 맞춘 시간에 따라 점수 측정 */
     public static int getScore(int total, int cur) {
         // 한 문제당 100점
-        int addScore = total / cur * 100;
+        int addScore;
+        if(cur==0)
+            addScore = total;
+        else
+            addScore = total / cur * 100;
 
         return addScore;
     }

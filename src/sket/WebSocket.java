@@ -103,7 +103,6 @@ public class WebSocket {
 
             // 방 들어갔을 때 보내는 JSON
             case "ENTER_ROOM":
-
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
 
                 if (targetRoom.getTotalUserNumber() < targetRoom.getUserMax()) {
@@ -226,12 +225,14 @@ public class WebSocket {
                 java.util.Date date = new java.util.Date();
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
-                jsonObject.getJSONObject("data").append("time", sdf.format(date));
-                jsonObject.getJSONObject("data").append("nick", player.getNickname());
+                jsonObject.getJSONObject("data").put("time", sdf.format(date));
+                jsonObject.getJSONObject("data").put("nick", player.getNickname());
 
                 // 정답 확인
                 if (msg.equals(targetRoom.getAnswer())) {
                     int restTime = jsonObject.getJSONObject("data").getInt("restTime");
+                    System.out.println("TIME     "+targetRoom.getTimeLimit()+"  ||  "+ restTime);
+
                     int addScore = QuizController.getScore(targetRoom.getTimeLimit(), restTime);
                     QuizController.addScore(senderId, addScore);
 
@@ -239,11 +240,12 @@ public class WebSocket {
                     jsonObject.getJSONObject("data").put("score", addScore);
 
                     if (targetRoom.getCurRound() == targetRoom.getRoundLimit()) {
+                        // 라운드 종료
                         //sendMessageToRoomMembers();
                         break;
                     }
                 } else {
-                    jsonObject.getJSONObject("data").append("correct", "false");
+                    jsonObject.getJSONObject("data").put("correct", "false");
                 }
 
                 System.out.println("CHAT_DATA 정보 : "+ jsonObject.toString());
@@ -255,7 +257,7 @@ public class WebSocket {
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
                 QuizController.minusScore(jsonObject.getJSONObject("data").getInt("roomId"), 10);
-                jsonObject.getJSONObject("data").append("score", 10);
+                jsonObject.getJSONObject("data").put("score", 10);
 
                 sendMessageToRoomMembers(roomAction, String.valueOf(jsonObject));
                 break;

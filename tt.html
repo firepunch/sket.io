@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>scroll demo</title>
+    <style>
+        div {
+            color: blue;
+        }
+        p {
+            color: green;
+        }
+        span {
+            color: red;
+            display: none;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+
+<div>Try scrolling the iframe.</div>
+<p>Paragraph - <span>Scroll happened!</span></p>
+
+<script>
+    $( "p" ).clone().appendTo( document.body );
+    $( "p" ).clone().appendTo( document.body );
+    $( "p" ).clone().appendTo( document.body );
+    $( window ).scroll(function() {
+        var h = $(window).scrollTop();
+        console.log(h);
+
+        $( "span" ).css( "display", "inline" ).fadeOut( "slow" );
+    });
+</script>
+
+</body>
+</html>
