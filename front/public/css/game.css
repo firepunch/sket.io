@@ -158,6 +158,11 @@
     color: black;
 }
 
+.quiz-result > p {
+    font-size: 2.5em;
+    color: black;
+}
+
 #canvas {
     border: 1px solid black;
     background: white;

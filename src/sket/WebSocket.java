@@ -24,7 +24,7 @@ import java.util.Map;
 
 /**
  * 게임과 연결하는 웹 소켓
- * Created by hojak,firepunch on 2017-04-06.
+ * Created on 2017-04-06.
  */
 
 @ServerEndpoint(value = "/websocket")
@@ -161,19 +161,21 @@ public class WebSocket {
                     );
                     targetRoom.setPlayingGame(true);
                     sendMessageToAllSession(RoomController.getRoomListAsJSON());
-                    targetRoom.setGameEnd(false);
                 } else {
                     masterSession.getBasicRemote().sendText(PlayerController.noReadyAllPlayerJSON(targetRoom));
                 }
                 break;
 
-            // 랜덤 출제자 선택해서 JSON 보냄
-            case "SET_EXAMIER":
+            // 맞춘 사람이 출제자 되도록
+            case "SET_EXAMINER":
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
 
                 if (targetRoom != null) {
-
+                    sendMessageToRoomMembers(
+                            roomAction,
+                            GameController.setExaminerToJSON(targetRoom, jsonObject.getJSONObject("data").getString("userId"))
+                    );
                 }
                 break;
 
@@ -219,14 +221,25 @@ public class WebSocket {
                 QuizAction quizAction = new QuizAction(targetRoom);
 
                 // 정답 확인 및 Json 생성
-                JSONObject result = quizAction.makeRepJson(jsonObject, msg, senderId, addScore);
-                result.getJSONObject("data").put("nick", player.getNickname());
+                JSONObject resultJson = quizAction.makeRepJson(jsonObject, msg, senderId, addScore);
+                resultJson.getJSONObject("data").put("nick", player.getNickname());
 
-                sendMessageToRoomMembers(roomAction, String.valueOf(jsonObject));
+                if (targetRoom.getCurRound() == targetRoom.getRoundLimit()) {
+                    // 라운드 종료
+                } else {
+                    sendMessageToRoomMembers(
+                            roomAction,
+                            GameController.setExaminerToJSON(targetRoom, jsonObject.getJSONObject("data").getString("userId"))
+                    );
+                }
+
+                System.out.println("CHAT_DATA 정보 : " + resultJson.toString());
+                sendMessageToRoomMembers(roomAction, String.valueOf(resultJson));
                 break;
 
             // 타임아웃일 때 전체 점수 감점 JSON
             case "GAME_TIMEOUT":
+                System.out.println("DATA:::    " + jsonObject);
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
                 QuizController.minusScore(jsonObject.getJSONObject("data").getInt("roomId"), 10);
@@ -252,25 +265,24 @@ public class WebSocket {
 
                 targetRoom.deletePlayer(player.getId());
 
-                sendMessageToRoomMembers(
-                        roomAction,
-                        RoomController.getRoomInfoToJSON(targetRoom)
-                );
-
                 if (targetRoom.getTotalUserNumber() == 0) {
                     Room.getRoomList().remove(targetRoom);
                     sendMessageToAllSession(RoomController.removeRoomByJSON(targetRoom));
-                }
+                } else {
+                    sendMessageToRoomMembers(
+                            roomAction,
+                            RoomController.getRoomInfoToJSON(targetRoom)
+                    );
 
-                if (player.isMaster()) {
-                    targetRoom.setRoomMaster(roomAction.getRandomExaminer());
-                }
+                    if (player.isMaster()) {
+                        targetRoom.setRoomMaster(roomAction.getRandomExaminer());
+                    }
 
-                System.out.println("방 정보 : " + RoomController.getRoomInfoToJSON(targetRoom));
-                sendMessageToRoomMembers(
-                        roomAction,
-                        RoomController.getRoomInfoToJSON(targetRoom)
-                );
+                    sendMessageToRoomMembers(
+                            roomAction,
+                            RoomController.getRoomInfoToJSON(targetRoom)
+                    );
+                }
                 break;
 
             case "START_QUIZ":
@@ -281,7 +293,7 @@ public class WebSocket {
                         roomAction,
                         RoomController.getRoomStartQuizToJSON(
                                 targetRoom.getCurRound(),
-                                targetRoom.isGameEnd()
+                                !targetRoom.isPlayingGame()
                         )
                 );
                 break;
@@ -328,7 +340,6 @@ public class WebSocket {
                 }
                 Room.getRoomList().remove(targetRoom);
             } else {
-
                 if (player.isMaster()) {
                     targetRoom.setRoomMaster(roomAction.getRandomExaminer());
                 }

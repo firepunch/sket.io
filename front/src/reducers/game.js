@@ -5,15 +5,16 @@ const initialState = {
     isGame: false,      // 게임 입장
     isPlay: false,      // 게임 시작 여부
     isQuiz: false,      // 퀴즈가 시작했는지. 한 개의 퀴즈가 끝날 때마다 false가 되어야 함
+    isTimer: false,
 
     quiz: {},           // 받은 퀴즈
     roundInfo: {},      // 라운드 정보
     examinerId: '',     // 문제 출제자 아이디
+    score: 0,           // 자기 자신의  점수
 
     roomInfo: {},        // 방 정보 객체
     canvas: {},
-    chat: {},
-    score: {}
+    chat: {}
 }
 
 /*
@@ -98,6 +99,12 @@ export default function game(state=initialState, action) {
                 isQuiz: true
             }
 
+        case types.START_TIMER:
+            return {
+                ...state,
+                isTimer: true
+            }
+
         case types.CANVAS_DATA:
             return {
                 ...state,
@@ -110,7 +117,7 @@ export default function game(state=initialState, action) {
                 chat: action.chat
             }
 
-        case types.CORRECT_ANSWER:
+        case types.OTHER_CORRECT_ANSWER:
             return {
                 ...state,
                 roomInfo: {
@@ -118,11 +125,21 @@ export default function game(state=initialState, action) {
                     playerList: [
                         ...state.roomInfo.playerList.slice(0, action.userIndex),
                         Object.assign({}, state.roomInfo.playerList[action.userIndex], {
-                            score: action.score
+                            score: state.roomInfo.playerList[action.userIndex].score + action.score
                         }),
                         ...state.roomInfo.playerList.slice(action.userIndex + 1)
                     ]
-                }
+                },
+                isQuiz: false,
+                isTimer: false,
+                quiz: '',
+                examinerId: ''
+            }
+
+        case types.CORRECT_ANSWER:
+            return {
+                ...state,
+                score: state.score + action.score
             }
 
         default:

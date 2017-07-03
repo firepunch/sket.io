@@ -25,11 +25,9 @@ public class Room {
     private int timeLimit = 0;
     private boolean playingGame = false;
     private int roundLimit = 0;
-    private int curRound = 1;
-    private boolean gameEnd = true;
+    private int curRound = 0;
 
     public Room(String name, Player roomMaster, int roomId, boolean isLock, String pwd, int userMax, int timeLimit, int roundLimit) {
-        this.gameEnd = true;
         this.roomName = name;
         this.roomMaster = roomMaster;
         this.roomId = roomId;
@@ -55,15 +53,6 @@ public class Room {
 
         playerList.add(roomMaster);
     }
-
-    public boolean isGameEnd() {
-        return gameEnd;
-    }
-
-    public void setGameEnd(boolean gameEnd) {
-        this.gameEnd = gameEnd;
-    }
-
     public String getAnswer() {
         return answer;
     }

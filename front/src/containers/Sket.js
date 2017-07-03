@@ -169,22 +169,27 @@ class Sket extends Component {
                     user={ this.props.user }
                     playerList={ this.props.roomInfo.playerList }
                     roomInfo={ this.props.roomInfo }
-                    canvas={ this.props.canvas }
 
                     examinerId={ this.props.examinerId }
                     quiz={ this.props.quiz }
                     roundInfo={ this.props.roundInfo }
 
+                    canvas={ this.props.canvas }
                     chat={ this.props.chat }
+                    score={ this.props.score }
 
                     isReady={ this.props.isReady }
                     isPlay={ this.props.isPlay }
                     isQuiz={ this.props.isQuiz }
+                    isTimer={ this.props.isTimer }
 
                     handleRequestExitRoom={ this.props.handleRequestExitRoom }
                     handleExitRoom={ this.props.handleExitRoom }
                     handleGetReady={ this.props.handleGetReady }
                     handleStartGame={ this.props.handleStartGame }
+                    handleStartTimer={ this.props.handleStartTimer }
+                    handleTimeout={ this.props.handleTimeout }
+
                     handlequizStart={ this.props.handlequizStart }
                     handleCanvasData={ this.props.handleCanvasData }
                     handleChatData={ this.props.handleChatData }
@@ -218,9 +223,9 @@ const mapStateToProps = (state) => {
     const { userList, roomList, ranking, isShowRanking } = state.main;
 
     const { isGame, roomInfo } = state.game;
-    const { isReady, isPlay } = state.game;
+    const { isReady, isPlay, isTimer } = state.game;
     const { examinerId, quiz, roundInfo, isQuiz } = state.game;
-    const { canvas, chat } = state.game;
+    const { canvas, chat, score } = state.game;
 
     return {
         /* 로그인 */
@@ -245,13 +250,15 @@ const mapStateToProps = (state) => {
         isReady,
         isPlay,
         isQuiz,
+        isTimer,
 
         examinerId,
         quiz,
         roundInfo,
 
         canvas,
-        chat
+        chat,
+        score
     };
 }
 
@@ -276,9 +283,12 @@ const mapDispatchToProps = (dispatch) => {
         handleExitRoom: () => { dispatch(actions.exitRoom()) },
         handleGetReady: (roomId, userId, isReady) => { dispatch(actions.getReady(roomId, userId, isReady)) },
         handleStartGame: (roomId, userId) => { dispatch(actions.requestStartGame(roomId, userId)) },
+        handleStartTimer: () => { dispatch(actions.startTimer()) },
+
         handleCanvasData: (data) => { dispatch(actions.drawCanvas(data)) },
         handleChatData: (roomId, userId, restTime, msg) => { dispatch(actions.chatSend(roomId, userId, restTime, msg)) },
-        handlequizStart: (roomId) => { dispatch(actions.requestQuizStart(roomId)) }
+        handlequizStart: (roomId) => { dispatch(actions.requestQuizStart(roomId)) },
+        handleTimeout: (roomId) => { dispatch(actions.timeout(roomId)) }
     };
 }
 

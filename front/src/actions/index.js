@@ -324,6 +324,12 @@ export function quizStart(roundInfo) {
     }
 }
 
+export function startTimer() {
+    return {
+        type: types.START_TIMER
+    }
+}
+
 export function drawCanvas(data) {
     return {
         type: types.SEND_MESSAGE,
@@ -352,11 +358,18 @@ export function chatSend(roomId, userId, restTime, msg) {
     }
 }
 
-export function correctAnswer(score, userIndex) {
+export function otherCorrectAnswer(score, userIndex) {
     return {
-        type: types.CORRECT_ANSWER,
+        type: types.OTHER_CORRECT_ANSWER,
         score,
         userIndex
+    }
+}
+
+export function correctAnswer(score) {
+    return {
+        type: types.CORRECT_ANSWER,
+        score
     }
 }
 
@@ -367,9 +380,10 @@ export function chatReceive(msg) {
     }
 }
 
-
-// export function getScore() {
-//     return {
-//         type: types.ADD_SCORE
-//     }
-// }
+export function timeout(roomId) {
+    return {
+        type: types.SEND_MESSAGE,
+        msg_type: types.GAME_TIMEOUT,
+        roomId
+    }
+}

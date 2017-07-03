@@ -68,7 +68,7 @@ const socketMiddleware = (() => {
                 store.dispatch( actions.startGame() );
                 break;
 
-            case "RANDOM_EXAMINER": // 게임을 처음 시작했을 때 랜덤 출제자 선정 및 퀴즈 요청
+            case "SET_EXAMINER": // 게임을 시작했을 때 랜덤 출제자 선정 및 퀴즈 요청
                 store.dispatch( actions.setExaminer(msg.data.id) );
 
                 if (store.getState().login.user.id === msg.data.id) {
@@ -78,7 +78,10 @@ const socketMiddleware = (() => {
                 break;
 
             case "RANDOM_QUIZ":
+            // 퀴즈를 받는 것은 문제 출제자 뿐임
+            // 그렇기 때문에 출제자가 서버에게 START_QUIZ 요청을 해야 함
                 store.dispatch( actions.getQuiz(msg.data.id, msg.data.quiz) );
+                store.dispatch( actions.requestQuizStart(store.getState().game.roomInfo.roomId) );
                 break;
 
             case "START_QUIZ":
@@ -92,10 +95,13 @@ const socketMiddleware = (() => {
             case "CHAT_DATA":
                 if (msg.data.correct) {
                     let playerList = store.getState().game.roomInfo.playerList;
+                    let playerId   = store.getState().login.user.id;
 
                     for (let i in playerList) {
                         if (msg.data.userId === playerList[i].id) {
-                            store.dispatch( actions.correctAnswer(msg.data.score, i) );
+                            store.dispatch( actions.otherCorrectAnswer(msg.data.score, i) );
+                        } else if (msg.data.userId === playerId) {
+                            store.dispatch( actions.correctAnswer(msg.data.score) );
                         }
                     }
                 }

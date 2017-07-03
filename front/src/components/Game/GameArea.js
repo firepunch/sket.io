@@ -45,16 +45,6 @@ class GameArea extends Component {
         //Variables
         canvas = document.getElementById('canvas');
         ctx = canvas.getContext('2d');
-
-        // 일단 이 부분의 구현은 나중으로 미루자.(시작 시점을 언제로 잡아야할지 잘 모르겠음)
-        setInterval(() => {
-            if (this.props.isQuiz && this.state.time > 0)  {   // 퀴즈가 진행중일 때
-                this.setState({
-                    ...this.state,
-                    time: this.state.time - 1
-                })
-            }
-        }, 1000);
     }
 
     // 컴포넌트의 props가 update 되기 전에 실행됨
@@ -62,46 +52,59 @@ class GameArea extends Component {
     // 다음 props는 함수의 인자로 받아올 수 있음
     componentWillReceiveProps(nextProps) {
 
-        /*
         if (nextProps.chat.correct) {
-            if (nextProps.chat.userId === this.props.userId) {
-                // 현재 사용자가 정답을 맞췄다면
+            this.addQuizResultModal('정답', nextProps.chat.nick, nextProps.chat.msg, nextProps.chat.score);
 
-            } else {
-                // 다른 사람이 정답을 맞춤
-
-            }
+            // if (nextProps.chat.userId === this.props.userId) {
+            //     // 현재 사용자가 정답을 맞췄다면
+            //
+            // } else {
+            //     // 다른 사람이 정답을 맞춤
+            //
+            // }
         }
-        */
+
+
+        if (nextProps.isQuiz && nextProps.isTimer) {
+            // 일단 이 부분의 구현은 나중으로 미루자.(시작 시점을 언제로 잡아야할지 잘 모르겠음)
+            setInterval(() => {
+                if (this.state.time > 0) {
+                    // 퀴즈가 진행중일 때
+                    this.setState({
+                        ...this.state,
+                        time: this.state.time - 1
+                    })
+                }
+            }, 1000);
+        }
 
         if (chatList[chatList.length - 1] !== nextProps.chat) {
             chatList.push(nextProps.chat)
         }
-        console.log(chatList);
-
 
         // 문제 출제자일 때 보여지는 모달
-        if (this.state.isModal) {
+        if (nextProps.isQuiz && this.state.isModal) {
             if (this.props.userId === this.props.examinerId
                 && typeof nextProps.quiz.quiz !== 'undefined') {
-                    this.addModal(nextProps.quiz.quiz);
+                    this.addQuizModal(nextProps.quiz.quiz);
                     this.setState({
                         ...this.state,
                         isModal: false
                     })
             }
-        }
-
-        // 문제 출제자가 아닐 때 보여지는 모달
-        if (nextProps.isQuiz && this.state.isModal) {
             if (this.props.userId !== this.props.examinerId) {
-                this.addModal('문제를 출제 중입니다...');
+                this.addQuizModal('문제를 출제 중입니다...');
                 this.setState({
                     ...this.state,
                     isModal: false
                 })
             }
         }
+
+        // 문제 출제자가 아닐 때 보여지는 모달
+        // if (nextProps.isQuiz && this.state.isModal) {
+        //
+        // }
 
 
         canvasx = $("#canvas").offset().left;   // 캔버스의 x 좌표값
@@ -139,7 +142,7 @@ class GameArea extends Component {
     render() {
 
         if (this.state.time <= 0) {
-            // this.props.handleTimeout();
+            this.props.handleTimeout(this.props.roomId);
             console.log('timeout');
         }
 
@@ -231,6 +234,20 @@ class GameArea extends Component {
         );
     }
 
+    startTimer() {
+        if (this.props.isQuiz) {
+            setInterval(() => {
+                if (this.state.time > 0) {
+                    // 퀴즈가 진행중일 때
+                    this.setState({
+                        ...this.state,
+                        time: this.state.time - 1
+                    })
+                }
+            }, 1000);
+        }
+    }
+
     handleMouseDown(e) {
         // clientX, clientY : element를 클릭했을 때의 좌표 값
         last_mousex = mousex = parseInt(e.clientX - canvasx);
@@ -272,7 +289,8 @@ class GameArea extends Component {
             };
 
             this.props.handleCanvasData(msg);
-        }
+        }            handleTimeout: this.props.handleTimeout
+
     }
 
     handleChatChange(evt) {
@@ -306,27 +324,47 @@ class GameArea extends Component {
     //     <img src={"img/eraser-icon.png"} onClick={ () => this.useTool('erase') } />
     // </div>
 
-    addModal(quiz) {
-        modal.add(modalComponent, {
+    addQuizModal(quiz) {
+        modal.add(QuizModal, {
             title: '문제',
             size: 'large', // large, medium or small,
             closeOnOutsideClick: false, // (optional) Switch to true if you want to close the modal by clicking outside of it,
             hideTitleBar: false, // (optional) Switch to true if do not want the default title bar and close button,
             hideCloseButton: true, // (optional) if you don't wanna show the top right close button
             quiz: quiz,
-            handlequizStart: this.props.handlequizStart,
-            roomId: this.props.roomId
+            roomId: this.props.roomId,
+            userId: this.props.userId,
+            examinerId: this.props.examinerId,
+            startTimer: this.props.handleStartTimer
+            // handlequizStart: this.props.handlequizStart,
             //.. all what you put in here you will get access in the modal props ;)
+        });
+    }
+
+    addQuizResultModal(title, nick, answer, score) {
+        modal.add(QuizResultModal, {
+            title: title,
+            size: 'large',
+            closeOnOutsideClick: false,
+            hideTitleBar: false,
+            hideCloseButton: true,
+
+            nick: nick,
+            answer: answer,
+            score: score
         });
     }
 }
 
-class modalComponent extends Component {
+class QuizModal extends Component {
 
     componentDidMount() {
-        this.props.handlequizStart(this.props.roomId);
         setTimeout(() => {
+            // if (this.props.userId === this.props.examinerId) {
+            //     this.props.handlequizStart(this.props.roomId);
+            // }
             this.removeThisModal();
+            this.props.startTimer();
         }, 3000);
     }
 
@@ -340,6 +378,24 @@ class modalComponent extends Component {
                 <p>{ this.props.quiz }</p>
             </div>
         );
+    }
+}
+
+class QuizResultModal extends Component {
+    componentDidMount() {
+        setTimeout(() => {
+            this.props.removeModal();
+        }, 3000);
+    }
+
+    render() {
+        return (
+            <div className="show-quiz quiz-result">
+                <p>{ this.props.nick }</p>
+                <p>{ this.props.answer }</p>
+                <p>{ this.props.score }</p>
+            </div>
+        )
     }
 }
 

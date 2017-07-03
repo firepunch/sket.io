@@ -51,10 +51,10 @@ public class QuizAction {
         boolean correct = compareAnswer(msg);
         if (correct) { // 문제를 맞히면
             QuizController.addScore(senderId, addScore);
-            jsonObject.getJSONObject("data").put("correct", "true");
+            jsonObject.getJSONObject("data").put("correct", correct);
             jsonObject.getJSONObject("data").put("score", addScore);
         } else {
-            jsonObject.getJSONObject("data").put("correct", "false");
+            jsonObject.getJSONObject("data").put("correct", correct);
         }
         jsonObject.getJSONObject("data").put("time", sdf.format(date));
 

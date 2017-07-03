@@ -101,6 +101,7 @@
             isReady: 준비 여부, <br>
             id: 아이디, <br>
             master: 방장 <br>
+	    score : 점수
             }...]
         </td>
     </tr>
@@ -282,5 +283,14 @@
             <br>&nbsp;}, ...]
         </td>
     </tr>
+    <tr>
+	<td>출제자 변경</td>
+	<td></td>
+	<td>
+		type : SET_EXAMINER,<br>
+		id : (유저 아이디)
+	</td>
+
+</tr>
     </tbody>
 </table>
