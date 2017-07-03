@@ -52,17 +52,18 @@ class GameArea extends Component {
     // 다음 props는 함수의 인자로 받아올 수 있음
     componentWillReceiveProps(nextProps) {
 
-        /*
         if (nextProps.chat.correct) {
-            if (nextProps.chat.userId === this.props.userId) {
-                // 현재 사용자가 정답을 맞췄다면
+            this.addQuizResultModal('정답', nextProps.chat.nick, nextProps.chat.msg, nextProps.chat.score);
 
-            } else {
-                // 다른 사람이 정답을 맞춤
-
-            }
+            // if (nextProps.chat.userId === this.props.userId) {
+            //     // 현재 사용자가 정답을 맞췄다면
+            //
+            // } else {
+            //     // 다른 사람이 정답을 맞춤
+            //
+            // }
         }
-        */
+
 
         if (nextProps.isQuiz && nextProps.isTimer) {
             // 일단 이 부분의 구현은 나중으로 미루자.(시작 시점을 언제로 잡아야할지 잘 모르겠음)
@@ -85,14 +86,14 @@ class GameArea extends Component {
         if (nextProps.isQuiz && this.state.isModal) {
             if (this.props.userId === this.props.examinerId
                 && typeof nextProps.quiz.quiz !== 'undefined') {
-                    this.addModal(nextProps.quiz.quiz);
+                    this.addQuizModal(nextProps.quiz.quiz);
                     this.setState({
                         ...this.state,
                         isModal: false
                     })
             }
             if (this.props.userId !== this.props.examinerId) {
-                this.addModal('문제를 출제 중입니다...');
+                this.addQuizModal('문제를 출제 중입니다...');
                 this.setState({
                     ...this.state,
                     isModal: false
@@ -141,7 +142,7 @@ class GameArea extends Component {
     render() {
 
         if (this.state.time <= 0) {
-            // this.props.handleTimeout();
+            this.props.handleTimeout(this.props.roomId);
             console.log('timeout');
         }
 
@@ -288,7 +289,8 @@ class GameArea extends Component {
             };
 
             this.props.handleCanvasData(msg);
-        }
+        }            handleTimeout: this.props.handleTimeout
+
     }
 
     handleChatChange(evt) {
@@ -322,8 +324,8 @@ class GameArea extends Component {
     //     <img src={"img/eraser-icon.png"} onClick={ () => this.useTool('erase') } />
     // </div>
 
-    addModal(quiz) {
-        modal.add(modalComponent, {
+    addQuizModal(quiz) {
+        modal.add(QuizModal, {
             title: '문제',
             size: 'large', // large, medium or small,
             closeOnOutsideClick: false, // (optional) Switch to true if you want to close the modal by clicking outside of it,
@@ -338,9 +340,23 @@ class GameArea extends Component {
             //.. all what you put in here you will get access in the modal props ;)
         });
     }
+
+    addQuizResultModal(title, nick, answer, score) {
+        modal.add(QuizResultModal, {
+            title: title,
+            size: 'large',
+            closeOnOutsideClick: false,
+            hideTitleBar: false,
+            hideCloseButton: true,
+
+            nick: nick,
+            answer: answer,
+            score: score
+        });
+    }
 }
 
-class modalComponent extends Component {
+class QuizModal extends Component {
 
     componentDidMount() {
         setTimeout(() => {
@@ -362,6 +378,24 @@ class modalComponent extends Component {
                 <p>{ this.props.quiz }</p>
             </div>
         );
+    }
+}
+
+class QuizResultModal extends Component {
+    componentDidMount() {
+        setTimeout(() => {
+            this.props.removeModal();
+        }, 3000);
+    }
+
+    render() {
+        return (
+            <div className="show-quiz quiz-result">
+                <p>{ this.props.nick }</p>
+                <p>{ this.props.answer }</p>
+                <p>{ this.props.score }</p>
+            </div>
+        )
     }
 }
 

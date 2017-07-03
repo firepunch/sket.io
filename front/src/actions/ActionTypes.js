@@ -50,3 +50,4 @@ export const CHAT_DATA      = "CHAT_DATA";
 export const OTHER_CORRECT_ANSWER = "OTHER_CORRECT_ANSWER";
 export const CORRECT_ANSWER = "CORRECT_ANSWER";
 export const ADD_SCORE      = "ADD_SCORE";
+export const GAME_TIMEOUT   = "GAME_TIMEOUT";

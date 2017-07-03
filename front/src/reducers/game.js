@@ -125,17 +125,21 @@ export default function game(state=initialState, action) {
                     playerList: [
                         ...state.roomInfo.playerList.slice(0, action.userIndex),
                         Object.assign({}, state.roomInfo.playerList[action.userIndex], {
-                            score: action.score
+                            score: state.roomInfo.playerList[action.userIndex].score + action.score
                         }),
                         ...state.roomInfo.playerList.slice(action.userIndex + 1)
                     ]
-                }
+                },
+                isQuiz: false,
+                isTimer: false,
+                quiz: '',
+                examinerId: ''
             }
 
         case types.CORRECT_ANSWER:
             return {
                 ...state,
-                score: action.score
+                score: state.score + action.score
             }
 
         default:
