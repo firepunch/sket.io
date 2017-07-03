@@ -12,6 +12,12 @@ const defaultProps = {
     canvas: {}
 };
 
+// 모달이 두 번 호출되는 문제 해결
+// 퀴즈 하나가 끝나고 다음으로 넘어가는 처리 구현
+
+// 문제 출제 및 처리를 모두 middleware 에서 처리하기 때문에 UI에 어떻게 반영해야할지 모르겠음
+
+
 //Canvas
 var canvas;
 var context;
@@ -36,8 +42,7 @@ class GameArea extends Component {
 
         this.state = {
             chat: '',
-            time: this.props.roomInfo.timeLimit,
-            isQuizModal: true
+            time: this.props.roomInfo.timeLimit
         }
     }
     componentDidMount() {
@@ -64,7 +69,6 @@ class GameArea extends Component {
 
                     clearInterval(timer);   // 시간이 끝나면 setInterval 종료
                 }
-                console.log('시간: ' + this.state.time);
             }
         }, 1000);
     }
@@ -74,6 +78,7 @@ class GameArea extends Component {
     // 다음 props는 함수의 인자로 받아올 수 있음
     componentWillReceiveProps(nextProps) {
 
+        // QUIZ RESULT MODAL
         if (nextProps.chat.correct) {
             this.addQuizResultModal('정답', nextProps.chat.nick, nextProps.chat.msg, nextProps.chat.score);
         }
@@ -82,26 +87,19 @@ class GameArea extends Component {
             chatList.push(nextProps.chat)
         }
 
-        if (nextProps.isQuiz && this.state.isQuizModal) {
+        // QUIZ MODAL
+        if (nextProps.isQuiz && this.props.isQuizModal && this.props.modals.length < 2) {
             if (this.props.userId === this.props.examinerId
                 && typeof nextProps.quiz.quiz !== 'undefined') {
                 // 문제 출제자일 때 보여지는 모달
-                console.log('시발')
-                this.setState({
-                    ...this.state,
-                    isQuizModal: false
-                })
+                // this.props.handleQuizModal();
+                console.log("examiner modal")
                 this.addQuizModal(nextProps.quiz.quiz);
             } else if (this.props.userId !== this.props.examinerId) {
                 // 문제 출제자가 아닐 때
-                console.log('염병')
-                this.setState({
-                    ...this.state,
-                    isQuizModal: false
-                })
+                // this.props.handleQuizModal();
+                console.log("responser modal")
                 this.addQuizModal('문제를 출제 중입니다...');
-            } else {
-                this.addQuizModal('오류 발생');
             }
         }
 
@@ -109,13 +107,16 @@ class GameArea extends Component {
             // 라운드가 바뀌었을 때의 처리
             this.setState({
                 ...this.state,
-                time: this.props.roomInfo.timeLimit,
-                isQuizModal: true
+                time: this.props.roomInfo.timeLimit
             })
+            if (nextProps.roundInfo > 1) {
+                console.log('라운드가 바뀜');
+                this.props.handleQuizModal(true);
+            }
             context.clearRect(0, 0, canvas.width, canvas.height);
         }
 
-        if (nextProps.isTimeoutModal) {
+        if (nextProps.isTimeoutModal && this.props.modals.length < 2) {
             // timeout 메시지를 받았을 때 모달을 띄워줌
             let timeoutScore = this.props.roomInfo.playerList[0].score
                                 - nextProps.roomInfo.playerList[0].score
@@ -332,8 +333,10 @@ class GameArea extends Component {
             roomId: this.props.roomId,
             userId: this.props.userId,
             examinerId: this.props.examinerId,
+
+            handlequizStart: this.props.handlequizStart,
+            handleQuizModal: this.props.handleQuizModal,
             startTimer: this.props.handleStartTimer
-            // handlequizStart: this.props.handlequizStart,
             //.. all what you put in here you will get access in the modal props ;)
         });
     }
@@ -358,9 +361,16 @@ class GameArea extends Component {
 class QuizModal extends Component {
 
     componentDidMount() {
+        console.log('QUIZ MODAL');
+        this.props.handleQuizModal(false);
         setTimeout(() => {
             this.props.removeModal();
             this.props.startTimer();
+            if (this.props.userId === this.props.examinerId) {
+                // 문제 출제자일 때만 함수 호출
+                console.log('handlequizStart')
+                // this.props.handlequizStart(this.props.roomId);
+            }
         }, 3000);
     }
 
@@ -375,6 +385,7 @@ class QuizModal extends Component {
 
 class QuizResultModal extends Component {
     componentDidMount() {
+        console.log('QUIZ RESULT MODAL');
         setTimeout(() => {
             this.props.removeModal();
         }, 3000);

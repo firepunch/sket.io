@@ -51,4 +51,6 @@ export const OTHER_CORRECT_ANSWER = "OTHER_CORRECT_ANSWER";
 export const CORRECT_ANSWER = "CORRECT_ANSWER";
 export const ADD_SCORE      = "ADD_SCORE";
 export const GAME_TIMEOUT   = "GAME_TIMEOUT";
+
+export const QUIZ_MODAL     = "QUIZ_MODAL";
 export const TIMEOUT_MODAL  = "TIMEOUT_MODAL";

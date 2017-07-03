@@ -397,6 +397,15 @@ export function noticeTimeout(roomId) {
     }
 }
 
+export function quizModal(bool) {
+    return {
+        type: types.QUIZ_MODAL,
+        bool
+    }
+}
+
+// export function
+
 export function timeoutModal() {
     return {
         type: types.TIMEOUT_MODAL

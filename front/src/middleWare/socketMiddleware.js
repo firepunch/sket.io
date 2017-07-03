@@ -78,8 +78,8 @@ const socketMiddleware = (() => {
                 break;
 
             case "RANDOM_QUIZ":
-            // 퀴즈를 받는 것은 문제 출제자 뿐임
-            // 그렇기 때문에 출제자가 서버에게 START_QUIZ 요청을 해야 함
+                // 퀴즈를 받는 것은 문제 출제자 뿐임
+                // 그렇기 때문에 출제자가 서버에게 START_QUIZ 요청을 해야 함
                 store.dispatch( actions.getQuiz(msg.data.id, msg.data.quiz) );
                 store.dispatch( actions.requestQuizStart(store.getState().game.roomInfo.roomId) );
                 break;

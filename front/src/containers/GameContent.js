@@ -92,9 +92,13 @@ class GameContent extends Component {
                     roundInfo={ this.props.roundInfo }
                     chat={ this.props.chat }
 
+                    modals={ this.props.modals }
+
                     handlequizStart={ this.props.handlequizStart }
                     handleStartTimer={ this.props.handleStartTimer }
                     handleTimeout={ this.props.handleTimeout }
+
+                    handleQuizModal={ this.props.handleQuizModal }
                     handleTimeoutModal={ this.props.handleTimeoutModal }
 
                     handleCanvasData={ this.props.handleCanvasData }
@@ -102,6 +106,8 @@ class GameContent extends Component {
 
                     isQuiz={ this.props.isQuiz }
                     isTimer={ this.props.isTimer }
+
+                    isQuizModal={ this.props.isQuizModal }
                     isTimeoutModal={ this.props.isTimeoutModal }
             />
         )
