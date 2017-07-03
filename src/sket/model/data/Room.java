@@ -25,7 +25,7 @@ public class Room {
     private int timeLimit = 0;
     private boolean playingGame = false;
     private int roundLimit = 0;
-    private int curRound = 1;
+    private int curRound = 0;
     private boolean gameEnd = true;
 
     public Room(String name, Player roomMaster, int roomId, boolean isLock, String pwd, int userMax, int timeLimit, int roundLimit) {
