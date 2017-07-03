@@ -177,7 +177,7 @@ export default function game(state=initialState, action) {
                 isQuiz: false,
                 isTimer: false,
                 // isQuizModal: true,
-                isQuizResultModal: true,
+                isQuizResultModal: false,
                 isTimeoutModal: true,
                 score: state.score - action.score,
                 timeoutScore

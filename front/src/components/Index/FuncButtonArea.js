@@ -158,10 +158,11 @@ class modalComponent extends Component {
         } else if (this.state.limitRound < 1 || this.state.limitRound > 10) {
             alert("유효한 숫자를 입력해주세요. &nbsp;최대 10라운드까지 진행할 수 있습니다.");
             isValid = false;
-        } else if (this.state.password.length < 20) {
-            alert("비밀번호는 20자 이내로 해주세요");
-            isValid = false;
         }
+        // else if (this.state.password.length < 20) {
+        //     alert("비밀번호는 20자 이내로 해주세요");
+        //     isValid = false;
+        // }
 
         if (isValid) {
             this.props.handleCreateRoom({
@@ -169,9 +170,8 @@ class modalComponent extends Component {
                 lock: !(this.state.password == null),
                 master: this.props.userId
             });
+            this.removeThisModal();
         }
-
-        this.removeThisModal();
     }
 
     chkword(obj, maxByte) {

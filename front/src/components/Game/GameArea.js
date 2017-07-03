@@ -406,9 +406,9 @@ class QuizResultModal extends Component {
     render() {
         return (
             <div className="show-quiz quiz-result">
-                <p>{ this.props.nick }</p>
-                <p>{ this.props.answer }</p>
-                <p>{ this.props.score }</p>
+                <p>{ this.props.nick }</p>&nbsp;
+                <p>{ '답: ' + this.props.answer }</p>&nbsp;
+                <p>{ '점수: ' + this.props.score }</p>
             </div>
         )
     }
