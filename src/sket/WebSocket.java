@@ -279,25 +279,24 @@ public class WebSocket {
 
                 targetRoom.deletePlayer(player.getId());
 
-                sendMessageToRoomMembers(
-                        roomAction,
-                        RoomController.getRoomInfoToJSON(targetRoom)
-                );
-
                 if (targetRoom.getTotalUserNumber() == 0) {
                     Room.getRoomList().remove(targetRoom);
                     sendMessageToAllSession(RoomController.removeRoomByJSON(targetRoom));
-                }
+                }else {
+                    sendMessageToRoomMembers(
+                            roomAction,
+                            RoomController.getRoomInfoToJSON(targetRoom)
+                    );
 
-                if (player.isMaster()) {
-                    targetRoom.setRoomMaster(roomAction.getRandomExaminer());
-                }
+                    if (player.isMaster()) {
+                        targetRoom.setRoomMaster(roomAction.getRandomExaminer());
+                    }
 
-                System.out.println("방 정보 : " + RoomController.getRoomInfoToJSON(targetRoom));
-                sendMessageToRoomMembers(
-                        roomAction,
-                        RoomController.getRoomInfoToJSON(targetRoom)
-                );
+                    sendMessageToRoomMembers(
+                            roomAction,
+                            RoomController.getRoomInfoToJSON(targetRoom)
+                    );
+                }
                 break;
 
             case "START_QUIZ":
@@ -355,7 +354,6 @@ public class WebSocket {
                 }
                 Room.getRoomList().remove(targetRoom);
             } else {
-
                 if (player.isMaster()) {
                     targetRoom.setRoomMaster(roomAction.getRandomExaminer());
                 }
