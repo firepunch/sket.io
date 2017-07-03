@@ -404,7 +404,12 @@ export function quizModal(bool) {
     }
 }
 
-// export function
+export function quizResultModal(bool) {
+    return {
+        type: types.QUIZ_RESULT_MODAL,
+        bool
+    }
+}
 
 export function timeoutModal() {
     return {

@@ -8,6 +8,7 @@ const initialState = {
     isTimer: false,
     isTimeoutModal: false,
     isQuizModal: true,
+    isQuizResultModal: true,
 
     quiz: {},           // 받은 퀴즈
     roundInfo: {},      // 라운드 정보
@@ -98,7 +99,8 @@ export default function game(state=initialState, action) {
             return {
                 ...state,
                 roundInfo: action.roundInfo,
-                isQuiz: true
+                isQuiz: true,
+                isQuizResultModal: true
                 // quiz: 'ENJOY IT!!'
             }
 
@@ -134,9 +136,7 @@ export default function game(state=initialState, action) {
                     ]
                 },
                 isQuiz: false,
-                isTimer: false,
-                quiz: '',
-                examinerId: ''
+                isTimer: false
             }
 
         case types.CORRECT_ANSWER:
@@ -144,9 +144,7 @@ export default function game(state=initialState, action) {
                 ...state,
                 score: state.score + action.score,
                 isQuiz: false,
-                isTimer: false,
-                quiz: '',
-                examinerId: ''
+                isTimer: false
             }
 
         case types.GAME_TIMEOUT:
@@ -169,9 +167,9 @@ export default function game(state=initialState, action) {
                 roomInfo: timeoutScore,
                 isQuiz: false,
                 isTimer: false,
+                // isQuizModal: true,
+                isQuizResultModal: true,
                 isTimeoutModal: true,
-                quiz: '',
-                examinerId: '',
                 score: state.score - action.score,
                 timeoutScore
             }
@@ -180,6 +178,12 @@ export default function game(state=initialState, action) {
             return {
                 ...state,
                 isQuizModal: action.bool
+            }
+
+        case types.QUIZ_RESULT_MODAL:
+            return {
+                ...state,
+                isQuizResultModal: action.bool
             }
 
         case types.TIMEOUT_MODAL:

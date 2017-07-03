@@ -94,21 +94,23 @@ class GameContent extends Component {
 
                     modals={ this.props.modals }
 
+                    isQuiz={ this.props.isQuiz }
+                    isTimer={ this.props.isTimer }
+
+                    isQuizModal={ this.props.isQuizModal }
+                    isQuizResultModal={ this.props.isQuizResultModal }
+                    isTimeoutModal={ this.props.isTimeoutModal }
+
                     handlequizStart={ this.props.handlequizStart }
                     handleStartTimer={ this.props.handleStartTimer }
                     handleTimeout={ this.props.handleTimeout }
 
                     handleQuizModal={ this.props.handleQuizModal }
+                    handleQuizResultModal={ this.props.handleQuizResultModal }
                     handleTimeoutModal={ this.props.handleTimeoutModal }
 
                     handleCanvasData={ this.props.handleCanvasData }
                     handleChatData={ this.props.handleChatData }
-
-                    isQuiz={ this.props.isQuiz }
-                    isTimer={ this.props.isTimer }
-
-                    isQuizModal={ this.props.isQuizModal }
-                    isTimeoutModal={ this.props.isTimeoutModal }
             />
         )
 

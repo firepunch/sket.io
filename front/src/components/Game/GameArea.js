@@ -13,7 +13,7 @@ const defaultProps = {
 };
 
 // 모달이 두 번 호출되는 문제 해결 - 해결
-// 퀴즈 하나가 끝나고 다음으로 넘어가는 처리 구현
+// 퀴즈 하나가 끝나고 다음으로 넘어가는 처리 구현 - 일부 해결
 
 // 문제 출제 및 처리를 모두 middleware 에서 처리하기 때문에 UI에 어떻게 반영해야할지 모르겠음 - 해결
 // 방 생성 시 조건
@@ -79,13 +79,15 @@ class GameArea extends Component {
     // 다음 props는 함수의 인자로 받아올 수 있음
     componentWillReceiveProps(nextProps) {
 
-        // QUIZ RESULT MODAL
-        if (nextProps.chat.correct) {
-            this.addQuizResultModal('정답', nextProps.chat.nick, nextProps.chat.msg, nextProps.chat.score);
-        }
-
+        // CHATTING
         if (chatList[chatList.length - 1] !== nextProps.chat) {
             chatList.push(nextProps.chat)
+        }
+
+        // QUIZ RESULT MODAL
+        if (!nextProps.isQuiz && nextProps.chat.correct
+                && this.props.modals.length < 2 && this.props.isQuizResultModal) {
+            this.addQuizResultModal('정답', nextProps.chat.nick, nextProps.chat.msg, nextProps.chat.score);
         }
 
         // QUIZ MODAL
@@ -104,6 +106,16 @@ class GameArea extends Component {
             }
         }
 
+        // TIMEOUT
+        if (nextProps.isTimeoutModal && nextProps.modals.length < 2) {
+            // timeout 메시지를 받았을 때 모달을 띄워줌
+            let timeoutScore = this.props.roomInfo.playerList[0].score
+                                - nextProps.roomInfo.playerList[0].score
+            this.addQuizResultModal('시간 종료', '실패', '', '-' + timeoutScore);
+            this.props.handleTimeoutModal();
+        }
+
+        // ROUND CHANGE
         if (this.props.roundInfo !== nextProps.roundInfo) {
             // 라운드가 바뀌었을 때의 처리
             this.setState({
@@ -117,13 +129,6 @@ class GameArea extends Component {
             context.clearRect(0, 0, canvas.width, canvas.height);
         }
 
-        if (nextProps.isTimeoutModal && nextProps.modals.length < 2) {
-            // timeout 메시지를 받았을 때 모달을 띄워줌
-            let timeoutScore = this.props.roomInfo.playerList[0].score
-                                - nextProps.roomInfo.playerList[0].score
-            this.addQuizResultModal('시간 종료', '실패', '', '-' + timeoutScore);
-            this.props.handleTimeoutModal();
-        }
 
 
         canvasx = $("#canvas").offset().left;   // 캔버스의 x 좌표값
@@ -337,6 +342,7 @@ class GameArea extends Component {
 
             handlequizStart: this.props.handlequizStart,
             handleQuizModal: this.props.handleQuizModal,
+            handleQuizResultModal: this.props.handleQuizResultModal,
             startTimer: this.props.handleStartTimer
             //.. all what you put in here you will get access in the modal props ;)
         });
@@ -355,6 +361,7 @@ class GameArea extends Component {
             score: score,
 
             handleQuizModal: this.props.handleQuizModal,
+            handleQuizResultModal: this.props.handleQuizResultModal,
             limitTime: this.props.roomInfo.timeLimit
         });
     }
@@ -365,6 +372,7 @@ class QuizModal extends Component {
     componentDidMount() {
         console.log('QUIZ MODAL');
         this.props.handleQuizModal(false);
+        // this.props.handleQuizResultModal(true);
         setTimeout(() => {
             this.props.removeModal();
             this.props.startTimer();
@@ -388,6 +396,7 @@ class QuizModal extends Component {
 class QuizResultModal extends Component {
     componentDidMount() {
         console.log('QUIZ RESULT MODAL');
+        this.props.handleQuizResultModal(false);
         setTimeout(() => {
             this.props.handleQuizModal(true);
             this.props.removeModal();
@@ -402,6 +411,10 @@ class QuizResultModal extends Component {
                 <p>{ this.props.score }</p>
             </div>
         )
+    }
+
+    componentDidUpdate() {
+        // this.props.handleQuizResultModal(true);
     }
 }
 

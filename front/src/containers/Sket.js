@@ -186,6 +186,7 @@ class Sket extends Component {
                     isTimer={ this.props.isTimer }
 
                     isQuizModal={ this.props.isQuizModal }
+                    isQuizResultModal={ this.props.isQuizResultModal }
                     isTimeoutModal={ this.props.isTimeoutModal }
 
                     handleRequestExitRoom={ this.props.handleRequestExitRoom }
@@ -196,6 +197,7 @@ class Sket extends Component {
                     handleTimeout={ this.props.handleTimeout }
 
                     handleQuizModal={ this.props.handleQuizModal }
+                    handleQuizResultModal={ this.props.handleQuizResultModal }
                     handleTimeoutModal={ this.props.handleTimeoutModal }
 
                     handlequizStart={ this.props.handlequizStart }
@@ -231,7 +233,7 @@ const mapStateToProps = (state) => {
 
     const { isGame, roomInfo } = state.game;
     const { isReady, isPlay, isTimer } = state.game;
-    const { isTimeoutModal, isQuizModal } = state.game;
+    const { isTimeoutModal, isQuizModal, isQuizResultModal } = state.game;
     const { examinerId, quiz, roundInfo, isQuiz } = state.game;
     const { canvas, chat, score } = state.game;
 
@@ -263,6 +265,7 @@ const mapStateToProps = (state) => {
         isTimer,
 
         isQuizModal,
+        isQuizResultModal,
         isTimeoutModal,
 
         examinerId,
@@ -306,6 +309,7 @@ const mapDispatchToProps = (dispatch) => {
         handleTimeout: (roomId) => { dispatch(actions.noticeTimeout(roomId)) },
 
         handleQuizModal: (bool) => { dispatch(actions.quizModal(bool)) },
+        handleQuizResultModal: (bool) => { dispatch(actions.quizResultModal(bool)) },
         handleTimeoutModal: () => { dispatch(actions.timeoutModal()) }
     };
 }
