@@ -45,20 +45,9 @@ class GameArea extends Component {
         //Variables
         canvas = document.getElementById('canvas');
         context = canvas.getContext('2d');
-    }
-
-    // 컴포넌트의 props가 update 되기 전에 실행됨
-    // 여기서 값을 update 할지 안할지 정하는 것임
-    // 다음 props는 함수의 인자로 받아올 수 있음
-    componentWillReceiveProps(nextProps) {
-
-        if (nextProps.chat.correct) {
-            this.addQuizResultModal('정답', nextProps.chat.nick, nextProps.chat.msg, nextProps.chat.score);
-        }
-
 
         let timer = setInterval(() => {
-            if (this.state.time > 0 && nextProps.isQuiz && nextProps.isTimer) {
+            if (this.state.time > 0 && this.props.isQuiz && this.props.isTimer) {
                 // 퀴즈가 진행중일 때
                 this.setState({
                     ...this.state,
@@ -78,6 +67,16 @@ class GameArea extends Component {
                 console.log('시간: ' + this.state.time);
             }
         }, 1000);
+    }
+
+    // 컴포넌트의 props가 update 되기 전에 실행됨
+    // 여기서 값을 update 할지 안할지 정하는 것임
+    // 다음 props는 함수의 인자로 받아올 수 있음
+    componentWillReceiveProps(nextProps) {
+
+        if (nextProps.chat.correct) {
+            this.addQuizResultModal('정답', nextProps.chat.nick, nextProps.chat.msg, nextProps.chat.score);
+        }
 
         if (chatList[chatList.length - 1] !== nextProps.chat) {
             chatList.push(nextProps.chat)
