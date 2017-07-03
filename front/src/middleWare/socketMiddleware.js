@@ -68,7 +68,7 @@ const socketMiddleware = (() => {
                 store.dispatch( actions.startGame() );
                 break;
 
-            case "RANDOM_EXAMINER": // 게임을 처음 시작했을 때 랜덤 출제자 선정 및 퀴즈 요청
+            case "SET_EXAMINER": // 게임을 시작했을 때 랜덤 출제자 선정 및 퀴즈 요청
                 store.dispatch( actions.setExaminer(msg.data.id) );
 
                 if (store.getState().login.user.id === msg.data.id) {

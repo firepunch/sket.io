@@ -380,9 +380,10 @@ export function chatReceive(msg) {
     }
 }
 
-
-// export function getScore() {
-//     return {
-//         type: types.ADD_SCORE
-//     }
-// }
+export function timeout(roomId) {
+    return {
+        type: types.SEND_MESSAGE,
+        msg_type: types.GAME_TIMEOUT,
+        roomId
+    }
+}
