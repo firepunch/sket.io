@@ -252,7 +252,7 @@ public class WebSocket {
 
                 sendMessageToRoomMembers(
                         roomAction,
-                        GameController.setExaminerToJSON(targetRoom, jsonObject.getJSONObject("data").getString("userId"))
+                        GameController.randomExaminerToJSON(targetRoom.getRoomId())
                 );
                 break;
 
