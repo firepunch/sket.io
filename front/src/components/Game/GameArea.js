@@ -12,10 +12,12 @@ const defaultProps = {
     canvas: {}
 };
 
-// 모달이 두 번 호출되는 문제 해결
+// 모달이 두 번 호출되는 문제 해결 - 해결
 // 퀴즈 하나가 끝나고 다음으로 넘어가는 처리 구현
 
-// 문제 출제 및 처리를 모두 middleware 에서 처리하기 때문에 UI에 어떻게 반영해야할지 모르겠음
+// 문제 출제 및 처리를 모두 middleware 에서 처리하기 때문에 UI에 어떻게 반영해야할지 모르겠음 - 해결
+// 방 생성 시 조건
+// 비밀번호 입력
 
 
 //Canvas
@@ -88,7 +90,7 @@ class GameArea extends Component {
         }
 
         // QUIZ MODAL
-        if (nextProps.isQuiz && this.props.isQuizModal && this.props.modals.length < 2) {
+        if (nextProps.isQuiz && this.props.isQuizModal && nextProps.modals.length < 2) {
             if (this.props.userId === this.props.examinerId
                 && typeof nextProps.quiz.quiz !== 'undefined') {
                 // 문제 출제자일 때 보여지는 모달
@@ -111,12 +113,12 @@ class GameArea extends Component {
             })
             if (nextProps.roundInfo > 1) {
                 console.log('라운드가 바뀜');
-                this.props.handleQuizModal(true);
+                // this.props.handleQuizModal(true);
             }
             context.clearRect(0, 0, canvas.width, canvas.height);
         }
 
-        if (nextProps.isTimeoutModal && this.props.modals.length < 2) {
+        if (nextProps.isTimeoutModal && nextProps.modals.length < 2) {
             // timeout 메시지를 받았을 때 모달을 띄워줌
             let timeoutScore = this.props.roomInfo.playerList[0].score
                                 - nextProps.roomInfo.playerList[0].score
@@ -353,6 +355,7 @@ class GameArea extends Component {
             answer: answer,
             score: score,
 
+            handleQuizModal: this.props.handleQuizModal,
             limitTime: this.props.roomInfo.timeLimit
         });
     }
@@ -387,6 +390,7 @@ class QuizResultModal extends Component {
     componentDidMount() {
         console.log('QUIZ RESULT MODAL');
         setTimeout(() => {
+            this.props.handleQuizModal(true);
             this.props.removeModal();
         }, 3000);
     }
