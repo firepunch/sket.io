@@ -1,5 +1,6 @@
 package sket.controllers;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import sket.model.action.RoomAction;
 import sket.model.data.Player;
@@ -37,7 +38,7 @@ public class GameController extends HttpServlet {
         return message.toString();
     }
 
-    public static String setExaminerToJSON(Room targetRoom, String userId){
+    public static String setExaminerToJSON(Room targetRoom, String userId) {
         JSONObject message = new JSONObject();
         message.put("type", "SET_EXAMINER");
         JSONObject data = new JSONObject();
@@ -45,5 +46,45 @@ public class GameController extends HttpServlet {
         message.put("data", data);
 
         return message.toString();
+    }
+
+
+    public static String gameEndToJSON(Room targetRoom) {
+
+        ArrayList<Player> playerArrayList = targetRoom.getPlayerList();
+
+        Player temp;
+
+        for(int q =0; q<targetRoom.getPlayerList().size() -1; ++ q) {
+            for (int i = 0; i < targetRoom.getPlayerList().size() - 1; ++i) {
+                if(playerArrayList.get(i).getScore() < playerArrayList.get(i+1).getScore()){
+                    temp = playerArrayList.get(i);
+                    playerArrayList.set(i, playerArrayList.get(i+1));
+                    playerArrayList.set(i+1, temp);
+                }
+            }
+        }
+
+        for(Player target : playerArrayList){
+            System.out.println(target.getScore());
+        }
+
+        JSONObject message = new JSONObject();
+        message.put("type", "GAME_END");
+
+        JSONObject data = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+
+        for(Player target : playerArrayList){
+            JSONObject object = new JSONObject();
+            object.put("id", target.getId());
+            object.put("score", target.getScore());
+            object.put("nick", target.getNickname());
+            jsonArray.put(object);
+        }
+
+        data.put("ranking", jsonArray);
+        message.put("data", data);
+        return  message.toString();
     }
 }

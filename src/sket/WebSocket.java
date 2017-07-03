@@ -225,7 +225,8 @@ public class WebSocket {
                 resultJson.getJSONObject("data").put("nick", player.getNickname());
 
                 if (targetRoom.getCurRound() == targetRoom.getRoundLimit()) {
-                    // 라운드 종료
+                    sendMessageToRoomMembers(roomAction, GameController.gameEndToJSON(targetRoom));
+                    break;
                 }
 
                 // 정답일 때 출제자 다시 선정
