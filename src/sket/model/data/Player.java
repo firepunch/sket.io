@@ -3,7 +3,7 @@ package sket.model.data;
 import java.util.ArrayList;
 
 /**
- * Created by KwonJH on 2017-04-13.
+ * Created on 2017-04-13.
  */
 public class Player {
     public static ArrayList<Player> playerArrayList = new ArrayList<>();
@@ -123,7 +123,6 @@ public class Player {
     public void setExaminer(boolean examiner) {
         isExaminer = examiner;
     }
-
 
     public boolean isReady() {
         return isReady;

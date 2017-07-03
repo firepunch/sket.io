@@ -8,6 +8,7 @@ import sket.controllers.QuizController;
 import sket.controllers.RoomController;
 import sket.db.DBConnection;
 import sket.model.action.PlayerAction;
+import sket.model.action.QuizAction;
 import sket.model.action.RoomAction;
 import sket.model.data.Player;
 import sket.model.data.Room;
@@ -17,7 +18,6 @@ import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -75,7 +75,6 @@ public class WebSocket {
 
             // 방 생성 했을 때 보내는 JSON
             case "CREATE_ROOM":
-
                 System.out.println("lock : " + jsonObject.getJSONObject("data").getBoolean("lock")
                         + ", " + jsonObject.getJSONObject("data").getString("password"));
 
@@ -117,13 +116,11 @@ public class WebSocket {
 
                     sendMessageToRoomMembers(roomAction, RoomController.getRoomInfoToJSON(targetRoom));
                     System.out.println("ENTER_ROOM : " + RoomController.getRoomInfoToJSON(targetRoom));
-
                 } else {
                     rcvSession.getBasicRemote().sendText(
                             RoomController.noEnterRoom(jsonObject.getJSONObject("data").getString("userId"))
                     );
                 }
-
                 break;
 
             // 빠른 시작 시 JSON
@@ -146,7 +143,6 @@ public class WebSocket {
                 );
 
                 sendMessageToRoomMembers(roomAction, readyJSON);
-
                 break;
 
             // 방장이 게임 시작 눌렀을 시에 게임 준비 체크
@@ -172,7 +168,7 @@ public class WebSocket {
                 break;
 
             // 랜덤 출제자 선택해서 JSON 보냄
-            case "RANDOM_EXAMINER":
+            case "SET_EXAMIER":
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
 
@@ -181,7 +177,7 @@ public class WebSocket {
                 }
                 break;
 
-            // 랜덤 문제 JSON 보냄
+            // db에서 랜덤 문제 JSON 보냄
             case "RANDOM_QUIZ":
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
@@ -213,42 +209,19 @@ public class WebSocket {
 
             // 채팅 JSON
             case "CHAT_DATA":
+                String senderId = jsonObject.getJSONObject("data").getString("userId");
+                String msg = jsonObject.getJSONObject("data").getString("msg");
+                int addScore = QuizController.getScore(targetRoom.getTimeLimit(), jsonObject.getJSONObject("data").getInt("restTime"));
+
+                player = PlayerAction.getEqualPlayerId(senderId);
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
-                roomMembers = roomAction.getPlayerSessionId();
+                QuizAction quizAction = new QuizAction(targetRoom);
 
-                String senderId = jsonObject.getJSONObject("data").getString("userId");
-                player = PlayerAction.getEqualPlayerId(senderId);
+                // 정답 확인 및 Json 생성
+                JSONObject result = quizAction.makeRepJson(jsonObject, msg, senderId, addScore);
+                result.getJSONObject("data").put("nick", player.getNickname());
 
-                String msg = jsonObject.getJSONObject("data").getString("msg"); // 정답 비교 시 필요
-
-                java.util.Date date = new java.util.Date();
-                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-
-                jsonObject.getJSONObject("data").put("time", sdf.format(date));
-                jsonObject.getJSONObject("data").put("nick", player.getNickname());
-
-                // 정답 확인
-                if (msg.equals(targetRoom.getAnswer())) {
-                    int restTime = jsonObject.getJSONObject("data").getInt("restTime");
-                    System.out.println("TIME     "+targetRoom.getTimeLimit()+"  ||  "+ restTime);
-
-                    int addScore = QuizController.getScore(targetRoom.getTimeLimit(), restTime);
-                    QuizController.addScore(senderId, addScore);
-
-                    jsonObject.getJSONObject("data").put("correct", "true");
-                    jsonObject.getJSONObject("data").put("score", addScore);
-
-                    if (targetRoom.getCurRound() == targetRoom.getRoundLimit()) {
-                        // 라운드 종료
-                        //sendMessageToRoomMembers();
-                        break;
-                    }
-                } else {
-                    jsonObject.getJSONObject("data").put("correct", "false");
-                }
-
-                System.out.println("CHAT_DATA 정보 : "+ jsonObject.toString());
                 sendMessageToRoomMembers(roomAction, String.valueOf(jsonObject));
                 break;
 
