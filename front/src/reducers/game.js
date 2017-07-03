@@ -7,6 +7,8 @@ const initialState = {
     isQuiz: false,      // 퀴즈가 시작했는지. 한 개의 퀴즈가 끝날 때마다 false가 되어야 함
     isTimer: false,
     isTimeoutModal: false,
+    isQuizModal: true,
+    isQuizResultModal: true,
 
     quiz: {},           // 받은 퀴즈
     roundInfo: {},      // 라운드 정보
@@ -28,9 +30,9 @@ const initialState = {
 7.  RANDOM_EXAMINER 를 통해 첫 문제 출제자를 랜덤으로 선정함
 8.  RANDOM_QUIZ 요청을 출제자 ID와 함께 서버에 보내 퀴즈를 받아옴
 9.  CANVAS_DATA 로 캔버스 스케치 데이터를 실시간으로 전송 - CHAT_DATA 를 이용하여 채팅 및 정답 검사
-10. CHAT_DATA의 correct 변수를 통해 정답 여부 확인 및 결과 처리(점수 변경 등) - 진행 중
+10. CHAT_DATA의 correct 변수를 통해 정답 여부 확인 및 결과 처리(점수 변경 등)
 11. GAME_TIMEOUT 이 되면 모든 유저가 공통적으로 감점을 받음(score)
-12. 게임이 종료되면 GAME_END 전송(roomId, scoreInfo: 유저 아이디, 레벨, 경험치 등)
+12. 게임이 종료되면 GAME_END 전송(roomId, scoreInfo: 유저 아이디, 레벨, 경험치 등) - 진행 중
 13. 레벨업 모달 띄어주기
 
 
@@ -52,6 +54,15 @@ export default function game(state=initialState, action) {
         case types.EXIT_ROOM:
             return {
                 ...state
+            }
+
+        case types.REMOVE_ROOM:
+            return {
+                ...state,
+                isReady: false,
+                isGame: false,
+                isPlay: false,
+                isQuiz: false,
             }
 
         case types.MY_READY:
@@ -97,7 +108,9 @@ export default function game(state=initialState, action) {
             return {
                 ...state,
                 roundInfo: action.roundInfo,
-                isQuiz: true
+                isQuiz: true,
+                isQuizResultModal: true
+                // quiz: 'ENJOY IT!!'
             }
 
         case types.START_TIMER:
@@ -132,9 +145,7 @@ export default function game(state=initialState, action) {
                     ]
                 },
                 isQuiz: false,
-                isTimer: false,
-                quiz: '',
-                examinerId: ''
+                isTimer: false
             }
 
         case types.CORRECT_ANSWER:
@@ -142,9 +153,7 @@ export default function game(state=initialState, action) {
                 ...state,
                 score: state.score + action.score,
                 isQuiz: false,
-                isTimer: false,
-                quiz: '',
-                examinerId: ''
+                isTimer: false
             }
 
         case types.GAME_TIMEOUT:
@@ -167,17 +176,29 @@ export default function game(state=initialState, action) {
                 roomInfo: timeoutScore,
                 isQuiz: false,
                 isTimer: false,
+                // isQuizModal: true,
+                isQuizResultModal: false,
                 isTimeoutModal: true,
-                quiz: '',
-                examinerId: '',
                 score: state.score - action.score,
                 timeoutScore
+            }
+
+        case types.QUIZ_MODAL:
+            return {
+                ...state,
+                isQuizModal: action.bool
+            }
+
+        case types.QUIZ_RESULT_MODAL:
+            return {
+                ...state,
+                isQuizResultModal: action.bool
             }
 
         case types.TIMEOUT_MODAL:
             return {
                 ...state,
-                isTimeoutModal: false
+                isTimeoutModal: !state.isTimeoutModal
             }
 
         default:

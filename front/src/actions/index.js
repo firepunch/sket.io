@@ -248,6 +248,12 @@ export function exitRoom() {
     }
 }
 
+export function removeRoom() {
+    return {
+        type: types.REMOVE_ROOM
+    }
+}
+
 export function getReady(roomId, userId, isReady) {
     return {
         type: types.SEND_MESSAGE,
@@ -394,6 +400,20 @@ export function noticeTimeout(roomId) {
         data: {
             roomId
         }
+    }
+}
+
+export function quizModal(bool) {
+    return {
+        type: types.QUIZ_MODAL,
+        bool
+    }
+}
+
+export function quizResultModal(bool) {
+    return {
+        type: types.QUIZ_RESULT_MODAL,
+        bool
     }
 }
 

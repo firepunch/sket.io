@@ -178,10 +178,15 @@ class Sket extends Component {
                     chat={ this.props.chat }
                     score={ this.props.score }
 
+                    modals={ this.props.modals }
+
                     isReady={ this.props.isReady }
                     isPlay={ this.props.isPlay }
                     isQuiz={ this.props.isQuiz }
                     isTimer={ this.props.isTimer }
+
+                    isQuizModal={ this.props.isQuizModal }
+                    isQuizResultModal={ this.props.isQuizResultModal }
                     isTimeoutModal={ this.props.isTimeoutModal }
 
                     handleRequestExitRoom={ this.props.handleRequestExitRoom }
@@ -190,6 +195,9 @@ class Sket extends Component {
                     handleStartGame={ this.props.handleStartGame }
                     handleStartTimer={ this.props.handleStartTimer }
                     handleTimeout={ this.props.handleTimeout }
+
+                    handleQuizModal={ this.props.handleQuizModal }
+                    handleQuizResultModal={ this.props.handleQuizResultModal }
                     handleTimeoutModal={ this.props.handleTimeoutModal }
 
                     handlequizStart={ this.props.handlequizStart }
@@ -224,9 +232,12 @@ const mapStateToProps = (state) => {
     const { userList, roomList, ranking, isShowRanking } = state.main;
 
     const { isGame, roomInfo } = state.game;
-    const { isReady, isPlay, isTimer, isTimeoutModal } = state.game;
+    const { isReady, isPlay, isTimer } = state.game;
+    const { isTimeoutModal, isQuizModal, isQuizResultModal } = state.game;
     const { examinerId, quiz, roundInfo, isQuiz } = state.game;
     const { canvas, chat, score } = state.game;
+
+    const { modals } = state.modals;
 
     return {
         /* 로그인 */
@@ -252,6 +263,9 @@ const mapStateToProps = (state) => {
         isPlay,
         isQuiz,
         isTimer,
+
+        isQuizModal,
+        isQuizResultModal,
         isTimeoutModal,
 
         examinerId,
@@ -260,7 +274,9 @@ const mapStateToProps = (state) => {
 
         canvas,
         chat,
-        score
+        score,
+
+        modals
     };
 }
 
@@ -291,6 +307,9 @@ const mapDispatchToProps = (dispatch) => {
         handleChatData: (roomId, userId, restTime, msg) => { dispatch(actions.chatSend(roomId, userId, restTime, msg)) },
         handlequizStart: (roomId) => { dispatch(actions.requestQuizStart(roomId)) },
         handleTimeout: (roomId) => { dispatch(actions.noticeTimeout(roomId)) },
+
+        handleQuizModal: (bool) => { dispatch(actions.quizModal(bool)) },
+        handleQuizResultModal: (bool) => { dispatch(actions.quizResultModal(bool)) },
         handleTimeoutModal: () => { dispatch(actions.timeoutModal()) }
     };
 }

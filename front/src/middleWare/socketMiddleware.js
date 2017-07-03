@@ -45,6 +45,10 @@ const socketMiddleware = (() => {
                 store.dispatch( actions.enterRoom(msg.data) );
                 break;
 
+            case "REMOVE_ROOM":
+                store.dispatch( actions.removeRoom() );
+                break;
+
             case "PLAYER_READY":    // 게임 레디
                 if (msg.data.id === store.getState().login.user.id) {    // 자신의 준비 상태가 바뀌었을 경우
                     store.dispatch( actions.changeMyReady(msg.data.ready) );
@@ -78,8 +82,8 @@ const socketMiddleware = (() => {
                 break;
 
             case "RANDOM_QUIZ":
-            // 퀴즈를 받는 것은 문제 출제자 뿐임
-            // 그렇기 때문에 출제자가 서버에게 START_QUIZ 요청을 해야 함
+                // 퀴즈를 받는 것은 문제 출제자 뿐임
+                // 그렇기 때문에 출제자가 서버에게 START_QUIZ 요청을 해야 함
                 store.dispatch( actions.getQuiz(msg.data.id, msg.data.quiz) );
                 store.dispatch( actions.requestQuizStart(store.getState().game.roomInfo.roomId) );
                 break;
