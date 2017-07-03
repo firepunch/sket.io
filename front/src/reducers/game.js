@@ -56,6 +56,15 @@ export default function game(state=initialState, action) {
                 ...state
             }
 
+        case types.REMOVE_ROOM:
+            return {
+                ...state,
+                isReady: false,
+                isGame: false,
+                isPlay: false,
+                isQuiz: false,
+            }
+
         case types.MY_READY:
             return {
                 ...state,

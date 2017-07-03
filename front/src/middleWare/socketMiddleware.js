@@ -45,6 +45,10 @@ const socketMiddleware = (() => {
                 store.dispatch( actions.enterRoom(msg.data) );
                 break;
 
+            case "REMOVE_ROOM":
+                store.dispatch( actions.removeRoom() );
+                break;
+
             case "PLAYER_READY":    // 게임 레디
                 if (msg.data.id === store.getState().login.user.id) {    // 자신의 준비 상태가 바뀌었을 경우
                     store.dispatch( actions.changeMyReady(msg.data.ready) );
