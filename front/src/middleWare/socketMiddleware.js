@@ -95,10 +95,13 @@ const socketMiddleware = (() => {
             case "CHAT_DATA":
                 if (msg.data.correct) {
                     let playerList = store.getState().game.roomInfo.playerList;
+                    let playerId   = store.getState().login.user.id;
 
                     for (let i in playerList) {
                         if (msg.data.userId === playerList[i].id) {
-                            store.dispatch( actions.correctAnswer(msg.data.score, i) );
+                            store.dispatch( actions.otherCorrectAnswer(msg.data.score, i) );
+                        } else if (msg.data.userId === playerId) {
+                            store.dispatch( actions.correctAnswer(msg.data.score) );
                         }
                     }
                 }

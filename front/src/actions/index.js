@@ -358,11 +358,18 @@ export function chatSend(roomId, userId, restTime, msg) {
     }
 }
 
-export function correctAnswer(score, userIndex) {
+export function otherCorrectAnswer(score, userIndex) {
     return {
-        type: types.CORRECT_ANSWER,
+        type: types.OTHER_CORRECT_ANSWER,
         score,
         userIndex
+    }
+}
+
+export function correctAnswer(score) {
+    return {
+        type: types.CORRECT_ANSWER,
+        score
     }
 }
 

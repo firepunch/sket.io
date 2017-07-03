@@ -10,6 +10,7 @@ const initialState = {
     quiz: {},           // 받은 퀴즈
     roundInfo: {},      // 라운드 정보
     examinerId: '',     // 문제 출제자 아이디
+    score: 0,           // 자기 자신의  점수
 
     roomInfo: {},        // 방 정보 객체
     canvas: {},
@@ -116,7 +117,7 @@ export default function game(state=initialState, action) {
                 chat: action.chat
             }
 
-        case types.CORRECT_ANSWER:
+        case types.OTHER_CORRECT_ANSWER:
             return {
                 ...state,
                 roomInfo: {
@@ -129,6 +130,12 @@ export default function game(state=initialState, action) {
                         ...state.roomInfo.playerList.slice(action.userIndex + 1)
                     ]
                 }
+            }
+
+        case types.CORRECT_ANSWER:
+            return {
+                ...state,
+                score: action.score
             }
 
         default:

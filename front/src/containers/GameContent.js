@@ -122,7 +122,7 @@ class GameContent extends Component {
                             roomId={ this.props.roomInfo.roomId }
                             playerList={ this.props.playerList }
                             master={ this.props.roomInfo.roomMaster }
-                            score={0}
+                            score={ this.props.score }
                             examinerId={ this.props.examinerId }
 
                             isReady={ this.props.isReady }
