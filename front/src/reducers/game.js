@@ -5,6 +5,7 @@ const initialState = {
     isGame: false,      // 게임 입장
     isPlay: false,      // 게임 시작 여부
     isQuiz: false,      // 퀴즈가 시작했는지. 한 개의 퀴즈가 끝날 때마다 false가 되어야 함
+    isTimer: false,
 
     quiz: {},           // 받은 퀴즈
     roundInfo: {},      // 라운드 정보
@@ -12,8 +13,7 @@ const initialState = {
 
     roomInfo: {},        // 방 정보 객체
     canvas: {},
-    chat: {},
-    score: {}
+    chat: {}
 }
 
 /*
@@ -96,6 +96,12 @@ export default function game(state=initialState, action) {
                 ...state,
                 roundInfo: action.roundInfo,
                 isQuiz: true
+            }
+
+        case types.START_TIMER:
+            return {
+                ...state,
+                isTimer: true
             }
 
         case types.CANVAS_DATA:

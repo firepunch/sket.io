@@ -180,11 +180,14 @@ class Sket extends Component {
                     isReady={ this.props.isReady }
                     isPlay={ this.props.isPlay }
                     isQuiz={ this.props.isQuiz }
+                    isTimer={ this.props.isTimer }
 
                     handleRequestExitRoom={ this.props.handleRequestExitRoom }
                     handleExitRoom={ this.props.handleExitRoom }
                     handleGetReady={ this.props.handleGetReady }
                     handleStartGame={ this.props.handleStartGame }
+                    handleStartTimer={ this.props.handleStartTimer }
+
                     handlequizStart={ this.props.handlequizStart }
                     handleCanvasData={ this.props.handleCanvasData }
                     handleChatData={ this.props.handleChatData }
@@ -218,7 +221,7 @@ const mapStateToProps = (state) => {
     const { userList, roomList, ranking, isShowRanking } = state.main;
 
     const { isGame, roomInfo } = state.game;
-    const { isReady, isPlay } = state.game;
+    const { isReady, isPlay, isTimer } = state.game;
     const { examinerId, quiz, roundInfo, isQuiz } = state.game;
     const { canvas, chat } = state.game;
 
@@ -245,6 +248,7 @@ const mapStateToProps = (state) => {
         isReady,
         isPlay,
         isQuiz,
+        isTimer,
 
         examinerId,
         quiz,
@@ -276,6 +280,8 @@ const mapDispatchToProps = (dispatch) => {
         handleExitRoom: () => { dispatch(actions.exitRoom()) },
         handleGetReady: (roomId, userId, isReady) => { dispatch(actions.getReady(roomId, userId, isReady)) },
         handleStartGame: (roomId, userId) => { dispatch(actions.requestStartGame(roomId, userId)) },
+        handleStartTimer: () => { dispatch(actions.startTimer()) },
+
         handleCanvasData: (data) => { dispatch(actions.drawCanvas(data)) },
         handleChatData: (roomId, userId, restTime, msg) => { dispatch(actions.chatSend(roomId, userId, restTime, msg)) },
         handlequizStart: (roomId) => { dispatch(actions.requestQuizStart(roomId)) }

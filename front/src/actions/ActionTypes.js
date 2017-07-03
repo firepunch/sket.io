@@ -42,6 +42,7 @@ export const GAME_START     = "GAME_START";
 export const SET_EXAMINER   = "SET_EXAMINER";
 export const GET_QUIZ       = "GET_QUIZ";
 export const START_QUIZ     = "START_QUIZ";
+export const START_TIMER    = "START_TIMER";
 
 export const CANVAS_DATA    = "CANVAS_DATA";
 export const CHAT_DATA      = "CHAT_DATA";

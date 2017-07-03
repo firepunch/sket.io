@@ -45,16 +45,6 @@ class GameArea extends Component {
         //Variables
         canvas = document.getElementById('canvas');
         ctx = canvas.getContext('2d');
-
-        // 일단 이 부분의 구현은 나중으로 미루자.(시작 시점을 언제로 잡아야할지 잘 모르겠음)
-        setInterval(() => {
-            if (this.props.isQuiz && this.state.time > 0)  {   // 퀴즈가 진행중일 때
-                this.setState({
-                    ...this.state,
-                    time: this.state.time - 1
-                })
-            }
-        }, 1000);
     }
 
     // 컴포넌트의 props가 update 되기 전에 실행됨
@@ -74,14 +64,25 @@ class GameArea extends Component {
         }
         */
 
+        if (nextProps.isQuiz && nextProps.isTimer) {
+            // 일단 이 부분의 구현은 나중으로 미루자.(시작 시점을 언제로 잡아야할지 잘 모르겠음)
+            setInterval(() => {
+                if (this.state.time > 0) {
+                    // 퀴즈가 진행중일 때
+                    this.setState({
+                        ...this.state,
+                        time: this.state.time - 1
+                    })
+                }
+            }, 1000);
+        }
+
         if (chatList[chatList.length - 1] !== nextProps.chat) {
             chatList.push(nextProps.chat)
         }
-        console.log(chatList);
-
 
         // 문제 출제자일 때 보여지는 모달
-        if (this.state.isModal) {
+        if (nextProps.isQuiz && this.state.isModal) {
             if (this.props.userId === this.props.examinerId
                 && typeof nextProps.quiz.quiz !== 'undefined') {
                     this.addModal(nextProps.quiz.quiz);
@@ -90,10 +91,6 @@ class GameArea extends Component {
                         isModal: false
                     })
             }
-        }
-
-        // 문제 출제자가 아닐 때 보여지는 모달
-        if (nextProps.isQuiz && this.state.isModal) {
             if (this.props.userId !== this.props.examinerId) {
                 this.addModal('문제를 출제 중입니다...');
                 this.setState({
@@ -102,6 +99,11 @@ class GameArea extends Component {
                 })
             }
         }
+
+        // 문제 출제자가 아닐 때 보여지는 모달
+        // if (nextProps.isQuiz && this.state.isModal) {
+        //
+        // }
 
 
         canvasx = $("#canvas").offset().left;   // 캔버스의 x 좌표값
@@ -231,6 +233,20 @@ class GameArea extends Component {
         );
     }
 
+    startTimer() {
+        if (this.props.isQuiz) {
+            setInterval(() => {
+                if (this.state.time > 0) {
+                    // 퀴즈가 진행중일 때
+                    this.setState({
+                        ...this.state,
+                        time: this.state.time - 1
+                    })
+                }
+            }, 1000);
+        }
+    }
+
     handleMouseDown(e) {
         // clientX, clientY : element를 클릭했을 때의 좌표 값
         last_mousex = mousex = parseInt(e.clientX - canvasx);
@@ -314,8 +330,11 @@ class GameArea extends Component {
             hideTitleBar: false, // (optional) Switch to true if do not want the default title bar and close button,
             hideCloseButton: true, // (optional) if you don't wanna show the top right close button
             quiz: quiz,
-            handlequizStart: this.props.handlequizStart,
-            roomId: this.props.roomId
+            roomId: this.props.roomId,
+            userId: this.props.userId,
+            examinerId: this.props.examinerId,
+            startTimer: this.props.handleStartTimer
+            // handlequizStart: this.props.handlequizStart,
             //.. all what you put in here you will get access in the modal props ;)
         });
     }
@@ -324,9 +343,12 @@ class GameArea extends Component {
 class modalComponent extends Component {
 
     componentDidMount() {
-        this.props.handlequizStart(this.props.roomId);
         setTimeout(() => {
+            // if (this.props.userId === this.props.examinerId) {
+            //     this.props.handlequizStart(this.props.roomId);
+            // }
             this.removeThisModal();
+            this.props.startTimer();
         }, 3000);
     }
 

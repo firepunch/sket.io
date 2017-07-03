@@ -324,6 +324,12 @@ export function quizStart(roundInfo) {
     }
 }
 
+export function startTimer() {
+    return {
+        type: types.START_TIMER
+    }
+}
+
 export function drawCanvas(data) {
     return {
         type: types.SEND_MESSAGE,
