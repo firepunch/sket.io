@@ -101,6 +101,7 @@
             isReady: 준비 여부, <br>
             id: 아이디, <br>
             master: 방장 <br>
+	    score : 점수
             }...]
         </td>
     </tr>
