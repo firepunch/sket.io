@@ -288,7 +288,7 @@ const mapDispatchToProps = (dispatch) => {
         handleCanvasData: (data) => { dispatch(actions.drawCanvas(data)) },
         handleChatData: (roomId, userId, restTime, msg) => { dispatch(actions.chatSend(roomId, userId, restTime, msg)) },
         handlequizStart: (roomId) => { dispatch(actions.requestQuizStart(roomId)) },
-        handleTimeout: (roomId) => { dispatch(actions.timeout(roomId)) }
+        handleTimeout: (roomId) => { dispatch(actions.noticeTimeout(roomId)) }
     };
 }
 

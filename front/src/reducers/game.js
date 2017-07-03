@@ -139,7 +139,36 @@ export default function game(state=initialState, action) {
         case types.CORRECT_ANSWER:
             return {
                 ...state,
-                score: state.score + action.score
+                score: state.score + action.score,
+                isQuiz: false,
+                isTimer: false,
+                quiz: '',
+                examinerId: ''
+            }
+
+        case types.GAME_TIMEOUT:
+            let timeoutScore = state.roomInfo;
+
+            for (let i = 0; i < state.roomInfo.playerList.length; i++) {
+                timeoutScore = {
+                    ...timeoutScore,
+                    playerList: [
+                        Object.assign({}, state.roomInfo.playerList[i], {
+                            score: state.roomInfo.playerList[i].score - action.score
+                        })
+                    ]
+                }
+            }
+
+            // 제한시간이 끝났을 때
+            return {
+                ...state,
+                roomInfo: timeoutScore,
+                isQuiz: false,
+                isTimer: false,
+                quiz: '',
+                examinerId: '',
+                score: state.score - action.score
             }
 
         default:

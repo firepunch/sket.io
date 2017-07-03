@@ -94,6 +94,7 @@ const socketMiddleware = (() => {
 
             case "CHAT_DATA":
                 if (msg.data.correct) {
+                    // 정답을 맞췄을 때
                     let playerList = store.getState().game.roomInfo.playerList;
                     let playerId   = store.getState().login.user.id;
 
@@ -106,6 +107,10 @@ const socketMiddleware = (() => {
                     }
                 }
                 store.dispatch( actions.chatReceive(msg.data) );
+                break;
+
+            case "GAME_TIMEOUT":
+                store.dispatch( actions.timeout(msg.data.score) );
                 break;
 
             default:
