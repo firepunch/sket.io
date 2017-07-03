@@ -182,6 +182,7 @@ class Sket extends Component {
                     isPlay={ this.props.isPlay }
                     isQuiz={ this.props.isQuiz }
                     isTimer={ this.props.isTimer }
+                    isTimeoutModal={ this.props.isTimeoutModal }
 
                     handleRequestExitRoom={ this.props.handleRequestExitRoom }
                     handleExitRoom={ this.props.handleExitRoom }
@@ -189,6 +190,7 @@ class Sket extends Component {
                     handleStartGame={ this.props.handleStartGame }
                     handleStartTimer={ this.props.handleStartTimer }
                     handleTimeout={ this.props.handleTimeout }
+                    handleTimeoutModal={ this.props.handleTimeoutModal }
 
                     handlequizStart={ this.props.handlequizStart }
                     handleCanvasData={ this.props.handleCanvasData }
@@ -202,7 +204,6 @@ class Sket extends Component {
 
         const loading = (<Loading type="cylon" color="white"
                             height='667' width='375' className="loading-svg"/>)
-
 
         return(
             <div className="sket-root">
@@ -223,7 +224,7 @@ const mapStateToProps = (state) => {
     const { userList, roomList, ranking, isShowRanking } = state.main;
 
     const { isGame, roomInfo } = state.game;
-    const { isReady, isPlay, isTimer } = state.game;
+    const { isReady, isPlay, isTimer, isTimeoutModal } = state.game;
     const { examinerId, quiz, roundInfo, isQuiz } = state.game;
     const { canvas, chat, score } = state.game;
 
@@ -251,6 +252,7 @@ const mapStateToProps = (state) => {
         isPlay,
         isQuiz,
         isTimer,
+        isTimeoutModal,
 
         examinerId,
         quiz,
@@ -288,7 +290,8 @@ const mapDispatchToProps = (dispatch) => {
         handleCanvasData: (data) => { dispatch(actions.drawCanvas(data)) },
         handleChatData: (roomId, userId, restTime, msg) => { dispatch(actions.chatSend(roomId, userId, restTime, msg)) },
         handlequizStart: (roomId) => { dispatch(actions.requestQuizStart(roomId)) },
-        handleTimeout: (roomId) => { dispatch(actions.timeout(roomId)) }
+        handleTimeout: (roomId) => { dispatch(actions.noticeTimeout(roomId)) },
+        handleTimeoutModal: () => { dispatch(actions.timeoutModal()) }
     };
 }
 

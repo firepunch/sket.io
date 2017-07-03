@@ -14,7 +14,7 @@ const defaultProps = {
 
 //Canvas
 var canvas;
-var ctx;
+var context;
 
 //Variables
 var canvasx;
@@ -37,14 +37,36 @@ class GameArea extends Component {
         this.state = {
             chat: '',
             time: this.props.roomInfo.timeLimit,
-            isModal: true
+            isQuizModal: true
         }
     }
     componentDidMount() {
 
         //Variables
         canvas = document.getElementById('canvas');
-        ctx = canvas.getContext('2d');
+        context = canvas.getContext('2d');
+
+        let timer = setInterval(() => {
+            if (this.state.time > 0 && this.props.isQuiz && this.props.isTimer) {
+                // 퀴즈가 진행중일 때
+                this.setState({
+                    ...this.state,
+                    time: this.state.time - 1
+                })
+
+                if (this.state.time <= 0) {
+                    // timeout으로 게임이 종료되었을 때
+                    if (this.props.userId === this.props.examinerId) {
+                        // 출제자의 시간을 기준으로 하나의 요청만 보냄
+                        this.props.handleTimeout(this.props.roomId);
+                    }
+                    context.clearRect(0, 0, canvas.width, canvas.height);
+
+                    clearInterval(timer);   // 시간이 끝나면 setInterval 종료
+                }
+                console.log('시간: ' + this.state.time);
+            }
+        }, 1000);
     }
 
     // 컴포넌트의 props가 update 되기 전에 실행됨
@@ -54,97 +76,86 @@ class GameArea extends Component {
 
         if (nextProps.chat.correct) {
             this.addQuizResultModal('정답', nextProps.chat.nick, nextProps.chat.msg, nextProps.chat.score);
-
-            // if (nextProps.chat.userId === this.props.userId) {
-            //     // 현재 사용자가 정답을 맞췄다면
-            //
-            // } else {
-            //     // 다른 사람이 정답을 맞춤
-            //
-            // }
-        }
-
-
-        if (nextProps.isQuiz && nextProps.isTimer) {
-            // 일단 이 부분의 구현은 나중으로 미루자.(시작 시점을 언제로 잡아야할지 잘 모르겠음)
-            setInterval(() => {
-                if (this.state.time > 0) {
-                    // 퀴즈가 진행중일 때
-                    this.setState({
-                        ...this.state,
-                        time: this.state.time - 1
-                    })
-                }
-            }, 1000);
         }
 
         if (chatList[chatList.length - 1] !== nextProps.chat) {
             chatList.push(nextProps.chat)
         }
 
-        // 문제 출제자일 때 보여지는 모달
-        if (nextProps.isQuiz && this.state.isModal) {
+        if (nextProps.isQuiz && this.state.isQuizModal) {
             if (this.props.userId === this.props.examinerId
                 && typeof nextProps.quiz.quiz !== 'undefined') {
-                    this.addQuizModal(nextProps.quiz.quiz);
-                    this.setState({
-                        ...this.state,
-                        isModal: false
-                    })
-            }
-            if (this.props.userId !== this.props.examinerId) {
-                this.addQuizModal('문제를 출제 중입니다...');
+                // 문제 출제자일 때 보여지는 모달
+                console.log('시발')
                 this.setState({
                     ...this.state,
-                    isModal: false
+                    isQuizModal: false
                 })
+                this.addQuizModal(nextProps.quiz.quiz);
+            } else if (this.props.userId !== this.props.examinerId) {
+                // 문제 출제자가 아닐 때
+                console.log('염병')
+                this.setState({
+                    ...this.state,
+                    isQuizModal: false
+                })
+                this.addQuizModal('문제를 출제 중입니다...');
+            } else {
+                this.addQuizModal('오류 발생');
             }
         }
 
-        // 문제 출제자가 아닐 때 보여지는 모달
-        // if (nextProps.isQuiz && this.state.isModal) {
-        //
-        // }
+        if (this.props.roundInfo !== nextProps.roundInfo) {
+            // 라운드가 바뀌었을 때의 처리
+            this.setState({
+                ...this.state,
+                time: this.props.roomInfo.timeLimit,
+                isQuizModal: true
+            })
+            context.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        if (nextProps.isTimeoutModal) {
+            // timeout 메시지를 받았을 때 모달을 띄워줌
+            let timeoutScore = this.props.roomInfo.playerList[0].score
+                                - nextProps.roomInfo.playerList[0].score
+            this.addQuizResultModal('시간 종료', '실패', '', '-' + timeoutScore);
+            this.props.handleTimeoutModal();
+        }
 
 
         canvasx = $("#canvas").offset().left;   // 캔버스의 x 좌표값
         canvasy = $("#canvas").offset().top;    // 캔버스의 y 좌표값
 
-
         // 좌표를 이용하여 그림을 그림
-        ctx.beginPath();
+        context.beginPath();
 
-        ctx.globalCompositeOperation = 'source-over';
-        ctx.strokeStyle = 'black';
-        ctx.lineWidth = 3;
+        context.globalCompositeOperation = 'source-over';
+        context.strokeStyle = 'black';
+        context.lineWidth = 3;
 
         if (nextProps.canvas.mouse === 'up') {
             // 점 하나만 찍고 땔 때
-            ctx.moveTo(nextProps.canvas.clickX, nextProps.canvas.clickY);
-            ctx.lineTo(nextProps.canvas.clickX, nextProps.canvas.clickY);
+            context.moveTo(nextProps.canvas.clickX, nextProps.canvas.clickY);
+            context.lineTo(nextProps.canvas.clickX, nextProps.canvas.clickY);
         } else if (nextProps.canvas.mouse === 'move') {
             // 마우스를 누른 상태에서 움직일 때
 
             if (this.props.canvas.mouse === 'up') {
                 // 이전에 마우스를 땠다가 새로 그릴 때
-                ctx.moveTo(nextProps.canvas.clickX, nextProps.canvas.clickY);
-                ctx.lineTo(nextProps.canvas.clickX, nextProps.canvas.clickY);
+                context.moveTo(nextProps.canvas.clickX, nextProps.canvas.clickY);
+                context.lineTo(nextProps.canvas.clickX, nextProps.canvas.clickY);
             } else {
-                ctx.moveTo(this.props.canvas.clickX, this.props.canvas.clickY);
-                ctx.lineTo(nextProps.canvas.clickX, nextProps.canvas.clickY);
+                context.moveTo(this.props.canvas.clickX, this.props.canvas.clickY);
+                context.lineTo(nextProps.canvas.clickX, nextProps.canvas.clickY);
             }
         }
 
-        ctx.lineJoin = ctx.lineCap = 'round';
-        ctx.stroke();
+        context.lineJoin = context.lineCap = 'round';
+        context.stroke();
     }
 
     render() {
-
-        if (this.state.time <= 0) {
-            this.props.handleTimeout(this.props.roomId);
-            console.log('timeout');
-        }
 
         let canvas = (  // 문제 출제자가 아니면 캔버스에 핸들링 함수를 포함하지 않음
             <canvas id="canvas" width="600" height="600">
@@ -222,8 +233,8 @@ class GameArea extends Component {
                             role="progressbar" aria-valuenow="100"
                             aria-valuemin="0" aria-valuemax="100"
                             style={{
-                                'height': (this.state.time / this.props.roomInfo.timeLimit) * 100}
-                            }>
+                                'height': (parseInt(this.state.time / this.props.roomInfo.timeLimit * 100) + '%')
+                            }}>
                             <span className="sr-only">&nbsp;</span>
                         </div>
                     </div>
@@ -232,20 +243,6 @@ class GameArea extends Component {
                 { chat }
             </div>
         );
-    }
-
-    startTimer() {
-        if (this.props.isQuiz) {
-            setInterval(() => {
-                if (this.state.time > 0) {
-                    // 퀴즈가 진행중일 때
-                    this.setState({
-                        ...this.state,
-                        time: this.state.time - 1
-                    })
-                }
-            }, 1000);
-        }
     }
 
     handleMouseDown(e) {
@@ -351,7 +348,9 @@ class GameArea extends Component {
 
             nick: nick,
             answer: answer,
-            score: score
+            score: score,
+
+            limitTime: this.props.roomInfo.timeLimit
         });
     }
 }
@@ -360,16 +359,9 @@ class QuizModal extends Component {
 
     componentDidMount() {
         setTimeout(() => {
-            // if (this.props.userId === this.props.examinerId) {
-            //     this.props.handlequizStart(this.props.roomId);
-            // }
-            this.removeThisModal();
+            this.props.removeModal();
             this.props.startTimer();
         }, 3000);
-    }
-
-    removeThisModal() {
-        this.props.removeModal();
     }
 
     render() {

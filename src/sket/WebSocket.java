@@ -226,7 +226,10 @@ public class WebSocket {
 
                 if (targetRoom.getCurRound() == targetRoom.getRoundLimit()) {
                     // 라운드 종료
-                } else {
+                }
+
+                // 정답일 때 출제자 다시 선정
+                if (resultJson.getJSONObject("data").getBoolean("correct")) {
                     sendMessageToRoomMembers(
                             roomAction,
                             GameController.setExaminerToJSON(targetRoom, jsonObject.getJSONObject("data").getString("userId"))
