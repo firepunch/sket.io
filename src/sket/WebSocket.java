@@ -246,6 +246,11 @@ public class WebSocket {
                 jsonObject.getJSONObject("data").put("score", 10);
 
                 sendMessageToRoomMembers(roomAction, String.valueOf(jsonObject));
+
+                sendMessageToRoomMembers(
+                        roomAction,
+                        GameController.setExaminerToJSON(targetRoom, jsonObject.getJSONObject("data").getString("userId"))
+                );
                 break;
 
             // 랭킹 JSON
