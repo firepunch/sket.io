@@ -16,34 +16,6 @@ public class PlayerController extends HttpServlet {
         super();
     }
 
-    /* 플레이어가 방에서 나갔을 시 처리 */
-    public static String exitPlayerJSON(int roomId, String userId) {
-        JSONObject message = new JSONObject();
-        message.put("type", "EXIT_ROOM");
-
-        JSONObject data = new JSONObject();
-        data.put("roomId", roomId);
-        data.put("userId", userId);
-        data.put("userNum", RoomAction.findRoomById(roomId).getTotalUserNumber());
-
-        message.put("data", data);
-        return message.toString();
-    }
-
-    public static String exitPlayerJSON(Room targetRoom, Player player) {
-        JSONObject message = new JSONObject();
-        message.put("type", "EXIT_ROOM");
-
-        JSONObject data = new JSONObject();
-        data.put("roomId", targetRoom.getRoomId());
-        data.put("userId", player.getId());
-        data.put("userNum", targetRoom.getTotalUserNumber());
-
-
-        message.put("data", data);
-        return message.toString();
-    }
-
     /* 게임 준비 처리해서 json 으로 반환 */
     public static String gameReadyToJSON(int roomId, boolean isReady, String sessionID) throws IOException {
         Room room = RoomAction.findRoomById(roomId);
@@ -80,6 +52,7 @@ public class PlayerController extends HttpServlet {
         return null;
     }
 
+    /* 전체 플레이어 레디 확인 후 준비 안 한 사람이 있을 시에 보내는 JSON */
     public static String noReadyAllPlayerJSON(Room room) {
         JSONObject message = new JSONObject();
         message.put("type", "NO_READY_ALL_PLAYER");
