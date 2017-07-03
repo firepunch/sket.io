@@ -172,7 +172,7 @@ public class WebSocket {
                 break;
 
             // 랜덤 출제자 선택해서 JSON 보냄
-            case "RANDOM_EXAMINER":
+            case "SET_EXAMINER":
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
                 roomAction = new RoomAction(targetRoom);
 

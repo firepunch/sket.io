@@ -26,7 +26,7 @@ public class GameController extends HttpServlet {
         Player targetPlayer = roomMembers.get(randValue - 1);
 
         JSONObject message = new JSONObject();
-        message.put("type", "RANDOM_EXAMINER");
+        message.put("type", "SET_EXAMINER");
 
         JSONObject data = new JSONObject();
         data.put("id", targetPlayer.getId());
