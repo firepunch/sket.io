@@ -6,6 +6,7 @@ const initialState = {
     isPlay: false,      // 게임 시작 여부
     isQuiz: false,      // 퀴즈가 시작했는지. 한 개의 퀴즈가 끝날 때마다 false가 되어야 함
     isTimer: false,
+    isTimeoutModal: false,
 
     quiz: {},           // 받은 퀴즈
     roundInfo: {},      // 라운드 정보
@@ -166,9 +167,17 @@ export default function game(state=initialState, action) {
                 roomInfo: timeoutScore,
                 isQuiz: false,
                 isTimer: false,
+                isTimeoutModal: true,
                 quiz: '',
                 examinerId: '',
-                score: state.score - action.score
+                score: state.score - action.score,
+                timeoutScore
+            }
+
+        case types.TIMEOUT_MODAL:
+            return {
+                ...state,
+                isTimeoutModal: false
             }
 
         default:

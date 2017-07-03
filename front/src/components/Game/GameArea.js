@@ -72,7 +72,6 @@ class GameArea extends Component {
                         this.props.handleTimeout(this.props.roomId);
                     }
                     context.clearRect(0, 0, canvas.width, canvas.height);
-                    this.addQuizResultModal('시간 종료', '실패', '', '-' + nextProps.chat.score);
 
                     clearInterval(timer);   // 시간이 끝나면 setInterval 종료
                 }
@@ -115,6 +114,14 @@ class GameArea extends Component {
                 isQuizModal: true
             })
             context.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        if (nextProps.isTimeoutModal) {
+            // timeout 메시지를 받았을 때 모달을 띄워줌
+            let timeoutScore = this.props.roomInfo.playerList[0].score
+                                - nextProps.roomInfo.playerList[0].score
+            this.addQuizResultModal('시간 종료', '실패', '', '-' + timeoutScore);
+            this.props.handleTimeoutModal();
         }
 
 

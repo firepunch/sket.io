@@ -396,3 +396,9 @@ export function noticeTimeout(roomId) {
         }
     }
 }
+
+export function timeoutModal() {
+    return {
+        type: types.TIMEOUT_MODAL
+    }
+}
