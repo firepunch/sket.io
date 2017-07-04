@@ -226,6 +226,8 @@ public class WebSocket {
 
                 if (targetRoom.getCurRound() == targetRoom.getRoundLimit()) {
                     sendMessageToRoomMembers(roomAction, GameController.gameEndToJSON(targetRoom));
+                    sendMessageToRoomMembers(roomAction, RoomController.getRoomInfoToJSON(targetRoom));
+                    System.out.println("GameCo시발련아: "+GameController.gameEndToJSON(targetRoom));
                     break;
                 }
 
