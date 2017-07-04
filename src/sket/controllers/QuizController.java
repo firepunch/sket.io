@@ -8,13 +8,14 @@ import sket.model.data.Player;
 import sket.model.data.Room;
 
 import javax.servlet.http.HttpServlet;
+import java.util.Arrays;
 
 public class QuizController extends HttpServlet {
     public QuizController() {
         super();
     }
 
-    /* 문제 당 남은 시간을 측정하도록 문제 시작을 json으로 전송*/
+    /* 문제 당 남은 시간을 측정하도록 문제 시작을 json으로 전송 */
     public static String alarmStartQuiz() {
         JSONObject message = new JSONObject();
         message.put("type", "START_QUIZ");
@@ -57,6 +58,17 @@ public class QuizController extends HttpServlet {
             addScore = total / cur * 100;
 
         return addScore;
+    }
+
+    /* 게임 종료 후 경험치 더해줌 */
+    public static Arrays gamendJson(Arrays scoreInfo) {
+        return scoreInfo;
+    }
+
+    /* 점수를 경험치로 계산함 */
+    private int calcExp(int gotScore) {
+        int exp=0;
+        return exp;
     }
 
     /* 문제 맞춘 사람 점수 더해줌 */

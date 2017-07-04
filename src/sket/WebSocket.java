@@ -166,6 +166,10 @@ public class WebSocket {
                 }
                 break;
 
+            // 게임 종류 후 처리
+            case "GAME_END":
+                break;
+
             // 맞춘 사람이 출제자 되도록
             case "SET_EXAMINER":
                 targetRoom = RoomAction.findRoomById(jsonObject.getJSONObject("data").getInt("roomId"));
