@@ -14,7 +14,6 @@ const socketMiddleware = (() => {
         //Tell the store we've disconnected
         store.dispatch( actions.socketDisconneted() );
         alert('소켓을 닫습니다')
-        console.log('fuck')
     }
 
     const onMessage = (ws, store) => evt => {
@@ -89,6 +88,9 @@ const socketMiddleware = (() => {
                 break;
 
             case "START_QUIZ":
+                // if (msg.data.gameEnd || msg.data.round > store.getState().game.roomInfo.numRound) { // 게임이 종료되었을 때
+                //     store.dispatch( actions.endGame() );
+                // }
                 store.dispatch( actions.quizStart(msg.data.round, msg.data.gameEnd));
                 break;
 
@@ -115,6 +117,11 @@ const socketMiddleware = (() => {
 
             case "GAME_TIMEOUT":
                 store.dispatch( actions.timeout(msg.data.score) );
+                break;
+
+            case "GAME_END":
+                // store.dispatch( actions.gameEnd() );
+                store.dispatch( actions.endGame(msg.data.ranking) );
                 break;
 
             default:

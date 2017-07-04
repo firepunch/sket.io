@@ -53,7 +53,8 @@ export default function game(state=initialState, action) {
 
         case types.EXIT_ROOM:
             return {
-                ...state
+                ...state,
+                isGame: false
             }
 
         case types.REMOVE_ROOM:
@@ -199,6 +200,28 @@ export default function game(state=initialState, action) {
             return {
                 ...state,
                 isTimeoutModal: !state.isTimeoutModal
+            }
+
+        case types.GAME_END:
+            return {
+                ...state,
+                isReady: false,
+                isGame: true,
+                isPlay: false,
+                isQuiz: false,
+                isTimer: false,
+                isTimeoutModal: false,
+                isQuizModal: false,
+                isQuizResultModal: false,
+
+                quiz: {},           // 받은 퀴즈
+                roundInfo: {},      // 라운드 정보
+                examinerId: '',     // 문제 출제자 아이디
+                score: 0,           // 자기 자신의  점수
+
+                roomInfo: {},        // 방 정보 객체
+                canvas: {},
+                chat: {}
             }
 
         default:

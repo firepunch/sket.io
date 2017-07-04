@@ -85,9 +85,11 @@ class GameArea extends Component {
         }
 
         // QUIZ RESULT MODAL
+        // 순서가 엉켜서 답이 제대로 오지 않음
+        // 중간에 다른 내용이 있어야 함
         if (!nextProps.isQuiz && nextProps.chat.correct
                 && this.props.modals.length < 2 && this.props.isQuizResultModal) {
-            this.addQuizResultModal('정답', nextProps.chat.nick, nextProps.chat.msg, nextProps.chat.score);
+            this.addQuizResultModal('정답', nextProps.chat.nick, nextProps.chat.msg, nextProps.chat.score, false);
         }
 
         // QUIZ MODAL
@@ -111,7 +113,7 @@ class GameArea extends Component {
             // timeout 메시지를 받았을 때 모달을 띄워줌
             let timeoutScore = this.props.roomInfo.playerList[0].score
                                 - nextProps.roomInfo.playerList[0].score
-            this.addQuizResultModal('시간 종료', '실패', '', '-' + timeoutScore);
+            this.addQuizResultModal('시간 종료', '-' + timeoutScore, '', '', true);
             this.props.handleTimeoutModal();
         }
 
@@ -348,7 +350,7 @@ class GameArea extends Component {
         });
     }
 
-    addQuizResultModal(title, nick, answer, score) {
+    addQuizResultModal(title, nick, answer, score, timeout) {
         modal.add(QuizResultModal, {
             title: title,
             size: 'large',
@@ -359,6 +361,7 @@ class GameArea extends Component {
             nick: nick,
             answer: answer,
             score: score,
+            isTimeout: timeout,
 
             handleQuizModal: this.props.handleQuizModal,
             handleQuizResultModal: this.props.handleQuizResultModal,
@@ -404,11 +407,24 @@ class QuizResultModal extends Component {
     }
 
     render() {
-        return (
+        let result = (
             <div className="show-quiz quiz-result">
                 <p>{ this.props.nick }</p>&nbsp;
                 <p>{ '답: ' + this.props.answer }</p>&nbsp;
                 <p>{ '점수: ' + this.props.score }</p>
+            </div>
+        )
+
+        let timeout = (
+            <div className="show-quiz quiz-result">
+                <p>시간 종료</p>
+                <p>{ this.props.nick }</p>&nbsp;
+            </div>
+        )
+
+        return (
+            <div className="show-quiz quiz-result">
+                { this.props.isTimeout ? timeout : result }
             </div>
         )
     }

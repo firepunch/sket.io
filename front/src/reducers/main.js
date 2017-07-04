@@ -62,7 +62,6 @@ export default function main(state=initialState, action) {
                 ranking: action.ranking
             }
 
-
         case types.SHOW_RANK:
             return {
                 ...state,

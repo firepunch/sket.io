@@ -56,3 +56,6 @@ export const GAME_TIMEOUT   = "GAME_TIMEOUT";
 export const QUIZ_MODAL     = "QUIZ_MODAL";
 export const QUIZ_RESULT_MODAL = "QUIZ_RESULT_MODAL";
 export const TIMEOUT_MODAL  = "TIMEOUT_MODAL";
+
+export const GAME_END       = "GAME_END";
+// export const SHOW_RESULT    = 
