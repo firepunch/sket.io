@@ -141,6 +141,27 @@ public class DBConnection {
         return jsonArray;
     }
 
+    /* 경험치 업데이트 후 레벨 반환 */
+    public JSONObject addExp(String id, int score) throws SQLException {
+        // TODO
+        JSONObject jsonObject = new JSONObject();
+        String query = "SELECT * FROM user WHERE id='" + id + "'";
+        try {
+            resultSet = statement.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed select user data " + e);
+        }
+        if (resultSet.next()) {
+            jsonObject.put("id", resultSet.getString("id"));
+            jsonObject.put("nick", resultSet.getString("nick"));
+            jsonObject.put("level", resultSet.getString("level"));
+        } else {
+            jsonObject.put("id", "null");
+        }
+        return jsonObject;
+    }
+
     /* 랭킹 오름차순 조회 */
     public JSONObject showRank(String id) throws SQLException {
         JSONObject outerJsonObject = new JSONObject();
