@@ -19,4 +19,5 @@ CREATE TABLE quiz (
 )
   ENGINE = innodb
   DEFAULT CHARSET = utf8;
+
 -- https://krdict.korean.go.kr/download/downloadList

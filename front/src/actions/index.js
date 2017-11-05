@@ -1,8 +1,8 @@
 import * as types from './ActionTypes';
 import fetch from 'isomorphic-fetch';
 
-const url = 'ws://10.156.145.162:8080/websocket'
-// const url = 'ws://localhost:8080/websocket'
+// const url = 'ws://10.156.145.162:8080/websocket'
+const url = 'ws://localhost:8080/websocket'
 
 /* INDEX */
 
