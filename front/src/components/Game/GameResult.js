@@ -1,20 +1,19 @@
-import React, { Component, PropTypes } from 'react';
+import React, {Component, PropTypes} from 'react';
 
-const propTypes = {
-};
+const propTypes = {};
 
-const defaultProps = {
-};
+const defaultProps = {};
 
 class GameResult extends Component {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return(
-            <div>GameResult</div>
-        );
-    }
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div>GameResult</div>
+    );
+  }
 }
 
 GameResult.propTypes = propTypes;

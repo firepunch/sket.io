@@ -1,7 +1,7 @@
 src/sket/Configure.java
 docs/Personal Information Processing.txt
 node_modules
-.idea/
+htdocs.iml
 .idea/
 out/
 *.sh

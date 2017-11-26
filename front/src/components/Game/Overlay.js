@@ -1,20 +1,19 @@
-import React, { Component, PropTypes } from 'react';
+import React, {Component, PropTypes} from 'react';
 
-const propTypes = {
-};
+const propTypes = {};
 
-const defaultProps = {
-};
+const defaultProps = {};
 
 class Overlay extends Component {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return(
-            <div>Overlay</div>
-        );
-    }
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div>Overlay</div>
+    );
+  }
 }
 
 Overlay.propTypes = propTypes;

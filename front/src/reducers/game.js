@@ -1,23 +1,23 @@
 import * as types from '../actions/ActionTypes';
 
 const initialState = {
-    isReady: false,     // 유저가 준비를 하였는지(isMaster가 true라면 이 변수는 의미 없음)
-    isGame: false,      // 게임 입장
-    isPlay: false,      // 게임 시작 여부
-    isQuiz: false,      // 퀴즈가 시작했는지. 한 개의 퀴즈가 끝날 때마다 false가 되어야 함
-    isTimer: false,
-    isTimeoutModal: false,
-    isQuizModal: true,
-    isQuizResultModal: true,
+  isReady: false,     // 유저가 준비를 하였는지(isMaster가 true라면 이 변수는 의미 없음)
+  isGame: false,      // 게임 입장
+  isPlay: false,      // 게임 시작 여부
+  isQuiz: false,      // 퀴즈가 시작했는지. 한 개의 퀴즈가 끝날 때마다 false가 되어야 함
+  isTimer: false,
+  isTimeoutModal: false,
+  isQuizModal: true,
+  isQuizResultModal: true,
 
-    quiz: {},           // 받은 퀴즈
-    roundInfo: {},      // 라운드 정보
-    examinerId: '',     // 문제 출제자 아이디
-    score: 0,           // 자기 자신의  점수
+  quiz: {},           // 받은 퀴즈
+  roundInfo: {},      // 라운드 정보
+  examinerId: '',     // 문제 출제자 아이디
+  score: 0,           // 자기 자신의  점수
 
-    roomInfo: {},        // 방 정보 객체
-    canvas: {},
-    chat: {}
+  roomInfo: {},        // 방 정보 객체
+  canvas: {},
+  chat: {}
 }
 
 /*
@@ -40,191 +40,191 @@ const initialState = {
 quiz, examinerId, isModal(GameArea), canvas 등
 */
 
-export default function game(state=initialState, action) {
+export default function game(state = initialState, action) {
 
-    switch (action.type) {
+  switch (action.type) {
 
-        case types.ROOM_INFO:
-            return {
-                ...state,
-                isGame: true,
-                roomInfo: action.roomInfo
-            }
+    case types.ROOM_INFO:
+      return {
+        ...state,
+        isGame: true,
+        roomInfo: action.roomInfo
+      }
 
-        case types.EXIT_ROOM:
-            return {
-                ...state,
-                isGame: false
-            }
+    case types.EXIT_ROOM:
+      return {
+        ...state,
+        isGame: false
+      }
 
-        case types.REMOVE_ROOM:
-            return {
-                ...state,
-                isReady: false,
-                isGame: false,
-                isPlay: false,
-                isQuiz: false,
-            }
+    case types.REMOVE_ROOM:
+      return {
+        ...state,
+        isReady: false,
+        isGame: false,
+        isPlay: false,
+        isQuiz: false,
+      }
 
-        case types.MY_READY:
-            return {
-                ...state,
-                isReady: action.ready
-            }
+    case types.MY_READY:
+      return {
+        ...state,
+        isReady: action.ready
+      }
 
-        case types.OTHER_READY:
-            return {
-                ...state,
-                roomInfo: {
-                    ...state.roomInfo,
-                    playerList: [
-                        ...state.roomInfo.playerList.slice(0, action.userIndex),
-                        Object.assign({}, state.roomInfo.playerList[action.userIndex], {
-                            isReady: action.ready
-                        }),
-                        ...state.roomInfo.playerList.slice(action.userIndex + 1)
-                    ]
-                }
-            }
+    case types.OTHER_READY:
+      return {
+        ...state,
+        roomInfo: {
+          ...state.roomInfo,
+          playerList: [
+            ...state.roomInfo.playerList.slice(0, action.userIndex),
+            Object.assign({}, state.roomInfo.playerList[action.userIndex], {
+              isReady: action.ready
+            }),
+            ...state.roomInfo.playerList.slice(action.userIndex + 1)
+          ]
+        }
+      }
 
-        case types.GAME_START:
-            return {
-                ...state,
-                isPlay: true
-            }
+    case types.GAME_START:
+      return {
+        ...state,
+        isPlay: true
+      }
 
-        case types.SET_EXAMINER:
-            return {
-                ...state,
-                examinerId: action.userId
-            }
+    case types.SET_EXAMINER:
+      return {
+        ...state,
+        examinerId: action.userId
+      }
 
-        case types.GET_QUIZ:
-            return {
-                ...state,
-                quiz: action.quiz
-            }
+    case types.GET_QUIZ:
+      return {
+        ...state,
+        quiz: action.quiz
+      }
 
-        case types.START_QUIZ:
-            return {
-                ...state,
-                roundInfo: action.roundInfo,
-                isQuiz: true,
-                isQuizResultModal: true
-                // quiz: 'ENJOY IT!!'
-            }
+    case types.START_QUIZ:
+      return {
+        ...state,
+        roundInfo: action.roundInfo,
+        isQuiz: true,
+        isQuizResultModal: true
+        // quiz: 'ENJOY IT!!'
+      }
 
-        case types.START_TIMER:
-            return {
-                ...state,
-                isTimer: true
-            }
+    case types.START_TIMER:
+      return {
+        ...state,
+        isTimer: true
+      }
 
-        case types.CANVAS_DATA:
-            return {
-                ...state,
-                canvas: action.data
-            }
+    case types.CANVAS_DATA:
+      return {
+        ...state,
+        canvas: action.data
+      }
 
-        case types.CHAT_DATA:
-            return {
-                ...state,
-                chat: action.chat
-            }
+    case types.CHAT_DATA:
+      return {
+        ...state,
+        chat: action.chat
+      }
 
-        case types.OTHER_CORRECT_ANSWER:
-            return {
-                ...state,
-                roomInfo: {
-                    ...state.roomInfo,
-                    playerList: [
-                        ...state.roomInfo.playerList.slice(0, action.userIndex),
-                        Object.assign({}, state.roomInfo.playerList[action.userIndex], {
-                            score: state.roomInfo.playerList[action.userIndex].score + action.score
-                        }),
-                        ...state.roomInfo.playerList.slice(action.userIndex + 1)
-                    ]
-                },
-                isQuiz: false,
-                isTimer: false
-            }
+    case types.OTHER_CORRECT_ANSWER:
+      return {
+        ...state,
+        roomInfo: {
+          ...state.roomInfo,
+          playerList: [
+            ...state.roomInfo.playerList.slice(0, action.userIndex),
+            Object.assign({}, state.roomInfo.playerList[action.userIndex], {
+              score: state.roomInfo.playerList[action.userIndex].score + action.score
+            }),
+            ...state.roomInfo.playerList.slice(action.userIndex + 1)
+          ]
+        },
+        isQuiz: false,
+        isTimer: false
+      }
 
-        case types.CORRECT_ANSWER:
-            return {
-                ...state,
-                score: state.score + action.score,
-                isQuiz: false,
-                isTimer: false
-            }
+    case types.CORRECT_ANSWER:
+      return {
+        ...state,
+        score: state.score + action.score,
+        isQuiz: false,
+        isTimer: false
+      }
 
-        case types.GAME_TIMEOUT:
-            let timeoutScore = state.roomInfo;
+    case types.GAME_TIMEOUT:
+      let timeoutScore = state.roomInfo;
 
-            for (let i = 0; i < state.roomInfo.playerList.length; i++) {
-                timeoutScore = {
-                    ...timeoutScore,
-                    playerList: [
-                        Object.assign({}, state.roomInfo.playerList[i], {
-                            score: state.roomInfo.playerList[i].score - action.score
-                        })
-                    ]
-                }
-            }
+      for (let i = 0; i < state.roomInfo.playerList.length; i++) {
+        timeoutScore = {
+          ...timeoutScore,
+          playerList: [
+            Object.assign({}, state.roomInfo.playerList[i], {
+              score: state.roomInfo.playerList[i].score - action.score
+            })
+          ]
+        }
+      }
 
-            // 제한시간이 끝났을 때
-            return {
-                ...state,
-                roomInfo: timeoutScore,
-                isQuiz: false,
-                isTimer: false,
-                // isQuizModal: true,
-                isQuizResultModal: false,
-                isTimeoutModal: true,
-                score: state.score - action.score,
-                timeoutScore
-            }
+      // 제한시간이 끝났을 때
+      return {
+        ...state,
+        roomInfo: timeoutScore,
+        isQuiz: false,
+        isTimer: false,
+        // isQuizModal: true,
+        isQuizResultModal: false,
+        isTimeoutModal: true,
+        score: state.score - action.score,
+        timeoutScore
+      }
 
-        case types.QUIZ_MODAL:
-            return {
-                ...state,
-                isQuizModal: action.bool
-            }
+    case types.QUIZ_MODAL:
+      return {
+        ...state,
+        isQuizModal: action.bool
+      }
 
-        case types.QUIZ_RESULT_MODAL:
-            return {
-                ...state,
-                isQuizResultModal: action.bool
-            }
+    case types.QUIZ_RESULT_MODAL:
+      return {
+        ...state,
+        isQuizResultModal: action.bool
+      }
 
-        case types.TIMEOUT_MODAL:
-            return {
-                ...state,
-                isTimeoutModal: !state.isTimeoutModal
-            }
+    case types.TIMEOUT_MODAL:
+      return {
+        ...state,
+        isTimeoutModal: !state.isTimeoutModal
+      }
 
-        case types.GAME_END:
-            return {
-                ...state,
-                isReady: false,
-                isGame: true,
-                isPlay: false,
-                isQuiz: false,
-                isTimer: false,
-                isTimeoutModal: false,
-                isQuizModal: false,
-                isQuizResultModal: false,
+    case types.GAME_END:
+      return {
+        ...state,
+        isReady: false,
+        isGame: true,
+        isPlay: false,
+        isQuiz: false,
+        isTimer: false,
+        isTimeoutModal: false,
+        isQuizModal: false,
+        isQuizResultModal: false,
 
-                quiz: {},           // 받은 퀴즈
-                roundInfo: {},      // 라운드 정보
-                examinerId: '',     // 문제 출제자 아이디
-                score: 0,           // 자기 자신의  점수
+        quiz: {},           // 받은 퀴즈
+        roundInfo: {},      // 라운드 정보
+        examinerId: '',     // 문제 출제자 아이디
+        score: 0,           // 자기 자신의  점수
 
-                roomInfo: {},        // 방 정보 객체
-                canvas: {},
-                chat: {}
-            }
+        roomInfo: {},        // 방 정보 객체
+        canvas: {},
+        chat: {}
+      }
 
-        default:
-            return state;
-    }
+    default:
+      return state;
+  }
 }

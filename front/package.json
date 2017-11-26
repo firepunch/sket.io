@@ -9,7 +9,7 @@
     "prop-types": "^15.5.4",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "react-facebook-login": "^3.6.0",
+    "react-facebook-login": "^3.7.2",
     "react-google-login": "^2.8.9",
     "react-loading": "^0.1.2",
     "react-progressbar": "^1.4.6",
